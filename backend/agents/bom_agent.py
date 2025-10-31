@@ -19,7 +19,7 @@ class BOMAgent(BaseAgent):
             description="Creates detailed Bill of Materials with cost estimates",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.2,  # Very low temperature for precise technical specifications
-            max_tokens=8000
+            max_tokens=12000
         )
         super().__init__(config, llm_client)
     
@@ -62,157 +62,70 @@ Research Insights (for technical standards):
 {research_text[:1500]}
 """
 
-            system_message = """You are an expert Technical Architect and Cost Estimator at AICOE.
-You create comprehensive Bill of Materials (BOM) documents that list all technical components, resources, and dependencies.
-Your BOMs are detailed, accurate, and follow industry standards for cost estimation."""
+            system_message = """## ROLE AND GOAL
+You are a Cloud Financial Analyst. Your task is to analyze the system architecture and produce a Bill of Materials (BOM) that estimates the monthly infrastructure costs. Your output must be a structured XML document.
 
-            user_message = f"""Create a comprehensive Bill of Materials (BOM) based on the following information:
+## CONTEXT
+You will receive the `<systemArchitecture>` XML from the Architecture Agent.
 
-{context_text}
+## STEP-BY-STEP PROCESS
+1. Analyze the `<componentBreakdown>` to identify all necessary infrastructure components (e.g., web servers, API servers, databases).
+2. For each component, estimate a reasonable monthly cost based on standard cloud pricing (assume a small-to-medium scale deployment).
+3. Categorize each cost item (e.g., "Cloud Infrastructure," "Software Licenses").
+4. Calculate the total estimated monthly cost.
+5. Format the BOM into the strict XML schema below.
 
-CRITICAL INSTRUCTIONS:
-1. Use research insights to identify industry-standard components and tools
-2. Include all technical dependencies (frameworks, libraries, services)
-3. Provide realistic cost estimates for each component
-4. Specify quantities, units, and specifications
-5. Categorize components logically (infrastructure, software, services, etc.)
-6. Include both one-time and recurring costs
-7. Add notes for procurement and licensing requirements
+## OUTPUT FORMAT (CRITICAL)
+You MUST produce a single, valid XML document. Your entire response MUST be only this XML.
 
-REQUIRED STRUCTURE (return as valid JSON):
+<billOfMaterials>
+    <summary>An estimated monthly cost breakdown for deploying and running the proposed solution.</summary>
+    <items>
+        <category name="Cloud Infrastructure">
+            <item name="Web Server Hosting (2 instances)" provider="Vercel/Netlify" costPerMonth="40.00" />
+            <item name="API Server Hosting (2 instances)" provider="AWS/GCP" costPerMonth="100.00" />
+            <item name="Managed MongoDB" provider="MongoDB Atlas" costPerMonth="75.00" />
+        </category>
+        <category name="Third-Party Services">
+            <item name="LLM API Usage" provider="OpenAI/Anthropic" costPerMonth="150.00" />
+        </category>
+    </items>
+    <totalCostPerMonth>365.00</totalCostPerMonth>
+</billOfMaterials>
 
-{{
-    "project_name": "{project_name}",
-    "generated_date": "YYYY-MM-DD",
-    "version": "1.0",
-    "summary": {{
-        "total_components": 0,
-        "total_one_time_cost": 0,
-        "total_recurring_cost_monthly": 0,
-        "total_recurring_cost_annual": 0,
-        "currency": "USD"
-    }},
-    "categories": [
-        {{
-            "category_name": "Infrastructure & Hosting",
-            "description": "Cloud infrastructure and hosting services",
-            "items": [
-                {{
-                    "item_id": "INF-001",
-                    "name": "Cloud Server Instance",
-                    "description": "Production server with specifications",
-                    "quantity": 2,
-                    "unit": "instances",
-                    "specifications": {{
-                        "cpu": "4 vCPUs",
-                        "memory": "16 GB RAM",
-                        "storage": "100 GB SSD"
-                    }},
-                    "vendor": "AWS/Azure/GCP",
-                    "cost_type": "recurring",
-                    "unit_cost": 150.00,
-                    "total_cost_monthly": 300.00,
-                    "total_cost_annual": 3600.00,
-                    "procurement_notes": "Reserved instance for cost savings"
-                }}
-            ]
-        }},
-        {{
-            "category_name": "Software & Frameworks",
-            "description": "Development frameworks and libraries",
-            "items": []
-        }},
-        {{
-            "category_name": "Third-Party Services",
-            "description": "External APIs and SaaS services",
-            "items": []
-        }},
-        {{
-            "category_name": "Licenses & Subscriptions",
-            "description": "Software licenses and subscriptions",
-            "items": []
-        }},
-        {{
-            "category_name": "Development Tools",
-            "description": "IDEs, testing tools, CI/CD",
-            "items": []
-        }},
-        {{
-            "category_name": "Security & Compliance",
-            "description": "Security tools and compliance services",
-            "items": []
-        }},
-        {{
-            "category_name": "Monitoring & Analytics",
-            "description": "Monitoring, logging, and analytics tools",
-            "items": []
-        }},
-        {{
-            "category_name": "Human Resources",
-            "description": "Team members and their roles",
-            "items": []
-        }}
-    ],
-    "notes": [
-        "All costs are estimates and subject to change",
-        "Recurring costs are calculated on a monthly basis",
-        "Volume discounts may apply for annual commitments"
-    ],
-    "assumptions": [
-        "Production environment with high availability",
-        "Standard support tier for all services",
-        "US-based infrastructure"
-    ]
-}}
+## GUIDELINES & CONSTRAINTS
+- Costs should be reasonable estimates. Precision is not required, but figures should be realistic.
+- Prioritize services that have a free or low-cost tier for an MVP.
+- Your entire response MUST be only the XML document."""
 
-Generate a comprehensive, realistic BOM with at least 20-30 components across all categories.
-Include specific vendor names, version numbers, and detailed specifications.
-Ensure all costs are realistic based on current market rates.
-Return ONLY valid JSON, no additional text.
-"""
+            user_message = f"""Generate a Bill of Materials XML document for project: {project_name}
+
+Input Data:
+{context_text}"""
 
             # Call LLM to generate BOM
             self.log_execution("progress", "Calling LLM for BOM generation")
             
             response = await self._call_llm(system_message, user_message)
-            
-            # Parse JSON response
-            try:
-                # Clean response (remove markdown code blocks if present)
-                cleaned_response = response.strip()
-                if cleaned_response.startswith('```'):
-                    cleaned_response = cleaned_response.split('```')[1]
-                    if cleaned_response.startswith('json'):
-                        cleaned_response = cleaned_response[4:]
-                    cleaned_response = cleaned_response.strip()
-                
-                bom_data = json.loads(cleaned_response)
-                self.log_execution("success", f"Generated BOM with {len(bom_data.get('categories', []))} categories")
-            except json.JSONDecodeError as e:
-                self.logger.error(f"Failed to parse BOM JSON: {str(e)}")
-                # Create fallback BOM structure
-                bom_data = {
-                    "project_name": project_name,
-                    "error": "Failed to parse LLM response",
-                    "raw_response": response[:500]
-                }
-            
-            # Generate HTML version
-            self.log_execution("start", "Generating HTML version")
-            bom_html = self._generate_html(bom_data, project_name)
-            self.log_execution("success", f"Generated HTML ({len(bom_html)} characters)")
+            bom_content = response.strip()
+
+            # Clean XML response
+            if bom_content.startswith("```xml"):
+                bom_content = bom_content.split("```xml")[1].split("```")[0].strip()
+            elif bom_content.startswith("```"):
+                bom_content = bom_content.split("```")[1].split("```")[0].strip()
+
+            self.log_execution("success", f"Generated BOM XML ({len(bom_content)} chars)")
 
             return AgentResult(
                 success=True,
                 data={
-                    "bom_json": bom_data,
-                    "bom_html": bom_html,
-                    "project_name": project_name,
-                    "total_components": len([item for cat in bom_data.get('categories', []) for item in cat.get('items', [])])
+                    "bom_xml": bom_content,
+                    "project_name": project_name
                 },
                 metadata={
                     "agent": self.config.name,
-                    "format": "json+html"
+                    "format": "xml"
                 }
             )
             

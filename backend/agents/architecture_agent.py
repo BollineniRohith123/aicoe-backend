@@ -6,7 +6,7 @@ from .base_agent import BaseAgent, AgentConfig, AgentResult
 import json
 
 
-class ArchitectureDiagramAgent(BaseAgent):
+class ArchitectureAgent(BaseAgent):
     """
     Agent responsible for creating interactive system architecture diagrams
     Generates HTML with embedded Mermaid diagrams showing component relationships
@@ -14,11 +14,11 @@ class ArchitectureDiagramAgent(BaseAgent):
     
     def __init__(self, llm_client):
         config = AgentConfig(
-            name="ArchitectureDiagramAgent",
+            name="ArchitectureAgent",
             description="Creates interactive system architecture diagrams",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.3,
-            max_tokens=8000
+            max_tokens=12000
         )
         super().__init__(config, llm_client)
     
@@ -60,125 +60,75 @@ Research Insights (for architecture patterns):
 {research_text[:1500]}
 """
 
-            system_message = """You are an expert Solution Architect at AICOE who creates clear, comprehensive system architecture diagrams.
-You excel at visualizing complex systems using Mermaid diagram syntax.
-Your diagrams are well-organized, easy to understand, and follow industry best practices."""
+            system_message = """## ROLE AND GOAL
+You are a Senior Cloud Architect. Your goal is to create a high-level system architecture design based on the project requirements and suggested design patterns. Your output must be a structured XML document containing a MermaidJS diagram.
 
-            user_message = f"""Create comprehensive system architecture diagrams using Mermaid syntax based on the following information:
+## CONTEXT
+You will receive the `<productRequirementsDocument>` XML and the `<knowledgeEnrichment>` XML.
 
-{context_text}
+## STEP-BY-STEP PROCESS
+1. Review the `<technicalContext>` from the PRD and the `<technicalSuggestions>` from the research findings.
+2. Incorporate the `<suggestedPattern>`s from the Knowledge Base Agent into your design.
+3. Design a high-level architecture that includes a frontend, a backend API, a database, and any necessary integrations. Prioritize open-source components.
+4. Represent this architecture as a MermaidJS flowchart diagram.
+5. Provide a brief breakdown of each major component.
+6. Format the entire design into the strict XML schema below.
 
-CRITICAL INSTRUCTIONS:
-1. Create multiple Mermaid diagrams showing different architectural views
-2. Include: High-Level Architecture, Component Diagram, Data Flow, Deployment Architecture
-3. Use research insights to incorporate industry-standard patterns
-4. Show clear relationships between components
-5. Include external systems and integrations
-6. Use proper Mermaid syntax (graph TD, C4Context, etc.)
-7. Add descriptive labels and annotations
+## OUTPUT FORMAT (CRITICAL)
+You MUST produce a single, valid XML document. Your entire response MUST be only this XML.
 
-REQUIRED OUTPUT FORMAT:
-Return a JSON object with the following structure:
+<systemArchitecture>
+    <description>A high-level overview of the proposed architecture, referencing open-source components and the Decision Support System pattern.</description>
+    <diagram type="mermaid-flowchart">
+        <![CDATA[
+            graph TD
+                A[React Frontend] --> B{FastAPI Backend};
+                B --> C[Decision Engine];
+                C --> D[(MongoDB)];
+                B --> E[External APIs];
+        ]]>
+    </diagram>
+    <componentBreakdown>
+        <component name="React Frontend">A responsive user interface built with React and styled with Tailwind CSS.</component>
+        <component name="FastAPI Backend">A Python-based API server to handle business logic and data processing.</component>
+        <component name="Decision Engine">A dedicated module within the backend that implements the core AI logic for scenario analysis.</component>
+        <component name="MongoDB">A NoSQL database for storing project data, supplier information, and audit trails.</component>
+    </componentBreakdown>
+</systemArchitecture>
 
-{{
-    "project_name": "{project_name}",
-    "diagrams": [
-        {{
-            "title": "High-Level System Architecture",
-            "description": "Overview of the entire system and its major components",
-            "type": "graph TD",
-            "mermaid_code": "graph TD\\n    A[Component A] --> B[Component B]\\n    B --> C[Component C]"
-        }},
-        {{
-            "title": "Component Architecture",
-            "description": "Detailed view of system components and their interactions",
-            "type": "graph LR",
-            "mermaid_code": "..."
-        }},
-        {{
-            "title": "Data Flow Diagram",
-            "description": "How data flows through the system",
-            "type": "graph TD",
-            "mermaid_code": "..."
-        }},
-        {{
-            "title": "Deployment Architecture",
-            "description": "Infrastructure and deployment topology",
-            "type": "graph TB",
-            "mermaid_code": "..."
-        }}
-    ],
-    "components": [
-        {{
-            "name": "Frontend Application",
-            "type": "Web Application",
-            "technology": "React.js",
-            "description": "User-facing web interface",
-            "responsibilities": ["User interaction", "Data visualization"]
-        }}
-    ],
-    "integrations": [
-        {{
-            "name": "External API",
-            "type": "REST API",
-            "purpose": "Third-party data integration"
-        }}
-    ],
-    "infrastructure": {{
-        "hosting": "Cloud-based (AWS/Azure/GCP)",
-        "database": "PostgreSQL / MongoDB",
-        "caching": "Redis",
-        "cdn": "CloudFront / Cloudflare"
-    }}
-}}
+## GUIDELINES & CONSTRAINTS
+- The architecture MUST be based on open-source technologies unless the client's existing stack dictates otherwise.
+- The Mermaid diagram MUST be syntactically correct.
+- Your entire response MUST be only the XML document."""
 
-Generate realistic, detailed Mermaid diagrams with at least 8-12 components per diagram.
-Use proper Mermaid syntax with correct escaping for newlines (\\n).
-Return ONLY valid JSON, no additional text.
-"""
+            user_message = f"""Generate a system architecture XML document for project: {project_name}
+
+Input Data:
+{context_text}"""
 
             # Call LLM to generate architecture
             self.log_execution("progress", "Calling LLM for architecture generation")
             
             response = await self._call_llm(system_message, user_message)
-            
-            # Parse JSON response
-            try:
-                # Clean response
-                cleaned_response = response.strip()
-                if cleaned_response.startswith('```'):
-                    cleaned_response = cleaned_response.split('```')[1]
-                    if cleaned_response.startswith('json'):
-                        cleaned_response = cleaned_response[4:]
-                    cleaned_response = cleaned_response.strip()
-                
-                architecture_data = json.loads(cleaned_response)
-                self.log_execution("success", f"Generated {len(architecture_data.get('diagrams', []))} diagrams")
-            except json.JSONDecodeError as e:
-                self.logger.error(f"Failed to parse architecture JSON: {str(e)}")
-                # Create fallback structure
-                architecture_data = {
-                    "project_name": project_name,
-                    "diagrams": [],
-                    "error": "Failed to parse LLM response"
-                }
-            
-            # Generate HTML with embedded Mermaid diagrams
-            self.log_execution("start", "Generating interactive HTML")
-            architecture_html = self._generate_html(architecture_data, project_name)
-            self.log_execution("success", f"Generated HTML ({len(architecture_html)} chars)")
-            
+            architecture_content = response.strip()
+
+            # Clean XML response
+            if architecture_content.startswith("```xml"):
+                architecture_content = architecture_content.split("```xml")[1].split("```")[0].strip()
+            elif architecture_content.startswith("```"):
+                architecture_content = architecture_content.split("```")[1].split("```")[0].strip()
+
+            self.log_execution("success", f"Generated architecture XML ({len(architecture_content)} chars)")
+
             return AgentResult(
                 success=True,
                 data={
-                    "architecture_html": architecture_html,
-                    "architecture_data": architecture_data,
-                    "project_name": project_name,
-                    "diagram_count": len(architecture_data.get('diagrams', []))
+                    "architecture_xml": architecture_content,
+                    "project_name": project_name
                 },
                 metadata={
                     "agent": self.config.name,
-                    "format": "html"
+                    "format": "xml"
                 }
             )
             

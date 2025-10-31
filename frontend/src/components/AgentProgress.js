@@ -9,10 +9,10 @@ const AGENTS = [
     description: 'Creating project structure'
   },
   {
-    id: 'transcript',
-    name: 'Transcript Agent',
+    id: 'intake',
+    name: 'Intake Agent',
     icon: '📝',
-    description: 'Extracting structured notes'
+    description: 'Processing meeting transcripts'
   },
   {
     id: 'researcher',
@@ -21,10 +21,16 @@ const AGENTS = [
     description: 'Gathering industry insights'
   },
   {
-    id: 'requirements',
-    name: 'Requirements Agent',
+    id: 'blueprint',
+    name: 'Blueprint Agent',
     icon: '📋',
-    description: 'Generating use cases'
+    description: 'Generating use cases & requirements'
+  },
+  {
+    id: 'data',
+    name: 'Data Agent',
+    icon: '💾',
+    description: 'Creating synthetic demo data'
   },
   {
     id: 'knowledge_base',
@@ -36,25 +42,13 @@ const AGENTS = [
     id: 'prd',
     name: 'PRD Agent',
     icon: '📄',
-    description: 'Assembling PRD document'
+    description: 'Assembling Product Requirements Document'
   },
   {
-    id: 'mockup',
-    name: 'Mockup Agent',
-    icon: '🎨',
-    description: 'Creating HTML mockups'
-  },
-  {
-    id: 'synthetic_data',
-    name: 'Synthetic Data Agent',
-    icon: '💾',
-    description: 'Generating demo data'
-  },
-  {
-    id: 'commercial_proposal',
-    name: 'Commercial Proposal Agent',
-    icon: '💼',
-    description: 'Creating business proposal'
+    id: 'architecture',
+    name: 'Architecture Agent',
+    icon: '🏗️',
+    description: 'Designing system architecture'
   },
   {
     id: 'bom',
@@ -63,16 +57,22 @@ const AGENTS = [
     description: 'Generating Bill of Materials'
   },
   {
-    id: 'architecture_diagram',
-    name: 'Architecture Diagram Agent',
-    icon: '🏗️',
-    description: 'Creating system diagrams'
+    id: 'proposal',
+    name: 'Proposal Agent',
+    icon: '💼',
+    description: 'Creating commercial proposal'
+  },
+  {
+    id: 'mockup',
+    name: 'Mockup Agent',
+    icon: '🎨',
+    description: 'Building interactive HTML prototypes'
   },
   {
     id: 'reviewer',
     name: 'Reviewer Agent',
     icon: '✅',
-    description: 'Reviewing deliverables'
+    description: 'Quality assurance & validation'
   }
 ];
 
@@ -116,7 +116,7 @@ const AgentProgress = ({ currentAgent, agentStatuses = {} }) => {
           const message = getAgentMessage(agent.id);
           
           return (
-            <div key={agent.id} className={`agent-card agent-${status}`}>
+            <div key={agent.id} className={`agent-card agent-${status}`} style={{animationDelay: `${index * 0.1}s`}}>
               <div className="agent-card-header">
                 <div className="agent-icon-wrapper">
                   <span className="agent-icon">{agent.icon}</span>
@@ -140,13 +140,16 @@ const AgentProgress = ({ currentAgent, agentStatuses = {} }) => {
                 
                 <div className="agent-status-indicator">
                   {status === 'completed' && (
-                    <span className="status-text status-completed">Completed</span>
+                    <span className="status-text status-completed">✓ Generation Complete</span>
                   )}
                   {status === 'processing' && (
-                    <span className="status-text status-processing">Processing...</span>
+                    <span className="status-text status-processing">⚡ Processing...</span>
                   )}
                   {status === 'pending' && (
-                    <span className="status-text status-pending">Pending</span>
+                    <span className="status-text status-pending">⏳ Waiting</span>
+                  )}
+                  {status === 'failed' && (
+                    <span className="status-text status-failed">❌ Failed</span>
                   )}
                 </div>
               </div>

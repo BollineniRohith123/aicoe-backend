@@ -18,7 +18,7 @@ class KnowledgeBaseAgent(BaseAgent):
             description="Enriches documents with domain knowledge and best practices",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.4,
-            max_tokens=4000
+            max_tokens=12000
         )
         super().__init__(config, llm_client)
         

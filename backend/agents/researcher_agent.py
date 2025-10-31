@@ -27,7 +27,7 @@ class ResearcherAgent(BaseAgent):
             description="Performs web research to enrich PRD with industry insights",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.5,
-            max_tokens=8000
+            max_tokens=12000
         )
         super().__init__(config, llm_client)
         
@@ -318,7 +318,7 @@ Provide ONLY the JSON output, no additional text."""
                 system_message=system_message,
                 user_message=user_message,
                 temperature=0.4,
-                max_tokens=4000
+                max_tokens=12000
             )
             
             # Clean and parse JSON

@@ -62,7 +62,7 @@ class StorageAgent(BaseAgent):
             description="Manages project folders, versioning, and file storage",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.3,
-            max_tokens=2000
+            max_tokens=12000
         )
         super().__init__(config, llm_client)
         self.base_storage_path = base_storage_path

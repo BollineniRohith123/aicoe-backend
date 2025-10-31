@@ -4,18 +4,19 @@ Inspired by Google ADK architecture for agent orchestration
 """
 from typing import Dict, Any, List, Optional
 from .base_agent import BaseAgent, AgentConfig, AgentResult
-from .transcript_agent import TranscriptAgent
+from .intake_agent import IntakeAgent
 from .researcher_agent import ResearcherAgent
-from .requirements_agent import RequirementsAgent
+from .blueprint_agent import BlueprintAgent
 from .prd_agent import PRDAgent
 from .mockup_agent import MockupAgent
-from .synthetic_data_agent import SyntheticDataAgent
+from .data_agent import DataAgent
 from .knowledge_base_agent import KnowledgeBaseAgent
 from .reviewer_agent import ReviewerAgent
 from .storage_agent import StorageAgent
-from .commercial_proposal_agent import CommercialProposalAgent
+from .proposal_agent import ProposalAgent
 from .bom_agent import BOMAgent
-from .architecture_diagram_agent import ArchitectureDiagramAgent
+from .architecture_agent import ArchitectureAgent
+from .html_transformer import generate_html_from_xml
 from .agent_communication import AgentCommunicationHub, Message
 import logging
 import asyncio
@@ -62,18 +63,18 @@ class OrchestratorAgent:
 
         # Initialize all 12 agents (including 3 new specialized agents)
         self.agents = {
-            "transcript": TranscriptAgent(llm_client),
+            "intake": IntakeAgent(llm_client),
             "researcher": ResearcherAgent(llm_client),
-            "requirements": RequirementsAgent(llm_client),
+            "blueprint": BlueprintAgent(llm_client),
             "prd": PRDAgent(llm_client),
             "mockup": MockupAgent(llm_client),
-            "synthetic_data": SyntheticDataAgent(llm_client),
+            "data": DataAgent(llm_client),
             "knowledge_base": KnowledgeBaseAgent(llm_client),
             "reviewer": ReviewerAgent(llm_client),
             "storage": StorageAgent(llm_client),
-            "commercial_proposal": CommercialProposalAgent(llm_client),
+            "proposal": ProposalAgent(llm_client),
             "bom": BOMAgent(llm_client),
-            "architecture_diagram": ArchitectureDiagramAgent(llm_client)
+            "architecture": ArchitectureAgent(llm_client)
         }
 
         # Register all agents in the communication hub
@@ -632,13 +633,11 @@ class OrchestratorAgent:
                 },
                 "prd": {
                     "folder": "prd",  # Maps to PRDDocuments
-                    "filename": "PRD_v1.md",
-                    "content": data.get("prd_markdown", str(data))
-                },
-                "prd_html": {
-                    "folder": "prd",  # Maps to PRDDocuments
-                    "filename": "PRD_v1.html",
-                    "content": data.get("prd_html", "")
+                    "filename": "PRD_v1.xml",
+                    "content": data.get("prd_xml", str(data)),
+                    "transform_to_html": True,
+                    "html_filename": "PRD_v1.html",
+                    "xslt_template": "prd_template.xslt"
                 },
                 "mockup": {
                     "folder": "mockups",  # Maps to HTML/Version1/Mockups
@@ -650,30 +649,29 @@ class OrchestratorAgent:
                     "filename": "demo_data.json",
                     "content": data
                 },
-                "commercial_proposal": {
+                "proposal": {
                     "folder": "commercial_proposals",  # Maps to CommercialProposals
-                    "filename": "proposal_v1.md",
-                    "content": data.get("proposal_markdown", str(data))
-                },
-                "commercial_proposal_html": {
-                    "folder": "commercial_proposals",  # Maps to CommercialProposals
-                    "filename": "proposal_v1.html",
-                    "content": data.get("proposal_html", "")
+                    "filename": "proposal_v1.xml",
+                    "content": data.get("proposal_xml", str(data)),
+                    "transform_to_html": True,
+                    "html_filename": "proposal_v1.html",
+                    "xslt_template": "proposal_template.xslt"
                 },
                 "bom": {
                     "folder": "bom",  # Maps to BillOfMaterials
-                    "filename": "bom_v1.json",
-                    "content": data.get("bom_json", data)
+                    "filename": "bom_v1.xml",
+                    "content": data.get("bom_xml", str(data)),
+                    "transform_to_html": True,
+                    "html_filename": "bom_v1.html",
+                    "xslt_template": "bom_template.xslt"
                 },
-                "bom_html": {
-                    "folder": "bom",  # Maps to BillOfMaterials
-                    "filename": "bom_v1.html",
-                    "content": data.get("bom_html", "")
-                },
-                "architecture_diagram": {
+                "architecture": {
                     "folder": "architecture",  # Maps to SystemArchitecture
-                    "filename": "architecture_diagram_v1.html",
-                    "content": data.get("architecture_html", str(data))
+                    "filename": "architecture_v1.xml",
+                    "content": data.get("architecture_xml", str(data)),
+                    "transform_to_html": True,
+                    "html_filename": "architecture_v1.html",
+                    "xslt_template": "architecture_template.xslt"
                 },
                 "reviewer": {
                     "folder": "feedback",  # Maps to ReviewerFeedback
@@ -685,7 +683,7 @@ class OrchestratorAgent:
             if agent_name in file_mappings:
                 mapping = file_mappings[agent_name]
 
-                # Save file via StorageAgent
+                # Save XML file via StorageAgent
                 save_input = {
                     "action": "save_file",
                     "project_name": project_name,
@@ -697,60 +695,33 @@ class OrchestratorAgent:
                 result = await storage_agent.execute(save_input, {})
 
                 if result.success:
-                    self.logger.info(f"Saved {agent_name} output to {mapping['folder']}/{mapping['filename']}")
+                    self.logger.info(f"Saved {agent_name} XML to {mapping['folder']}/{mapping['filename']}")
                 else:
-                    self.logger.warning(f"Failed to save {agent_name} output: {result.error}")
+                    self.logger.warning(f"Failed to save {agent_name} XML: {result.error}")
 
-            # Special handling for agents that generate both MD/JSON and HTML versions
-            if agent_name == "prd" and "prd_html" in data:
-                html_mapping = file_mappings.get("prd_html")
-                if html_mapping:
-                    html_save_input = {
-                        "action": "save_file",
-                        "project_name": project_name,
-                        "folder": html_mapping["folder"],
-                        "filename": html_mapping["filename"],
-                        "content": data["prd_html"]
-                    }
-                    html_result = await storage_agent.execute(html_save_input, {})
-                    if html_result.success:
-                        self.logger.info(f"Saved PRD HTML to {html_mapping['folder']}/{html_mapping['filename']}")
-                    else:
-                        self.logger.warning(f"Failed to save PRD HTML: {html_result.error}")
+                # Transform XML to HTML if required
+                if mapping.get("transform_to_html", False):
+                    try:
+                        transformer = HTMLTransformer()
+                        xml_content = mapping["content"]
+                        xslt_template = mapping["xslt_template"]
+                        html_content = transformer.transform_xml_to_html(xml_content, xslt_template)
 
-            # Save commercial proposal HTML
-            if agent_name == "commercial_proposal" and "proposal_html" in data:
-                html_mapping = file_mappings.get("commercial_proposal_html")
-                if html_mapping:
-                    html_save_input = {
-                        "action": "save_file",
-                        "project_name": project_name,
-                        "folder": html_mapping["folder"],
-                        "filename": html_mapping["filename"],
-                        "content": data["proposal_html"]
-                    }
-                    html_result = await storage_agent.execute(html_save_input, {})
-                    if html_result.success:
-                        self.logger.info(f"Saved Proposal HTML to {html_mapping['folder']}/{html_mapping['filename']}")
-                    else:
-                        self.logger.warning(f"Failed to save Proposal HTML: {html_result.error}")
-
-            # Save BOM HTML
-            if agent_name == "bom" and "bom_html" in data:
-                html_mapping = file_mappings.get("bom_html")
-                if html_mapping:
-                    html_save_input = {
-                        "action": "save_file",
-                        "project_name": project_name,
-                        "folder": html_mapping["folder"],
-                        "filename": html_mapping["filename"],
-                        "content": data["bom_html"]
-                    }
-                    html_result = await storage_agent.execute(html_save_input, {})
-                    if html_result.success:
-                        self.logger.info(f"Saved BOM HTML to {html_mapping['folder']}/{html_mapping['filename']}")
-                    else:
-                        self.logger.warning(f"Failed to save BOM HTML: {html_result.error}")
+                        # Save HTML file
+                        html_save_input = {
+                            "action": "save_file",
+                            "project_name": project_name,
+                            "folder": mapping["folder"],
+                            "filename": mapping["html_filename"],
+                            "content": html_content
+                        }
+                        html_result = await storage_agent.execute(html_save_input, {})
+                        if html_result.success:
+                            self.logger.info(f"Saved {agent_name} HTML to {mapping['folder']}/{mapping['html_filename']}")
+                        else:
+                            self.logger.warning(f"Failed to save {agent_name} HTML: {html_result.error}")
+                    except Exception as e:
+                        self.logger.error(f"Failed to transform {agent_name} XML to HTML: {str(e)}")
 
             # Save additional mockup pages (multi-page prototypes)
             if agent_name == "mockup" and "mockup_pages" in data:

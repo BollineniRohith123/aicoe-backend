@@ -6,7 +6,7 @@ from .base_agent import BaseAgent, AgentConfig, AgentResult
 import json
 
 
-class SyntheticDataAgent(BaseAgent):
+class DataAgent(BaseAgent):
     """
     Agent responsible for generating realistic synthetic data for demos and mockups
     Creates CSV/JSON data based on use case specifications
@@ -14,11 +14,11 @@ class SyntheticDataAgent(BaseAgent):
     
     def __init__(self, llm_client):
         config = AgentConfig(
-            name="SyntheticDataAgent",
+            name="DataAgent",
             description="Generates realistic demo data sets for mockups and visualizations",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.7,
-            max_tokens=8000  # Increased from 4000 to handle complex data sets
+            max_tokens=12000  # Increased from 4000 to handle complex data sets
         )
         super().__init__(config, llm_client)
     

@@ -42,7 +42,7 @@ class ReviewerAgent(BaseAgent):
             description="Manages feedback loops, document review cycles, and HTML validation",
             model="openai/gpt-oss-120b",  # OpenAI GPT-OSS-120B via OpenRouter
             temperature=0.5,
-            max_tokens=4000
+            max_tokens=12000
         )
         super().__init__(config, llm_client)
         self.review_cycles: Dict[str, ReviewCycle] = {}

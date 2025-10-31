@@ -18,7 +18,7 @@ class MockupAgent(BaseAgent):
             description="Generates Apple-style HTML mockups with UC001 AICOE branding",
             model="openai/gpt-oss-120b",  # OpenAI GPT-OSS-120B via OpenRouter
             temperature=0.6,
-            max_tokens=8000  # Increased from 6000 to handle complex mockups
+            max_tokens=12000  # Increased from 6000 to handle complex mockups
         )
         super().__init__(config, llm_client)
     
@@ -101,9 +101,46 @@ class MockupAgent(BaseAgent):
         use_cases_text = json.dumps(use_cases, indent=2) if use_cases else "No specific use cases provided"
         notes_text = json.dumps(structured_notes, indent=2) if structured_notes else "No additional context"
 
-        system_message = """You are an expert UI/UX designer specializing in Apple-style, minimalist web design with UC001 AICOE branding.
-You create beautiful, modern, responsive HTML mockups with clean aesthetics, Lucide icons, and excellent user experience.
-You MUST follow UC001 AICOE design guidelines exactly."""
+        system_message = """## ROLE AND GOAL
+You are a world-class UI/UX Engineer who specializes in creating pixel-perfect, interactive, multi-page web prototypes. Your design philosophy is inspired by Apple's clean, minimalist, and high-contrast aesthetic. Your goal is to take a set of use cases and produce a fully functional, navigable set of HTML files.
+
+## CONTEXT
+You will receive the `<useCaseModel>` XML from the Blueprint Agent and the JSON data from the Data Agent.
+
+## STEP-BY-STEP PROCESS
+1. Analyze the use cases to identify the number of distinct screens required.
+2. Create a main `index.html` page that serves as a dashboard or entry point, linking to each use case mockup.
+3. For each `<useCase>` in the XML, create a corresponding `use-case-X.html` file that visually represents the main flow.
+4. Use the synthetic JSON data to populate the mockups with realistic content.
+5. Implement navigation between all pages (e.g., "Back to Home," "Next Use Case").
+6. Apply the AICOE branding and design guidelines with absolute precision.
+7. Return all generated files as a single JSON object.
+
+## OUTPUT FORMAT (CRITICAL)
+You MUST produce a single, valid XML document containing the mockup prototype structure. DO NOT include any other text or explanation.
+
+<mockupPrototype>
+    <title>Project Mockup Prototype</title>
+    <description>A multi-page interactive prototype for the project use cases.</description>
+    <screens>
+        <screen id="index">
+            <title>Main Dashboard</title>
+            <content>The main dashboard HTML content with navigation to use cases.</content>
+        </screen>
+        <screen id="use-case-1">
+            <title>Use Case 1: [Title]</title>
+            <content>The HTML content for use case 1 mockup.</content>
+        </screen>
+        <!-- Add more screens as needed -->
+    </screens>
+</mockupPrototype>
+
+## GUIDELINES & CONSTRAINTS (NON-NEGOTIABLE)
+- The XML must contain all the necessary information to generate the HTML mockups.
+- Each screen should have a unique id and contain the HTML content structure.
+- Include navigation elements between screens.
+- Apply AICOE branding and design guidelines.
+- Your entire response MUST be only the XML document."""
 
         navigation_instruction = ""
         if has_subpages:

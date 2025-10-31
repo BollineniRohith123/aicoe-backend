@@ -19,7 +19,7 @@ class PRDAgent(BaseAgent):
             description="Creates comprehensive Product Requirements Documents",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.4,
-            max_tokens=8000  # Increased from 6000 to handle complex PRDs
+            max_tokens=12000  # Increased from 6000 to handle complex PRDs
         )
         super().__init__(config, llm_client)
     
@@ -66,161 +66,53 @@ Research Insights (CRITICAL - Use this extensively):
 {research_text}
 """
 
-            system_message = """You are an expert Product Manager at AICOE who creates world-class Product Requirements Documents (PRDs).
-Your PRDs are comprehensive, well-structured, follow AICOE branding standards, and adhere to industry best practices.
-You MUST follow the AICOE PRD template exactly and MUST incorporate research insights throughout the document."""
+            system_message = """## ROLE AND GOAL
+You are an expert Technical Writer who creates comprehensive Product Requirements Documents (PRDs). Your goal is to assemble the vision, requirements, and use cases into a single, formal XML document.
 
-            user_message = f"""Create a comprehensive Product Requirements Document (PRD) with AICOE branding based on the following information:
+## CONTEXT
+You will receive the XML outputs from the Intake Agent and the Blueprint Agent.
 
-{context_text}
+## STEP-BY-STEP PROCESS
+1. Extract the `<projectVision>`, `<businessRequirements>`, and `<stakeholders>` from the Intake Agent's output.
+2. Extract the full `<useCaseModel>` from the Blueprint Agent's output.
+3. Synthesize this information to define what is in scope and out of scope for the project.
+4. Formulate key business goals based on the requirements.
+5. Define at least two critical non-functional requirements (e.g., Security, Performance).
+6. Assemble all sections into the strict XML format defined below.
 
-CRITICAL INSTRUCTIONS FOR USING RESEARCH INSIGHTS:
-1. Reference specific competitors and their features in the competitive analysis section
-2. Incorporate industry trends into the market context and problem statement
-3. Use best practices from research to inform technical architecture and design decisions
-4. Apply technical standards from research to non-functional requirements
-5. Consider user expectations from research when defining user personas and features
-6. Include regulatory requirements from research in compliance sections
-7. Add a dedicated "Market Research & Competitive Analysis" section
+## OUTPUT FORMAT (CRITICAL)
+You MUST produce a single, valid XML document. Your entire response MUST be only this XML.
 
-MANDATORY AICOE PRD TEMPLATE STRUCTURE:
+<productRequirementsDocument>
+    <title>PRD for [Project Name]</title>
+    <executiveSummary>A one-paragraph summary of the project's purpose and scope.</executiveSummary>
+    <scope>
+        <inScope>A bulleted list of features that are in scope for the MVP.</inScope>
+        <outOfScope>A bulleted list of features that are explicitly out of scope.</outOfScope>
+    </scope>
+    <businessGoals>
+        <goal>Increase marketing efficiency by 50%.</goal>
+        <goal>Reduce compliance violations by 90%.</goal>
+    </businessGoals>
+    <!-- The full <useCaseModel> from the Blueprint Agent is embedded here -->
+    <useCases>
+        ...
+    </useCases>
+    <nonFunctionalRequirements>
+        <requirement type="Security">All sensitive data must be encrypted at rest and in transit using industry-standard protocols.</requirement>
+        <requirement type="Performance">The system must respond to 95% of user queries in under 2 seconds.</requirement>
+    </nonFunctionalRequirements>
+</productRequirementsDocument>
 
----
-**AICOE Product Requirements Document**
+## GUIDELINES & CONSTRAINTS
+- The PRD must be professional, well-structured, and comprehensive.
+- The `<useCases>` section must be a direct, unmodified copy of the XML from the Blueprint Agent.
+- NEVER output anything other than the specified XML structure."""
 
-**Document Classification:** Internal - Confidential
-**Version:** 1.0
-**Date:** {{current_date}}
-**Prepared By:** AICOE Multi-Agent Platform
-**Project:** {project_name}
+            user_message = f"""Generate a PRD XML document for project: {project_name}
 
----
-
-# {project_name} - Product Requirements Document
-
-## 1. Executive Summary
-Brief overview of the project, its purpose, expected impact, and business value.
-Include key stakeholders and target timeline.
-
-## 2. Goals & Objectives
-Clear, measurable SMART objectives this product aims to achieve.
-- Business goals
-- User goals
-- Technical goals
-
-## 3. Problem Statement
-- What problem are we solving?
-- Who has this problem?
-- Current pain points and limitations
-- Opportunity size and market context
-
-## 4. Market Research & Competitive Analysis
-**IMPORTANT: Use research insights extensively in this section**
-- **Industry Trends:** Key trends shaping the market (reference specific trends from research)
-- **Competitive Landscape:** Analysis of competitors and their offerings (reference specific competitors from research)
-- **Market Opportunities:** Gaps in the market and differentiation opportunities
-- **Best Practices:** Industry best practices to adopt (from research insights)
-- **Technical Standards:** Relevant technical standards and frameworks (from research)
-- **User Expectations:** What users expect based on market analysis (from research)
-- **Regulatory Landscape:** Compliance requirements and regulations (from research)
-
-## 5. User Personas & Stakeholders
-Detailed user personas with:
-- Role/Title
-- Goals and motivations
-- Pain points
-- Technical proficiency
-Key stakeholders and their interests.
-
-## 6. Features & User Stories
-Detailed features organized by priority (Must-Have, Should-Have, Nice-to-Have).
-User stories in format: "As a [role], I want [feature] so that [benefit]"
-
-## 7. Use Cases
-Detailed use cases with:
-- Use Case ID and Name
-- Actors
-- Preconditions
-- Main Flow
-- Alternative Flows
-- Postconditions
-- Success Criteria
-
-## 8. Functional Requirements
-Specific, testable functional requirements organized by feature area.
-Format: FR-XX: [Requirement description]
-Each requirement should be:
-- Specific and measurable
-- Testable
-- Traceable to use cases
-
-## 9. Non-Functional Requirements
-- **Performance:** Response times, throughput, scalability targets
-- **Security:** Authentication, authorization, data protection, compliance (reference regulatory requirements from research)
-- **Usability:** User experience standards, accessibility (WCAG 2.1)
-- **Reliability:** Uptime targets, error handling, disaster recovery
-- **Maintainability:** Code quality, documentation standards
-
-## 10. Technical Architecture
-High-level technical approach (aligned with technical standards from research):
-- System components and their interactions
-- Technology stack recommendations
-- Integration points and APIs
-- Data flow and storage
-- Deployment architecture
-
-## 11. Acceptance Criteria
-Clear, testable acceptance criteria for each major feature.
-Format: AC-XX: [Criteria description]
-
-## 12. Success Metrics
-Key Performance Indicators (KPIs) to measure product success:
-- User adoption metrics
-- Business impact metrics
-- Technical performance metrics
-- User satisfaction metrics
-
-## 13. Timeline & Milestones
-Suggested development phases:
-- Phase 1: [Scope and timeline]
-- Phase 2: [Scope and timeline]
-- Phase 3: [Scope and timeline]
-Key milestones and dependencies.
-
-## 14. Risks & Mitigation
-| Risk | Impact | Probability | Mitigation Strategy |
-|------|--------|-------------|---------------------|
-| [Risk description] | High/Med/Low | High/Med/Low | [Mitigation approach] |
-
-## 15. Dependencies & Assumptions
-**Dependencies:**
-- External systems/APIs
-- Third-party services
-- Team resources
-
-**Assumptions:**
-- Technical assumptions
-- Business assumptions
-- User behavior assumptions
-
-## 16. Open Questions
-Unresolved questions requiring stakeholder input or further research.
-
----
-
-**Document Footer:**
-*This PRD was generated by the AICOE Multi-Agent Platform using AI-powered analysis.*
-*For questions or feedback, contact the AICOE Product Team.*
-
----
-
-IMPORTANT:
-- Follow this exact structure and section order
-- Use professional, clear language
-- Be specific and actionable
-- Include tables where appropriate
-- Make requirements testable and measurable
-- Return ONLY the Markdown content, no code blocks or explanations"""
+Input Data:
+{context_text}"""
 
             self.log_execution("llm_call", "Generating PRD document")
 
@@ -236,10 +128,10 @@ IMPORTANT:
                         max_tokens=8000  # Increased from 6000 to handle complex PRDs
                     )
 
-                    # Clean markdown if wrapped in code blocks
+                    # Clean XML response
                     prd_content = response.strip()
-                    if prd_content.startswith("```markdown"):
-                        prd_content = prd_content.split("```markdown")[1].split("```")[0].strip()
+                    if prd_content.startswith("```xml"):
+                        prd_content = prd_content.split("```xml")[1].split("```")[0].strip()
                     elif prd_content.startswith("```"):
                         prd_content = prd_content.split("```")[1].split("```")[0].strip()
 
@@ -272,25 +164,17 @@ Generate a complete PRD document following the AICOE template structure."""
             if prd_content is None:
                 raise Exception("Failed to generate PRD after all retry attempts")
 
-            self.log_execution("success", f"Generated PRD ({len(prd_content)} characters)")
-
-            # Generate HTML version with AICOE branding
-            self.log_execution("start", "Generating HTML version")
-            prd_html = self._generate_html(prd_content, project_name)
-            self.log_execution("success", f"Generated HTML ({len(prd_html)} characters)")
+            self.log_execution("success", f"Generated PRD XML ({len(prd_content)} characters)")
 
             return AgentResult(
                 success=True,
                 data={
-                    "prd_markdown": prd_content,
-                    "prd_html": prd_html,
-                    "project_name": project_name,
-                    "length": len(prd_content),
-                    "sections": self._extract_sections(prd_content)
+                    "prd_xml": prd_content,
+                    "project_name": project_name
                 },
                 metadata={
                     "agent": self.config.name,
-                    "format": "markdown+html"
+                    "format": "xml"
                 }
             )
             

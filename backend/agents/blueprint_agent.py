@@ -6,7 +6,7 @@ from .base_agent import BaseAgent, AgentConfig, AgentResult
 import json
 
 
-class RequirementsAgent(BaseAgent):
+class BlueprintAgent(BaseAgent):
     """
     Agent responsible for generating use cases and detailed business requirements
     from structured notes
@@ -14,11 +14,11 @@ class RequirementsAgent(BaseAgent):
     
     def __init__(self, llm_client):
         config = AgentConfig(
-            name="RequirementsAgent",
+            name="BlueprintAgent",
             description="Generates use cases and business requirements",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.5,
-            max_tokens=4000
+            max_tokens=12000
         )
         super().__init__(config, llm_client)
     
@@ -96,7 +96,7 @@ Return ONLY valid JSON without any markdown formatting."""
 
             self.log_execution("llm_call", "Generating use cases and requirements")
             # Use higher max_tokens for complex JSON generation
-            response = await self._call_llm(system_message, user_message, max_tokens=8000)
+            response = await self._call_llm(system_message, user_message, max_tokens=12000)
 
             # Parse JSON response with retry logic
             requirements_data = None
@@ -130,7 +130,7 @@ Make sure all strings are properly terminated and all brackets are closed."""
                         response = await self._call_llm(
                             "You are a JSON repair expert. Fix malformed JSON and return only valid JSON.",
                             repair_prompt,
-                            max_tokens=8000
+                            max_tokens=12000
                         )
                     else:
                         # Final attempt failed

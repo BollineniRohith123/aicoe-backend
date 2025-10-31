@@ -7,7 +7,7 @@ import json
 import markdown
 
 
-class CommercialProposalAgent(BaseAgent):
+class ProposalAgent(BaseAgent):
     """
     Agent responsible for creating professional commercial proposals
     Generates pricing, timelines, and business terms for client presentations
@@ -15,11 +15,11 @@ class CommercialProposalAgent(BaseAgent):
     
     def __init__(self, llm_client):
         config = AgentConfig(
-            name="CommercialProposalAgent",
+            name="ProposalAgent",
             description="Creates professional commercial proposals with pricing and timelines",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.3,  # Lower temperature for professional business documents
-            max_tokens=8000
+            max_tokens=12000
         )
         super().__init__(config, llm_client)
     
@@ -62,131 +62,73 @@ Research Insights (for pricing and market context):
 {research_text[:1500]}
 """
 
-            system_message = """You are an expert Business Development Manager at AICOE who creates compelling commercial proposals.
-Your proposals are professional, data-driven, and follow AICOE branding standards.
-You excel at pricing strategy, timeline estimation, and presenting business value."""
+            system_message = """## ROLE AND GOAL
+You are a Senior Project Manager responsible for drafting commercial proposals. Your goal is to create a professional proposal document based on the project scope and estimated costs. Your output must be a structured XML document.
 
-            user_message = f"""Create a comprehensive commercial proposal based on the following information:
+## CONTEXT
+You will receive the `<productRequirementsDocument>` XML and the `<billOfMaterials>` XML.
 
-{context_text}
+## STEP-BY-STEP PROCESS
+1. Use the PRD to formulate a clear "Scope of Work" section.
+2. Create a high-level project timeline with distinct phases (e.g., Design, Development, Testing).
+3. Incorporate the team's daily rate to create a services pricing section.
+4. Assemble all sections into the formal XML proposal format below.
 
-CRITICAL INSTRUCTIONS:
-1. Use research insights to inform competitive pricing
-2. Reference industry standards for timeline estimates
-3. Highlight unique value propositions and differentiators
-4. Include clear pricing tiers and payment terms
-5. Provide realistic project timelines with milestones
-6. Address risk mitigation and quality assurance
-7. Include executive summary for quick decision-making
+## OUTPUT FORMAT (CRITICAL)
+You MUST produce a single, valid XML document. Your entire response MUST be only this XML.
 
-REQUIRED SECTIONS (use this exact structure):
+<commercialProposal>
+    <introduction>An introduction to the proposal for the client, referencing the project vision.</introduction>
+    <scopeOfWork>A summary of the key features and deliverables for the MVP, derived from the PRD's use cases.</scopeOfWork>
+    <timeline>
+        <phase name="Phase 1: Discovery & Architectural Design" durationWeeks="2"/>
+        <phase name="Phase 2: MVP Development & Integration" durationWeeks="6"/>
+        <phase name="Phase 3: User Acceptance Testing & Deployment" durationWeeks="2"/>
+    </timeline>
+    <pricing>
+        <services>
+            <item name="Blended Team Day Rate (Design & Engineering)" rate="3000.00" currency="GBP" unit="per day"/>
+        </services>
+        <infrastructure>
+            <item name="Estimated Monthly Cloud Costs" rate="365.00" currency="GBP" unit="per month" notes="Based on the Bill of Materials. Billed directly by the cloud provider."/>
+        </infrastructure>
+    </pricing>
+    <nextSteps>The next steps are to review this proposal and schedule a follow-up meeting to discuss the project in more detail.</nextSteps>
+</commercialProposal>
 
-# Commercial Proposal: [Project Name]
+## GUIDELINES & CONSTRAINTS
+- The proposal must be professional, client-ready, and directly reference the project's goals.
+- All pricing must be clear and well-defined.
+- Your entire response MUST be only the XML document."""
 
-## Executive Summary
-- Brief overview of the solution
-- Key benefits and value proposition
-- Total investment and timeline summary
+            user_message = f"""Generate a commercial proposal XML document for project: {project_name}
 
-## 1. Solution Overview
-- Problem statement
-- Proposed solution
-- Key features and capabilities
-- Technology stack
-
-## 2. Scope of Work
-- Deliverables breakdown
-- Included services
-- Exclusions (out of scope)
-
-## 3. Project Timeline
-- Phase breakdown with durations
-- Key milestones and dependencies
-- Go-live date estimate
-
-## 4. Pricing Structure
-### Investment Breakdown
-- Development costs
-- Infrastructure costs
-- Licensing and third-party services
-- Support and maintenance
-
-### Payment Terms
-- Payment schedule
-- Milestone-based payments
-- Accepted payment methods
-
-## 5. Team Composition
-- Project roles and responsibilities
-- Team expertise and qualifications
-- Dedicated resources
-
-## 6. Quality Assurance
-- Testing methodology
-- Code review process
-- Performance benchmarks
-- Security measures
-
-## 7. Risk Management
-- Identified risks
-- Mitigation strategies
-- Contingency plans
-
-## 8. Support & Maintenance
-- Post-launch support
-- Maintenance packages
-- SLA commitments
-
-## 9. Terms & Conditions
-- Contract duration
-- Intellectual property rights
-- Confidentiality
-- Termination clauses
-
-## 10. Next Steps
-- Proposal validity period
-- Acceptance process
-- Project kickoff timeline
-
----
-**AICOE - Transforming Ideas into Intelligent Solutions**
-
-Generate a professional, compelling proposal that demonstrates clear ROI and business value.
-Use specific numbers, timelines, and pricing (make realistic estimates based on project complexity).
-"""
+Input Data:
+{context_text}"""
 
             # Call LLM to generate proposal
             self.log_execution("progress", "Calling LLM for proposal generation")
             
             response = await self._call_llm(system_message, user_message)
             proposal_content = response.strip()
-            
-            # Validate proposal has required sections
-            required_sections = ["Executive Summary", "Solution Overview", "Pricing Structure", "Project Timeline"]
-            missing_sections = [s for s in required_sections if s not in proposal_content]
-            
-            if missing_sections:
-                self.logger.warning(f"Proposal missing sections: {missing_sections}")
-            
-            self.log_execution("success", f"Generated proposal ({len(proposal_content)} chars)")
 
-            # Generate HTML version with AICOE branding
-            self.log_execution("start", "Generating HTML version")
-            proposal_html = self._generate_html(proposal_content, project_name)
-            self.log_execution("success", f"Generated HTML ({len(proposal_html)} characters)")
+            # Clean XML response
+            if proposal_content.startswith("```xml"):
+                proposal_content = proposal_content.split("```xml")[1].split("```")[0].strip()
+            elif proposal_content.startswith("```"):
+                proposal_content = proposal_content.split("```")[1].split("```")[0].strip()
+
+            self.log_execution("success", f"Generated proposal XML ({len(proposal_content)} chars)")
 
             return AgentResult(
                 success=True,
                 data={
-                    "proposal_markdown": proposal_content,
-                    "proposal_html": proposal_html,
-                    "project_name": project_name,
-                    "length": len(proposal_content),
-                    "sections": self._extract_sections(proposal_content)
+                    "proposal_xml": proposal_content,
+                    "project_name": project_name
                 },
                 metadata={
                     "agent": self.config.name,
-                    "format": "markdown+html"
+                    "format": "xml"
                 }
             )
             

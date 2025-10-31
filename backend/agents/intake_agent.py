@@ -6,7 +6,7 @@ from .base_agent import BaseAgent, AgentConfig, AgentResult
 import json
 
 
-class TranscriptAgent(BaseAgent):
+class IntakeAgent(BaseAgent):
     """
     Agent responsible for processing raw transcripts into structured notes
     Extracts: Company profile, attendees, objectives, discussion points, action items
@@ -14,11 +14,11 @@ class TranscriptAgent(BaseAgent):
     
     def __init__(self, llm_client):
         config = AgentConfig(
-            name="TranscriptAgent",
+            name="IntakeAgent",
             description="Processes raw meeting transcripts into structured notes",
             model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.3,  # Lower temperature for factual extraction
-            max_tokens=3000
+            max_tokens=12000
         )
         super().__init__(config, llm_client)
     
