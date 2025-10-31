@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Application - UC001 AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            /* AICOE Primary Colors */
+            --primary-navy: #1a1a2e;
+            --midnight-blue: #2a2a3e;
+            --deep-purple: #3a2a4e;
+
+            /* AICOE Accent Colors */
+            --accent-pink: #ff69b4;
+            --accent-cyan: #00ffcc;
+            --accent-turquoise: #00e5b3;
+            --accent-mint: #00cc99;
+
+            /* Supporting Colors */
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --bg-white: #ffffff;
+            --bg-gray: #f5f5f7;
+            --border-gray: #d2d2d7;
+
+            /* Status Colors */
+            --success-green: #00cc99;
+            --warning-orange: #ff69b4;
+            --danger-red: #ff1493;
+
+            /* Shadows */
+            --shadow: 0 2px 16px rgba(26, 26, 46, 0.08);
+            --shadow-hover: 0 4px 24px rgba(26, 26, 46, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-gray);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--deep-purple) 50%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-pink);
+        }
+
+        .nav-link i {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--deep-purple) 50%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Metadata Grid */
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .metadata-card {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .metadata-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .metadata-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .metadata-content h3 {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .metadata-content p {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Use Cases Section */
+        .use-cases-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .use-case-card {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan));
+        }
+
+        .use-case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .use-case-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-id {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-navy), var(--deep-purple));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: rgba(255, 20, 147, 0.1);
+            color: var(--danger-red);
+        }
+
+        .priority-medium {
+            background: rgba(255, 105, 180, 0.1);
+            color: var(--warning-orange);
+        }
+
+        .use-case-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .use-case-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .use-case-actors {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .view-details-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .view-details-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(255, 105, 180, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border-gray);
+            margin-top: 4rem;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--deep-purple) 50%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metadata-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Printer-Friendly CSS */
+        @media print {
+            nav, .no-print, button, .view-details-btn { 
+                display: none !important; 
+            }
+            
+            body { 
+                font-size: 12pt; 
+                color: #000; 
+                background: #fff; 
+            }
+            
+            * { 
+                box-shadow: none !important; 
+                text-shadow: none !important; 
+            }
+            
+            .page-break { 
+                page-break-before: always; 
+            }
+            
+            h1, h2, h3 { 
+                page-break-after: avoid; 
+            }
+            
+            a[href]:after { 
+                content: " (" attr(href) ")"; 
+            }
+            
+            .use-case-card {
+                page-break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="activity"></i>
+                Fitness Application
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">
+                    <i data-lucide="home"></i>
+                    Home
+                </a>
+                <a href="use-case-1.html" class="nav-link">
+                    <i data-lucide="file-text"></i>
+                    UC-001
+                </a>
+                <a href="use-case-2.html" class="nav-link">
+                    <i data-lucide="file-text"></i>
+                    UC-002
+                </a>
+                <a href="use-case-3.html" class="nav-link">
+                    <i data-lucide="file-text"></i>
+                    UC-003
+                </a>
+                <a href="use-case-4.html" class="nav-link">
+                    <i data-lucide="file-text"></i>
+                    UC-004
+                </a>
+                <a href="use-case-5.html" class="nav-link">
+                    <i data-lucide="file-text"></i>
+                    UC-005
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>Fitness Application</h1>
+            <p class="subtitle">A beginner-friendly fitness journey powered by AI and smart tracking</p>
+        </header>
+
+        <!-- Metadata Grid -->
+        <div class="metadata-grid">
+            <div class="metadata-card">
+                <div class="metadata-icon">
+                    <i data-lucide="calendar"></i>
+                </div>
+                <div class="metadata-content">
+                    <h3>Meeting Date</h3>
+                    <p>January 15, 2025</p>
+                </div>
+            </div>
+            <div class="metadata-card">
+                <div class="metadata-icon">
+                    <i data-lucide="users"></i>
+                </div>
+                <div class="metadata-content">
+                    <h3>Team</h3>
+                    <p>Sarah, Mike, Jessica, Tom</p>
+                </div>
+            </div>
+            <div class="metadata-card">
+                <div class="metadata-icon">
+                    <i data-lucide="target"></i>
+                </div>
+                <div class="metadata-content">
+                    <h3>Target Audience</h3>
+                    <p>Fitness Beginners 25-45</p>
+                </div>
+            </div>
+            <div class="metadata-card">
+                <div class="metadata-icon">
+                    <i data-lucide="clock"></i>
+                </div>
+                <div class="metadata-content">
+                    <h3>Timeline</h3>
+                    <p>6-8 Months</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Use Cases Section -->
+        <section class="use-cases-section">
+            <h2 class="section-title">Use Cases</h2>
+            <div class="use-cases-grid">
+                <!-- Use Case 1 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-001</span>
+                        <span class="priority-badge priority-high">High</span>
+                    </div>
+                    <h3 class="use-case-title">Complete a Guided Workout Plan</h3>
+                    <p class="use-case-description">A fitness beginner selects and follows a pre-made workout plan to build a consistent exercise habit with instant feedback and gamification rewards.</p>
+                    <div class="use-case-actors">
+                        <i data-lucide="user"></i>
+                        <span>Registered User (Beginner)</span>
+                    </div>
+                    <a href="use-case-1.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Use Case 2 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-002</span>
+                        <span class="priority-badge priority-high">High</span>
+                    </div>
+                    <h3 class="use-case-title">Log a Meal Using AI Photo Analysis</h3>
+                    <p class="use-case-description">Track nutritional intake by taking a photo of your meal. AI analyzes the image to identify food items and estimate nutritional information.</p>
+                    <div class="use-case-actors">
+                        <i data-lucide="user"></i>
+                        <span>Registered User (Beginner)</span>
+                    </div>
+                    <a href="use-case-2.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Use Case 3 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-003</span>
+                        <span class="priority-badge priority-high">High</span>
+                    </div>
+                    <h3 class="use-case-title">Visualize Fitness Journey and Progress</h3>
+                    <p class="use-case-description">View overall fitness progress through intuitive visualizations including journey maps, progress charts, and achievement badges.</p>
+                    <div class="use-case-actors">
+                        <i data-lucide="user"></i>
+                        <span>Registered User (Beginner)</span>
+                    </div>
+                    <a href="use-case-3.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Use Case 4 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-004</span>
+                        <span class="priority-badge priority-medium">Medium</span>
+                    </div>
+                    <h3 class="use-case-title">Synchronize Data with Third-Party Health Platforms</h3>
+                    <p class="use-case-description">Connect your account to Apple Health or Google Fit for seamless data synchronization and centralized health tracking.</p>
+                    <div class="use-case-actors">
+                        <i data-lucide="user"></i>
+                        <span>Registered User (Beginner)</span>
+                    </div>
+                    <a href="use-case-4.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Use Case 5 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-005</span>
+                        <span class="priority-badge priority-high">High</span>
+                    </div>
+                    <h3 class="use-case-title">Onboard as a New Beginner User</h3>
+                    <p class="use-case-description">A simple, welcoming onboarding process that collects essential information and sets up new users with a recommended starter plan.</p>
+                    <div class="use-case-actors">
+                        <i data-lucide="user-plus"></i>
+                        <span>New User</span>
+                    </div>
+                    <a href="use-case-5.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">
+            <i data-lucide="zap"></i>
+            UC001 AICOE
+        </div>
+        <p class="footer-text">Powered by AICOE Multi-Agent Platform</p>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

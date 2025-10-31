@@ -1,0 +1,72 @@
+{
+  "project_name": "E-Commerce Platform",
+  "workflow_id": "workflow_20251029_070723",
+  "status": "failed",
+  "error": "Critical stage requirements failed: JSON parsing failed: Unterminated string starting at: line 78 column 13 (char 3921)",
+  "context": {
+    "project_name": "E-Commerce Platform",
+    "workflow_id": "workflow_20251029_070723",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T07:07:23.354962",
+    "end_time": "2025-10-29T07:09:00.401498",
+    "status": "failed",
+    "error": "Critical stage requirements failed: JSON parsing failed: Unterminated string starting at: line 78 column 13 (char 3921)"
+  },
+  "results": {
+    "storage": {
+      "project_name": "E-Commerce Platform",
+      "project_root": "projects/E-Commerce Platform",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T07:07:23.361630",
+        "action": "project_created",
+        "project_name": "E-Commerce Platform",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": null,
+        "attendees": [],
+        "meeting_date": "Not specified",
+        "meeting_objective": "To build a modern e-commerce platform.",
+        "key_discussion_points": [
+          "Product catalog",
+          "Shopping cart",
+          "Checkout",
+          "Payment integration",
+          "Order management",
+          "Customer reviews"
+        ],
+        "pain_points": [],
+        "requirements": [
+          "Product catalog",
+          "Shopping cart",
+          "Checkout",
+          "Payment integration",
+          "Order management",
+          "Customer reviews"
+        ],
+        "decisions_made": [],
+        "action_items": [],
+        "technical_constraints": [],
+        "stakeholders": []
+      },
+      "project_name": "E-Commerce Platform",
+      "transcript_length": 153
+    }
+  }
+}

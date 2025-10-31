@@ -1,0 +1,256 @@
+{
+  "project_name": "AI-Powered Task Management System",
+  "workflow_id": "workflow_20251028_195554",
+  "status": "failed",
+  "error": "Database objects do not implement truth value testing or bool(). Please compare with None instead: database is not None",
+  "context": {
+    "project_name": "AI-Powered Task Management System",
+    "workflow_id": "workflow_20251028_195554",
+    "workflow_type": "full",
+    "start_time": "2025-10-28T19:55:54.366261",
+    "end_time": "2025-10-28T19:58:44.083069",
+    "status": "failed",
+    "error": "Database objects do not implement truth value testing or bool(). Please compare with None instead: database is not None"
+  },
+  "results": {
+    "transcript": {
+      "structured_notes": {
+        "company_overview": "Not specified",
+        "attendees": [
+          "Sarah (Product Manager)",
+          "John (Tech Lead)",
+          "Mike (Designer)"
+        ],
+        "meeting_date": "October 28, 2025",
+        "meeting_objective": "Plan the new AI-powered task management system to help teams organize their work more efficiently using AI.",
+        "key_discussion_points": [
+          "Core features including natural language task creation, smart task prioritization, and AI-powered task breakdown suggestions.",
+          "Design requirements including a clean, intuitive interface with kanban board, list view, and calendar view.",
+          "Real-time collaboration features and notifications for task assignments and due dates.",
+          "Mobile support with responsive design and potential native mobile apps.",
+          "Tech stack proposal: React for frontend, Node.js with Express for backend, and PostgreSQL for the database."
+        ],
+        "pain_points": [
+          "Need for natural language processing capabilities.",
+          "Requirement for real-time collaboration features."
+        ],
+        "requirements": [
+          "Natural language task creation using LLM integration.",
+          "Smart task prioritization based on deadlines, dependencies, and user preferences.",
+          "AI-powered suggestions for task breakdown.",
+          "Responsive design for desktop, tablet, and mobile.",
+          "User authentication with email/password and social login options."
+        ],
+        "decisions_made": [
+          "Prioritize core features for beta launch in 3 months: task creation, AI parsing, kanban board, and basic collaboration.",
+          "Tech stack will include React, Node.js with Express, and PostgreSQL."
+        ],
+        "action_items": [
+          "John to start working on the backend architecture and database schema.",
+          "Mike to create wireframes and design mockups for the main interfaces.",
+          "Reconvene next week to review progress."
+        ],
+        "technical_constraints": [
+          "Need for integration with LLM for natural language processing."
+        ],
+        "stakeholders": [
+          "Sarah (Product Manager)",
+          "John (Tech Lead)",
+          "Mike (Designer)"
+        ]
+      },
+      "project_name": "AI-Powered Task Management System",
+      "transcript_length": 3662
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "Natural Language Task Creation",
+          "description": "Enable users to create tasks using natural language input, which will be parsed by the system to generate structured tasks.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User is authenticated and logged into the system."
+          ],
+          "main_flow": [
+            "User accesses the task creation interface.",
+            "User inputs a task description in natural language.",
+            "System parses the input using LLM integration.",
+            "System displays the structured task details for confirmation.",
+            "User confirms and saves the task."
+          ],
+          "alternate_flows": [
+            {
+              "description": "If the system fails to parse the input",
+              "steps": [
+                "System prompts the user to refine the input.",
+                "User modifies the input and resubmits."
+              ]
+            }
+          ],
+          "postconditions": [
+            "Task is created and stored in the system."
+          ],
+          "priority": "high",
+          "business_value": "Streamlines task creation, saving time and improving user experience."
+        },
+        {
+          "id": "UC-002",
+          "title": "Smart Task Prioritization",
+          "description": "Automatically prioritize tasks based on deadlines, dependencies, and user preferences.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User has existing tasks in the system."
+          ],
+          "main_flow": [
+            "User accesses the task list.",
+            "System analyzes tasks based on predefined criteria.",
+            "System displays tasks sorted by priority."
+          ],
+          "alternate_flows": [],
+          "postconditions": [
+            "Tasks are prioritized and displayed to the user."
+          ],
+          "priority": "high",
+          "business_value": "Helps users focus on the most important tasks, enhancing productivity."
+        },
+        {
+          "id": "UC-003",
+          "title": "AI-Powered Task Breakdown Suggestions",
+          "description": "Provide users with AI-generated suggestions for breaking down complex tasks into smaller, manageable subtasks.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User is viewing a complex task."
+          ],
+          "main_flow": [
+            "User selects a task for breakdown.",
+            "System analyzes the task using AI algorithms.",
+            "System presents suggested subtasks to the user.",
+            "User reviews and accepts or modifies the suggestions."
+          ],
+          "alternate_flows": [],
+          "postconditions": [
+            "Task is broken down into subtasks, if accepted by the user."
+          ],
+          "priority": "medium",
+          "business_value": "Assists users in managing complex tasks more effectively."
+        },
+        {
+          "id": "UC-004",
+          "title": "Responsive Design Implementation",
+          "description": "Ensure the task management system is accessible and functional across desktop, tablet, and mobile devices.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [],
+          "main_flow": [
+            "User accesses the system from a device.",
+            "System detects the device type and adjusts the interface accordingly.",
+            "User interacts with the system using the optimized interface."
+          ],
+          "alternate_flows": [],
+          "postconditions": [
+            "User experiences a seamless interface across different devices."
+          ],
+          "priority": "high",
+          "business_value": "Increases accessibility and usability, catering to a wider audience."
+        },
+        {
+          "id": "UC-005",
+          "title": "User Authentication",
+          "description": "Allow users to authenticate using email/password or social login options.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [],
+          "main_flow": [
+            "User navigates to the login page.",
+            "User selects authentication method (email/password or social login).",
+            "System authenticates the user.",
+            "User gains access to the system."
+          ],
+          "alternate_flows": [
+            {
+              "description": "Authentication fails",
+              "steps": [
+                "System prompts the user to retry or reset password.",
+                "User attempts authentication again."
+              ]
+            }
+          ],
+          "postconditions": [
+            "User is authenticated and can access system features."
+          ],
+          "priority": "high",
+          "business_value": "Ensures secure access to the system, protecting user data."
+        }
+      ],
+      "business_requirements": {
+        "overview": "Development of an AI-powered task management system to enhance team productivity through efficient task organization and management features.",
+        "business_goals": [
+          "Increase user productivity by automating task management processes.",
+          "Enhance collaboration through real-time features.",
+          "Expand market reach by providing a responsive design."
+        ],
+        "success_criteria": [
+          "Successful beta launch within 3 months.",
+          "User satisfaction rating of 4.5/5 or higher.",
+          "Increase in user engagement metrics by 30% within the first 6 months."
+        ],
+        "constraints": [
+          "Integration with LLM for natural language processing.",
+          "Use of specified tech stack (React, Node.js, PostgreSQL)."
+        ],
+        "assumptions": [
+          "Users are familiar with basic task management concepts.",
+          "LLM integration will be feasible within the project timeline."
+        ],
+        "risks": [
+          {
+            "risk": "Delays in LLM integration",
+            "mitigation": "Identify alternative NLP solutions as a backup."
+          },
+          {
+            "risk": "User resistance to AI features",
+            "mitigation": "Conduct user training and provide detailed documentation."
+          }
+        ]
+      },
+      "project_name": "AI-Powered Task Management System"
+    },
+    "prd": {
+      "prd_markdown": "# AI-Powered Task Management System - Product Requirements Document\n\n## 1. Executive Summary\nThe AI-Powered Task Management System is designed to revolutionize how teams organize their work by leveraging artificial intelligence. This system will enable users to create tasks using natural language, prioritize them intelligently, and receive AI-driven suggestions for task breakdown. With a focus on enhancing productivity and collaboration, this product aims to provide a seamless user experience across multiple devices.\n\n## 2. Goals & Objectives\n- **Increase user productivity** by automating task management processes.\n- **Enhance collaboration** through real-time features.\n- **Expand market reach** by providing a responsive design.\n- Achieve a **successful beta launch** within 3 months.\n- Attain a **user satisfaction rating** of 4.5/5 or higher.\n- Boost **user engagement metrics** by 30% within the first 6 months.\n\n## 3. Problem Statement\nTeams often struggle with efficiently organizing and managing tasks, leading to decreased productivity and collaboration. The lack of intelligent task management tools that leverage AI to automate and simplify these processes is a significant pain point for many users.\n\n## 4. User Personas & Stakeholders\n- **User Personas:**\n  - **Project Manager:** Needs to efficiently assign and track tasks across teams.\n  - **Team Member:** Requires an easy way to manage personal tasks and collaborate with others.\n  - **Executive:** Seeks high-level overviews of project progress and team productivity.\n- **Stakeholders:**\n  - Sarah (Product Manager)\n  - John (Tech Lead)\n  - Mike (Designer)\n\n## 5. Features & User Stories\n- **Natural Language Task Creation:** As a user, I want to create tasks using natural language input so that I can save time and improve efficiency.\n- **Smart Task Prioritization:** As a user, I want my tasks to be automatically prioritized based on deadlines and dependencies to focus on what matters most.\n- **AI-Powered Task Breakdown:** As a user, I want AI suggestions for breaking down complex tasks into subtasks to manage them more effectively.\n- **Responsive Design:** As a user, I want a seamless experience across devices to access my tasks anytime, anywhere.\n- **User Authentication:** As a user, I want secure access to the system using email/password or social login.\n\n## 6. Use Cases\n### UC-001: Natural Language Task Creation\n- **Description:** Enable users to create tasks using natural language input.\n- **Actors:** User\n- **Main Flow:**\n  1. User accesses the task creation interface.\n  2. User inputs a task description in natural language.\n  3. System parses the input using LLM integration.\n  4. System displays the structured task details for confirmation.\n  5. User confirms and saves the task.\n- **Alternate Flow:** If parsing fails, the system prompts the user to refine the input.\n- **Priority:** High\n\n### UC-002: Smart Task Prioritization\n- **Description:** Automatically prioritize tasks based on deadlines, dependencies, and user preferences.\n- **Actors:** User\n- **Main Flow:**\n  1. User accesses the task list.\n  2. System analyzes tasks based on predefined criteria.\n  3. System displays tasks sorted by priority.\n- **Priority:** High\n\n### UC-003: AI-Powered Task Breakdown Suggestions\n- **Description:** Provide AI-generated suggestions for breaking down complex tasks.\n- **Actors:** User\n- **Main Flow:**\n  1. User selects a task for breakdown.\n  2. System analyzes the task using AI algorithms.\n  3. System presents suggested subtasks to the user.\n  4. User reviews and accepts or modifies the suggestions.\n- **Priority:** Medium\n\n### UC-004: Responsive Design Implementation\n- **Description:** Ensure accessibility and functionality across devices.\n- **Actors:** User\n- **Main Flow:**\n  1. User accesses the system from a device.\n  2. System detects the device type and adjusts the interface.\n  3. User interacts with the optimized interface.\n- **Priority:** High\n\n### UC-005: User Authentication\n- **Description:** Allow users to authenticate using email/password or social login.\n- **Actors:** User\n- **Main Flow:**\n  1. User navigates to the login page.\n  2. User selects authentication method.\n  3. System authenticates the user.\n  4. User gains access to the system.\n- **Alternate Flow:** If authentication fails, the system prompts the user to retry or reset the password.\n- **Priority:** High\n\n## 7. Functional Requirements\n- Implement natural language processing for task creation.\n- Develop algorithms for smart task prioritization.\n- Integrate AI for task breakdown suggestions.\n- Ensure responsive design across desktop, tablet, and mobile.\n- Provide secure user authentication options.\n\n## 8. Non-Functional Requirements\n- **Performance:** System should handle up to 10,000 concurrent users with minimal latency.\n- **Scalability:** Easily scalable to accommodate future growth.\n- **Security:** Ensure data protection and secure user authentication.\n- **Usability:** Intuitive and user-friendly interface.\n\n## 9. Technical Architecture\n- **Frontend:** React\n- **Backend:** Node.js with Express\n- **Database:** PostgreSQL\n- **Integration:** LLM for natural language processing\n\n## 10. Acceptance Criteria\n- Successful task creation using natural language input.\n- Tasks are prioritized and displayed correctly.\n- AI suggestions for task breakdown are accurate and useful.\n- Responsive design is functional across all devices.\n- User authentication is secure and reliable.\n\n## 11. Success Metrics\n- User satisfaction rating of 4.5/5 or higher.\n- Increase in user engagement metrics by 30% within the first 6 months.\n- Successful beta launch within 3 months.\n\n## 12. Timeline & Milestones\n- **Month 1:** Backend architecture and database schema setup.\n- **Month 2:** Frontend development and integration of core features.\n- **Month 3:** Testing, bug fixing, and beta launch.\n\n## 13. Risks & Mitigation\n- **Delays in LLM integration:** Identify alternative NLP solutions as a backup.\n- **User resistance to AI features:** Conduct user training and provide detailed documentation.\n\n## 14. Dependencies & Assumptions\n- Dependence on LLM integration for natural language processing.\n- Assumption that users are familiar with basic task management concepts.\n\n## 15. Open Questions\n- What specific NLP provider will be used for LLM integration?\n- Are there any additional compliance or regulatory requirements to consider?\n\nThis document outlines the comprehensive requirements for developing an AI-powered task management system, ensuring clarity and direction for the project team.",
+      "project_name": "AI-Powered Task Management System",
+      "length": 6588,
+      "sections": [
+        "1. Executive Summary",
+        "2. Goals & Objectives",
+        "3. Problem Statement",
+        "4. User Personas & Stakeholders",
+        "5. Features & User Stories",
+        "6. Use Cases",
+        "7. Functional Requirements",
+        "8. Non-Functional Requirements",
+        "9. Technical Architecture",
+        "10. Acceptance Criteria",
+        "11. Success Metrics",
+        "12. Timeline & Milestones",
+        "13. Risks & Mitigation",
+        "14. Dependencies & Assumptions",
+        "15. Open Questions"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>AI-Powered Task Management System</title>\n    <style>\n        body {\n            margin: 0;\n            font-family: -apple-system, BlinkMacSystemFont, sans-serif;\n            color: #1d1d1f;\n            background-color: #ffffff;\n            line-height: 1.6;\n        }\n        header {\n            position: sticky;\n            top: 0;\n            background-color: #ffffff;\n            padding: 1rem 2rem;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n            z-index: 1000;\n        }\n        nav {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n        nav a {\n            text-decoration: none;\n            color: #0066cc;\n            margin-left: 1rem;\n            font-weight: 500;\n        }\n        .hero {\n            padding: 3rem 2rem;\n            text-align: center;\n            background-color: #f5f5f7;\n        }\n        .hero h1 {\n            font-size: 2.5rem;\n            margin-bottom: 1rem;\n        }\n        .hero p {\n            font-size: 1.25rem;\n            color: #6e6e73;\n        }\n        .features {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n            padding: 2rem;\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n        .feature {\n            background-color: #ffffff;\n            border-radius: 8px;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n            padding: 1.5rem;\n            transition: transform 0.3s ease, box-shadow 0.3s ease;\n        }\n        .feature:hover {\n            transform: translateY(-5px);\n            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n        }\n        .feature h3 {\n            color: #0066cc;\n            margin-bottom: 0.5rem;\n        }\n        .feature p {\n            color: #6e6e73;\n            margin-bottom: 1rem;\n        }\n        footer {\n            background-color: #f5f5f7;\n            text-align: center;\n            padding: 2rem;\n            color: #6e6e73;\n        }\n        @media print {\n            header, footer {\n                display: none;\n            }\n        }\n    </style>\n</head>\n<body>\n    <header>\n        <nav>\n            <div><strong>AI Task Manager</strong></div>\n            <div>\n                <a href=\"#features\">Features</a>\n                <a href=\"#contact\">Contact</a>\n            </div>\n        </nav>\n    </header>\n    <section class=\"hero\">\n        <h1>AI-Powered Task Management System</h1>\n        <p>Organize your work more efficiently using AI.</p>\n    </section>\n    <section id=\"features\" class=\"features\">\n        <div class=\"feature\">\n            <h3>Natural Language Task Creation</h3>\n            <p>Create tasks using natural language input, parsed by AI to generate structured tasks.</p>\n        </div>\n        <div class=\"feature\">\n            <h3>Smart Task Prioritization</h3>\n            <p>Automatically prioritize tasks based on deadlines, dependencies, and preferences.</p>\n        </div>\n        <div class=\"feature\">\n            <h3>AI-Powered Task Breakdown</h3>\n            <p>Receive AI-generated suggestions for breaking down complex tasks into manageable subtasks.</p>\n        </div>\n        <div class=\"feature\">\n            <h3>Responsive Design</h3>\n            <p>Experience a seamless interface across desktop, tablet, and mobile devices.</p>\n        </div>\n        <div class=\"feature\">\n            <h3>User Authentication</h3>\n            <p>Secure access with email/password or social login options.</p>\n        </div>\n    </section>\n    <footer>\n        <p>&copy; 2025 AI Task Manager. All rights reserved.</p>\n        <p>Contact us: info@aitaskmanager.com</p>\n    </footer>\n</body>\n</html>",
+      "project_name": "AI-Powered Task Management System",
+      "length": 3893,
+      "has_doctype": true
+    }
+  }
+}

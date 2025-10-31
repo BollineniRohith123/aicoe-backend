@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-001: Complete a Guided Workout Plan | UC001 AICOE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary-navy: #1a1f3a;
+            --primary-navy-light: #2a3456;
+            --accent-pink: #ff4d7d;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #7c3aed;
+            --text-primary: #1a1f3a;
+            --text-secondary: #64748b;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header Navigation */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .nav-brand:hover {
+            color: var(--accent-purple);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-secondary);
+            color: var(--accent-purple);
+        }
+
+        /* Main Content */
+        main {
+            padding: 48px 0;
+        }
+
+        .use-case-header {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-cyan));
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(100px, -100px);
+        }
+
+        .use-case-meta {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .meta-tag.priority-high {
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            color: white;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 48px;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .use-case-description {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 900px;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            border-radius: 16px;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Accordion */
+        .accordion {
+            margin-bottom: 24px;
+        }
+
+        .accordion-item {
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .accordion-header {
+            padding: 20px 24px;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(255, 77, 125, 0.1));
+        }
+
+        .accordion-header.active {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: white;
+        }
+
+        .accordion-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-content.active {
+            max-height: 1000px;
+        }
+
+        .accordion-body {
+            padding: 24px;
+        }
+
+        /* Lists */
+        .styled-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .styled-list li {
+            padding: 12px 0;
+            padding-left: 32px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .styled-list li:last-child {
+            border-bottom: none;
+        }
+
+        .styled-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20px;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            border-radius: 50%;
+        }
+
+        /* Flow Steps */
+        .flow-step {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        /* Footer Navigation */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 32px 0;
+            margin-top: 48px;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .page-indicator {
+            text-align: center;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            header, footer {
+                display: none;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid var(--border-color);
+                break-inside: avoid;
+            }
+
+            .gradient-text {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gradient-text {
+                font-size: 32px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .use-case-header {
+                padding: 24px;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="nav-brand">
+                <i data-lucide="layers"></i>
+                UC001 AICOE
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">
+                    <i data-lucide="home"></i>
+                    Back to Home
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="use-case-header">
+            <div class="use-case-meta">
+                <span class="meta-tag">
+                    <i data-lucide="hash"></i>
+                    UC-001
+                </span>
+                <span class="meta-tag">
+                    <i data-lucide="dumbbell"></i>
+                    Fitness Application
+                </span>
+                <span class="meta-tag">
+                    <i data-lucide="file-text"></i>
+                    Page 1 of 5
+                </span>
+                <span class="meta-tag priority-high">
+                    <i data-lucide="flag"></i>
+                    High Priority
+                </span>
+            </div>
+            <h1 class="gradient-text">Complete a Guided Workout Plan</h1>
+            <p class="use-case-description">
+                A fitness beginner selects and follows a pre-made workout plan, such as a '30-Day Challenge', to build a consistent exercise habit. The use case covers starting a workout, viewing exercise demonstrations, logging sets and reps, and receiving instant feedback and gamification rewards. This directly addresses the user pain point of feeling intimidated by complex apps, a key differentiator from competitors like MyFitnessPal.
+            </p>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <h2 class="card-title">Actors</h2>
+                </div>
+                <ul class="styled-list">
+                    <li>Registered User (Beginner)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+                    <h2 class="card-title">Preconditions</h2>
+                </div>
+                <ul class="styled-list">
+                    <li>User has downloaded and installed the application.</li>
+                    <li>User has completed the onboarding process.</li>
+                    <li>User has selected a pre-made workout plan from the library.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i data-lucide="play-circle"></i>
+                </div>
+                <h2 class="card-title">Main Flow</h2>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header active" onclick="toggleAccordion(this)">
+                        <span class="accordion-title">View Workout Steps</span>
+                        <i class="accordion-icon" data-lucide="chevron-down"></i>
+                    </div>
+                    <div class="accordion-content active">
+                        <div class="accordion-body">
+                            <div class="flow-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    User opens the app and navigates to the 'Today's Workout' section on the dashboard.
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    The app displays the scheduled workout for the day (e.g., 'Day 5: Upper Body').
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    User taps 'Start Workout'.
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    The app presents the first exercise (e.g., 'Push-ups').
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    User taps on the exercise image/GIF to view a visual demonstration of proper form, adhering to the MVP's cost-effective content strategy.
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">6</div>
+                                <div class="step-content">
+                                    User performs the exercise and taps the 'Log Set' button.
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">7</div>
+                                <div class="step-content">
+                                    User inputs the number of reps completed (and weight, if applicable).
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">8</div>
+                                <div class="step-content">
+                                    The app records the set and starts an automatic rest timer.
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">9</div>
+                                <div class="step-content">
+                                    User repeats steps 5-8 for all prescribed sets of the exercise.
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">10</div>
+                                <div class="step-content">
+                                    The app automatically advances to the next exercise in the workout.
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">11</div>
+                                <div class="step-content">
+                                    User completes all exercises in the session.
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">12</div>
+                                <div class="step-content">
+                                    Upon completion, the app displays a 'Workout Complete' summary screen showing total duration, exercises completed, and volume lifted.
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">13</div>
+                                <div class="step-content">
+                                    The app awards the user with a badge or achievement (e.g., '3-Day Streak!') to leverage gamification for retention.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i data-lucide="git-branch"></i>
+                </div>
+                <h2 class="card-title">Alternate Flows</h2>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="accordion-title">User Cannot Complete an Exercise</span>
+                        <i class="accordion-icon" data-lucide="chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <p>If a user finds an exercise too difficult, they can tap a 'Modify' or 'Skip' option. The app will suggest an easier alternative or allow the user to proceed to the next exercise, ensuring the user does not quit the entire workout.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="accordion-title">Interrupted Workout</span>
+                        <i class="accordion-icon" data-lucide="chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <p>If the user closes the app or receives a call mid-workout, the app saves the current progress locally. Upon returning, the app prompts the user to 'Resume Workout' from the last completed set.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="check-circle"></i>
+                    </div>
+                    <h2 class="card-title">Postconditions</h2>
+                </div>
+                <ul class="styled-list">
+                    <li>The workout session is logged in the user's history.</li>
+                    <li>The user's progress towards their plan goal is updated.</li>
+                    <li>The user's progress visualizations (e.g., journey map) are updated.</li>
+                    <li>Any applicable achievements or badges are unlocked and added to the user's profile.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <h2 class="card-title">Business Value</h2>
+                </div>
+                <p style="color: var(--text-secondary); line-height: 1.8;">
+                    This is the core value proposition of the application, driving primary user engagement and retention. By providing a guided, simple, and non-intimidating experience, it directly targets the identified market gap and serves as the main hook for user acquisition.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <nav class="container footer-nav">
+            <a href="use-case-0.html" class="nav-button">
+                <i data-lucide="arrow-left"></i>
+                Previous
+            </a>
+            <div class="page-indicator">
+                Page 1 of 5
+            </div>
+            <a href="use-case-2.html" class="nav-button">
+                Next
+                <i data-lucide="arrow-right"></i>
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const allHeaders = document.querySelectorAll('.accordion-header');
+            const allContents = document.querySelectorAll('.accordion-content');
+
+            // Close all other accordions
+            allHeaders.forEach(h => {
+                if (h !== header) {
+                    h.classList.remove('active');
+                }
+            });
+            allContents.forEach(c => {
+                if (c !== content) {
+                    c.classList.remove('active');
+                }
+            });
+
+            // Toggle current accordion
+            header.classList.toggle('active');
+            content.classList.toggle('active');
+
+            // Reinitialize icons for rotation animation
+            lucide.createIcons();
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add page load animation
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

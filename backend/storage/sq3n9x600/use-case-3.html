@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Case UC-003 - Fitness Tracking App | AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066CC;
+            --primary-dark: #0052A3;
+            --primary-light: #E6F2FF;
+            --secondary: #00C896;
+            --accent: #FF6B35;
+            --text-primary: #1D1D1F;
+            --text-secondary: #6E6E73;
+            --text-tertiary: #8E8E93;
+            --background: #FFFFFF;
+            --surface: #F5F5F7;
+            --border: #D2D2D7;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #F5F5F7 0%, #E8E8ED 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: var(--background);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .brand-text h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .brand-text p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-link.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .nav-link.primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .use-case-header {
+            background: var(--background);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border-left: 4px solid var(--primary);
+        }
+
+        .use-case-id {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 0.375rem 0.875rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .use-case-description {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        .tabs-container {
+            background: var(--background);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .tabs-header {
+            display: flex;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: rgba(0, 102, 204, 0.05);
+            color: var(--text-primary);
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            background: var(--background);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            padding: 2rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .list-item:hover {
+            background: var(--primary-light);
+            transform: translateX(4px);
+        }
+
+        .list-icon {
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .list-content {
+            flex: 1;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -16px;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            background: var(--surface);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--secondary);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.high {
+            background: var(--accent);
+        }
+
+        .value-card {
+            background: linear-gradient(135deg, var(--primary-light) 0%, rgba(0, 102, 204, 0.05) 100%);
+            border: 1px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+        }
+
+        .value-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .accordion {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            background: var(--surface);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .accordion-header:hover {
+            background: var(--primary-light);
+        }
+
+        .accordion-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .accordion-icon {
+            transition: transform 0.2s ease;
+        }
+
+        .accordion.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion.open .accordion-content {
+            max-height: 500px;
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+            background: var(--background);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .use-case-title {
+                font-size: 1.5rem;
+            }
+
+            .tabs-header {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
+
+            .flow-step:not(:last-child)::after {
+                left: 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .tabs-header {
+                display: none;
+            }
+
+            .tab-content {
+                display: block !important;
+                page-break-inside: avoid;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="brand">
+                    <div class="brand-logo">A</div>
+                    <div class="brand-text">
+                        <h1>AICOE Design System</h1>
+                        <p>Fitness Tracking App - Use Case Documentation</p>
+                    </div>
+                </div>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+                        Back to Home
+                    </a>
+                    <a href="use-case-2.html" class="nav-link">
+                        <i data-lucide="chevron-left" style="width: 16px; height: 16px;"></i>
+                        Previous
+                    </a>
+                    <a href="use-case-4.html" class="nav-link primary">
+                        Next
+                        <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="use-case-header">
+                <div class="use-case-id">
+                    <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+                    UC-003
+                </div>
+                <h2 class="use-case-title">View Personal Progress and Achievements</h2>
+                <p class="use-case-description">
+                    The user accesses their personal dashboard to visualize their fitness journey over time through charts, statistics, and earned achievements. This feature is designed to motivate beginners by providing clear, positive reinforcement.
+                </p>
+            </div>
+
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" onclick="switchTab('overview')">
+                        <i data-lucide="eye" style="width: 16px; height: 16px;"></i>
+                        Overview
+                    </button>
+                    <button class="tab-button" onclick="switchTab('flow')">
+                        <i data-lucide="git-branch" style="width: 16px; height: 16px;"></i>
+                        User Flow
+                    </button>
+                    <button class="tab-button" onclick="switchTab('details')">
+                        <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+                        Details
+                    </button>
+                    <button class="tab-button" onclick="switchTab('value')">
+                        <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+                        Business Value
+                    </button>
+                </div>
+
+                <div id="overview" class="tab-content active">
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="users" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Actors</h3>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="user" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                <strong>User (Fitness Beginner)</strong> - New to fitness tracking, needs motivation and visual feedback
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Preconditions</h3>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="shield-check" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                User is logged into the application
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="activity" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                User has logged at least one workout or meal
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="flag" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Postconditions</h3>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="bar-chart-2" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                The user has a clear understanding of their progress and current status
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="smile" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                The user feels motivated by visualized data and achievements
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="zap" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Priority</h3>
+                        </div>
+                        <span class="badge high">
+                            <i data-lucide="alert-circle" style="width: 12px; height: 12px;"></i>
+                            High Priority
+                        </span>
+                    </div>
+                </div>
+
+                <div id="flow" class="tab-content">
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Main Flow</h3>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                User navigates to the 'Progress' tab from the main navigation
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                System displays the main progress dashboard
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                System presents key metrics at the top: 'Current Streak', 'Total Workouts', 'Workouts This Month'
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                System displays a graph showing 'Workout Frequency' over the last 4 weeks
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                User scrolls down to see a graph of 'Body Weight' progress (if user has logged weight)
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">6</div>
+                            <div class="step-content">
+                                User scrolls down to the 'Achievements' section
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">7</div>
+                            <div class="step-content">
+                                System displays a grid of locked and unlocked badges (e.g., 'First Workout', '7-Day Streak', 'Early Bird')
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">8</div>
+                            <div class="step-content">
+                                User taps on a locked badge to see the criteria for unlocking it
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">9</div>
+                            <div class="step-content">
+                                User taps on an unlocked badge to see the date it was earned
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">10</div>
+                            <div class="step-content">
+                                System navigates to a dedicated 'Analytics' screen (Premium Feature)
+                            </div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="step-number">11</div>
+                            <div class="step-content">
+                                System displays a prompt to 'Upgrade to Premium' to see detailed analytics like personal record progression, muscle group breakdown, and nutrition trends
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="git-branch" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Alternate Flows</h3>
+                        </div>
+                        
+                        <div class="accordion">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span class="accordion-title">No Data Available</span>
+                                <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    If the user is new and has no data, the dashboard displays an encouraging message like 'Your journey starts now! Log your first workout to see your progress here.'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="details" class="tab-content">
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="file-text" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Use Case Summary</h3>
+                        </div>
+                        <div style="background: var(--surface); padding: 1.5rem; border-radius: var(--radius-md);">
+                            <p style="margin-bottom: 1rem;">
+                                This use case focuses on providing users with a comprehensive view of their fitness progress through visualizations and gamification elements. The feature is designed to motivate beginners by showing tangible results and celebrating milestones.
+                            </p>
+                            <p>
+                                The dashboard combines quantitative data (workout frequency, body weight) with qualitative achievements (badges, streaks) to create a holistic progress tracking experience.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="target" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Key Features</h3>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="trending-up" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                <strong>Progress Visualization</strong> - Interactive charts showing workout frequency and body weight trends
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="award" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                <strong>Achievement System</strong> - Gamified badges and milestones to encourage consistent usage
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="zap" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                <strong>Streak Tracking</strong> - Visual representation of consecutive workout days
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="crown" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                <strong>Premium Analytics</strong> - Advanced insights available with premium subscription
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="users" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Target User</h3>
+                        </div>
+                        <div style="background: var(--primary-light); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--primary);">
+                            <p style="margin-bottom: 0.5rem;">
+                                <strong>Fitness Beginners</strong> who need motivation and visual feedback to maintain their fitness journey.
+                            </p>
+                            <p style="margin-bottom: 0;">
+                                These users benefit most from clear progress indicators and positive reinforcement through achievements.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="value" class="tab-content">
+                    <div class="section">
+                        <div class="value-card">
+                            <div class="value-title">
+                                <i data-lucide="dollar-sign" style="width: 20px; height: 20px;"></i>
+                                Business Value
+                            </div>
+                            <p style="margin-bottom: 1rem; line-height: 1.7;">
+                                Progress visualization and gamification are industry-standard best practices for improving user retention. This feature directly fulfills the user's need for motivation and a sense of accomplishment, which is crucial for keeping beginners engaged long-term and driving premium subscriptions.
+                            </p>
+                            <p style="margin-bottom: 0; line-height: 1.7;">
+                                By providing clear visual feedback on progress and celebrating achievements, users are more likely to continue using the app regularly, leading to higher engagement metrics and increased conversion to premium plans.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="bar-chart" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Key Metrics Impact</h3>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="repeat" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                <strong>User Retention</strong> - Visual progress tracking increases long-term engagement
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="mouse-pointer-click" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                <strong>Daily Active Users</strong> - Achievement system encourages regular app usage
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="credit-card" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                <strong>Premium Conversion</strong> - Advanced analytics serve as key upsell opportunity
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="heart" class="list-icon" style="width: 20px; height: 20px;"></i>
+                            <div class="list-content">
+                                <strong>User Satisfaction</strong> - Motivational features improve overall app experience
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i data-lucide="lightbulb" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h3 class="section-title">Strategic Importance</h3>
+                        </div>
+                        <div style="background: var(--surface); padding: 1.5rem; border-radius: var(--radius-md);">
+                            <p style="margin-bottom: 1rem;">
+                                This feature serves as a cornerstone for user engagement strategy, providing the emotional connection and motivation necessary for long-term app adoption.
+                            </p>
+                            <p style="margin-bottom: 0;">
+                                The combination of data visualization and gamification creates a compelling user experience that differentiates the app from competitors and establishes a foundation for community features and social sharing capabilities in future iterations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Remove active class from all tabs and buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Add active class to selected tab and button
+            event.target.closest('.tab-button').classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+
+            // Reinitialize icons in the newly shown content
+            lucide.createIcons();
+        }
+
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const accordion = header.parentElement;
+            accordion.classList.toggle('open');
+            
+            // Reinitialize icons to ensure chevron rotation
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 100);
+        }
+
+        // Add smooth scroll behavior for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add page load animation
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.list-item, .flow-step, .accordion').forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'all 0.3s ease';
+                
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 50);
+            });
+        });
+    </script>
+</body>
+</html>

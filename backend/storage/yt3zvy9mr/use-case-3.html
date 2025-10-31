@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensure Scalable Architecture - UC-003 | Test V3 | AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #0066CC;
+            --primary-dark: #0052A3;
+            --primary-light: #E6F2FF;
+            --secondary: #00C896;
+            --secondary-dark: #00A67C;
+            --secondary-light: #E6FAF5;
+            --accent: #FF6B35;
+            --accent-dark: #E55A2B;
+            --accent-light: #FFF5F0;
+            --neutral-50: #FAFAFA;
+            --neutral-100: #F5F5F5;
+            --neutral-200: #E5E5E5;
+            --neutral-300: #D4D4D4;
+            --neutral-400: #A3A3A3;
+            --neutral-500: #737373;
+            --neutral-600: #525252;
+            --neutral-700: #404040;
+            --neutral-800: #262626;
+            --neutral-900: #171717;
+            --success: #00C896;
+            --warning: #FFB800;
+            --error: #FF4444;
+            --info: #0066CC;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--neutral-800);
+            background: linear-gradient(135deg, var(--neutral-50) 0%, var(--primary-light) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: white;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--neutral-900);
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.primary {
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s;
+        }
+
+        .nav-link.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        main {
+            padding: 2rem 0 4rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--neutral-500);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        .use-case-header {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .use-case-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .use-case-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-id {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .use-case-description {
+            color: var(--neutral-600);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--neutral-500);
+            font-size: 0.95rem;
+        }
+
+        .meta-item i {
+            color: var(--neutral-400);
+        }
+
+        .priority-badge {
+            padding: 4px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .priority-high {
+            background: var(--error);
+            color: white;
+        }
+
+        .tabs {
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .tab-list {
+            display: flex;
+            border-bottom: 1px solid var(--neutral-200);
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: 140px;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--neutral-600);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: var(--neutral-50);
+            color: var(--neutral-800);
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            padding: 2rem;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--neutral-50);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .info-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--neutral-800);
+        }
+
+        .info-card h3 i {
+            color: var(--primary);
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: start;
+            gap: 10px;
+            color: var(--neutral-600);
+        }
+
+        .info-list li::before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .flow-steps {
+            counter-reset: step;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .flow-step::before {
+            content: counter(step);
+            counter-increment: step;
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .flow-step-content {
+            flex: 1;
+            padding-top: 4px;
+        }
+
+        .flow-step-title {
+            font-weight: 600;
+            color: var(--neutral-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .flow-step-description {
+            color: var(--neutral-600);
+            font-size: 0.95rem;
+        }
+
+        .accordion {
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            background: var(--neutral-50);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
+            background: var(--neutral-100);
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+
+        .accordion-icon {
+            transition: transform 0.2s;
+            color: var(--neutral-400);
+        }
+
+        .accordion.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 500px;
+        }
+
+        .accordion-inner {
+            padding: 1rem 1.5rem;
+            background: white;
+        }
+
+        .business-value-card {
+            background: linear-gradient(135deg, var(--secondary-light) 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid var(--secondary);
+        }
+
+        .business-value-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--neutral-800);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .business-value-card h3 i {
+            color: var(--secondary);
+        }
+
+        .business-value-text {
+            color: var(--neutral-700);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid var(--neutral-200);
+            border-radius: var(--radius-md);
+            color: var(--neutral-700);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .nav-button.next {
+            margin-left: auto;
+        }
+
+        @media (max-width: 768px) {
+            .use-case-title {
+                font-size: 1.5rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .tab-list {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-button.next {
+                margin-left: 0;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            header, .navigation, .breadcrumb {
+                display: none;
+            }
+
+            .use-case-header, .tabs {
+                box-shadow: none;
+                border: 1px solid var(--neutral-200);
+            }
+
+            .tab-button {
+                border-bottom: 1px solid var(--neutral-200);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i data-lucide="cpu" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <span>AICOE</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+                        Back to Home
+                    </a>
+                    <span style="color: var(--neutral-400);">|</span>
+                    <span style="color: var(--neutral-500); font-size: 0.9rem;">Test V3</span>
+                    <span style="color: var(--neutral-400);">|</span>
+                    <span style="color: var(--neutral-500); font-size: 0.9rem;">Page 3 of 6</span>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                <span>Use Cases</span>
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                <span>UC-003</span>
+            </div>
+
+            <div class="use-case-header">
+                <div class="use-case-title-row">
+                    <div>
+                        <h1 class="use-case-title">Ensure Scalable Architecture</h1>
+                        <div class="use-case-id">
+                            <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
+                            UC-003
+                        </div>
+                    </div>
+                    <div class="priority-badge priority-high">
+                        <i data-lucide="alert-circle" style="width: 14px; height: 14px;"></i>
+                        High Priority
+                    </div>
+                </div>
+                <p class="use-case-description">
+                    Design and implement a technical architecture that supports growth and maintainability for Test V3
+                </p>
+                <div class="meta-info">
+                    <div class="meta-item">
+                        <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+                        <span>3 Actors</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="git-branch" style="width: 16px; height: 16px;"></i>
+                        <span>1 Alternate Flow</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="check-circle" style="width: 16px; height: 16px;"></i>
+                        <span>3 Postconditions</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab-list">
+                    <button class="tab-button active" onclick="switchTab('overview')">
+                        <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+                        Overview
+                    </button>
+                    <button class="tab-button" onclick="switchTab('actors')">
+                        <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+                        Actors
+                    </button>
+                    <button class="tab-button" onclick="switchTab('flows')">
+                        <i data-lucide="git-branch" style="width: 16px; height: 16px;"></i>
+                        Flows
+                    </button>
+                    <button class="tab-button" onclick="switchTab('conditions')">
+                        <i data-lucide="git-merge" style="width: 16px; height: 16px;"></i>
+                        Conditions
+                    </button>
+                    <button class="tab-button" onclick="switchTab('value')">
+                        <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+                        Business Value
+                    </button>
+                </div>
+
+                <div class="tab-content">
+                    <div id="overview" class="tab-panel active">
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="target" style="width: 20px; height: 20px;"></i>
+                                    Objective
+                                </h3>
+                                <p style="color: var(--neutral-600); line-height: 1.7;">
+                                    Create a robust, scalable technical architecture that can handle growth while maintaining performance and reliability for the Test V3 project.
+                                </p>
+                            </div>
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="zap" style="width: 20px; height: 20px;"></i>
+                                    Key Focus Areas
+                                </h3>
+                                <ul class="info-list">
+                                    <li>Horizontal scaling capabilities</li>
+                                    <li>Modular component design</li>
+                                    <li>Performance optimization</li>
+                                    <li>Monitoring and logging systems</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="business-value-card" style="margin-top: 2rem;">
+                            <h3>
+                                <i data-lucide="shield-check" style="width: 24px; height: 24px;"></i>
+                                Quick Summary
+                            </h3>
+                            <p class="business-value-text">
+                                This use case ensures that our technical infrastructure can grow with user demand, preventing performance bottlenecks and costly rework. By implementing a scalable architecture from the start, we guarantee long-term system stability and maintainability.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="actors" class="tab-panel">
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="user" style="width: 20px; height: 20px;"></i>
+                                    Software Architect
+                                </h3>
+                                <p style="color: var(--neutral-600); margin-bottom: 1rem;">
+                                    Responsible for designing the overall system architecture and making key technical decisions.
+                                </p>
+                                <ul class="info-list">
+                                    <li>Defines scalability requirements</li>
+                                    <li>Selects appropriate technologies</li>
+                                    <li>Documents architecture decisions</li>
+                                </ul>
+                            </div>
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="server" style="width: 20px; height: 20px;"></i>
+                                    DevOps Engineer
+                                </h3>
+                                <p style="color: var(--neutral-600); margin-bottom: 1rem;">
+                                    Implements infrastructure and ensures deployment processes support scalability.
+                                </p>
+                                <ul class="info-list">
+                                    <li>Sets up monitoring systems</li>
+                                    <li>Conducts load testing</li>
+                                    <li>Optimizes infrastructure</li>
+                                </ul>
+                            </div>
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="users-2" style="width: 20px; height: 20px;"></i>
+                                    Development Team
+                                </h3>
+                                <p style="color: var(--neutral-600); margin-bottom: 1rem;">
+                                    Implements modular components following architectural guidelines.
+                                </p>
+                                <ul class="info-list">
+                                    <li>Builds loosely coupled components</li>
+                                    <li>Follows architectural patterns</li>
+                                    <li>Participates in architecture reviews</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="flows" class="tab-panel">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--neutral-800);">Main Flow</h3>
+                        <div class="flow-steps">
+                            <div class="flow-step">
+                                <div class="flow-step-content">
+                                    <div class="flow-step-title">Define scalability requirements</div>
+                                    <div class="flow-step-description">Establish clear metrics for expected load, concurrent users, and data growth</div>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-content">
+                                    <div class="flow-step-title">Design system architecture</div>
+                                    <div class="flow-step-description">Create high-level and detailed architectural diagrams</div>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-content">
+                                    <div class="flow-step-title">Select appropriate technologies and frameworks</div>
+                                    <div class="flow-step-description">Choose technologies that support scalability requirements</div>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-content">
+                                    <div class="flow-step-title">Implement modular and loosely coupled components</div>
+                                    <div class="flow-step-description">Build components that can scale independently</div>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-content">
+                                    <div class="flow-step-title">Set up monitoring and logging systems</div>
+                                    <div class="flow-step-description">Implement comprehensive observability</div>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-content">
+                                    <div class="flow-step-title">Conduct load testing</div>
+                                    <div class="flow-step-description">Validate architecture under expected and peak loads</div>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-content">
+                                    <div class="flow-step-title">Document architecture decisions</div>
+                                    <div class="flow-step-description">Create comprehensive documentation for future reference</div>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-step-content">
+                                    <div class="flow-step-title">Review architecture with team</div>
+                                    <div class="flow-step-description">Get feedback and ensure team alignment</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin: 2rem 0 1.5rem; color: var(--neutral-800);">Alternate Flows</h3>
+                        <div class="accordion" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-title">
+                                    <i data-lucide="alert-triangle" style="width: 20px; height: 20px; color: var(--warning);"></i>
+                                    Performance Bottlenecks Identified
+                                </div>
+                                <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-inner">
+                                    <div class="flow-steps">
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                <div class="flow-step-title">Analyze performance metrics</div>
+                                                <div class="flow-step-description">Review monitoring data to identify issues</div>
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                <div class="flow-step-title">Identify bottleneck sources</div>
+                                                <div class="flow-step-description">Pinpoint specific components causing issues</div>
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                <div class="flow-step-title">Optimize critical components</div>
+                                                <div class="flow-step-description">Implement performance improvements</div>
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                <div class="flow-step-title">Re-run performance tests</div>
+                                                <div class="flow-step-description">Validate improvements and ensure targets are met</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="conditions" class="tab-panel">
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="check-square" style="width: 20px; height: 20px;"></i>
+                                    Preconditions
+                                </h3>
+                                <ul class="info-list">
+                                    <li>Non-functional requirements are defined</li>
+                                    <li>Technology stack is selected</li>
+                                    <li>Infrastructure requirements are known</li>
+                                </ul>
+                            </div>
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="flag-checkered" style="width: 20px; height: 20px;"></i>
+                                    Postconditions
+                                </h3>
+                                <ul class="info-list">
+                                    <li>Architecture supports projected load</li>
+                                    <li>System can scale horizontally</li>
+                                    <li>Documentation is complete</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--info-light); border-radius: var(--radius-lg); border-left: 4px solid var(--info);">
+                            <h3 style="color: var(--info); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px;">
+                                <i data-lucide="info" style="width: 20px; height: 20px;"></i>
+                                Success Criteria
+                            </h3>
+                            <p style="color: var(--neutral-700);">
+                                The architecture is considered successful when it can handle at least 3x the current load with linear performance degradation, 
+                                components can be scaled independently, and all architectural decisions are properly documented and peer-reviewed.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="value" class="tab-panel">
+                        <div class="business-value-card">
+                            <h3>
+                                <i data-lucide="trending-up" style="width: 24px; height: 24px;"></i>
+                                Business Value
+                            </h3>
+                            <p class="business-value-text">
+                                Prevents costly rework and ensures the system can handle growth without performance degradation.
+                            </p>
+                        </div>
+
+                        <div class="info-grid" style="margin-top: 2rem;">
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="dollar-sign" style="width: 20px; height: 20px;"></i>
+                                    Cost Benefits
+                                </h3>
+                                <ul class="info-list">
+                                    <li>Reduces infrastructure costs through efficient scaling</li>
+                                    <li>Minimizes emergency rework expenses</li>
+                                    <li>Lowers maintenance overhead</li>
+                                </ul>
+                            </div>
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="clock" style="width: 20px; height: 20px;"></i>
+                                    Time Savings
+                                </h3>
+                                <ul class="info-list">
+                                    <li>Faster feature development with modular architecture</li>
+                                    <li>Quicker debugging with proper monitoring</li>
+                                    <li>Reduced downtime during scaling events</li>
+                                </ul>
+                            </div>
+                            <div class="info-card">
+                                <h3>
+                                    <i data-lucide="award" style="width: 20px; height: 20px;"></i>
+                                    Strategic Benefits
+                                </h3>
+                                <ul class="info-list">
+                                    <li>Enables rapid business growth</li>
+                                    <li>Improves customer satisfaction</li>
+                                    <li>Provides competitive advantage</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <a href="use-case-2.html" class="nav-button">
+                    <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+                    Previous
+                </a>
+                <a href="use-case-4.html" class="nav-button next">
+                    Next
+                    <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(tabName) {
+            // Remove active class from all tabs and panels
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding panel
+            event.target.closest('.tab-button').classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            // Re-initialize icons in the newly shown panel
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        function toggleAccordion(element) {
+            element.classList.toggle('active');
+            // Re-initialize icons after animation
+            setTimeout(() => lucide.createIcons(), 300);
+        }
+    </script>
+</body>
+</html>

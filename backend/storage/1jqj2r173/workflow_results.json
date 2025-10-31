@@ -1,0 +1,547 @@
+{
+  "project_name": "E-commerce Platform",
+  "workflow_id": "workflow_20251029_075522",
+  "status": "success",
+  "context": {
+    "project_name": "E-commerce Platform",
+    "workflow_id": "workflow_20251029_075522",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T07:55:22.618480",
+    "end_time": "2025-10-29T08:00:16.585502",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "E-commerce Platform",
+      "project_root": "projects/E-commerce Platform",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T07:55:22.621571",
+        "action": "project_created",
+        "project_name": "E-commerce Platform",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": "Not specified",
+        "attendees": [],
+        "meeting_date": "Not specified",
+        "meeting_objective": "To discuss and define the requirements for building a modern e-commerce platform",
+        "key_discussion_points": [
+          "Building a modern e-commerce platform",
+          "Product catalog implementation",
+          "Shopping cart functionality",
+          "Checkout process design",
+          "Payment processing integration",
+          "Order management system",
+          "Customer account features",
+          "Multi-vendor support",
+          "Recommendation engine development",
+          "Analytics dashboards for vendors and administrators"
+        ],
+        "pain_points": [],
+        "requirements": [
+          "Product catalog",
+          "Shopping cart",
+          "Checkout functionality",
+          "Payment processing",
+          "Order management",
+          "Customer accounts",
+          "Multiple vendor support",
+          "Recommendation engine",
+          "Analytics dashboards for vendors",
+          "Analytics dashboards for administrators"
+        ],
+        "decisions_made": [],
+        "action_items": [],
+        "technical_constraints": [],
+        "stakeholders": []
+      },
+      "project_name": "E-commerce Platform",
+      "transcript_length": 299
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "Browse and Search Product Catalog",
+          "description": "Customers can browse through the entire product catalog, filter products by various criteria, and search for specific items using keywords.",
+          "actors": [
+            "Customer",
+            "Guest User"
+          ],
+          "preconditions": [
+            "Product catalog is populated with items",
+            "Search index is up to date"
+          ],
+          "main_flow": [
+            "User navigates to the product catalog page",
+            "System displays available products with basic information",
+            "User can filter by category, price range, ratings, or other attributes",
+            "System updates the displayed products based on filters",
+            "User can search using keywords in the search bar",
+            "System returns relevant search results",
+            "User can click on any product to view detailed information"
+          ],
+          "alternate_flows": [
+            {
+              "name": "No results found",
+              "steps": [
+                "System displays 'No products found' message",
+                "System suggests similar products or alternative search terms"
+              ]
+            }
+          ],
+          "postconditions": [
+            "User has viewed relevant products",
+            "Search history is logged for analytics"
+          ],
+          "priority": "high",
+          "business_value": "Essential for customer discovery and conversion, directly impacts sales and user engagement"
+        },
+        {
+          "id": "UC-002",
+          "title": "Manage Shopping Cart",
+          "description": "Customers can add products to their shopping cart, update quantities, remove items, and proceed to checkout.",
+          "actors": [
+            "Customer",
+            "Guest User"
+          ],
+          "preconditions": [
+            "User has viewed at least one product",
+            "Product is in stock"
+          ],
+          "main_flow": [
+            "User clicks 'Add to Cart' on a product page",
+            "System validates product availability",
+            "Product is added to the shopping cart",
+            "User navigates to shopping cart",
+            "System displays all cart items with quantities and prices",
+            "User can update item quantities",
+            "System recalculates total price",
+            "User can remove items from cart",
+            "User proceeds to checkout"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Product out of stock",
+              "steps": [
+                "System displays out of stock message",
+                "Product cannot be added to cart",
+                "System suggests notifying when back in stock"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Shopping cart reflects current selections",
+            "Cart data is saved for logged-in users"
+          ],
+          "priority": "high",
+          "business_value": "Critical for conversion optimization and revenue generation"
+        },
+        {
+          "id": "UC-003",
+          "title": "Complete Checkout Process",
+          "description": "Customers can complete the purchase by providing shipping information, selecting payment method, and confirming the order.",
+          "actors": [
+            "Customer",
+            "Guest User"
+          ],
+          "preconditions": [
+            "Shopping cart contains at least one item",
+            "All items in cart are available"
+          ],
+          "main_flow": [
+            "User initiates checkout from shopping cart",
+            "System prompts for login or guest checkout",
+            "User enters or selects shipping address",
+            "System validates shipping address",
+            "User selects shipping method",
+            "System displays shipping cost and estimated delivery",
+            "User enters payment information",
+            "System validates payment details",
+            "User reviews order summary",
+            "User confirms and places order",
+            "System processes payment",
+            "System generates order confirmation",
+            "User receives order confirmation"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Payment failure",
+              "steps": [
+                "System displays payment error message",
+                "User can retry payment or use different method"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Order is created in the system",
+            "Inventory is updated",
+            "Customer receives confirmation",
+            "Payment is processed"
+          ],
+          "priority": "high",
+          "business_value": "Direct revenue generation point, critical for business operations"
+        },
+        {
+          "id": "UC-004",
+          "title": "Vendor Product Management",
+          "description": "Vendors can add, update, and manage their product listings, including pricing, inventory, and product details.",
+          "actors": [
+            "Vendor",
+            "Administrator"
+          ],
+          "preconditions": [
+            "Vendor has registered and approved account",
+            "Vendor is logged in"
+          ],
+          "main_flow": [
+            "Vendor navigates to vendor dashboard",
+            "Vendor selects 'Manage Products'",
+            "System displays vendor's product list",
+            "Vendor can add new product by entering details",
+            "Vendor can update existing product information",
+            "Vendor can adjust inventory levels",
+            "Vendor can set pricing and discounts",
+            "Vendor uploads product images",
+            "System validates product information",
+            "System saves product updates",
+            "Products are reflected in the catalog after approval"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Product approval required",
+              "steps": [
+                "System flags product for admin review",
+                "Product is not visible until approved",
+                "Administrator reviews and approves/rejects"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Product information is updated in the system",
+            "Inventory levels are synchronized",
+            "Catalog reflects changes"
+          ],
+          "priority": "medium",
+          "business_value": "Enables multi-vendor marketplace model, increases product variety and platform value"
+        },
+        {
+          "id": "UC-005",
+          "title": "View Analytics Dashboard",
+          "description": "Vendors and administrators can view comprehensive analytics about sales, traffic, and performance metrics.",
+          "actors": [
+            "Vendor",
+            "Administrator"
+          ],
+          "preconditions": [
+            "User has appropriate permissions",
+            "Analytics data is available"
+          ],
+          "main_flow": [
+            "User logs into their account",
+            "User navigates to Analytics Dashboard",
+            "System displays relevant metrics based on user role",
+            "Vendor sees their sales, views, and conversion data",
+            "Administrator sees platform-wide analytics",
+            "User can filter data by date range",
+            "User can export reports",
+            "System updates data in real-time"
+          ],
+          "alternate_flows": [
+            {
+              "name": "No data available",
+              "steps": [
+                "System displays appropriate message",
+                "System shows historical data if available"
+              ]
+            }
+          ],
+          "postconditions": [
+            "User has viewed relevant analytics",
+            "Data is logged for audit purposes"
+          ],
+          "priority": "medium",
+          "business_value": "Provides actionable insights for business decisions and performance optimization"
+        },
+        {
+          "id": "UC-006",
+          "title": "Receive Product Recommendations",
+          "description": "Customers receive personalized product recommendations based on their browsing history, purchase history, and behavior patterns.",
+          "actors": [
+            "Customer",
+            "System"
+          ],
+          "preconditions": [
+            "Customer has browsing or purchase history",
+            "Recommendation engine is configured"
+          ],
+          "main_flow": [
+            "Customer browses products or makes purchases",
+            "System tracks customer behavior",
+            "Recommendation engine analyzes patterns",
+            "System generates personalized recommendations",
+            "Recommendations are displayed on homepage, product pages, or via email",
+            "Customer can click on recommended products",
+            "System logs recommendation interactions"
+          ],
+          "alternate_flows": [
+            {
+              "name": "New customer",
+              "steps": [
+                "System displays popular products or trending items",
+                "System collects data for future personalization"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Customer sees relevant recommendations",
+            "Interaction data is collected for optimization"
+          ],
+          "priority": "low",
+          "business_value": "Increases cross-selling and upselling opportunities, improves customer engagement"
+        }
+      ],
+      "business_requirements": {
+        "overview": "The project aims to develop a comprehensive e-commerce platform that supports multi-vendor operations, providing customers with a seamless shopping experience while enabling vendors to manage their products and track performance effectively.",
+        "business_goals": [
+          "Create a scalable e-commerce platform supporting multiple vendors",
+          "Provide an intuitive and engaging shopping experience for customers",
+          "Enable efficient order management and payment processing",
+          "Offer comprehensive analytics for business intelligence",
+          "Implement personalized shopping through recommendation engine",
+          "Ensure secure and reliable transaction processing"
+        ],
+        "success_criteria": [
+          "Achieve 99.9% platform uptime",
+          "Process 1000+ concurrent transactions",
+          "Onboard 50+ vendors within first 6 months",
+          "Achieve 3% conversion rate for customer transactions",
+          "Maintain average page load time under 2 seconds",
+          "Achieve 95% customer satisfaction rating"
+        ],
+        "constraints": [
+          "Must comply with PCI DSS for payment processing",
+          "Must support major payment gateways (Stripe, PayPal, etc.)",
+          "Must be mobile-responsive",
+          "Must support multiple currencies",
+          "Must ensure GDPR compliance for customer data"
+        ],
+        "assumptions": [
+          "Payment gateway APIs will be available and stable",
+          "Vendors will have basic technical knowledge for product management",
+          "Customers will have access to modern web browsers",
+          "Shipping providers will integrate with the platform",
+          "Initial product catalog will be populated by vendors"
+        ],
+        "risks": [
+          {
+            "risk": "Payment processing failures",
+            "mitigation": "Implement multiple payment gateway integrations with fallback mechanisms"
+          },
+          {
+            "risk": "Inventory synchronization issues",
+            "mitigation": "Implement real-time inventory updates and automated reconciliation"
+          },
+          {
+            "risk": "Security breaches",
+            "mitigation": "Implement comprehensive security measures including encryption and regular audits"
+          },
+          {
+            "risk": "Poor vendor adoption",
+            "mitigation": "Provide comprehensive onboarding and support for vendors"
+          },
+          {
+            "risk": "Performance issues at scale",
+            "mitigation": "Implement scalable architecture and load testing"
+          }
+        ]
+      },
+      "project_name": "E-commerce Platform"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Personalization Engine",
+            "description": "Implement AI-driven product recommendations based on user behavior, search history, and purchase patterns to enhance the browsing experience",
+            "priority": "high"
+          },
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Search Optimization",
+            "description": "Use ML algorithms for semantic search, auto-complete suggestions, and typo tolerance to improve search accuracy",
+            "priority": "high"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "CQRS (Command Query Responsibility Segregation)",
+            "description": "Separate read and write operations for product catalog and shopping cart to improve performance and scalability",
+            "priority": "medium"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Event Sourcing",
+            "description": "Track all cart operations as events for audit trails, analytics, and cart recovery features",
+            "priority": "medium"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "API Gateway",
+            "description": "Implement a centralized API gateway for managing product catalog, search, and cart services with rate limiting and authentication",
+            "priority": "high"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "Search Enhancement",
+            "suggestion": "Implement faceted search with dynamic filters and real-time result updates",
+            "rationale": "Improves user experience and helps customers find products faster, increasing conversion rates"
+          },
+          {
+            "area": "Cart Persistence",
+            "suggestion": "Enable cart persistence across sessions and devices for registered users",
+            "rationale": "Reduces cart abandonment and improves user experience by allowing customers to continue shopping later"
+          },
+          {
+            "area": "Performance Optimization",
+            "suggestion": "Implement lazy loading and pagination for product catalog to improve page load times",
+            "rationale": "Essential for handling large catalogs and providing smooth user experience"
+          },
+          {
+            "area": "Analytics Integration",
+            "suggestion": "Add detailed tracking for user interactions, search patterns, and conversion funnels",
+            "rationale": "Provides valuable insights for business decisions and personalization improvements"
+          },
+          {
+            "area": "Error Handling",
+            "suggestion": "Implement graceful degradation for search and cart services during high traffic",
+            "rationale": "Ensures system reliability and maintains user experience during peak loads"
+          }
+        ],
+        "compliance_notes": [
+          "GDPR compliance required for storing user search history and personal data",
+          "PCI DSS compliance needed for payment processing in checkout flow",
+          "Accessibility (WCAG 2.1) compliance required for public-facing e-commerce platform",
+          "Data residency considerations for international customer data storage"
+        ],
+        "integration_recommendations": [
+          "Integrate with inventory management system for real-time stock updates",
+          "Connect to payment gateway providers with tokenization for secure transactions",
+          "Implement CDN integration for product images and static content delivery",
+          "Integrate with email service for cart abandonment notifications and order confirmations",
+          "Connect to analytics platforms (Google Analytics, Adobe Analytics) for tracking",
+          "Implement webhook integrations for third-party shipping and tax calculation services"
+        ]
+      },
+      "project_name": "E-commerce Platform",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "prd": {
+      "prd_markdown": "---\n**AICOE Product Requirements Document**\n\n**Document Classification:** Internal - Confidential\n**Version:** 1.0\n**Date:** October 26, 2023\n**Prepared By:** AICOE Multi-Agent Platform\n**Project:** E-commerce Platform\n\n---\n\n# E-commerce Platform - Product Requirements Document\n\n## 1. Executive Summary\nThis document outlines the requirements for a modern, scalable e-commerce platform designed to support a multi-vendor marketplace. The platform will provide customers with an intuitive and engaging shopping experience, complete with a comprehensive product catalog, streamlined checkout process, and personalized recommendations. For vendors, it will offer robust tools for product management, order fulfillment, and performance analytics. The platform aims to achieve rapid vendor adoption and high customer conversion, positioning it as a competitive player in the digital marketplace. Key stakeholders include customers, vendors, platform administrators, and development teams. The target timeline for the initial launch (Phase 1) is six months.\n\n## 2. Goals & Objectives\n### Business Goals\n- Create a scalable e-commerce platform supporting multiple vendors\n- Achieve a 3% customer transaction conversion rate within the first year\n- Onboard 50+ vendors within the first 6 months of launch\n- Generate revenue through commission on vendor sales\n- Establish a competitive marketplace with a wide product variety\n\n### User Goals\n- **Customers:** Discover products easily, complete purchases quickly and securely, and receive relevant recommendations.\n- **Vendors:** Manage product listings efficiently, track sales performance, and process orders seamlessly.\n- **Administrators:** Oversee platform operations, manage vendors, and analyze platform-wide performance.\n\n### Technical Goals\n- Achieve 99.9% platform uptime\n- Support 1000+ concurrent transactions\n- Maintain an average page load time under 2 seconds\n- Ensure a mobile-responsive design across all devices\n- Implement a secure and compliant payment processing system\n\n## 3. Problem Statement\n### What problem are we solving?\nBusinesses, especially small to medium-sized vendors, struggle to establish a direct online presence due to the high cost and complexity of building and maintaining a standalone e-commerce website. Simultaneously, customers are often overwhelmed by fragmented shopping experiences across multiple single-brand sites and seek a centralized, trusted marketplace with diverse product offerings.\n\n### Who has this problem?\n- **Vendors:** Lack the technical resources or capital to develop a proprietary e-commerce solution.\n- **Customers:** Desire a one-stop-shop experience with a unified checkout, consistent user experience, and reliable customer service.\n- **Market:** The market lacks a platform that effectively balances the needs of both vendors and customers with powerful tools and a simple interface.\n\n### Current pain points and limitations\n- Vendors face high operational overhead for managing online sales, payments, and logistics.\n- Customers experience inconsistent user interfaces and checkout processes when shopping across different vendor sites.\n- Existing marketplaces often have complex fee structures or lack robust analytics for vendors.\n- Difficulty in discovering unique or niche products on large, generic marketplaces.\n\n### Opportunity size and market context\nThe global e-commerce market continues to grow rapidly, with a significant shift towards multi-vendor marketplaces. There is a clear opportunity to capture market share by offering a platform that prioritizes ease of use for both vendors and customers, coupled with powerful data analytics and a superior user experience.\n\n## 4. User Personas & Stakeholders\n### User Personas\n\n| Persona | Role/Title | Goals and Motivations | Pain Points | Technical Proficiency |\n|---|---|---|---|---|\n| **Chloe the Customer** | Online Shopper | Find desired products quickly, get the best price, enjoy a seamless checkout, receive orders on time. | Complicated checkout processes, irrelevant search results, lack of product information, slow websites. | Medium - Comfortable with apps and websites. |\n| **Victor the Vendor** | Small Business Owner | Increase sales, manage inventory easily, understand business performance, reach more customers. | Time-consuming product listing, lack of sales insights, complex shipping logistics, high platform fees. | Low to Medium - Can use dashboards but needs simple UI. |\n| **Alex the Administrator** | Platform Operations Manager | Ensure platform stability, onboard new vendors, monitor transactions, resolve disputes, analyze overall health. | Manual vendor management, lack of real-time data, difficulty tracking platform-wide issues. | High - Comfortable with complex systems and data. |\n\n### Key Stakeholders\n- **AICOE Executive Team:** Interested in ROI, market share, and strategic growth.\n- **Investors:** Focused on user acquisition, revenue growth, and long-term viability.\n- **Development & QA Teams:** Require clear, testable requirements and a stable technical environment.\n- **Customer Support Teams:** Need tools to efficiently resolve customer and vendor issues.\n\n## 5. Features & User Stories\n\n### Must-Have (Priority 1)\n- **Product Catalog & Search**\n  - As a customer, I want to browse and search for products so that I can find items I'm interested in.\n  - As a customer, I want to filter products by category, price, and rating so that I can narrow down my options.\n- **Shopping Cart**\n  - As a customer, I want to add items to a shopping cart so that I can purchase multiple items at once.\n  - As a customer, I want to update quantities and remove items from my cart so that I can modify my order before checkout.\n- **Checkout & Payment**\n  - As a customer, I want to complete my purchase through a simple, secure checkout process so that I can buy items with confidence.\n  - As a guest user, I want to check out without creating an account so that I can make a quick purchase.\n- **Order Management**\n  - As a vendor, I want to view and manage incoming orders so that I can fulfill them promptly.\n  - As a customer, I want to view my order history and status so that I can track my purchases.\n- **Customer Accounts**\n  - As a customer, I want to create an account so that I can save my information and track my orders.\n- **Vendor Product Management**\n  - As a vendor, I want to add and edit my product listings so that I can showcase my inventory.\n  - As a vendor, I want to manage my inventory levels so that I can avoid selling out-of-stock items.\n\n### Should-Have (Priority 2)\n- **Analytics Dashboards**\n  - As a vendor, I want to view a dashboard of my sales and traffic so that I can make informed business decisions.\n  - As an administrator, I want to view platform-wide analytics so that I can monitor overall performance.\n- **Multi-Vendor Support**\n  - As a platform, I need to support multiple vendors so that I can offer a diverse product catalog.\n- **Payment Processing Integration**\n  - As a platform, I need to integrate with major payment gateways (e.g., Stripe, PayPal) so that I can offer customers flexible payment options.\n\n### Nice-to-Have (Priority 3)\n- **Recommendation Engine**\n  - As a customer, I want to receive personalized product recommendations so that I can discover new products I might like.\n- **Advanced Analytics**\n  - As a vendor, I want to see customer demographic data so that I can better tailor my marketing.\n\n## 6. Use Cases\n\n### UC-001: Browse and Search Product Catalog\n- **Actors:** Customer, Guest User\n- **Preconditions:** Product catalog is populated with items; Search index is up to date.\n- **Main Flow:**\n  1. User navigates to the product catalog page.\n  2. System displays available products with basic information.\n  3. User can filter by category, price range, ratings, or other attributes.\n  4. System updates the displayed products based on filters.\n  5. User can search using keywords in the search bar.\n  6. System returns relevant search results.\n  7. User can click on any product to view detailed information.\n- **Alternative Flows:**\n  - **No results found:** System displays 'No products found' message and suggests similar products or alternative search terms.\n- **Postconditions:** User has viewed relevant products; Search history is logged for analytics.\n- **Success Criteria:** User successfully finds desired products or relevant alternatives.\n\n### UC-002: Manage Shopping Cart\n- **Actors:** Customer, Guest User\n- **Preconditions:** User has viewed at least one product; Product is in stock.\n- **Main Flow:**\n  1. User clicks 'Add to Cart' on a product page.\n  2. System validates product availability.\n  3. Product is added to the shopping cart.\n  4. User navigates to shopping cart.\n  5. System displays all cart items with quantities and prices.\n  6. User can update item quantities.\n  7. System recalculates total price.\n  8. User can remove items from cart.\n  9. User proceeds to checkout.\n- **Alternative Flows:**\n  - **Product out of stock:** System displays out of stock message, product cannot be added to cart, and system suggests notifying when back in stock.\n- **Postconditions:** Shopping cart reflects current selections; Cart data is saved for logged-in users.\n- **Success Criteria:** Cart accurately reflects user's intended selections and total cost.\n\n### UC-003: Complete Checkout Process\n- **Actors:** Customer, Guest User\n- **Preconditions:** Shopping cart contains at least one item; All items in cart are available.\n- **Main Flow:**\n  1. User initiates checkout from shopping cart.\n  2. System prompts for login or guest checkout.\n  3. User enters or selects shipping address.\n  4. System validates shipping address.\n  5. User selects shipping method.\n  6. System displays shipping cost and estimated delivery.\n  7. User enters payment information.\n  8. System validates payment details.\n  9. User reviews order summary.\n  10. User confirms and places order.\n  11. System processes payment.\n  12. System generates order confirmation.\n  13. User receives order confirmation.\n- **Alternative Flows:**\n  - **Payment failure:** System displays payment error message; User can retry payment or use a different method.\n- **Postconditions:** Order is created in the system; Inventory is updated; Customer receives confirmation; Payment is processed.\n- **Success Criteria:** Order is successfully placed, payment is confirmed, and all parties are notified.\n\n### UC-004: Vendor Product Management\n- **Actors:** Vendor, Administrator\n- **Preconditions:** Vendor has registered and approved account; Vendor is logged in.\n- **Main Flow:**\n  1. Vendor navigates to vendor dashboard.\n  2. Vendor selects 'Manage Products'.\n  3. System displays vendor's product list.\n  4. Vendor can add a new product by entering details.\n  5. Vendor can update existing product information.\n  6. Vendor can adjust inventory levels.\n  7. Vendor can set pricing and discounts.\n  8. Vendor uploads product images.\n  9. System validates product information.\n  10. System saves product updates.\n  11. Products are reflected in the catalog after approval.\n- **Alternative Flows:**\n  - **Product approval required:** System flags product for admin review; Product is not visible until approved; Administrator reviews and approves/rejects.\n- **Postconditions:** Product information is updated in the system; Inventory levels are synchronized; Catalog reflects changes.\n- **Success Criteria:** Vendor can successfully add, edit, and manage their product listings with accurate information reflected on the front end.\n\n### UC-005: View Analytics Dashboard\n- **Actors:** Vendor, Administrator\n- **Preconditions:** User has appropriate permissions; Analytics data is available.\n- **Main Flow:**\n  1. User logs into their account.\n  2. User navigates to Analytics Dashboard.\n  3. System displays relevant metrics based on user role.\n  4. Vendor sees their sales, views, and conversion data.\n  5. Administrator sees platform-wide analytics.\n  6. User can filter data by date range.\n  7. User can export reports.\n  8. System updates data in real-time.\n- **Alternative Flows:**\n  - **No data available:** System displays appropriate message and shows historical data if available.\n- **Postconditions:** User has viewed relevant analytics; Data is logged for audit purposes.\n- **Success Criteria:** User can access and understand key performance indicators relevant to their role.\n\n### UC-006: Receive Product Recommendations\n- **Actors:** Customer, System\n- **Preconditions:** Customer has browsing or purchase history; Recommendation engine is configured.\n- **Main Flow:**\n  1. Customer browses products or makes purchases.\n  2. System tracks customer behavior.\n  3. Recommendation engine analyzes patterns.\n  4. System generates personalized recommendations.\n  5. Recommendations are displayed on homepage, product pages, or via email.\n  6. Customer can click on recommended products.\n  7. System logs recommendation interactions.\n- **Alternative Flows:**\n  - **New customer:** System displays popular products or trending items and collects data for future personalization.\n- **Postconditions:** Customer sees relevant recommendations; Interaction data is collected for optimization.\n- **Success Criteria:** Recommendations are relevant and lead to increased user engagement or conversions.\n\n## 7. Functional Requirements\n\n### Product Catalog (FR-CAT)\n- **FR-CAT-01:** The system shall display a list of products including product name, image, price, and average rating.\n- **FR-CAT-02:** The system shall allow users to filter products by category, price range, and brand.\n- **FR-CAT-03:** The system shall provide a search bar that returns products matching keyword queries in the title or description.\n- **FR-CAT-04:** The system shall display a detailed product page including all specifications, high-resolution images, customer reviews, and vendor information.\n\n### Shopping Cart (FR-CART)\n- **FR-CART-01:** The system shall allow a user to add a product to their cart from the product list or detail page.\n- **FR-CART-02:** The system shall prevent a user from adding more items to the cart than are available in stock.\n- **FR-CART-03:** The system shall allow a user to update the quantity of an item in the cart.\n- **FR-CART-04:** The system shall allow a user to remove an item from the cart.\n- **FR-CART-05:** The system shall calculate and display the subtotal, shipping costs, taxes, and total price in the cart.\n- **FR-CART-06:** The system shall persist the cart contents for logged-in users across sessions.\n\n### Checkout & Payment (FR-CHK)\n- **FR-CHK-01:** The system shall support guest checkout, requiring only essential shipping and payment information.\n- **FR-CHK-02:** The system shall allow logged-in users to select a saved shipping address or enter a new one.\n- **FR-CHK-03:** The system shall integrate with at least two major payment gateways (e.g., Stripe, PayPal).\n- **FR-CHK-04:** The system shall validate all required fields (shipping address, payment info) before allowing order submission.\n- **FR-CHK-05:** The system shall display a final order summary for confirmation before processing payment.\n- **FR-CHK-06:** Upon successful payment, the system shall generate a unique order ID and display a confirmation page.\n- **FR-CHK-07:** The system shall send an order confirmation email to the customer.\n\n### Order Management (FR-ORD)\n- **FR-ORD-01:** The system shall create an order record upon successful checkout, linking it to the customer and vendor(s).\n- **FR-ORD-02:** The system shall provide a dashboard for vendors to view new orders, including customer details and items purchased.\n- **FR-ORD-03:** The system shall allow vendors to update order status (e.g., 'Processing', 'Shipped').\n- **FR-ORD-04:** The system shall provide a dashboard for customers to view their order history and current status.\n- **FR-ORD-05:** When an order is marked as 'Shipped', the system shall notify the customer via email.\n\n### User & Vendor Accounts (FR-ACC)\n- **FR-ACC-01:** The system shall allow users to register for an account using an email and password.\n- **FR-ACC-02:** The system shall provide a secure login and logout functionality.\n- **FR-ACC-03:** The system shall provide a vendor registration flow that requires business details for approval.\n- **FR-ACC-04:** The system shall provide a profile page for customers to manage shipping addresses and view order history.\n- **FR-ACC-05:** The system shall provide a dashboard for vendors to access product management, orders, and analytics.\n\n### Analytics (FR-ANL)\n- **FR-ANL-01:** The system shall provide a dashboard for vendors displaying total sales, number of orders, and top-selling products.\n- **FR-ANL-02:** The system shall provide a dashboard for administrators displaying platform-wide metrics like GMV, active users, and new vendors.\n- **FR-ANL-03:** The system shall allow users to filter dashboard data by a selectable date range.\n- **FR-ANL-04:** The system shall allow users to export dashboard data to a CSV file.\n\n### Recommendation Engine (FR-REC)\n- **FR-REC-01:** The system shall display a \"Recommended for You\" section on the homepage for logged-in users.\n- **FR-REC-02:** The system shall display \"Customers also bought\" suggestions on product detail pages.\n- **FR-REC-03:** The system shall log user clicks on recommended products to refine future suggestions.\n\n## 8. Non-Functional Requirements\n\n### Performance\n- The system shall support 1000+ concurrent users.\n- 95% of page loads must complete in under 2 seconds.\n- Search results must be returned in under 1 second.\n- The system must be able to scale horizontally to handle traffic spikes during peak seasons.\n\n### Security\n- All user passwords must be hashed and salted using a strong algorithm (e.g., bcrypt).\n- All data transmission must be encrypted using TLS 1.2 or higher.\n- The system must be compliant with PCI DSS standards for handling payment information.\n- The system must be compliant with GDPR regulations for handling customer data.\n- The system must implement role-based access control (RBAC) to prevent unauthorized access to data.\n\n### Usability\n- The user interface must be responsive and work seamlessly on desktop, tablet, and mobile devices.\n- The platform must conform to WCAG 2.1 AA accessibility standards.\n- The checkout process must be completable in 3 steps or fewer for a returning customer.\n- All user-facing text must be clear, concise, and free of jargon.\n\n### Reliability\n- The platform must achieve 99.9% uptime, excluding planned maintenance.\n- In the event of a payment gateway failure, the system must gracefully handle the error and offer alternative payment methods.\n- The system must perform daily automated backups of the database.\n- A disaster recovery plan must be in place to restore services within 4 hours of a catastrophic failure.\n\n### Maintainability\n- Code must adhere to a documented style guide and be reviewed via pull requests.\n- All APIs must be documented using a standard like OpenAPI (Swagger).\n- The system architecture must be modular to allow for independent development and deployment of components.\n\n## 9. Technical Architecture\n\n### System Components\n- **Frontend:** A single-page application (SPA) built with a modern JavaScript framework (e.g., React or Vue.js) for a dynamic user experience.\n- **Backend API:** A set of RESTful APIs built on a scalable framework (e.g., Node.js/Express, Django, or Spring Boot) to handle business logic.\n- **Database:** A combination of a relational database (e.g., PostgreSQL) for structured data like orders and users, and a NoSQL database (e.g., Elasticsearch) for product search and recommendations.\n- **Authentication Service:** A dedicated service using OAuth 2.0/OpenID Connect for secure user and vendor authentication.\n- **Payment Gateway:** Integration modules for services like Stripe and PayPal.\n- **Analytics Engine:** A data pipeline (e.g., using Kafka and Spark) to process event data and feed it into a analytics database for dashboards.\n\n### Technology Stack Recommendations\n- **Frontend:** React, Next.js, Tailwind CSS\n- **Backend:** Node.js, TypeScript, Express\n- **Database:** PostgreSQL, Redis (for caching), Elasticsearch\n- **Infrastructure:** AWS or Google Cloud Platform (using Docker and Kubernetes for containerization)\n- **CI/CD:** Jenkins, GitLab CI, or GitHub Actions\n\n### Integration Points and APIs\n- **Payment Gateway APIs:** For processing credit cards and digital wallets.\n- **Shipping Carrier APIs:** (Future) For calculating shipping costs and tracking packages.\n- **Email Service API:** (e.g., SendGrid) for sending transactional emails.\n- **Internal Microservice APIs:** Communication between frontend, backend services, and databases.\n\n### Data Flow and Storage\n- User actions on the frontend are sent as API calls to the backend.\n- The backend processes requests, interacts with the databases, and returns a response.\n- Event data (clicks, views) is sent asynchronously to the analytics pipeline.\n- Product data is indexed in Elasticsearch for fast, relevant search results.\n\n### Deployment Architecture\n- A microservices architecture deployed on a cloud provider's Kubernetes service.\n- Use of a Content Delivery Network (CDN) to serve static assets and improve global latency.\n- Database replication and automated backups for high availability and disaster recovery.\n\n## 10. Acceptance Criteria\n\n### Product Catalog & Search\n- **AC-001:** Given a user is on the homepage, when they navigate to the shop page, then a grid of at least 20 products is displayed.\n- **AC-002:** Given a user is on the shop page, when they apply a \"Price: $50-$100\" filter, then only products within that price range are shown.\n- **AC-003:** Given a user enters \"blue shirt\" in the search bar, when they submit the search, then the results page shows products with \"blue\" and \"shirt\" in the title or description.\n\n### Shopping Cart & Checkout\n- **AC-004:** Given a product is in stock, when a user clicks \"Add to Cart\", then the item appears in their cart with a quantity of 1.\n- **AC-005:** Given a user has items in their cart, when they proceed to checkout as a guest, then they can complete the purchase by entering shipping and payment details without creating an account.\n- **AC-006:** Given a user enters valid payment information, when they click \"Place Order\", then an order confirmation page is displayed with a unique order ID.\n\n### Vendor Management\n- **AC-007:** Given a logged-in vendor, when they navigate to the \"Add Product\" page and submit a form with all required fields, then the product is saved and appears in their product list with a \"Pending Approval\" status.\n- **AC-008:** Given a vendor has an order with status \"New\", when they view the order details and change the status to \"Shipped\", then the order status is updated and the customer receives a notification email.\n\n### Analytics\n- **AC-009:** Given a logged-in vendor, when they navigate to their analytics dashboard, then they see a chart of their total sales for the last 30 days.\n- **AC-010:** Given any user on an analytics page, when they select a date range and click \"Export\", then a CSV file containing the data for that period is downloaded.\n\n## 11. Success Metrics\n\n### User Adoption Metrics\n- **Monthly Active Users (MAU):** Target of 10,000 MAUs within 6 months of launch.\n- **Vendor Onboarding Rate:** Target of 50+ active vendors within the first 6 months.\n- **Customer Registration Rate:** Percentage of guest users who create an account after a purchase.\n\n### Business Impact Metrics\n- **Gross Merchandise Volume (GMV):** Total value of goods sold on the platform.\n- **Conversion Rate:** Target of 3% for customer transactions.\n- **Average Order Value (AOV):** Track the average amount spent per transaction.\n- **Platform Revenue:** Commission earned from vendor sales.\n\n### Technical Performance Metrics\n- **Platform Uptime:** Achieve 99.9% uptime.\n- **Average Page Load Time:** Maintain under 2 seconds.\n- **API Response Time:** 95th percentile latency under 500ms.\n- **Error Rate:** Maintain an error rate below 0.1% for all critical services.\n\n### User Satisfaction Metrics\n- **Customer Satisfaction (CSAT) Score:** Achieve a 95% satisfaction rating via post-purchase surveys.\n- **Net Promoter Score (NPS):** Measure customer loyalty with a target NPS of +40.\n- **Vendor Churn Rate:** Maintain a vendor churn rate below 5% annually.\n\n## 12. Timeline & Milestones\n\n### Phase 1: Core Platform (MVP) - Months 1-4\n**Scope:** Implement essential features for a functional marketplace.\n- **Features:** User/Customer accounts, Product catalog, Shopping cart, Checkout with one payment gateway, Basic order management for customers, Vendor product management (no approval workflow).\n- **Milestone:** MVP launch for a closed beta group of 10 vendors and their customers.\n\n### Phase 2: Vendor Enablement & Analytics - Months 5-6\n**Scope:** Build out tools for vendors and administrators.\n- **Features:** Vendor registration/approval workflow, Vendor order management dashboard, Basic analytics dashboard for vendors and admins, Integration with a second payment gateway.\n- **Milestone:** Public launch and open vendor onboarding.\n\n### Phase 3: Enhancement & Optimization - Months 7-9\n**Scope:** Introduce advanced features to improve engagement and efficiency.\n- **Features:** Personalized recommendation engine, Advanced analytics and reporting, Customer reviews and ratings, Promotions and discount codes.\n- **Milestone:** Feature-complete platform.\n\n### Key Dependencies\n- Finalization of UI/UX design before Phase 1 development.\n- Completion of legal and compliance review for payment processing.\n- Onboarding of initial beta vendors.\n\n## 13. Risks & Mitigation\n\n| Risk | Impact | Probability | Mitigation Strategy |\n|---|---|---|---|\n| Payment processing failures | High | Medium | Implement multiple payment gateway integrations with robust error handling and automatic retry logic. |\n| Inventory synchronization issues | High | Medium | Implement real-time inventory updates with locking mechanisms to prevent overselling. Conduct regular reconciliation audits. |\n| Security breaches (data or payment) | Critical | Low | Adhere to PCI DSS and GDPR. Implement end-to-end encryption, regular penetration testing, and a Web Application Firewall (WAF). |\n| Poor vendor adoption | Medium | High | Develop a simple and intuitive vendor onboarding process. Provide comprehensive documentation, video tutorials, and responsive support. |\n| Performance issues at scale | High | Medium | Design a horizontally scalable architecture using microservices. Conduct rigorous load testing before major marketing campaigns. |\n| Complex user experience leading to cart abandonment | Medium | Medium | Conduct continuous user testing and A/B testing on the checkout flow. Simplify the process to the minimum number of steps. |\n| Third-party API dependency failure (e.g., payment gateway) | High | Low | Design for failure with circuit breakers and fallback options. Have Service Level Agreements (SLAs) with all critical third-party providers. |\n\n## 14. Dependencies & Assumptions\n\n### Dependencies\n- **External Systems/APIs:** Stripe, PayPal, SendGrid (or similar email service).\n- **Third-party Services:** Cloud hosting provider (AWS/GCP/Azure), CDN provider.\n- **Team Resources:** Allocation of dedicated frontend, backend, DevOps, and QA teams. Availability of a UI/UX designer.\n\n### Assumptions\n- **Technical:** Payment gateway APIs will be available, stable, and documented. Customers will have access to modern web browsers (Chrome, Firefox, Safari, Edge).\n- **Business:** Vendors will have basic technical knowledge for product management. Initial product catalog will be populated by vendors without requiring extensive data migration services.\n- **User Behavior:** Customers are willing to create accounts for a better shopping experience. Vendors will see enough value in the platform to justify a commission fee.\n\n## 15. Open Questions\n- What is the specific commission structure and",
+      "project_name": "E-commerce Platform",
+      "length": 28128,
+      "sections": [
+        "1. Executive Summary",
+        "2. Goals & Objectives",
+        "3. Problem Statement",
+        "4. User Personas & Stakeholders",
+        "5. Features & User Stories",
+        "6. Use Cases",
+        "7. Functional Requirements",
+        "8. Non-Functional Requirements",
+        "9. Technical Architecture",
+        "10. Acceptance Criteria",
+        "11. Success Metrics",
+        "12. Timeline & Milestones",
+        "13. Risks & Mitigation",
+        "14. Dependencies & Assumptions",
+        "15. Open Questions"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>E-commerce Platform - AICOE Multi-Agent Platform</title>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n    <style>\n        :root {\n            --aicoe-primary: #0066cc;\n            --aicoe-accent: #00d9ff;\n            --aicoe-dark: #1d1d1f;\n            --aicoe-gray: #6e6e73;\n            --aicoe-light-gray: #f5f5f7;\n            --aicoe-white: #ffffff;\n            --aicoe-success: #34c759;\n            --aicoe-warning: #ff9500;\n        }\n\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n            background-color: var(--aicoe-light-gray);\n            color: var(--aicoe-dark);\n            line-height: 1.6;\n        }\n\n        /* Navigation */\n        nav {\n            position: sticky;\n            top: 0;\n            background: rgba(255, 255, 255, 0.95);\n            backdrop-filter: blur(20px);\n            box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n            z-index: 1000;\n            padding: 1rem 0;\n        }\n\n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 0 2rem;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .nav-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n        }\n\n        .nav-menu {\n            display: flex;\n            gap: 2rem;\n            align-items: center;\n        }\n\n        .nav-link {\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            transition: color 0.3s ease;\n            font-size: 0.95rem;\n        }\n\n        .nav-link:hover {\n            color: var(--aicoe-primary);\n        }\n\n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            padding: 6rem 2rem;\n            text-align: center;\n            color: white;\n        }\n\n        .hero h1 {\n            font-size: 3rem;\n            font-weight: 700;\n            margin-bottom: 1rem;\n            letter-spacing: -0.02em;\n        }\n\n        .hero p {\n            font-size: 1.25rem;\n            opacity: 0.9;\n            max-width: 600px;\n            margin: 0 auto;\n        }\n\n        /* Features Section */\n        .features {\n            padding: 4rem 2rem;\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .features h2 {\n            text-align: center;\n            font-size: 2.5rem;\n            margin-bottom: 3rem;\n            color: var(--aicoe-dark);\n        }\n\n        .features-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n            margin-bottom: 4rem;\n        }\n\n        .feature-card {\n            background: var(--aicoe-white);\n            padding: 2rem;\n            border-radius: 12px;\n            box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n            transition: transform 0.3s ease, box-shadow 0.3s ease;\n        }\n\n        .feature-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 24px rgba(0,0,0,0.15);\n        }\n\n        .feature-icon {\n            width: 48px;\n            height: 48px;\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            border-radius: 12px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            margin-bottom: 1.5rem;\n            color: white;\n        }\n\n        .feature-title {\n            font-size: 1.25rem;\n            font-weight: 600;\n            margin-bottom: 0.75rem;\n            color: var(--aicoe-dark);\n        }\n\n        .feature-description {\n            color: var(--aicoe-gray);\n            line-height: 1.6;\n        }\n\n        /* Use Cases Section */\n        .use-cases {\n            padding: 4rem 2rem;\n            background: var(--aicoe-white);\n        }\n\n        .use-cases h2 {\n            text-align: center;\n            font-size: 2.5rem;\n            margin-bottom: 3rem;\n            color: var(--aicoe-dark);\n        }\n\n        .use-cases-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .use-case-card {\n            background: var(--aicoe-light-gray);\n            border-radius: 12px;\n            padding: 2rem;\n            margin-bottom: 2rem;\n            transition: transform 0.3s ease, box-shadow 0.3s ease;\n        }\n\n        .use-case-card:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 4px 16px rgba(0,0,0,0.1);\n        }\n\n        .use-case-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: start;\n            margin-bottom: 1.5rem;\n            flex-wrap: wrap;\n            gap: 1rem;\n        }\n\n        .use-case-title-section {\n            flex: 1;\n        }\n\n        .use-case-id {\n            color: var(--aicoe-primary);\n            font-size: 0.875rem;\n            font-weight: 600;\n            margin-bottom: 0.5rem;\n        }\n\n        .use-case-title {\n            font-size: 1.5rem;\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.75rem;\n        }\n\n        .use-case-description {\n            color: var(--aicoe-gray);\n            line-height: 1.6;\n        }\n\n        .priority-badge {\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.875rem;\n            font-weight: 500;\n            text-transform: uppercase;\n        }\n\n        .priority-high {\n            background: rgba(255, 149, 0, 0.1);\n            color: var(--aicoe-warning);\n        }\n\n        .priority-medium {\n            background: rgba(0, 102, 204, 0.1);\n            color: var(--aicoe-primary);\n        }\n\n        .priority-low {\n            background: rgba(110, 110, 115, 0.1);\n            color: var(--aicoe-gray);\n        }\n\n        .use-case-section {\n            margin-top: 1.5rem;\n        }\n\n        .section-title {\n            font-size: 0.875rem;\n            font-weight: 600;\n            text-transform: uppercase;\n            color: var(--aicoe-gray);\n            margin-bottom: 0.75rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .section-content {\n            color: var(--aicoe-dark);\n            line-height: 1.6;\n        }\n\n        .actors-list, .preconditions-list, .postconditions-list {\n            display: flex;\n            flex-wrap: wrap;\n            gap: 0.5rem;\n        }\n\n        .actor-badge, .condition-badge {\n            background: var(--aicoe-white);\n            padding: 0.375rem 0.75rem;\n            border-radius: 8px;\n            font-size: 0.875rem;\n            box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n        }\n\n        .main-flow-steps {\n            counter-reset: step-counter;\n            list-style: none;\n        }\n\n        .main-flow-steps li {\n            counter-increment: step-counter;\n            position: relative;\n            padding-left: 2.5rem;\n            margin-bottom: 0.75rem;\n            line-height: 1.6;\n        }\n\n        .main-flow-steps li::before {\n            content: counter(step-counter);\n            position: absolute;\n            left: 0;\n            top: 0;\n            width: 1.5rem;\n            height: 1.5rem;\n            background: var(--aicoe-primary);\n            color: white;\n            border-radius: 50%;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-size: 0.75rem;\n            font-weight: 600;\n        }\n\n        .alternate-flow {\n            background: var(--aicoe-white);\n            border-radius: 8px;\n            padding: 1rem;\n            margin-top: 1rem;\n        }\n\n        .alternate-flow-title {\n            font-weight: 600;\n            color: var(--aicoe-accent);\n            margin-bottom: 0.5rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .alternate-flow-steps {\n            list-style: none;\n            margin-left: 1.5rem;\n        }\n\n        .alternate-flow-steps li {\n            position: relative;\n            padding-left: 1.5rem;\n            margin-bottom: 0.5rem;\n            line-height: 1.6;\n        }\n\n        .alternate-flow-steps li::before {\n            content: \"\u2022\";\n            position: absolute;\n            left: 0;\n            color: var(--aicoe-accent);\n            font-weight: bold;\n        }\n\n        .business-value {\n            background: linear-gradient(135deg, rgba(52, 199, 89, 0.1), rgba(0, 217, 255, 0.1));\n            border-left: 3px solid var(--aicoe-success);\n            padding: 1rem;\n            border-radius: 8px;\n            margin-top: 1rem;\n        }\n\n        /* Footer */\n        footer {\n            background: var(--aicoe-dark);\n            color: var(--aicoe-white);\n            padding: 3rem 2rem;\n            text-align: center;\n        }\n\n        .footer-content {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .footer-brand {\n            font-size: 1.5rem;\n            font-weight: 600;\n            margin-bottom: 1rem;\n            color: var(--aicoe-accent);\n        }\n\n        .footer-text {\n            color: var(--aicoe-gray);\n            margin-bottom: 2rem;\n        }\n\n        .footer-links {\n            display: flex;\n            justify-content: center;\n            gap: 2rem;\n            flex-wrap: wrap;\n        }\n\n        .footer-link {\n            color: var(--aicoe-white);\n            text-decoration: none;\n            opacity: 0.8;\n            transition: opacity 0.3s ease;\n        }\n\n        .footer-link:hover {\n            opacity: 1;\n        }\n\n        /* Responsive Design */\n        @media (max-width: 768px) {\n            .nav-menu {\n                display: none;\n            }\n\n            .hero h1 {\n                font-size: 2rem;\n            }\n\n            .hero p {\n                font-size: 1rem;\n            }\n\n            .features h2,\n            .use-cases h2 {\n                font-size: 2rem;\n            }\n\n            .features-grid {\n                grid-template-columns: 1fr;\n            }\n\n            .use-case-header {\n                flex-direction: column;\n            }\n        }\n\n        /* Printer-Friendly CSS */\n        @media print {\n            nav, .no-print, button { display: none !important; }\n            body { font-size: 12pt; color: #000; background: #fff; }\n            * { box-shadow: none !important; text-shadow: none !important; }\n            .page-break { page-break-before: always; }\n            h1, h2, h3 { page-break-after: avoid; }\n            a[href]:after { content: \" (\" attr(href) \")\"; }\n            .hero { background: none !important; color: #000 !important; }\n            .feature-card, .use-case-card { break-inside: avoid; }\n        }\n    </style>\n</head>\n<body>\n    <!-- Navigation -->\n    <nav class=\"no-print\">\n        <div class=\"nav-container\">\n            <div class=\"nav-brand\">\n                <i data-lucide=\"layers\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <div class=\"nav-menu\">\n                <a href=\"#home\" class=\"nav-link\">\n                    <i data-lucide=\"home\"></i>\n                    Home\n                </a>\n                <a href=\"#features\" class=\"nav-link\">\n                    <i data-lucide=\"zap\"></i>\n                    Features\n                </a>\n                <a href=\"#use-cases\" class=\"nav-link\">\n                    <i data-lucide=\"file-text\"></i>\n                    Use Cases\n                </a>\n                <a href=\"#analytics\" class=\"nav-link\">\n                    <i data-lucide=\"trending-up\"></i>\n                    Analytics\n                </a>\n                <a href=\"#settings\" class=\"nav-link\">\n                    <i data-lucide=\"settings\"></i>\n                    Settings\n                </a>\n            </div>\n        </div>\n    </nav>\n\n    <!-- Hero Section -->\n    <section id=\"home\" class=\"hero\">\n        <h1>E-commerce Platform</h1>\n        <p>A modern, comprehensive e-commerce solution built with multi-vendor support, advanced analytics, and AI-powered recommendations</p>\n    </section>\n\n    <!-- Features Section -->\n    <section id=\"features\" class=\"features\">\n        <h2>Platform Features</h2>\n        <div class=\"features-grid\">\n            <div class=\"feature-card\">\n                <div class=\"feature-icon\">\n                    <i data-lucide=\"shopping-cart\"></i>\n                </div>\n                <h3 class=\"feature-title\">Smart Shopping Cart</h3>\n                <p class=\"feature-description\">Intuitive cart management with real-time inventory updates, saved carts, and seamless checkout experience</p>\n            </div>\n            <div class=\"feature-card\">\n                <div class=\"feature-icon\">\n                    <i data-lucide=\"users\"></i>\n                </div>\n                <h3 class=\"feature-title\">Multi-Vendor Support</h3>\n                <p class=\"feature-description\">Enable multiple vendors to manage their products, inventory, and sales through dedicated dashboards</p>\n            </div>\n            <div class=\"feature-card\">\n                <div class=\"feature-icon\">\n                    <i data-lucide=\"search\"></i>\n                </div>\n                <h3 class=\"feature-title\">Advanced Search & Filter</h3>\n                <p class=\"feature-description\">Powerful search capabilities with AI-driven recommendations and intelligent filtering options</p>\n            </div>\n            <div class=\"feature-card\">\n                <div class=\"feature-icon\">\n                    <i data-lucide=\"shield-check\"></i>\n                </div>\n                <h3 class=\"feature-title\">Secure Payments</h3>\n                <p class=\"feature-description\">Enterprise-grade payment processing with multiple payment methods and fraud protection</p>\n            </div>\n            <div class=\"feature-card\">\n                <div class=\"feature-icon\">\n                    <i data-lucide=\"bar-chart-3\"></i>\n                </div>\n                <h3 class=\"feature-title\">Analytics Dashboard</h3>\n                <p class=\"feature-description\">Comprehensive analytics for vendors and administrators with real-time insights and reporting</p>\n            </div>\n            <div class=\"feature-card\">\n                <div class=\"feature-icon\">\n                    <i data-lucide=\"target\"></i>\n                </div>\n                <h3 class=\"feature-title\">Personalized Recommendations</h3>\n                <p class=\"feature-description\">AI-powered product recommendations based on user behavior and purchase history</p>\n            </div>\n        </div>\n    </section>\n\n    <!-- Use Cases Section -->\n    <section id=\"use-cases\" class=\"use-cases\">\n        <h2>Use Cases</h2>\n        <div class=\"use-cases-container\">\n            <!-- Use Case 1 -->\n            <div class=\"use-case-card\">\n                <div class=\"use-case-header\">\n                    <div class=\"use-case-title-section\">\n                        <div class=\"use-case-id\">UC-001</div>\n                        <h3 class=\"use-case-title\">Browse and Search Product Catalog</h3>\n                        <p class=\"use-case-description\">Customers can browse through the entire product catalog, filter products by various criteria, and search for specific items using keywords.</p>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                </div>\n                \n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"users\"></i>\n                        Actors\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"actors-list\">\n                            <span class=\"actor-badge\">Customer</span>\n                            <span class=\"actor-badge\">Guest User</span>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"check-circle\"></i>\n                        Preconditions\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"preconditions-list\">\n                            <span class=\"condition-badge\">Product catalog is populated</span>\n                            <span class=\"condition-badge\">Search index is up to date</span>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"play-circle\"></i>\n                        Main Flow\n                    </div>\n                    <div class=\"section-content\">\n                        <ol class=\"main-flow-steps\">\n                            <li>User navigates to the product catalog page</li>\n                            <li>System displays available products with basic information</li>\n                            <li>User can filter by category, price range, ratings, or other attributes</li>\n                            <li>System updates the displayed products based on filters</li>\n                            <li>User can search using keywords in the search bar</li>\n                            <li>System returns relevant search results</li>\n                            <li>User can click on any product to view detailed information</li>\n                        </ol>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"git-branch\"></i>\n                        Alternate Flows\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"alternate-flow\">\n                            <div class=\"alternate-flow-title\">\n                                <i data-lucide=\"alert-circle\"></i>\n                                No results found\n                            </div>\n                            <ul class=\"alternate-flow-steps\">\n                                <li>System displays 'No products found' message</li>\n                                <li>System suggests similar products or alternative search terms</li>\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"flag\"></i>\n                        Postconditions\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"postconditions-list\">\n                            <span class=\"condition-badge\">User has viewed relevant products</span>\n                            <span class=\"condition-badge\">Search history is logged</span>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"business-value\">\n                    <strong>Business Value:</strong> Essential for customer discovery and conversion, directly impacts sales and user engagement\n                </div>\n            </div>\n\n            <!-- Use Case 2 -->\n            <div class=\"use-case-card\">\n                <div class=\"use-case-header\">\n                    <div class=\"use-case-title-section\">\n                        <div class=\"use-case-id\">UC-002</div>\n                        <h3 class=\"use-case-title\">Manage Shopping Cart</h3>\n                        <p class=\"use-case-description\">Customers can add products to their shopping cart, update quantities, remove items, and proceed to checkout.</p>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                </div>\n                \n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"users\"></i>\n                        Actors\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"actors-list\">\n                            <span class=\"actor-badge\">Customer</span>\n                            <span class=\"actor-badge\">Guest User</span>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"check-circle\"></i>\n                        Preconditions\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"preconditions-list\">\n                            <span class=\"condition-badge\">User has viewed at least one product</span>\n                            <span class=\"condition-badge\">Product is in stock</span>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"play-circle\"></i>\n                        Main Flow\n                    </div>\n                    <div class=\"section-content\">\n                        <ol class=\"main-flow-steps\">\n                            <li>User clicks 'Add to Cart' on a product page</li>\n                            <li>System validates product availability</li>\n                            <li>Product is added to the shopping cart</li>\n                            <li>User navigates to shopping cart</li>\n                            <li>System displays all cart items with quantities and prices</li>\n                            <li>User can update item quantities</li>\n                            <li>System recalculates total price</li>\n                            <li>User can remove items from cart</li>\n                            <li>User proceeds to checkout</li>\n                        </ol>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"git-branch\"></i>\n                        Alternate Flows\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"alternate-flow\">\n                            <div class=\"alternate-flow-title\">\n                                <i data-lucide=\"alert-circle\"></i>\n                                Product out of stock\n                            </div>\n                            <ul class=\"alternate-flow-steps\">\n                                <li>System displays out of stock message</li>\n                                <li>Product cannot be added to cart</li>\n                                <li>System suggests notifying when back in stock</li>\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"flag\"></i>\n                        Postconditions\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"postconditions-list\">\n                            <span class=\"condition-badge\">Shopping cart reflects current selections</span>\n                            <span class=\"condition-badge\">Cart data is saved for logged-in users</span>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"business-value\">\n                    <strong>Business Value:</strong> Critical for conversion optimization and revenue generation\n                </div>\n            </div>\n\n            <!-- Use Case 3 -->\n            <div class=\"use-case-card\">\n                <div class=\"use-case-header\">\n                    <div class=\"use-case-title-section\">\n                        <div class=\"use-case-id\">UC-003</div>\n                        <h3 class=\"use-case-title\">Complete Checkout Process</h3>\n                        <p class=\"use-case-description\">Customers can complete the purchase by providing shipping information, selecting payment method, and confirming the order.</p>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                </div>\n                \n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"users\"></i>\n                        Actors\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"actors-list\">\n                            <span class=\"actor-badge\">Customer</span>\n                            <span class=\"actor-badge\">Guest User</span>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"check-circle\"></i>\n                        Preconditions\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"preconditions-list\">\n                            <span class=\"condition-badge\">Shopping cart contains at least one item</span>\n                            <span class=\"condition-badge\">All items in cart are available</span>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"play-circle\"></i>\n                        Main Flow\n                    </div>\n                    <div class=\"section-content\">\n                        <ol class=\"main-flow-steps\">\n                            <li>User initiates checkout from shopping cart</li>\n                            <li>System prompts for login or guest checkout</li>\n                            <li>User enters or selects shipping address</li>\n                            <li>System validates shipping address</li>\n                            <li>User selects shipping method</li>\n                            <li>System displays shipping cost and estimated delivery</li>\n                            <li>User enters payment information</li>\n                            <li>System validates payment details</li>\n                            <li>User reviews order summary</li>\n                            <li>User confirms and places order</li>\n                            <li>System processes payment</li>\n                            <li>System generates order confirmation</li>\n                            <li>User receives order confirmation</li>\n                        </ol>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"git-branch\"></i>\n                        Alternate Flows\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"alternate-flow\">\n                            <div class=\"alternate-flow-title\">\n                                <i data-lucide=\"alert-circle\"></i>\n                                Payment failure\n                            </div>\n                            <ul class=\"alternate-flow-steps\">\n                                <li>System displays payment error message</li>\n                                <li>User can retry payment or use different method</li>\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"use-case-section\">\n                    <div class=\"section-title\">\n                        <i data-lucide=\"flag\"></i>\n                        Postconditions\n                    </div>\n                    <div class=\"section-content\">\n                        <div class=\"postconditions-list\">\n                            <span class=\"condition-badge\">Order is created in the system</span>\n                            <span class=\"condition-badge\">Inventory is updated</span>",
+      "project_name": "E-commerce Platform",
+      "length": 29031,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "raw_response": "{\n    \"data_sets\": [\n        {\n            \"name\": \"Product Catalog\",\n            \"description\": \"Comprehensive product catalog with various categories, prices, and attributes for browsing and searching\",\n            \"use_case_id\": \"UC-001\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"productId\": \"string\",\n                \"name\": \"string\",\n                \"description\": \"string\",\n                \"category\": \"string\",\n                \"subCategory\": \"string\",\n                \"brand\": \"string\",\n                \"price\": \"number\",\n                \"originalPrice\": \"number\",\n                \"currency\": \"string\",\n                \"inStock\": \"boolean\",\n                \"stockQuantity\": \"number\",\n                \"averageRating\": \"number\",\n                \"reviewCount\": \"number\",\n                \"vendorId\": \"string\",\n                \"vendorName\": \"string\",\n                \"images\": [\"string\"],\n                \"attributes\": {\n                    \"color\": [\"string\"],\n                    \"size\": [\"string\"],\n                    \"material\": \"string\",\n                    \"weight\": \"number\"\n                },\n                \"tags\": [\"string\"],\n                \"createdAt\": \"string\",\n                \"updatedAt\": \"string\"\n            },\n            \"sample_data\": [\n                {\n                    \"productId\": \"PRD-001234\",\n                    \"name\": \"Wireless Noise-Canceling Headphones\",\n                    \"description\": \"Premium over-ear headphones with active noise cancellation, 30-hour battery life, and superior sound quality.\",\n                    \"category\": \"Electronics\",\n                    \"subCategory\": \"Audio\",\n                    \"brand\": \"AudioTech Pro\",\n                    \"price\": 299.99,\n                    \"originalPrice\": 399.99,\n                    \"currency\": \"USD\",\n                    \"inStock\": true,\n                    \"stockQuantity\": 45,\n                    \"averageRating\": 4.5,\n                    \"reviewCount\": 234,\n                    \"vendorId\": \"VEND-001\",\n                    \"vendorName\": \"TechGear Solutions\",\n                    \"images\": [\"https://example.com/images/headphones1.jpg\", \"https://example.com/images/headphones2.jpg\"],\n                    \"attributes\": {\n                        \"color\": [\"Black\", \"Silver\", \"Midnight Blue\"],\n                        \"size\": [\"One Size\"],\n                        \"material\": \"Plastic, Metal, Leatherette\",\n                        \"weight\": 0.35\n                    },\n                    \"tags\": [\"wireless\", \"bluetooth\", \"noise-canceling\", \"premium\"],\n                    \"createdAt\": \"2024-01-15T10:30:00Z\",\n                    \"updatedAt\": \"2024-02-20T14:22:00Z\"\n                },\n                {\n                    \"productId\": \"PRD-001235\",\n                    \"name\": \"Organic Cotton T-Shirt\",\n                    \"description\": \"Sustainable and comfortable 100% organic cotton t-shirt, perfect for everyday wear.\",\n                    \"category\": \"Clothing\",\n                    \"subCategory\": \"Tops\",\n                    \"brand\": \"EcoWear\",\n                    \"price\": 29.99,\n                    \"originalPrice\": 39.99,\n                    \"currency\": \"USD\",\n                    \"inStock\": true,\n                    \"stockQuantity\": 120,\n                    \"averageRating\": 4.2,\n                    \"reviewCount\": 89,\n                    \"vendorId\": \"VEND-002\",\n                    \"vendorName\": \"Sustainable Fashion Co\",\n                    \"images\": [\"https://example.com/images/tshirt1.jpg\"],\n                    \"attributes\": {\n                        \"color\": [\"White\", \"Black\", \"Navy\", \"Forest Green\"],\n                        \"size\": [\"XS\", \"S\", \"M\", \"L\", \"XL\", \"XXL\"],\n                        \"material\": \"100% Organic Cotton\",\n                        \"weight\": 0.2\n                    },\n                    \"tags\": [\"organic\", \"sustainable\", \"casual\", \"basic\"],\n                    \"createdAt\": \"2024-02-01T09:15:00Z\",\n                    \"updatedAt\": \"2024-02-18T11:45:00Z\"\n                },\n                {\n                    \"productId\": \"PRD-001236\",\n                    \"name\": \"Smart Home Security Camera\",\n                    \"description\": \"1080p HD security camera with night vision, motion detection, and two-way audio communication.\",\n                    \"category\": \"Electronics\",\n                    \"subCategory\": \"Smart Home\",\n                    \"brand\": \"SecureHome\",\n                    \"price\": 149.99,\n                    \"originalPrice\": 199.99,\n                    \"currency\": \"USD\",\n                    \"inStock\": false,\n                    \"stockQuantity\": 0,\n                    \"averageRating\": 4.7,\n                    \"reviewCount\": 412,\n                    \"vendorId\": \"VEND-001\",\n                    \"vendorName\": \"TechGear Solutions\",\n                    \"images\": [\"https://example.com/images/camera1.jpg\", \"https://example.com/images/camera2.jpg\"],\n                    \"attributes\": {\n                        \"color\": [\"White\", \"Black\"],\n                        \"size\": [\"Compact\"],\n                        \"material\": \"Plastic, Metal\",\n                        \"weight\": 0.5\n                    },\n                    \"tags\": [\"smart home\", \"security\", \"wifi\", \"app-controlled\"],\n                    \"createdAt\": \"2024-01-20T16:40:00Z\",\n                    \"updatedAt\": \"2024-02-25T08:30:00Z\"\n                }\n            ]\n        },\n        {\n            \"name\": \"Shopping Cart Data\",\n            \"description\": \"Shopping cart contents with items, quantities, and pricing for cart management\",\n            \"use_case_id\": \"UC-002\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"cartId\": \"string\",\n                \"userId\": \"string\",\n                \"sessionId\": \"string\",\n                \"items\": [{\n                    \"productId\": \"string\",\n                    \"productName\": \"string\",\n                    \"quantity\": \"number\",\n                    \"unitPrice\": \"number\",\n                    \"totalPrice\": \"number\",\n                    \"addedAt\": \"string\"\n                }],\n                \"subtotal\": \"number\",\n                \"tax\": \"number\",\n                \"shipping\": \"number\",\n                \"discount\": \"number\",\n                \"total\": \"number\",\n                \"currency\": \"string\",\n                \"createdAt\": \"string\",\n                \"updatedAt\": \"string\"\n            },\n            \"sample_data\": [\n                {\n                    \"cartId\": \"CART-789012\",\n                    \"userId\": \"USER-003456\",\n                    \"sessionId\": \"SESSION-ABC123\",\n                    \"items\": [\n                        {\n                            \"productId\": \"PRD-001234\",\n                            \"productName\": \"Wireless Noise-Canceling Headphones\",\n                            \"quantity\": 1,\n                            \"unitPrice\": 299.99,\n                            \"totalPrice\": 299.99,\n                            \"addedAt\": \"2024-03-01T14:30:00Z\"\n                        },\n                        {\n                            \"productId\": \"PRD-001235\",\n                            \"productName\": \"Organic Cotton T-Shirt\",\n                            \"quantity\": 2,\n                            \"unitPrice\": 29.99,\n                            \"totalPrice\": 59.98,\n                            \"addedAt\": \"2024-03-01T14:35:00Z\"\n                        }\n                    ],\n                    \"subtotal\": 359.97,\n                    \"tax\": 32.40,\n                    \"shipping\": 9.99,\n                    \"discount\": 20.00,\n                    \"total\": 382.36,\n                    \"currency\": \"USD\",\n                    \"createdAt\": \"2024-03-01T14:30:00Z\",\n                    \"updatedAt\": \"2024-03-01T14:35:00Z\"\n                },\n                {\n                    \"cartId\": \"CART-789013\",\n                    \"userId\": null,\n                    \"sessionId\": \"SESSION-DEF456\",\n                    \"items\": [\n                        {\n                            \"productId\": \"PRD-001235\",\n                            \"productName\": \"Organic Cotton T-Shirt\",\n                            \"quantity\": 1,\n                            \"unitPrice\": 29.99,\n                            \"totalPrice\": 29.99,\n                            \"addedAt\": \"2024-03-02T10:15:00Z\"\n                        }\n                    ],\n                    \"subtotal\": 29.99,\n                    \"tax\": 2.70,\n                    \"shipping\": 5.99,\n                    \"discount\": 0.00,\n                    \"total\": 38.68,\n                    \"currency\": \"USD\",\n                    \"createdAt\": \"2024-03-02T10:15:00Z\",\n                    \"updatedAt\": \"2024-03-02T10:15:00Z\"\n                }\n            ]\n        },\n        {\n            \"name\": \"Order Processing\",\n            \"description\": \"Order details including customer info, shipping, payment, and order status for checkout\",\n            \"use_case_id\": \"UC-003\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"orderId\": \"string\",\n                \"customerId\": \"string\",\n                \"orderDate\": \"string\",\n                \"status\": \"string\",\n                \"items\": [{\n                    \"productId\": \"string\",\n                    \"productName\": \"string\",\n                    \"quantity\": \"number\",\n                    \"unitPrice\": \"number\",\n                    \"totalPrice\": \"number\"\n                }],\n                \"shippingAddress\": {\n                    \"firstName\": \"string\",\n                    \"lastName\": \"string\",\n                    \"street\": \"string\",\n                    \"city\": \"string\",\n                    \"state\": \"string\",\n                    \"zipCode\": \"string\",\n                    \"country\": \"string\",\n                    \"phone\": \"string\"\n                },\n                \"billingAddress\": {\n                    \"firstName\": \"string\",\n                    \"lastName\": \"string\",\n                    \"street\": \"string\",\n                    \"city\": \"string\",\n                    \"state\": \"string\",\n                    \"zipCode\": \"string\",\n                    \"country\": \"string\"\n                },\n                \"paymentMethod\": {\n                    \"type\": \"string\",\n                    \"lastFour\": \"string\",\n                    \"transactionId\": \"string\",\n                    \"status\": \"string\"\n                },\n                \"shippingMethod\": {\n                    \"name\": \"string\",\n                    \"cost\": \"number\",\n                    \"estimatedDelivery\": \"string\"\n                },\n                \"subtotal\": \"number\",\n                \"tax\": \"number\",\n                \"shipping\": \"number\",\n                \"discount\": \"number\",\n                \"total\": \"number\",\n                \"currency\": \"string\"\n            },\n            \"sample_data\": [\n                {\n                    \"orderId\": \"ORD-20240301-001\",\n                    \"customerId\": \"USER-003456\",\n                    \"orderDate\": \"2024-03-01T15:45:00Z\",\n                    \"status\": \"confirmed\",\n                    \"items\": [\n                        {\n                            \"productId\": \"PRD-001234\",\n                            \"productName\": \"Wireless Noise-Canceling Headphones\",\n                            \"quantity\": 1,\n                            \"unitPrice\": 299.99,\n                            \"totalPrice\": 299.99\n                        },\n                        {\n                            \"productId\": \"PRD-001235\",\n                            \"productName\": \"Organic Cotton T-Shirt\",\n                            \"quantity\": 2,\n                            \"unitPrice\": 29.99,\n                            \"totalPrice\": 59.98\n                        }\n                    ],\n                    \"shippingAddress\": {\n                        \"firstName\": \"John\",\n                        \"lastName\": \"Doe\",\n                        \"street\": \"123 Main Street\",\n                        \"city\": \"New York\",\n                        \"state\": \"NY\",\n                        \"zipCode\": \"10001\",\n                        \"country\": \"USA\",\n                        \"phone\": \"+1-555-0123\"\n                    },\n                    \"billingAddress\": {\n                        \"firstName\": \"John\",\n                        \"lastName\": \"Doe\",\n                        \"street\": \"123 Main Street\",\n                        \"city\": \"New York\",\n                        \"state\": \"NY\",\n                        \"zipCode\": \"10001\",\n                        \"country\": \"USA\"\n                    },\n                    \"paymentMethod\": {\n                        \"type\": \"credit_card\",\n                        \"lastFour\": \"4242\",\n                        \"transactionId\": \"TXN-987654321\",\n                        \"status\": \"completed\"\n                    },\n                    \"shippingMethod\": {\n                        \"name\": \"Express Shipping\",\n                        \"cost\": 9.99,\n                        \"estimatedDelivery\": \"2024-03-04\"\n                    },\n                    \"subtotal\": 359.97,\n                    \"tax\": 32.40,\n                    \"shipping\": 9.99,\n                    \"discount\": 20.00,\n                    \"total\": 382.36,\n                    \"currency\": \"USD\"\n                }\n            ]\n        },\n        {\n            \"name\": \"Vendor Products\",\n            \"description\": \"Vendor-specific product management data including status and performance metrics\",\n            \"use_case_id\": \"UC-004\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"vendorId\": \"string\",\n                \"vendorName\": \"string\",\n                \"products\": [{\n                    \"productId\": \"string\",\n                    \"name\": \"string\",\n                    \"sku\": \"string\",\n                    \"status\": \"string\",\n                    \"inventory\": {\n                        \"available\": \"number\",\n                        \"reserved\": \"number\",\n                        \"lowStockThreshold\": \"number\"\n                    },\n                    \"pricing\": {\n                        \"retailPrice\": \"number\",\n                        \"salePrice\": \"number\",\n                        \"cost\": \"number\",\n                        \"margin\": \"number\"\n                    },\n                    \"performance\": {\n                        \"views\": \"number\",\n                        \"orders\": \"number\",\n                        \"revenue\": \"number\",\n                        \"conversionRate\": \"number\"\n                    },\n                    \"lastUpdated\": \"string\"\n                }]\n            },\n            \"sample_data\": [\n                {\n                    \"vendorId\": \"VEND-001\",\n                    \"vendorName\": \"TechGear Solutions\",\n                    \"products\": [\n                        {\n                            \"productId\": \"PRD-001234\",\n                            \"name\": \"Wireless Noise-Canceling Headphones\",\n                            \"sku\": \"TG-HP-001\",\n                            \"status\": \"active\",\n                            \"inventory\": {\n                                \"available\": 45,\n                                \"reserved\": 5,\n                                \"lowStockThreshold\": 10\n                            },\n                            \"pricing\": {\n                                \"retailPrice\": 399.99,\n                                \"salePrice\": 299.99,\n                                \"cost\": 150.00,\n                                \"margin\": 50.0\n                            },\n                            \"performance\": {\n                                \"views\": 1250,\n                                \"orders\": 89,\n                                \"revenue\": 26699.11,\n                                \"conversionRate\": 7.12\n                            },\n                            \"lastUpdated\": \"2024-03-01T09:00:00Z\"\n                        },\n                        {\n                            \"productId\": \"PRD-001236\",\n                            \"name\": \"Smart Home Security Camera\",\n                            \"sku\": \"TG-CAM-001\",\n                            \"status\": \"out_of_stock\",\n                            \"inventory\": {\n                                \"available\": 0,\n                                \"reserved\": 0,\n                                \"lowStockThreshold\": 10\n                            },\n                            \"pricing\": {\n                                \"retailPrice\": 199.99,\n                                \"salePrice\": 149.99,\n                                \"cost\": 75.00,\n                                \"margin\": 50.0\n                            },\n                            \"performance\": {\n                                \"views\": 2100,\n                                \"orders\": 156,\n                                \"revenue\": 23398.44,\n                                \"conversionRate\": 7.43\n                            },\n                            \"lastUpdated\": \"2024-02-25T08:30:00Z\"\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"name\": \"Analytics Dashboard\",\n            \"description\": \"Performance metrics and analytics data for vendors and administrators\",\n            \"use_case_id\": \"UC-005\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"userId\": \"string\",\n                \"userRole\": \"string\",\n                \"dateRange\": {\n                    \"start\": \"string\",\n                    \"end\": \"string\"\n                },\n                \"metrics\": {\n                    \"totalRevenue\": \"number\",\n                    \"totalOrders\": \"number\",\n                    \"averageOrderValue\": \"number\",\n                    \"conversionRate\": \"number\",\n                    \"totalVisitors\": \"number\",\n                    \"pageViews\": \"number\",\n                    \"topProducts\": [{\n                        \"productId\": \"string\",\n                        \"productName\": \"string\",\n                        \"revenue\": \"number\",\n                        \"orders\": \"number\"\n                    }],\n                    \"dailyBreakdown\": [{\n                        \"date\": \"string\",\n                        \"revenue\": \"number\",\n                        \"orders\": \"number\",\n                        \"visitors\": \"number\"\n                    }]\n                }\n            },\n            \"sample_data\": [\n                {\n                    \"userId\": \"VEND-001\",\n                    \"userRole\": \"vendor\",\n                    \"dateRange\": {\n                        \"start\": \"2024-02-01\",\n                        \"end\": \"2024-02-29\"\n                    },\n                    \"metrics\": {\n                        \"totalRevenue\": 125478.92,\n                        \"totalOrders\": 423,\n                        \"averageOrderValue\": 296.65,\n                        \"conversionRate\": 6.8,\n                        \"totalVisitors\": 6225,\n                        \"pageViews\": 28450,\n                        \"topProducts\": [\n                            {\n                                \"productId\": \"PRD-001234\",\n                                \"productName\": \"Wireless Noise-Canceling Headphones\",\n                                \"revenue\": 45234.56,\n                                \"orders\": 151\n                            },\n                            {\n                                \"productId\": \"PRD-001236\",\n                                \"productName\": \"Smart Home Security Camera\",\n                                \"revenue\": 38765.22,\n                                \"orders\": 258\n                            }\n                        ],\n                        \"dailyBreakdown\": [\n                            {\n                                \"date\": \"2024-02-01\",\n                                \"revenue\": 3421.50,\n                                \"orders\": 12,\n                                \"visitors\": 185\n                            },\n                            {\n                                \"date\": \"2024-02-02\",\n                                \"revenue\": 4156.75,\n                                \"orders\": 15,\n                                \"visitors\": 210\n                            }\n                        ]\n                    }\n                },\n                {\n                    \"userId\": \"ADMIN-001\",\n                    \"userRole\": \"administrator\",\n                    \"dateRange\": {\n                        \"start\": \"2024-02-01\",\n                        \"end\": \"2024-02-29\"\n                    },\n                    \"metrics\": {\n                        \"totalRevenue\": 2456789.45,\n                        \"totalOrders\": 8234,\n                        \"averageOrderValue\": 298.30,\n                        \"conversionRate\": 7.2,\n                        \"totalVisitors\": 114361,\n                        \"pageViews\": 523450,\n                        \"topProducts\": [\n                            {\n                                \"productId\": \"PRD-001234\",\n                                \"productName\": \"Wireless Noise-Canceling Headphones\",\n                                \"revenue\": 145234.56,"
+      },
+      "project_name": "E-commerce Platform",
+      "warning": "Could not parse as JSON"
+    },
+    "reviewer": {
+      "review_cycle_id": "E-commerce Platform_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-29T08:00:16.584205"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.00421
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 5.025332
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 93.184393
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 10.13232
+    },
+    {
+      "name": "prd",
+      "status": "completed",
+      "duration": 77.558598
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 61.433371
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 46.598937
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.000667
+    }
+  ]
+}

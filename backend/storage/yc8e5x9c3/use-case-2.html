@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Case UC-002: Mark Task as Complete - AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #f1f5f9;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .brand-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .brand-text p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--light-gray);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .use-case-header {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.6s ease-out 0.1s both;
+        }
+
+        .use-case-title {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .use-case-id {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: fit-content;
+        }
+
+        .use-case-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            flex: 1;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--danger);
+            color: var(--white);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .description {
+            color: var(--gray);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            padding: 1rem;
+            background: var(--light-gray);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.6s ease-out 0.2s both;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .actor-list, .precondition-list, .postcondition-list {
+            list-style: none;
+        }
+
+        .actor-list li, .precondition-list li, .postcondition-list li {
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: var(--light-gray);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .actor-list li:hover, .precondition-list li:hover, .postcondition-list li:hover {
+            background: var(--primary-light);
+            transform: translateX(4px);
+        }
+
+        .flow-section {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.6s ease-out 0.3s both;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-button:hover {
+            background: var(--light-gray);
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .flow-steps {
+            counter-reset: step;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: start;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: var(--radius);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .flow-step:hover {
+            background: var(--primary-light);
+            transform: translateX(8px);
+        }
+
+        .flow-step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+        }
+
+        .step-content {
+            flex: 1;
+            color: var(--dark);
+            font-size: 1.05rem;
+        }
+
+        .business-value {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            animation: fadeIn 0.6s ease-out 0.4s both;
+        }
+
+        .business-value h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+            animation: fadeIn 0.6s ease-out 0.5s both;
+        }
+
+        .page-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .page-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            width: 24px;
+            border-radius: 4px;
+            background: var(--primary);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: start;
+            }
+
+            .use-case-title {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .use-case-title h2 {
+                font-size: 1.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-step::before {
+                left: 10px;
+                top: 10px;
+                transform: none;
+            }
+
+            .flow-step {
+                padding-left: 60px;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .nav-links, .pagination {
+                display: none;
+            }
+
+            .info-card, .flow-section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #e5e7eb;
+            }
+
+            .flow-step:hover {
+                background: var(--light-gray);
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="brand">
+                    <div class="brand-logo">AICOE</div>
+                    <div class="brand-text">
+                        <h1>HTML Generation Test</h1>
+                        <p>Use Case Documentation</p>
+                    </div>
+                </div>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home"></i>
+                        Back to Home
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <section class="use-case-header">
+            <div class="use-case-title">
+                <span class="use-case-id">UC-002</span>
+                <h2>Mark Task as Complete</h2>
+                <span class="priority-badge">
+                    <i data-lucide="alert-circle" style="width: 16px; height: 16px;"></i>
+                    High Priority
+                </span>
+            </div>
+            <div class="description">
+                A user changes the status of a task from 'active' to 'completed'. This action provides immediate visual feedback and updates the task's status in the backend, adhering to accessibility standards.
+            </div>
+        </section>
+
+        <div class="content-grid">
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <h3 class="card-title">Actors</h3>
+                </div>
+                <ul class="actor-list">
+                    <li>
+                        <i data-lucide="user" style="color: var(--primary); flex-shrink: 0;"></i>
+                        <span>User</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="check-square"></i>
+                    </div>
+                    <h3 class="card-title">Preconditions</h3>
+                </div>
+                <ul class="precondition-list">
+                    <li>
+                        <i data-lucide="list-checks" style="color: var(--primary); flex-shrink: 0;"></i>
+                        <span>The user has at least one active task in their list.</span>
+                    </li>
+                    <li>
+                        <i data-lucide="eye" style="color: var(--primary); flex-shrink: 0;"></i>
+                        <span>The task list is visible on the screen.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="flag"></i>
+                    </div>
+                    <h3 class="card-title">Postconditions</h3>
+                </div>
+                <ul class="postcondition-list">
+                    <li>
+                        <i data-lucide="monitor" style="color: var(--success); flex-shrink: 0;"></i>
+                        <span>The task's status is updated in the UI.</span>
+                    </li>
+                    <li>
+                        <i data-lucide="database" style="color: var(--success); flex-shrink: 0;"></i>
+                        <span>The task's status is persisted in the backend database.</span>
+                    </li>
+                    <li>
+                        <i data-lucide="filter" style="color: var(--success); flex-shrink: 0;"></i>
+                        <span>If a filter is active (e.g., 'Active Tasks'), the task may disappear from the current view.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="flow-section">
+            <div class="tabs">
+                <button class="tab-button active" onclick="switchTab(event, 'main-flow')">
+                    <i data-lucide="play-circle" style="width: 18px; height: 18px; margin-right: 0.5rem;"></i>
+                    Main Flow
+                </button>
+                <button class="tab-button" onclick="switchTab(event, 'alternate-flow')">
+                    <i data-lucide="git-branch" style="width: 18px; height: 18px; margin-right: 0.5rem;"></i>
+                    Alternate Flow
+                </button>
+            </div>
+
+            <div id="main-flow" class="tab-content active">
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-content">
+                            The user views a task in the list (rendered by a TaskItem component).
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-content">
+                            The user clicks the checkbox associated with the task.
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-content">
+                            The system updates the task's status in the frontend state to 'completed'.
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-content">
+                            The UI immediately updates: the task text receives a strikethrough style, and the checkbox is checked.
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-content">
+                            The system sends an asynchronous PATCH request to the backend endpoint (e.g., PATCH /tasks/:id) with a JSON payload like { "status": "completed" }.
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-content">
+                            The backend updates the task's status in the data store and responds with a success status.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="alternate-flow" class="tab-content">
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-content">
+                            <strong>Un-marking a Task</strong>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-content">
+                            The user clicks the checkbox of a completed task.
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-content">
+                            The system reverts the task's status to 'active'.
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-content">
+                            Visual strikethrough is removed.
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-content">
+                            A PATCH request is sent to update the status to 'active'.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="business-value">
+            <h3>
+                <i data-lucide="trending-up"></i>
+                Business Value
+            </h3>
+            <p style="font-size: 1.1rem; line-height: 1.8;">
+                Enables users to track their progress, which is the primary benefit of a to-do list. This feature is a baseline expectation set by market leaders like Todoist and Microsoft To Do.
+            </p>
+        </section>
+
+        <nav class="pagination">
+            <a href="use-case-1.html" class="nav-link">
+                <i data-lucide="chevron-left"></i>
+                Previous
+            </a>
+            <div class="page-indicator">
+                <span>Page</span>
+                <div class="page-dots">
+                    <div class="dot"></div>
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <span>of 4</span>
+            </div>
+            <a href="use-case-3.html" class="nav-link">
+                Next
+                <i data-lucide="chevron-right"></i>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(event, tabId) {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            lucide.createIcons();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const flowSteps = document.querySelectorAll('.flow-step');
+            flowSteps.forEach((step, index) => {
+                step.style.animationDelay = `${0.1 * index}s`;
+            });
+        });
+    </script>
+</body>
+</html>

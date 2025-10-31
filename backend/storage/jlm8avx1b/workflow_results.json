@@ -1,0 +1,1081 @@
+{
+  "project_name": "Task Management App",
+  "workflow_id": "workflow_20251029_081812",
+  "status": "success",
+  "context": {
+    "project_name": "Task Management App",
+    "workflow_id": "workflow_20251029_081812",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T08:18:12.638706",
+    "end_time": "2025-10-29T08:23:44.053854",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Task Management App",
+      "project_root": "projects/Task Management App",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T08:18:12.639704",
+        "action": "project_created",
+        "project_name": "Task Management App",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": "Not specified",
+        "attendees": [],
+        "meeting_date": "Not specified",
+        "meeting_objective": "To discuss the requirements and features for building a task management application",
+        "key_discussion_points": [
+          "Creating tasks in the application",
+          "Organizing tasks with lists and tags",
+          "Setting priorities and due dates for tasks",
+          "Implementing collaboration features",
+          "Assigning tasks to team members",
+          "Tracking progress of tasks",
+          "Setting up notification system"
+        ],
+        "pain_points": [],
+        "requirements": [
+          "Task creation functionality",
+          "Task organization with lists",
+          "Priority setting for tasks",
+          "Due date management",
+          "Tagging system for tasks",
+          "Collaboration features",
+          "Progress tracking capabilities",
+          "Task assignment to team members",
+          "Notification system"
+        ],
+        "decisions_made": [],
+        "action_items": [],
+        "technical_constraints": [],
+        "stakeholders": []
+      },
+      "project_name": "Task Management App",
+      "transcript_length": 293
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "Create and Manage Tasks",
+          "description": "Users can create new tasks, edit existing tasks, and delete tasks they no longer need. Each task can include a title, description, due date, priority level, and tags.",
+          "actors": "User, Team Member",
+          "preconditions": [
+            "User is logged into the application",
+            "User has appropriate permissions to create tasks"
+          ],
+          "main_flow": [
+            "User navigates to the task creation interface",
+            "User enters task title (required field)",
+            "User optionally adds task description",
+            "User sets due date using date picker",
+            "User selects priority level (Low, Medium, High, Critical)",
+            "User applies relevant tags from existing list or creates new ones",
+            "User saves the task",
+            "System validates all required fields",
+            "System creates the task and assigns unique ID",
+            "System displays confirmation message to user"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "User leaves required fields empty",
+              "steps": [
+                "System displays validation error",
+                "User corrects the errors and resubmits"
+              ]
+            },
+            {
+              "condition": "User wants to cancel task creation",
+              "steps": [
+                "User clicks cancel button",
+                "System discards unsaved changes",
+                "User returns to task list view"
+              ]
+            }
+          ],
+          "postconditions": [
+            "New task is created and saved in the system",
+            "Task appears in user's task list",
+            "Task is searchable and filterable"
+          ],
+          "priority": "high",
+          "business_value": "Core functionality that enables users to track and manage their work effectively, improving productivity and organization"
+        },
+        {
+          "id": "UC-002",
+          "title": "Organize Tasks with Lists and Tags",
+          "description": "Users can organize their tasks into custom lists (projects, categories) and apply tags for better categorization and filtering of tasks.",
+          "actors": "User, Team Member",
+          "preconditions": [
+            "User is logged into the application",
+            "User has existing tasks in the system"
+          ],
+          "main_flow": [
+            "User navigates to task organization section",
+            "User creates a new list by entering list name",
+            "User selects tasks to add to the list",
+            "User applies tags to tasks for additional categorization",
+            "User saves the organizational structure",
+            "System updates task associations",
+            "System displays organized view of tasks"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "User wants to rename or delete a list",
+              "steps": [
+                "User selects list options",
+                "User chooses rename or delete action",
+                "System updates or removes list accordingly",
+                "Tasks in deleted list return to uncategorized state"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Tasks are organized into logical groups",
+            "Tags are applied to tasks for easy filtering",
+            "Organizational structure is saved for future use"
+          ],
+          "priority": "high",
+          "business_value": "Helps users maintain order in their workload, making it easier to find and prioritize relevant tasks"
+        },
+        {
+          "id": "UC-003",
+          "title": "Assign and Collaborate on Tasks",
+          "description": "Team members can assign tasks to other users, add comments, share files, and work together on task completion.",
+          "actors": "User, Team Member, Team Lead",
+          "preconditions": [
+            "User is logged into the application",
+            "User is part of a team or project",
+            "User has permission to assign tasks"
+          ],
+          "main_flow": [
+            "User opens a task details view",
+            "User clicks on assignment field",
+            "System displays list of available team members",
+            "User selects team member to assign task to",
+            "User can add comments or instructions",
+            "User saves the assignment",
+            "System sends notification to assigned team member",
+            "Task appears in assigned member's task list",
+            "Both users can view and update task progress"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Assigned user is unavailable",
+              "steps": [
+                "System shows user availability status",
+                "User can choose to assign to someone else",
+                "Or keep task unassigned until user is available"
+              ]
+            },
+            {
+              "condition": "User wants to reassign task",
+              "steps": [
+                "User opens task and changes assignment",
+                "System notifies both previous and new assignee",
+                "Task history tracks assignment changes"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Task is assigned to specific team member",
+            "Assigned user receives notification",
+            "Task collaboration features are enabled"
+          ],
+          "priority": "high",
+          "business_value": "Enables effective team coordination, clear responsibility assignment, and improved project transparency"
+        },
+        {
+          "id": "UC-004",
+          "title": "Track Task Progress and Status",
+          "description": "Users can update task status, mark tasks as complete, track time spent, and monitor overall progress of their work and projects.",
+          "actors": "User, Team Member, Team Lead",
+          "preconditions": [
+            "User is logged into the application",
+            "Task exists in the system"
+          ],
+          "main_flow": [
+            "User opens task to update progress",
+            "User selects appropriate status (Not Started, In Progress, Completed, Blocked)",
+            "User can update completion percentage",
+            "User can add progress notes or comments",
+            "User saves the progress update",
+            "System updates task status in real-time",
+            "System updates project progress metrics",
+            "System logs the change in task history"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Task is marked as complete",
+              "steps": [
+                "System prompts for final confirmation",
+                "System records completion timestamp",
+                "System may trigger completion notifications",
+                "Task moves to completed section"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Task status is updated in the system",
+            "Progress metrics are recalculated",
+            "Team members can see updated status",
+            "Historical record of progress is maintained"
+          ],
+          "priority": "high",
+          "business_value": "Provides visibility into work progress, helps identify bottlenecks, and enables data-driven decision making"
+        },
+        {
+          "id": "UC-005",
+          "title": "Configure and Receive Notifications",
+          "description": "Users can set up notification preferences for task assignments, due date reminders, status changes, and other important events.",
+          "actors": "User, System",
+          "preconditions": [
+            "User is logged into the application",
+            "User has notification settings available"
+          ],
+          "main_flow": [
+            "User navigates to notification settings",
+            "User selects notification types to receive (email, in-app, push)",
+            "User sets timing preferences for reminders",
+            "User configures quiet hours or do-not-disturb periods",
+            "User saves notification preferences",
+            "System stores user preferences",
+            "System sends notifications based on configured rules",
+            "User receives notifications for subscribed events"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "User wants to temporarily disable notifications",
+              "steps": [
+                "User activates do-not-disturb mode",
+                "System suppresses notifications for specified period",
+                "System automatically re-enables after period ends"
+              ]
+            }
+          ],
+          "postconditions": [
+            "User receives relevant notifications according to preferences",
+            "System respects notification timing and frequency settings",
+            "Users can adjust settings at any time"
+          ],
+          "priority": "medium",
+          "business_value": "Ensures users stay informed about important task updates without being overwhelmed, improving responsiveness and accountability"
+        },
+        {
+          "id": "UC-006",
+          "title": "Filter and Search Tasks",
+          "description": "Users can search for specific tasks and filter their task list based on various criteria such as priority, due date, assignee, tags, and status.",
+          "actors": "User, Team Member",
+          "preconditions": [
+            "User is logged into the application",
+            "User has tasks in the system"
+          ],
+          "main_flow": [
+            "User accesses task list view",
+            "User enters search terms in search bar",
+            "User applies filters (priority, due date, assignee, tags, status)",
+            "System displays filtered results in real-time",
+            "User can save frequently used filter combinations",
+            "User can clear filters to return to full list",
+            "System maintains search state during navigation"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "No tasks match search criteria",
+              "steps": [
+                "System displays 'no results found' message",
+                "System suggests alternative search terms",
+                "User can modify search criteria"
+              ]
+            }
+          ],
+          "postconditions": [
+            "User can quickly find relevant tasks",
+            "Filtered views can be saved for future use",
+            "Search performance remains acceptable"
+          ],
+          "priority": "medium",
+          "business_value": "Improves user efficiency by enabling quick access to relevant tasks, especially in large task lists"
+        }
+      ],
+      "business_requirements": {
+        "overview": "The Task Management App is a comprehensive solution designed to help individuals and teams organize, track, and collaborate on tasks efficiently. The application will provide core task management capabilities including creation, organization, assignment, progress tracking, and notifications to improve productivity and team coordination.",
+        "business_goals": [
+          "Increase individual and team productivity by 25% through better task organization",
+          "Improve project visibility and accountability across teams",
+          "Reduce missed deadlines by 30% through effective reminder systems",
+          "Enhance team collaboration and communication efficiency",
+          "Provide actionable insights through task analytics and reporting",
+          "Scale to support teams of 5-500 users"
+        ],
+        "success_criteria": [
+          "90% user adoption rate within first 3 months of launch",
+          "Average task completion time reduced by 20%",
+          "User satisfaction score of 4.5/5 or higher",
+          "99.9% system uptime for critical operations",
+          "Response time under 2 seconds for core operations",
+          "Support for 10,000+ concurrent users"
+        ],
+        "constraints": [
+          "Must be accessible via web and mobile platforms",
+          "Must comply with data protection regulations (GDPR, CCPA)",
+          "Integration capabilities with existing enterprise tools",
+          "Budget constraints for development and maintenance",
+          "Must support offline functionality for basic operations",
+          "Data storage limitations based on subscription tiers"
+        ],
+        "assumptions": [
+          "Users have basic familiarity with task management concepts",
+          "Reliable internet connectivity is available for most users",
+          "Organization has established team structures for collaboration",
+          "Users will provide regular feedback for continuous improvement",
+          "Security protocols will be followed by all users",
+          "Regular system maintenance windows will be acceptable"
+        ],
+        "risks": [
+          {
+            "risk": "Low user adoption due to resistance to new tools",
+            "mitigation": "Provide comprehensive onboarding, training, and highlight clear benefits over current methods"
+          },
+          {
+            "risk": "Performance issues with large user bases",
+            "mitigation": "Implement scalable architecture, conduct load testing, and optimize database queries"
+          },
+          {
+            "risk": "Data security breaches",
+            "mitigation": "Implement robust encryption, regular security audits, and access controls"
+          },
+          {
+            "risk": "Integration challenges with existing systems",
+            "mitigation": "Develop flexible APIs, conduct thorough testing, and provide integration support"
+          },
+          {
+            "risk": "Feature scope creep during development",
+            "mitigation": "Maintain strict change control process, prioritize MVP features, and phased rollout approach"
+          }
+        ]
+      },
+      "project_name": "Task Management App"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "Best Practices",
+            "pattern": "Command Query Responsibility Segregation (CQRS)",
+            "description": "Separate read and write operations for task management to improve performance and scalability. Task creation/modification uses commands, while task listing uses optimized queries.",
+            "priority": "high"
+          },
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Smart Task Prioritization",
+            "description": "Implement ML-based priority suggestions based on user behavior, due dates, and historical completion patterns to help users focus on important tasks.",
+            "priority": "medium"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Optimistic Concurrency Control",
+            "description": "Use version numbers or timestamps for tasks to prevent conflicts when multiple users edit the same task simultaneously in team environments.",
+            "priority": "high"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "Event-Driven Architecture",
+            "description": "Publish task events (created, updated, completed) to enable real-time notifications and integration with other systems like calendars or communication tools.",
+            "priority": "medium"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "Task Management",
+            "suggestion": "Implement task dependencies and subtasks to support complex project workflows",
+            "rationale": "Enhances project management capabilities and allows for better task breakdown and tracking"
+          },
+          {
+            "area": "User Experience",
+            "suggestion": "Add drag-and-drop functionality for task reordering and status changes",
+            "rationale": "Improves usability and reduces clicks for common operations"
+          },
+          {
+            "area": "Collaboration",
+            "suggestion": "Include task comments, attachments, and activity history for team collaboration",
+            "rationale": "Essential for team coordination and maintaining task context"
+          },
+          {
+            "area": "Data Management",
+            "suggestion": "Implement soft delete with retention policies instead of permanent deletion",
+            "rationale": "Allows recovery of accidentally deleted tasks and maintains audit trails"
+          },
+          {
+            "area": "Search and Filtering",
+            "suggestion": "Add advanced search with full-text search capabilities and saved search filters",
+            "rationale": "Improves task discovery and allows users to quickly find relevant tasks"
+          }
+        ],
+        "compliance_notes": [
+          "Implement GDPR compliance for user data including right to export and delete personal information",
+          "Ensure data encryption at rest and in transit for sensitive task information",
+          "Maintain audit logs for task modifications to support compliance requirements",
+          "Consider accessibility standards (WCAG 2.1) for inclusive design",
+          "Implement role-based access control (RBAC) for enterprise security requirements"
+        ],
+        "integration_recommendations": [
+          "Integrate with calendar systems (Google Calendar, Outlook) for task due date synchronization",
+          "Connect to communication platforms (Slack, Microsoft Teams) for task notifications and updates",
+          "Implement email integration for task creation via email and email reminders",
+          "Provide RESTful API with OAuth 2.0 for third-party integrations",
+          "Consider integration with time tracking tools for productivity analysis",
+          "Add webhook support for real-time task status updates to external systems"
+        ]
+      },
+      "project_name": "Task Management App",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Task Management App - AICOE Platform</title>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n    <style>\n        :root {\n            --aicoe-primary: #0066cc;\n            --aicoe-accent: #00d9ff;\n            --aicoe-dark: #1d1d1f;\n            --aicoe-gray: #6e6e73;\n            --aicoe-light-gray: #f5f5f7;\n            --aicoe-white: #ffffff;\n            --aicoe-success: #34c759;\n            --aicoe-warning: #ff9500;\n        }\n\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n            line-height: 1.6;\n            color: var(--aicoe-dark);\n            background: var(--aicoe-white);\n        }\n\n        /* Navigation */\n        nav {\n            position: sticky;\n            top: 0;\n            background: rgba(255, 255, 255, 0.95);\n            backdrop-filter: blur(20px);\n            border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n            padding: 1rem 2rem;\n            z-index: 1000;\n            box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n        }\n\n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .nav-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n        }\n\n        .nav-menu {\n            display: flex;\n            gap: 2rem;\n            list-style: none;\n        }\n\n        .nav-menu a {\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            transition: color 0.3s ease;\n        }\n\n        .nav-menu a:hover {\n            color: var(--aicoe-primary);\n        }\n\n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);\n            color: var(--aicoe-white);\n            padding: 5rem 2rem;\n            text-align: center;\n        }\n\n        .hero-content {\n            max-width: 800px;\n            margin: 0 auto;\n        }\n\n        .hero h1 {\n            font-size: 3rem;\n            font-weight: 700;\n            margin-bottom: 1.5rem;\n            animation: fadeInUp 0.8s ease;\n        }\n\n        .hero p {\n            font-size: 1.25rem;\n            opacity: 0.95;\n            margin-bottom: 2rem;\n            animation: fadeInUp 0.8s ease 0.2s both;\n        }\n\n        .hero-badge {\n            display: inline-block;\n            background: rgba(255, 255, 255, 0.2);\n            padding: 0.5rem 1rem;\n            border-radius: 20px;\n            font-size: 0.875rem;\n            backdrop-filter: blur(10px);\n            animation: fadeInUp 0.8s ease 0.4s both;\n        }\n\n        /* Features Grid */\n        .features {\n            padding: 4rem 2rem;\n            background: var(--aicoe-light-gray);\n        }\n\n        .features-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .features h2 {\n            text-align: center;\n            font-size: 2.5rem;\n            margin-bottom: 3rem;\n            color: var(--aicoe-dark);\n        }\n\n        .features-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n            margin-bottom: 4rem;\n        }\n\n        .feature-card {\n            background: var(--aicoe-white);\n            padding: 2rem;\n            border-radius: 12px;\n            box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n            transition: transform 0.3s ease, box-shadow 0.3s ease;\n        }\n\n        .feature-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 24px rgba(0,0,0,0.15);\n        }\n\n        .feature-icon {\n            width: 48px;\n            height: 48px;\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            border-radius: 12px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            margin-bottom: 1rem;\n        }\n\n        .feature-icon i {\n            color: var(--aicoe-white);\n        }\n\n        .feature-card h3 {\n            font-size: 1.25rem;\n            margin-bottom: 0.75rem;\n            color: var(--aicoe-dark);\n        }\n\n        .feature-card p {\n            color: var(--aicoe-gray);\n            line-height: 1.6;\n        }\n\n        /* Use Cases Section */\n        .use-cases {\n            padding: 4rem 2rem;\n            background: var(--aicoe-white);\n        }\n\n        .use-cases-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .use-cases h2 {\n            text-align: center;\n            font-size: 2.5rem;\n            margin-bottom: 3rem;\n            color: var(--aicoe-dark);\n        }\n\n        .use-case-grid {\n            display: grid;\n            gap: 2rem;\n        }\n\n        .use-case-card {\n            background: var(--aicoe-white);\n            border: 1px solid rgba(0, 0, 0, 0.1);\n            border-radius: 12px;\n            padding: 2rem;\n            transition: all 0.3s ease;\n        }\n\n        .use-case-card:hover {\n            box-shadow: 0 8px 24px rgba(0,0,0,0.1);\n            transform: translateY(-2px);\n        }\n\n        .use-case-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: flex-start;\n            margin-bottom: 1.5rem;\n        }\n\n        .use-case-id {\n            background: var(--aicoe-light-gray);\n            color: var(--aicoe-primary);\n            padding: 0.25rem 0.75rem;\n            border-radius: 6px;\n            font-size: 0.875rem;\n            font-weight: 600;\n        }\n\n        .priority-badge {\n            padding: 0.25rem 0.75rem;\n            border-radius: 6px;\n            font-size: 0.75rem;\n            font-weight: 600;\n            text-transform: uppercase;\n        }\n\n        .priority-high {\n            background: rgba(255, 149, 0, 0.1);\n            color: var(--aicoe-warning);\n        }\n\n        .priority-medium {\n            background: rgba(0, 102, 204, 0.1);\n            color: var(--aicoe-primary);\n        }\n\n        .use-case-title {\n            font-size: 1.5rem;\n            margin-bottom: 1rem;\n            color: var(--aicoe-dark);\n        }\n\n        .use-case-description {\n            color: var(--aicoe-gray);\n            margin-bottom: 1.5rem;\n            line-height: 1.6;\n        }\n\n        .use-case-meta {\n            display: flex;\n            gap: 2rem;\n            margin-bottom: 1.5rem;\n            flex-wrap: wrap;\n        }\n\n        .meta-item {\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            color: var(--aicoe-gray);\n            font-size: 0.875rem;\n        }\n\n        .meta-item i {\n            width: 16px;\n            height: 16px;\n        }\n\n        .flow-section {\n            margin-top: 1.5rem;\n            padding-top: 1.5rem;\n            border-top: 1px solid var(--aicoe-light-gray);\n        }\n\n        .flow-title {\n            font-size: 0.875rem;\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.75rem;\n        }\n\n        .flow-list {\n            list-style: none;\n            padding-left: 1rem;\n        }\n\n        .flow-list li {\n            position: relative;\n            padding-left: 1.5rem;\n            margin-bottom: 0.5rem;\n            color: var(--aicoe-gray);\n            font-size: 0.875rem;\n        }\n\n        .flow-list li:before {\n            content: \"\u2192\";\n            position: absolute;\n            left: 0;\n            color: var(--aicoe-accent);\n        }\n\n        /* Footer */\n        footer {\n            background: var(--aicoe-dark);\n            color: var(--aicoe-white);\n            padding: 3rem 2rem;\n            text-align: center;\n        }\n\n        .footer-content {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .footer-logo {\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            gap: 0.75rem;\n            margin-bottom: 1rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n        }\n\n        .footer-text {\n            color: rgba(255, 255, 255, 0.7);\n            margin-bottom: 1rem;\n        }\n\n        .footer-links {\n            display: flex;\n            justify-content: center;\n            gap: 2rem;\n            margin-top: 2rem;\n        }\n\n        .footer-links a {\n            color: rgba(255, 255, 255, 0.7);\n            text-decoration: none;\n            transition: color 0.3s ease;\n        }\n\n        .footer-links a:hover {\n            color: var(--aicoe-accent);\n        }\n\n        /* Animations */\n        @keyframes fadeInUp {\n            from {\n                opacity: 0;\n                transform: translateY(20px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        /* Print Styles */\n        @media print {\n            nav, .no-print, button { display: none !important; }\n            body { font-size: 12pt; color: #000; background: #fff; }\n            * { box-shadow: none !important; text-shadow: none !important; }\n            .page-break { page-break-before: always; }\n            h1, h2, h3 { page-break-after: avoid; }\n            a[href]:after { content: \" (\" attr(href) \")\"; }\n            .hero { background: #f5f5f7 !important; color: #000 !important; }\n            .feature-card, .use-case-card { break-inside: avoid; }\n        }\n\n        /* Responsive Design */\n        @media (max-width: 768px) {\n            .nav-menu {\n                display: none;\n            }\n            \n            .hero h1 {\n                font-size: 2rem;\n            }\n            \n            .hero p {\n                font-size: 1rem;\n            }\n            \n            .features-grid {\n                grid-template-columns: 1fr;\n            }\n            \n            .use-case-meta {\n                flex-direction: column;\n                gap: 0.5rem;\n            }\n        }\n\n        @media (min-width: 769px) and (max-width: 1024px) {\n            .features-grid {\n                grid-template-columns: repeat(2, 1fr);\n            }\n        }\n    </style>\n</head>\n<body>\n    <!-- Navigation -->\n    <nav>\n        <div class=\"nav-container\">\n            <div class=\"nav-brand\">\n                <i data-lucide=\"layers\" style=\"width: 32px; height: 32px;\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <ul class=\"nav-menu\">\n                <li><a href=\"#home\"><i data-lucide=\"home\"></i> Home</a></li>\n                <li><a href=\"#features\"><i data-lucide=\"zap\"></i> Features</a></li>\n                <li><a href=\"#use-cases\"><i data-lucide=\"file-text\"></i> Use Cases</a></li>\n                <li><a href=\"#about\"><i data-lucide=\"info\"></i> About</a></li>\n            </ul>\n        </div>\n    </nav>\n\n    <!-- Hero Section -->\n    <section class=\"hero\" id=\"home\">\n        <div class=\"hero-content\">\n            <h1>Task Management App</h1>\n            <p>Streamline your workflow with intelligent task creation, organization, and collaboration features powered by AICOE</p>\n            <div class=\"hero-badge\">\n                <i data-lucide=\"shield-check\" style=\"width: 16px; height: 16px; display: inline-block; vertical-align: middle;\"></i>\n                Enterprise-Ready Solution\n            </div>\n        </div>\n    </section>\n\n    <!-- Features Section -->\n    <section class=\"features\" id=\"features\">\n        <div class=\"features-container\">\n            <h2>Core Features</h2>\n            <div class=\"features-grid\">\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"plus-circle\"></i>\n                    </div>\n                    <h3>Create & Manage Tasks</h3>\n                    <p>Effortlessly create tasks with titles, descriptions, due dates, priorities, and tags. Edit and delete tasks as needed.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"folder\"></i>\n                    </div>\n                    <h3>Organize with Lists</h3>\n                    <p>Group tasks into custom lists and projects. Apply tags for enhanced categorization and quick filtering.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"users\"></i>\n                    </div>\n                    <h3>Team Collaboration</h3>\n                    <p>Assign tasks to team members, add comments, share files, and work together seamlessly on task completion.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"trending-up\"></i>\n                    </div>\n                    <h3>Progress Tracking</h3>\n                    <p>Monitor task status, track time spent, and visualize overall project progress with real-time updates.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"bell\"></i>\n                    </div>\n                    <h3>Smart Notifications</h3>\n                    <p>Configure personalized notifications for task assignments, due dates, and status changes.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"search\"></i>\n                    </div>\n                    <h3>Advanced Search</h3>\n                    <p>Quickly find tasks using powerful search and filter capabilities based on multiple criteria.</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Use Cases Section -->\n    <section class=\"use-cases\" id=\"use-cases\">\n        <div class=\"use-cases-container\">\n            <h2>Use Cases</h2>\n            <div class=\"use-case-grid\">\n                <!-- Use Case 1 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-001</span>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Create and Manage Tasks</h3>\n                    <p class=\"use-case-description\">Users can create new tasks, edit existing tasks, and delete tasks they no longer need. Each task can include a title, description, due date, priority level, and tags.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>User, Team Member</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"target\"></i>\n                            <span>Core Functionality</span>\n                        </div>\n                    </div>\n                    <div class=\"flow-section\">\n                        <div class=\"flow-title\">Main Flow</div>\n                        <ul class=\"flow-list\">\n                            <li>User navigates to the task creation interface</li>\n                            <li>User enters task title (required field)</li>\n                            <li>User optionally adds task description</li>\n                            <li>User sets due date using date picker</li>\n                            <li>User selects priority level (Low, Medium, High, Critical)</li>\n                            <li>User applies relevant tags from existing list or creates new ones</li>\n                            <li>User saves the task</li>\n                            <li>System validates all required fields</li>\n                            <li>System creates the task and assigns unique ID</li>\n                            <li>System displays confirmation message to user</li>\n                        </ul>\n                    </div>\n                </div>\n\n                <!-- Use Case 2 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-002</span>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Organize Tasks with Lists and Tags</h3>\n                    <p class=\"use-case-description\">Users can organize their tasks into custom lists (projects, categories) and apply tags for better categorization and filtering of tasks.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>User, Team Member</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"folder\"></i>\n                            <span>Organization</span>\n                        </div>\n                    </div>\n                    <div class=\"flow-section\">\n                        <div class=\"flow-title\">Main Flow</div>\n                        <ul class=\"flow-list\">\n                            <li>User navigates to task organization section</li>\n                            <li>User creates a new list by entering list name</li>\n                            <li>User selects tasks to add to the list</li>\n                            <li>User applies tags to tasks for additional categorization</li>\n                            <li>User saves the organizational structure</li>\n                            <li>System updates task associations</li>\n                            <li>System displays organized view of tasks</li>\n                        </ul>\n                    </div>\n                </div>\n\n                <!-- Use Case 3 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-003</span>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Assign and Collaborate on Tasks</h3>\n                    <p class=\"use-case-description\">Team members can assign tasks to other users, add comments, share files, and work together on task completion.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>User, Team Member, Team Lead</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"message-circle\"></i>\n                            <span>Collaboration</span>\n                        </div>\n                    </div>\n                    <div class=\"flow-section\">\n                        <div class=\"flow-title\">Main Flow</div>\n                        <ul class=\"flow-list\">\n                            <li>User opens a task details view</li>\n                            <li>User clicks on assignment field</li>\n                            <li>System displays list of available team members</li>\n                            <li>User selects team member to assign task to</li>\n                            <li>User can add comments or instructions</li>\n                            <li>User saves the assignment</li>\n                            <li>System sends notification to assigned team member</li>\n                            <li>Task appears in assigned member's task list</li>\n                            <li>Both users can view and update task progress</li>\n                        </ul>\n                    </div>\n                </div>\n\n                <!-- Use Case 4 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-004</span>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Track Task Progress and Status</h3>\n                    <p class=\"use-case-description\">Users can update task status, mark tasks as complete, track time spent, and monitor overall progress of their work and projects.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>User, Team Member, Team Lead</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"trending-up\"></i>\n                            <span>Progress Tracking</span>\n                        </div>\n                    </div>\n                    <div class=\"flow-section\">\n                        <div class=\"flow-title\">Main Flow</div>\n                        <ul class=\"flow-list\">\n                            <li>User opens task to update progress</li>\n                            <li>User selects appropriate status (Not Started, In Progress, Completed, Blocked)</li>\n                            <li>User can update completion percentage</li>\n                            <li>User can add progress notes or comments</li>\n                            <li>User saves the progress update</li>\n                            <li>System updates task status in real-time</li>\n                            <li>System updates project progress metrics</li>\n                            <li>System logs the change in task history</li>\n                        </ul>\n                    </div>\n                </div>\n\n                <!-- Use Case 5 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-005</span>\n                        <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Configure and Receive Notifications</h3>\n                    <p class=\"use-case-description\">Users can set up notification preferences for task assignments, due date reminders, status changes, and other important events.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>User, System</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"bell\"></i>\n                            <span>Notifications</span>\n                        </div>\n                    </div>\n                    <div class=\"flow-section\">\n                        <div class=\"flow-title\">Main Flow</div>\n                        <ul class=\"flow-list\">\n                            <li>User navigates to notification settings</li>\n                            <li>User selects notification types to receive (email, in-app, push)</li>\n                            <li>User sets timing preferences for reminders</li>\n                            <li>User configures quiet hours or do-not-disturb periods</li>\n                            <li>User saves notification preferences</li>\n                            <li>System stores user preferences</li>\n                            <li>System sends notifications based on configured rules</li>\n                            <li>User receives notifications for subscribed events</li>\n                        </ul>\n                    </div>\n                </div>\n\n                <!-- Use Case 6 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-006</span>\n                        <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Filter and Search Tasks</h3>\n                    <p class=\"use-case-description\">Users can search for specific tasks and filter their task list based on various criteria such as priority, due date, assignee, tags, and status.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>User, Team Member</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"search\"></i>\n                            <span>Search & Filter</span>\n                        </div>\n                    </div>\n                    <div class=\"flow-section\">\n                        <div class=\"flow-title\">Main Flow</div>\n                        <ul class=\"flow-list\">\n                            <li>User accesses task list view</li>\n                            <li>User enters search terms in search bar</li>\n                            <li>User applies filters (priority, due date, assignee, tags, status)</li>\n                            <li>System displays filtered results in real-time</li>\n                            <li>User can save frequently used filter combinations</li>\n                            <li>User can clear filters to return to full list</li>\n                            <li>System maintains search state during navigation</li>\n                        </ul>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Footer -->\n    <footer id=\"about\">\n        <div class=\"footer-content\">\n            <div class=\"footer-logo\">\n                <i data-lucide=\"layers\" style=\"width: 32px; height: 32px;\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <p class=\"footer-text\">Powered by AICOE | Generated by AI Agents</p>\n            <p class=\"footer-text\">Task Management App - Enterprise-Ready Solution</p>\n            <div class=\"footer-links\">\n                <a href=\"#home\">Home</a>\n                <a href=\"#features\">Features</a>\n                <a href=\"#use-cases\">Use Cases</a>\n                <a href=\"#about\">About</a>\n            </div>\n        </div>\n    </footer>\n\n    <script>\n        // Initialize Lucide icons\n        lucide.createIcons();\n\n        // Smooth scrolling for navigation links\n        document.querySelectorAll('a[href^=\"#\"]').forEach(anchor => {\n            anchor.addEventListener('click', function (e) {\n                e.preventDefault();\n                const target = document.querySelector(this.getAttribute('href'));\n                if (target) {\n                    target.scrollIntoView({\n                        behavior: 'smooth',\n                        block: 'start'\n                    });\n                }\n            });\n        });\n\n        // Add scroll animation for elements\n        const observerOptions = {\n            threshold: 0.1,\n            rootMargin: '0px 0px -50px 0px'\n        };\n\n        const observer = new Intersection",
+      "project_name": "Task Management App",
+      "length": 27783,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "data_sets": [
+          {
+            "name": "Tasks Sample Data",
+            "description": "Sample task data with various attributes including title, description, due dates, priorities, and tags",
+            "use_case_id": "UC-001",
+            "format": "json",
+            "schema": {
+              "id": "string",
+              "title": "string",
+              "description": "string",
+              "due_date": "date",
+              "priority": "enum[Low, Medium, High, Critical]",
+              "tags": "array[string]",
+              "status": "enum[Not Started, In Progress, Completed, Blocked]",
+              "created_at": "datetime",
+              "updated_at": "datetime"
+            },
+            "sample_data": [
+              {
+                "id": "TSK-001",
+                "title": "Implement user authentication system",
+                "description": "Design and implement secure user login with OAuth2 support and password recovery features",
+                "due_date": "2024-02-15",
+                "priority": "High",
+                "tags": [
+                  "backend",
+                  "security",
+                  "authentication"
+                ],
+                "status": "In Progress",
+                "created_at": "2024-01-10T09:00:00Z",
+                "updated_at": "2024-01-12T14:30:00Z"
+              },
+              {
+                "id": "TSK-002",
+                "title": "Create project dashboard wireframes",
+                "description": "Design low-fidelity wireframes for the main project dashboard with analytics widgets",
+                "due_date": "2024-01-25",
+                "priority": "Medium",
+                "tags": [
+                  "design",
+                  "ui/ux",
+                  "dashboard"
+                ],
+                "status": "Not Started",
+                "created_at": "2024-01-11T10:15:00Z",
+                "updated_at": "2024-01-11T10:15:00Z"
+              },
+              {
+                "id": "TSK-003",
+                "title": "Fix critical bug in payment gateway",
+                "description": "Resolve issue causing payment failures during checkout process",
+                "due_date": "2024-01-13",
+                "priority": "Critical",
+                "tags": [
+                  "bug",
+                  "payment",
+                  "urgent"
+                ],
+                "status": "In Progress",
+                "created_at": "2024-01-12T16:45:00Z",
+                "updated_at": "2024-01-12T18:20:00Z"
+              },
+              {
+                "id": "TSK-004",
+                "title": "Write API documentation",
+                "description": "Document all REST API endpoints with request/response examples",
+                "due_date": "2024-02-01",
+                "priority": "Low",
+                "tags": [
+                  "documentation",
+                  "api"
+                ],
+                "status": "Not Started",
+                "created_at": "2024-01-08T11:30:00Z",
+                "updated_at": "2024-01-08T11:30:00Z"
+              },
+              {
+                "id": "TSK-005",
+                "title": "Optimize database queries",
+                "description": "Improve performance of slow-running queries identified in production",
+                "due_date": "2024-01-20",
+                "priority": "High",
+                "tags": [
+                  "performance",
+                  "database",
+                  "optimization"
+                ],
+                "status": "Blocked",
+                "created_at": "2024-01-09T13:00:00Z",
+                "updated_at": "2024-01-11T09:45:00Z"
+              }
+            ]
+          },
+          {
+            "name": "Task Lists and Organization",
+            "description": "Sample data for organizing tasks into lists and applying tags categorization",
+            "use_case_id": "UC-002",
+            "format": "json",
+            "schema": {
+              "lists": {
+                "id": "string",
+                "name": "string",
+                "description": "string",
+                "color": "string",
+                "task_count": "number"
+              },
+              "task_tags": {
+                "task_id": "string",
+                "list_id": "string",
+                "tags": "array[string]"
+              }
+            },
+            "sample_data": {
+              "lists": [
+                {
+                  "id": "LST-001",
+                  "name": "Q1 Product Development",
+                  "description": "All tasks related to Q1 product features and improvements",
+                  "color": "#4A90E2",
+                  "task_count": 12
+                },
+                {
+                  "id": "LST-002",
+                  "name": "Marketing Campaign",
+                  "description": "Tasks for the upcoming product launch marketing campaign",
+                  "color": "#7ED321",
+                  "task_count": 8
+                },
+                {
+                  "id": "LST-003",
+                  "name": "Infrastructure",
+                  "description": "Server maintenance and infrastructure updates",
+                  "color": "#F5A623",
+                  "task_count": 5
+                },
+                {
+                  "id": "LST-004",
+                  "name": "Customer Support",
+                  "description": "Support tickets and customer issue resolution",
+                  "color": "#BD10E0",
+                  "task_count": 15
+                }
+              ],
+              "task_tags": [
+                {
+                  "task_id": "TSK-001",
+                  "list_id": "LST-001",
+                  "tags": [
+                    "backend",
+                    "security",
+                    "authentication",
+                    "feature"
+                  ]
+                },
+                {
+                  "task_id": "TSK-002",
+                  "list_id": "LST-001",
+                  "tags": [
+                    "design",
+                    "ui/ux",
+                    "dashboard",
+                    "planning"
+                  ]
+                },
+                {
+                  "task_id": "TSK-003",
+                  "list_id": "LST-004",
+                  "tags": [
+                    "bug",
+                    "payment",
+                    "urgent",
+                    "production"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Task Assignments and Collaboration",
+            "description": "Sample data for task assignments, team members, and collaboration features",
+            "use_case_id": "UC-003",
+            "format": "json",
+            "schema": {
+              "assignments": {
+                "task_id": "string",
+                "assigned_to": "object",
+                "assigned_by": "object",
+                "assigned_at": "datetime",
+                "comments": "array[object]"
+              },
+              "team_members": {
+                "id": "string",
+                "name": "string",
+                "email": "string",
+                "role": "string",
+                "availability": "string"
+              }
+            },
+            "sample_data": {
+              "team_members": [
+                {
+                  "id": "USR-001",
+                  "name": "Sarah Johnson",
+                  "email": "sarah.j@company.com",
+                  "role": "Senior Developer",
+                  "availability": "Available"
+                },
+                {
+                  "id": "USR-002",
+                  "name": "Mike Chen",
+                  "email": "mike.c@company.com",
+                  "role": "UX Designer",
+                  "availability": "In Meeting"
+                },
+                {
+                  "id": "USR-003",
+                  "name": "Emily Davis",
+                  "email": "emily.d@company.com",
+                  "role": "Project Manager",
+                  "availability": "Available"
+                },
+                {
+                  "id": "USR-004",
+                  "name": "Alex Rodriguez",
+                  "email": "alex.r@company.com",
+                  "role": "DevOps Engineer",
+                  "availability": "Out of Office"
+                }
+              ],
+              "assignments": [
+                {
+                  "task_id": "TSK-001",
+                  "assigned_to": {
+                    "id": "USR-001",
+                    "name": "Sarah Johnson"
+                  },
+                  "assigned_by": {
+                    "id": "USR-003",
+                    "name": "Emily Davis"
+                  },
+                  "assigned_at": "2024-01-10T09:30:00Z",
+                  "comments": [
+                    {
+                      "id": "CMT-001",
+                      "author": "Emily Davis",
+                      "text": "Please prioritize this task as it's blocking other development work",
+                      "timestamp": "2024-01-10T09:30:00Z"
+                    },
+                    {
+                      "id": "CMT-002",
+                      "author": "Sarah Johnson",
+                      "text": "Started working on the authentication flow. ETA: 3 days",
+                      "timestamp": "2024-01-11T14:15:00Z"
+                    }
+                  ]
+                },
+                {
+                  "task_id": "TSK-002",
+                  "assigned_to": {
+                    "id": "USR-002",
+                    "name": "Mike Chen"
+                  },
+                  "assigned_by": {
+                    "id": "USR-003",
+                    "name": "Emily Davis"
+                  },
+                  "assigned_at": "2024-01-11T10:45:00Z",
+                  "comments": [
+                    {
+                      "id": "CMT-003",
+                      "author": "Emily Davis",
+                      "text": "Need wireframes for stakeholder review next week",
+                      "timestamp": "2024-01-11T10:45:00Z"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Task Progress Tracking",
+            "description": "Sample data for tracking task status, progress percentage, and time tracking",
+            "use_case_id": "UC-004",
+            "format": "json",
+            "schema": {
+              "progress_updates": {
+                "task_id": "string",
+                "status": "string",
+                "completion_percentage": "number",
+                "time_spent_hours": "number",
+                "estimated_remaining": "number",
+                "updated_by": "string",
+                "updated_at": "datetime",
+                "notes": "string"
+              }
+            },
+            "sample_data": [
+              {
+                "task_id": "TSK-001",
+                "status": "In Progress",
+                "completion_percentage": 65,
+                "time_spent_hours": 12.5,
+                "estimated_remaining": 6.5,
+                "updated_by": "Sarah Johnson",
+                "updated_at": "2024-01-12T14:30:00Z",
+                "notes": "OAuth integration completed, working on password reset functionality"
+              },
+              {
+                "task_id": "TSK-002",
+                "status": "Not Started",
+                "completion_percentage": 0,
+                "time_spent_hours": 0,
+                "estimated_remaining": 8,
+                "updated_by": "Emily Davis",
+                "updated_at": "2024-01-11T10:15:00Z",
+                "notes": "Waiting for design system updates before starting"
+              },
+              {
+                "task_id": "TSK-003",
+                "status": "In Progress",
+                "completion_percentage": 40,
+                "time_spent_hours": 4,
+                "estimated_remaining": 6,
+                "updated_by": "Sarah Johnson",
+                "updated_at": "2024-01-12T18:20:00Z",
+                "notes": "Identified root cause, implementing fix now"
+              },
+              {
+                "task_id": "TSK-005",
+                "status": "Blocked",
+                "completion_percentage": 25,
+                "time_spent_hours": 3,
+                "estimated_remaining": 9,
+                "updated_by": "Alex Rodriguez",
+                "updated_at": "2024-01-11T09:45:00Z",
+                "notes": "Waiting for database access credentials from DBA team"
+              }
+            ]
+          },
+          {
+            "name": "Notification Preferences",
+            "description": "Sample user notification settings and preferences configuration",
+            "use_case_id": "UC-005",
+            "format": "json",
+            "schema": {
+              "user_id": "string",
+              "email_notifications": "boolean",
+              "push_notifications": "boolean",
+              "in_app_notifications": "boolean",
+              "notification_types": "object",
+              "quiet_hours": "object",
+              "reminder_settings": "object"
+            },
+            "sample_data": [
+              {
+                "user_id": "USR-001",
+                "email_notifications": true,
+                "push_notifications": true,
+                "in_app_notifications": true,
+                "notification_types": {
+                  "task_assigned": {
+                    "email": true,
+                    "push": true,
+                    "in_app": true
+                  },
+                  "task_completed": {
+                    "email": false,
+                    "push": true,
+                    "in_app": true
+                  },
+                  "due_date_reminder": {
+                    "email": true,
+                    "push": true,
+                    "in_app": false
+                  },
+                  "status_change": {
+                    "email": false,
+                    "push": false,
+                    "in_app": true
+                  },
+                  "comment_added": {
+                    "email": false,
+                    "push": true,
+                    "in_app": true
+                  }
+                },
+                "quiet_hours": {
+                  "enabled": true,
+                  "start_time": "22:00",
+                  "end_time": "07:00",
+                  "timezone": "America/New_York"
+                },
+                "reminder_settings": {
+                  "due_date_reminder_hours": [
+                    24,
+                    2
+                  ],
+                  "overdue_reminder_frequency": "daily",
+                  "weekly_summary": true,
+                  "summary_day": "friday"
+                }
+              },
+              {
+                "user_id": "USR-002",
+                "email_notifications": true,
+                "push_notifications": false,
+                "in_app_notifications": true,
+                "notification_types": {
+                  "task_assigned": {
+                    "email": true,
+                    "push": false,
+                    "in_app": true
+                  },
+                  "task_completed": {
+                    "email": true,
+                    "push": false,
+                    "in_app": true
+                  },
+                  "due_date_reminder": {
+                    "email": true,
+                    "push": false,
+                    "in_app": false
+                  },
+                  "status_change": {
+                    "email": false,
+                    "push": false,
+                    "in_app": true
+                  },
+                  "comment_added": {
+                    "email": false,
+                    "push": false,
+                    "in_app": true
+                  }
+                },
+                "quiet_hours": {
+                  "enabled": false,
+                  "start_time": null,
+                  "end_time": null,
+                  "timezone": null
+                },
+                "reminder_settings": {
+                  "due_date_reminder_hours": [
+                    48,
+                    24
+                  ],
+                  "overdue_reminder_frequency": "weekly",
+                  "weekly_summary": false,
+                  "summary_day": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "Search and Filter Criteria",
+            "description": "Sample search queries and filter combinations for task discovery",
+            "use_case_id": "UC-006",
+            "format": "json",
+            "schema": {
+              "search_id": "string",
+              "user_id": "string",
+              "search_name": "string",
+              "query": "string",
+              "filters": "object",
+              "saved": "boolean",
+              "created_at": "datetime"
+            },
+            "sample_data": [
+              {
+                "search_id": "SRCH-001",
+                "user_id": "USR-003",
+                "search_name": "My High Priority Tasks",
+                "query": "",
+                "filters": {
+                  "priority": [
+                    "High",
+                    "Critical"
+                  ],
+                  "assigned_to": [
+                    "USR-003"
+                  ],
+                  "status": [
+                    "Not Started",
+                    "In Progress"
+                  ],
+                  "due_date": {
+                    "from": "2024-01-01",
+                    "to": "2024-01-31"
+                  },
+                  "tags": [
+                    "urgent",
+                    "production"
+                  ]
+                },
+                "saved": true,
+                "created_at": "2024-01-10T08:00:00Z"
+              },
+              {
+                "search_id": "SRCH-002",
+                "user_id": "USR-001",
+                "search_name": "Backend Development Tasks",
+                "query": "backend",
+                "filters": {
+                  "tags": [
+                    "backend",
+                    "api"
+                  ],
+                  "status": [
+                    "In Progress"
+                  ],
+                  "priority": [
+                    "Medium",
+                    "High",
+                    "Critical"
+                  ]
+                },
+                "saved": true,
+                "created_at": "2024-01-09T11:30:00Z"
+              },
+              {
+                "search_id": "SRCH-003",
+                "user_id": "USR-002",
+                "search_name": "Design Tasks This Week",
+                "query": "",
+                "filters": {
+                  "tags": [
+                    "design",
+                    "ui/ux"
+                  ],
+                  "due_date": {
+                    "from": "2024-01-15",
+                    "to": "2024-01-21"
+                  },
+                  "assigned_to": [
+                    "USR-002"
+                  ]
+                },
+                "saved": false,
+                "created_at": "2024-01-12T15:45:00Z"
+              },
+              {
+                "search_id": "SRCH-004",
+                "user_id": "USR-003",
+                "search_name": "All Overdue Tasks",
+                "query": "",
+                "filters": {
+                  "due_date": {
+                    "to": "2024-01-12"
+                  },
+                  "status": [
+                    "Not Started",
+                    "In Progress",
+                    "Blocked"
+                  ]
+                },
+                "saved": true,
+                "created_at": "2024-01-12T09:00:00Z"
+              }
+            ]
+          }
+        ],
+        "summary": "Generated comprehensive synthetic data for Task Management App including 6 datasets covering all use cases: task creation and management, organization with lists and tags, team assignments and collaboration, progress tracking, notification preferences, and search/filter functionality. Data includes realistic attributes, diverse scenarios, and proper relationships between entities to demonstrate full application capabilities."
+      },
+      "project_name": "Task Management App",
+      "num_datasets": 6
+    },
+    "reviewer": {
+      "review_cycle_id": "Task Management App_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-29T08:23:44.051301"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.00144
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 68.711156
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 63.99311
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 10.198314
+    },
+    {
+      "name": "prd",
+      "status": "failed",
+      "duration": 50.451999
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 57.09033
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 80.938023
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.001102
+    }
+  ]
+}

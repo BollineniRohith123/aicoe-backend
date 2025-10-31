@@ -1,0 +1,356 @@
+{
+  "use_cases": [
+    {
+      "id": "UC-001",
+      "title": "Onboard as a New Fitness Beginner",
+      "description": "A new user downloads the app and creates an account, guided through a simple, non-intimidating setup process to establish their initial fitness profile and preferences. This use case is critical for reducing user overwhelm, a key pain point identified in the market.",
+      "actors": [
+        "User (Fitness Beginner)",
+        "System"
+      ],
+      "preconditions": [
+        "User has downloaded and installed the mobile application.",
+        "User has a working internet connection."
+      ],
+      "main_flow": [
+        "User opens the app for the first time.",
+        "System presents a welcome screen emphasizing simplicity and focusing on beginners, aligning with the app's core value proposition.",
+        "User taps 'Get Started'.",
+        "System prompts for account creation, offering options like 'Sign up with Apple' or 'Sign up with Google' to leverage existing accounts and reduce friction.",
+        "User selects an option and completes the authentication flow.",
+        "System presents a simple, multi-step onboarding wizard with minimal text and clear visuals.",
+        "System asks for primary fitness goal (e.g., 'Get Stronger', 'Lose Weight', 'Feel Healthier') with simple icons.",
+        "User selects a primary goal.",
+        "System asks for current activity level (e.g., 'Just starting out', 'Somewhat active') with beginner-friendly language.",
+        "User selects an activity level.",
+        "System requests permission to integrate with Apple Health or Google Fit, explaining the benefit ('To automatically log your activity and progress').",
+        "User grants permission.",
+        "System confirms profile setup and recommends a 'Beginner A' workout plan based on the user's inputs.",
+        "User is taken to the main dashboard, which shows a clear call-to-action: 'Start Your First Workout'."
+      ],
+      "alternate_flows": [
+        {
+          "name": "User declines health integration",
+          "steps": [
+            "System requests permission to integrate with Apple Health or Google Fit.",
+            "User taps 'Not Now'.",
+            "System acknowledges the choice and explains that they can enable this later in settings.",
+            "Onboarding continues to the next step."
+          ]
+        },
+        {
+          "name": "User skips profile setup",
+          "steps": [
+            "At any point in the onboarding wizard, user can tap a 'Skip for now' link.",
+            "System applies default beginner settings and proceeds to the main dashboard.",
+            "The app will later prompt the user to complete their profile to get more personalized recommendations."
+          ]
+        }
+      ],
+      "postconditions": [
+        "User has a registered account.",
+        "User's initial fitness profile is created.",
+        "The system has suggested a starter workout plan.",
+        "Health data integration is enabled if the user consented."
+      ],
+      "priority": "high",
+      "business_value": "This use case directly addresses the market gap for a beginner-friendly app by minimizing initial user effort and cognitive load. A smooth onboarding process is crucial for user acquisition and reducing early churn, directly impacting the goal of acquiring 10,000 MAUs."
+    },
+    {
+      "id": "UC-002",
+      "title": "Log a Workout from a Pre-made Plan",
+      "description": "A user follows and logs their workout session using one of the app's pre-made beginner plans. This core functionality provides structure and guidance, removing the anxiety of creating a routine.",
+      "actors": [
+        "User (Fitness Beginner)",
+        "System"
+      ],
+      "preconditions": [
+        "User is logged in.",
+        "User has selected a pre-made workout plan (e.g., from the onboarding flow or the library)."
+      ],
+      "main_flow": [
+        "User navigates to the 'My Plan' section on the dashboard.",
+        "System displays the current workout for the day (e.g., 'Day 1: Full Body A').",
+        "User taps 'Start Workout'.",
+        "System presents the first exercise in the plan (e.g., 'Bodyweight Squats').",
+        "System displays a clear image or GIF demonstrating the proper form for the exercise.",
+        "User performs the exercise and taps the 'Log Set' button.",
+        "System prompts for the number of reps completed with a simple number input.",
+        "User enters the reps and taps 'Done'.",
+        "System logs the set and displays the next exercise in the plan.",
+        "User repeats the logging process for all exercises in the workout.",
+        "After the last exercise, System displays a 'Workout Complete!' summary screen.",
+        "Summary shows total exercises, sets, and an encouraging message.",
+        "User taps 'Finish'.",
+        "System saves the completed workout to the user's log and updates progress charts."
+      ],
+      "alternate_flows": [
+        {
+          "name": "User needs to see an alternative demonstration",
+          "steps": [
+            "System displays the exercise demonstration image/GIF.",
+            "User taps a 'Need more help?' link.",
+            "System offers to embed a short, curated video from a trusted source (e.g., YouTube) for that specific exercise, avoiding high hosting costs."
+          ]
+        },
+        {
+          "name": "User cannot complete an exercise",
+          "steps": [
+            "System presents an exercise.",
+            "User feels the exercise is too difficult or causes discomfort.",
+            "User taps a 'Skip Exercise' button.",
+            "System asks for a reason (optional) and presents a simpler alternative if available.",
+            "System proceeds to the next exercise in the plan."
+          ]
+        }
+      ],
+      "postconditions": [
+        "A workout session is recorded in the user's log.",
+        "The user's progress visualizations are updated.",
+        "The plan's completion status is updated."
+      ],
+      "priority": "high",
+      "business_value": "This is a core retention feature. By providing guided, easy-to-follow workouts, the app delivers immediate value to beginners, encouraging repeat usage and habit formation. This directly supports the success criteria of weekly user engagement."
+    },
+    {
+      "id": "UC-003",
+      "title": "Track a Meal Using AI Photo Recognition",
+      "description": "A user logs a meal by taking a photo of their food, leveraging AI to identify food items and estimate nutritional information. This low-friction method caters to user expectations for simple logging.",
+      "actors": [
+        "User (Fitness Beginner)",
+        "System",
+        "Third-party AI API"
+      ],
+      "preconditions": [
+        "User is logged in.",
+        "User has granted the app camera permissions."
+      ],
+      "main_flow": [
+        "User navigates to the 'Nutrition' tab.",
+        "User taps the 'Log a Meal' button.",
+        "System presents options: 'Take a Photo' or 'Choose from Gallery'.",
+        "User selects 'Take a Photo'.",
+        "System opens the device camera interface.",
+        "User takes a photo of their meal.",
+        "System sends the photo to a third-party AI API (e.g., Google Cloud Vision).",
+        "System displays a loading animation with the message 'Analyzing your meal...'.",
+        "AI API returns a list of identified food items with estimated portion sizes and nutritional info (calories, protein, carbs, fat).",
+        "System presents the results to the user in a simple, editable list.",
+        "User reviews the identified items. If correct, user taps 'Confirm & Log'.",
+        "System saves the meal entry, including the photo and nutritional data, to the user's daily log."
+      ],
+      "alternate_flows": [
+        {
+          "name": "AI misidentifies food items",
+          "steps": [
+            "System presents the AI analysis results.",
+            "User notices an item is incorrect (e.g., 'Scrambled Eggs' instead of 'Tofu Scramble').",
+            "User taps the incorrect item to edit it.",
+            "System presents a search bar where the user can type the correct food item.",
+            "User selects the correct item from the search results.",
+            "System updates the nutritional information accordingly.",
+            "User taps 'Confirm & Log' to proceed."
+          ]
+        },
+        {
+          "name": "AI fails to identify any food",
+          "steps": [
+            "System displays a loading animation.",
+            "AI API returns a low-confidence result or fails.",
+            "System informs the user: 'We couldn't identify your meal. Please log it manually.'",
+            "System presents a simple manual entry form where the user can search for food items."
+          ]
+        }
+      ],
+      "postconditions": [
+        "A meal is successfully logged to the user's nutrition tracker.",
+        "The user's daily calorie and macronutrient totals are updated."
+      ],
+      "priority": "high",
+      "business_value": "This feature is a key differentiator that addresses the pain point of tedious manual calorie counting. By using AI for low-effort logging, the app significantly enhances the user experience and reduces friction, which is critical for long-term engagement and retention, a primary business goal."
+    },
+    {
+      "id": "UC-004",
+      "title": "View Progress and Unlock Achievements",
+      "description": "A user views their fitness progress over time through aesthetically pleasing charts and receives gamified rewards (badges, achievements) to stay motivated. This combines data visualization with gamification trends to boost engagement.",
+      "actors": [
+        "User (Fitness Beginner)",
+        "System"
+      ],
+      "preconditions": [
+        "User is logged in.",
+        "User has logged at least one workout or meal."
+      ],
+      "main_flow": [
+        "User navigates to the 'Progress' tab.",
+        "System displays a dashboard with key metrics and a primary chart (e.g., 'Workouts This Week').",
+        "User taps on the chart to see more detail.",
+        "System presents a beautiful, non-boring chart showing workout frequency over the past month.",
+        "User navigates to a different metric, such as 'Body Weight' or 'Strength Progress' (if applicable).",
+        "System updates the chart to display the selected metric.",
+        "After completing a workout, System displays a modal notification: 'Achievement Unlocked!'",
+        "System shows a new badge (e.g., 'First Workout Complete' or '3-Day Streak').",
+        "User can tap 'View Badge' to see it in their personal collection.",
+        "User navigates to the 'Achievements' section to see all locked and unlocked badges, providing a clear path of future goals."
+      ],
+      "alternate_flows": [
+        {
+          "name": "User has no data yet",
+          "steps": [
+            "User navigates to the 'Progress' tab.",
+            "System displays a welcoming, empty state message: 'Start logging workouts to see your progress here!'",
+            "System presents a clear call-to-action button: 'Log Your First Workout'."
+          ]
+        }
+      ],
+      "postconditions": [
+        "User has a clear visual understanding of their fitness journey.",
+        "User feels motivated by the gamified achievement system."
+      ],
+      "priority": "high",
+      "business_value": "This use case directly targets user retention. Progress visualization provides tangible proof of improvement, while gamification taps into psychological drivers for habit formation. This is essential for meeting success criteria like 7-day retention rates and differentiating from complex, data-heavy competitors."
+    },
+    {
+      "id": "UC-005",
+      "title": "Share Progress Privately with a Friend",
+      "description": "A user shares a summary of their recent workout or progress milestone with a single trusted friend via a private link, avoiding the complexities and risks of a public social feed.",
+      "actors": [
+        "User (Fitness Beginner)",
+        "System",
+        "Friend (Recipient)"
+      ],
+      "preconditions": [
+        "User is logged in.",
+        "User has a recent workout or progress milestone to share."
+      ],
+      "main_flow": [
+        "User completes a workout and lands on the 'Workout Complete!' summary screen.",
+        "User taps a 'Share' button.",
+        "System presents sharing options: 'Share with a Friend' or 'Download Image'.",
+        "User selects 'Share with a Friend'.",
+        "System opens the native share sheet with a pre-populated message and a unique, private web link.",
+        "The link leads to a simple, beautifully designed webpage summarizing the workout (e.g., 'Just crushed a 30-min full body workout! \ud83d\udcaa').",
+        "User selects a contact (e.g., via iMessage, WhatsApp).",
+        "User sends the message.",
+        "Friend receives the message and taps the link.",
+        "System displays the workout summary page without requiring the friend to log in or download the app."
+      ],
+      "alternate_flows": [
+        {
+          "name": "User shares from the Progress tab",
+          "steps": [
+            "User is viewing a progress chart (e.g., a 30-day workout streak).",
+            "User taps a share icon on the screen.",
+            "System generates a shareable image of the chart and a private link, just like in the main flow."
+          ]
+        }
+      ],
+      "postconditions": [
+        "A shareable, private link is generated.",
+        "The user's progress is successfully communicated to a friend, providing social accountability without privacy risks."
+      ],
+      "priority": "medium",
+      "business_value": "This feature provides the motivational benefits of social sharing (accountability, encouragement) while mitigating the risks of public social features (moderation, privacy). It's a safe, V1-friendly approach to incorporating a key competitive dimension identified in the research."
+    },
+    {
+      "id": "UC-006",
+      "title": "Upgrade to a Premium Subscription",
+      "description": "A free user encounters a premium feature, understands its value, and completes the in-app purchase process to upgrade to the Premium tier, enabling the freemium business model.",
+      "actors": [
+        "User (Free Tier)",
+        "System"
+      ],
+      "preconditions": [
+        "User is logged in and on the free tier.",
+        "User has been using the app for a period (e.g., 7 days)."
+      ],
+      "main_flow": [
+        "User navigates to the workout plan library.",
+        "User sees a plan marked as 'Premium' (e.g., 'Advanced 8-Week Shred').",
+        "User taps on the premium plan.",
+        "System displays a lock icon and a message: 'This plan is for Premium members.'",
+        "System presents a clear 'Upgrade to Premium' call-to-action button.",
+        "User taps 'Upgrade to Premium'.",
+        "System displays the premium subscription offer screen, highlighting key benefits: 'Advanced Workout Plans', 'In-depth Progress Analytics', 'Exclusive Content'.",
+        "System shows the pricing options: '$9.99/month' or '$79.99/year (Save 33%)'.",
+        "User selects the annual plan.",
+        "System initiates the native in-app purchase flow, using Apple's App Store or Google Play's billing interface.",
+        "User confirms the purchase with their fingerprint, face, or password.",
+        "System processes the payment and confirms the successful upgrade.",
+        "User's account status is updated to Premium, and all premium features are unlocked."
+      ],
+      "alternate_flows": [
+        {
+          "name": "User declines the upgrade",
+          "steps": [
+            "System displays the premium offer screen.",
+            "User taps the 'Not Now' or back button.",
+            "System returns the user to the previous screen (e.g., the workout library).",
+            "The app may later display a non-intrusive reminder about the premium benefits."
+          ]
+        }
+      ],
+      "postconditions": [
+        "User is successfully subscribed to the Premium tier.",
+        "The user's payment method is charged.",
+        "The system has recorded the transaction and updated the user's subscription status."
+      ],
+      "priority": "medium",
+      "business_value": "This use case is the direct implementation of the revenue model. It is essential for the financial sustainability of the app. A clear and compelling upgrade path is critical for converting free users to paid subscribers, directly impacting the business goal of achieving a 5% conversion rate."
+    }
+  ],
+  "business_requirements": {
+    "overview": "The project is to develop a mobile-first fitness application designed specifically for fitness beginners (ages 25-45) who find existing apps intimidating and overly complex. The app's core value proposition is simplicity, achieved through a clean user interface, guided pre-made workout plans, and low-friction logging methods. Key differentiators include AI-powered meal photo recognition and a focus on private, non-social progress sharing. The application will follow a freemium monetization model, offering core functionality for free while charging a subscription for advanced features.",
+    "business_goals": [
+      "Achieve 10,000 Monthly Active Users (MAU) within the first 6 months post-launch.",
+      "Attain a 7-day user retention rate of over 40%.",
+      "Secure a 4.0+ star rating on both the Apple App Store and Google Play Store within the first year.",
+      "Convert at least 5% of the active free user base to paid Premium subscribers within the first year.",
+      "Establish the app as a top-rated solution for 'beginner fitness' in app store search results."
+    ],
+    "success_criteria": [
+      "User Acquisition: Measured by MAU growth and app store downloads.",
+      "User Engagement: Measured by the percentage of users logging at least two workouts per week.",
+      "User Retention: Measured by Day 1, Day 7, and Day 30 retention cohorts.",
+      "User Satisfaction: Measured by app store ratings and qualitative feedback focused on simplicity and effectiveness.",
+      "Revenue Generation: Measured by the number of Premium subscribers and monthly recurring revenue (MRR)."
+    ],
+    "constraints": [
+      "Budget: The project must operate within the pre-approved development and operational budget.",
+      "Timeline: The Minimum Viable Product (MVP) for V1 must be launched within an estimated 6-8 month timeframe.",
+      "Technical Stack: Development will use React Native for cross-platform mobile apps, Node.js for the backend, and AWS for cloud hosting.",
+      "Media Costs: Video hosting for exercise demonstrations is prohibitively expensive for V1; the solution must use cost-effective alternatives like images, GIFs, or embedded external links.",
+      "API Dependency: Core features like AI food recognition are dependent on the reliability, accuracy, and cost of third-party APIs (e.g., Google Cloud Vision)."
+    ],
+    "assumptions": [
+      "There is a sizable and addressable market of fitness beginners who are underserved by current complex applications.",
+      "Users will prefer and adopt photo-based meal logging over traditional manual entry methods.",
+      "Third-party AI APIs for food recognition will provide a sufficient level of accuracy to be useful, with user corrections mitigating errors.",
+      "Integration with Apple HealthKit and Google Fit will be technically feasible and provide significant user value.",
+      "A freemium model with a clear value proposition for Premium features will be a viable monetization strategy."
+    ],
+    "risks": [
+      {
+        "risk": "Market Competition from large tech companies (e.g., Apple Fitness+) with deep ecosystem integration.",
+        "mitigation": "Differentiate by focusing exclusively on the beginner segment with superior simplicity and a low-anxiety user experience, a gap identified in competitor analysis."
+      },
+      {
+        "risk": "Inaccuracies in AI food recognition leading to user frustration.",
+        "mitigation": "Utilize a reputable third-party API and implement a seamless 'confirm/edit' flow, empowering users to easily correct mistakes and ensuring data integrity."
+      },
+      {
+        "risk": "User privacy and data security concerns, especially with photo logging and health data.",
+        "mitigation": "Adhere strictly to GDPR and CCPA regulations. Maintain a transparent privacy policy and ensure all data, especially photos and health metrics, are encrypted and handled securely."
+      },
+      {
+        "risk": "Low user adoption or engagement due to perceived value not being high enough.",
+        "mitigation": "Implement a robust onboarding process to demonstrate immediate value. Use gamification and progress visualization to drive long-term engagement and habit formation."
+      },
+      {
+        "risk": "App store rejection due to non-compliance with health app guidelines.",
+        "mitigation": "Proactively review and adhere to all Apple App Store and Google Play Store policies for health-related apps, particularly concerning data usage, privacy, and in-app purchases."
+      }
+    ]
+  },
+  "project_name": "Fitness application"
+}

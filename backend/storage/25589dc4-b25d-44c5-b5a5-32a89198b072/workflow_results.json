@@ -1,0 +1,478 @@
+{
+  "project_name": "AI-Powered Task Management System v2",
+  "workflow_id": "workflow_20251028_201234",
+  "status": "success",
+  "context": {
+    "project_name": "AI-Powered Task Management System v2",
+    "workflow_id": "workflow_20251028_201234",
+    "workflow_type": "full",
+    "start_time": "2025-10-28T20:12:34.932493",
+    "end_time": "2025-10-28T20:15:15.070011",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "AI-Powered Task Management System v2",
+      "project_root": "projects/AI-Powered Task Management System v2",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-28T20:12:34.935730",
+        "action": "project_created",
+        "project_name": "AI-Powered Task Management System v2",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": "Not specified",
+        "attendees": [
+          "Alice (PM)",
+          "Bob (Dev)"
+        ],
+        "meeting_date": "October 28, 2025",
+        "meeting_objective": "Discuss the development of a simple task manager with AI features.",
+        "key_discussion_points": [
+          "Need for a simple task manager with AI features.",
+          "Building the system using React and Node.js.",
+          "Adding natural language task creation.",
+          "Integrating an LLM for natural language processing.",
+          "Including a kanban board view.",
+          "Starting on the backend architecture.",
+          "Scheduling a follow-up meeting to review progress."
+        ],
+        "pain_points": [],
+        "requirements": [
+          "Simple task manager with AI features.",
+          "Natural language task creation.",
+          "Kanban board view."
+        ],
+        "decisions_made": [
+          "Use React and Node.js for development.",
+          "Integrate an LLM for natural language task creation.",
+          "Start on the backend architecture."
+        ],
+        "action_items": [
+          "Bob to start on the backend architecture.",
+          "Schedule a meeting next week to review progress."
+        ],
+        "technical_constraints": [],
+        "stakeholders": [
+          "Alice (PM)",
+          "Bob (Dev)"
+        ]
+      },
+      "project_name": "AI-Powered Task Management System v2",
+      "transcript_length": 446
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "Create Task Using Natural Language",
+          "description": "Allow users to create tasks using natural language input, which will be processed by an integrated LLM.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User is authenticated and logged into the system."
+          ],
+          "main_flow": [
+            "User navigates to the task creation page.",
+            "User inputs a task description using natural language.",
+            "System processes the input using the LLM.",
+            "System creates a task based on the processed input.",
+            "System displays the newly created task to the user."
+          ],
+          "alternate_flows": [
+            {
+              "description": "User inputs an incomplete task description.",
+              "steps": [
+                "System prompts the user for additional information.",
+                "User provides the necessary details.",
+                "System processes the input and creates the task."
+              ]
+            }
+          ],
+          "postconditions": [
+            "The task is created and visible in the user's task list."
+          ],
+          "priority": "high",
+          "business_value": "Enhances user experience by simplifying task creation through natural language."
+        },
+        {
+          "id": "UC-002",
+          "title": "View Tasks in Kanban Board",
+          "description": "Provide users with a Kanban board view to manage and organize tasks visually.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User has existing tasks in the system."
+          ],
+          "main_flow": [
+            "User navigates to the Kanban board view.",
+            "System displays tasks organized by status columns (e.g., To Do, In Progress, Done).",
+            "User drags and drops tasks between columns to update their status."
+          ],
+          "alternate_flows": [],
+          "postconditions": [
+            "Tasks are updated with new statuses based on user actions."
+          ],
+          "priority": "medium",
+          "business_value": "Improves task management efficiency by providing a visual representation of tasks."
+        },
+        {
+          "id": "UC-003",
+          "title": "Backend Architecture Setup",
+          "description": "Establish the backend architecture to support task management and AI features.",
+          "actors": [
+            "Developer"
+          ],
+          "preconditions": [
+            "Development environment is set up."
+          ],
+          "main_flow": [
+            "Developer designs the backend architecture using Node.js.",
+            "Developer implements APIs for task management.",
+            "Developer integrates the LLM for natural language processing."
+          ],
+          "alternate_flows": [],
+          "postconditions": [
+            "Backend supports task creation and management with AI features."
+          ],
+          "priority": "high",
+          "business_value": "Ensures a robust and scalable backend to support application features."
+        },
+        {
+          "id": "UC-004",
+          "title": "Schedule Follow-up Meeting",
+          "description": "Organize a follow-up meeting to review development progress and address any issues.",
+          "actors": [
+            "Project Manager"
+          ],
+          "preconditions": [
+            "Initial development work has commenced."
+          ],
+          "main_flow": [
+            "Project Manager selects a date and time for the meeting.",
+            "Project Manager sends meeting invitations to stakeholders.",
+            "Stakeholders confirm their availability."
+          ],
+          "alternate_flows": [],
+          "postconditions": [
+            "Meeting is scheduled and stakeholders are informed."
+          ],
+          "priority": "low",
+          "business_value": "Facilitates ongoing communication and progress tracking within the project team."
+        }
+      ],
+      "business_requirements": {
+        "overview": "Develop a simple task manager with AI features to improve task management efficiency.",
+        "business_goals": [
+          "Simplify task creation using natural language.",
+          "Provide a visual task management interface with a Kanban board.",
+          "Ensure scalability and robustness through a well-designed backend architecture."
+        ],
+        "success_criteria": [
+          "Successful integration of LLM for natural language task creation.",
+          "Positive user feedback on the Kanban board functionality.",
+          "Stable backend performance under expected load conditions."
+        ],
+        "constraints": [
+          "Development must use React and Node.js.",
+          "System must integrate with a large language model for natural language processing."
+        ],
+        "assumptions": [
+          "Users are familiar with Kanban board concepts.",
+          "Natural language processing will accurately interpret user inputs."
+        ],
+        "risks": [
+          {
+            "description": "Inaccurate task creation due to NLP errors.",
+            "mitigation": "Implement user feedback loops to refine NLP processing."
+          },
+          {
+            "description": "Scalability issues with backend architecture.",
+            "mitigation": "Conduct load testing and optimize backend design."
+          }
+        ]
+      },
+      "project_name": "AI-Powered Task Management System v2"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Natural Language Processing Pipeline",
+            "description": "Implement a robust NLP pipeline to handle natural language input effectively, ensuring accurate task creation.",
+            "priority": "high"
+          },
+          {
+            "category": "UI/UX Design Principles",
+            "pattern": "Progressive Disclosure",
+            "description": "Use progressive disclosure to guide users through complex task creation by revealing additional input fields only when necessary.",
+            "priority": "medium"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Feedback Loop",
+            "description": "Provide immediate feedback to users when tasks are created or when additional information is needed, enhancing user experience.",
+            "priority": "high"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "User Experience",
+            "suggestion": "Implement voice input as an alternative to text for task creation.",
+            "rationale": "Voice input can further simplify task creation, especially for users on the go."
+          },
+          {
+            "area": "Security",
+            "suggestion": "Ensure data encryption during transmission and storage of task data.",
+            "rationale": "Protecting user data from unauthorized access is crucial for maintaining trust and compliance."
+          },
+          {
+            "area": "Scalability",
+            "suggestion": "Consider using a microservices architecture to handle different features like task creation and Kanban board separately.",
+            "rationale": "This approach can improve system scalability and maintainability."
+          }
+        ],
+        "compliance_notes": [
+          "Ensure GDPR compliance by allowing users to manage their data, including task deletion.",
+          "Implement user consent mechanisms for processing natural language inputs."
+        ],
+        "integration_recommendations": [
+          "Integrate with existing authentication systems to streamline user login and management.",
+          "Consider using third-party NLP services like OpenAI or Google NLP for processing natural language inputs."
+        ]
+      },
+      "project_name": "AI-Powered Task Management System v2",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "prd": {
+      "prd_markdown": "# AI-Powered Task Management System v2 - Product Requirements Document\n\n## 1. Executive Summary\nThe AI-Powered Task Management System v2 aims to revolutionize task management by integrating artificial intelligence to simplify task creation and enhance user experience. By leveraging natural language processing and providing a visual Kanban board interface, this system will streamline task management processes, making them more intuitive and efficient for users.\n\n## 2. Goals & Objectives\n- **Simplify Task Creation**: Enable users to create tasks using natural language input.\n- **Visual Task Management**: Provide a Kanban board view for easy task organization.\n- **Scalable Architecture**: Develop a robust backend to support AI features and task management.\n- **Positive User Feedback**: Achieve high user satisfaction with the new features.\n\n## 3. Problem Statement\nCurrent task management systems are often complex and time-consuming, lacking intuitive interfaces and advanced features like natural language processing. Users need a more efficient way to create and manage tasks, reducing the cognitive load and improving productivity.\n\n## 4. User Personas & Stakeholders\n- **User Personas**:\n  - **Busy Professionals**: Need quick and efficient task management solutions.\n  - **Project Managers**: Require visual tools to track and manage team tasks.\n- **Stakeholders**:\n  - **Alice (Product Manager)**: Oversees product development and ensures alignment with business goals.\n  - **Bob (Developer)**: Responsible for technical implementation and architecture.\n\n## 5. Features & User Stories\n- **Natural Language Task Creation**: As a user, I want to create tasks using simple language so that I can quickly add tasks without navigating complex menus.\n- **Kanban Board View**: As a user, I want to see my tasks in a Kanban board format to easily track progress and update task statuses.\n- **Backend Architecture**: As a developer, I need a scalable backend to support AI features and task management functionalities.\n\n## 6. Use Cases\n### UC-001: Create Task Using Natural Language\n- **Actors**: User\n- **Preconditions**: User is authenticated and logged into the system.\n- **Main Flow**:\n  1. User navigates to the task creation page.\n  2. User inputs a task description using natural language.\n  3. System processes the input using the LLM.\n  4. System creates a task based on the processed input.\n  5. System displays the newly created task to the user.\n- **Alternate Flow**: User inputs an incomplete task description.\n  - System prompts the user for additional information.\n  - User provides the necessary details.\n  - System processes the input and creates the task.\n- **Postconditions**: The task is created and visible in the user's task list.\n- **Priority**: High\n- **Business Value**: Enhances user experience by simplifying task creation through natural language.\n\n### UC-002: View Tasks in Kanban Board\n- **Actors**: User\n- **Preconditions**: User has existing tasks in the system.\n- **Main Flow**:\n  1. User navigates to the Kanban board view.\n  2. System displays tasks organized by status columns (e.g., To Do, In Progress, Done).\n  3. User drags and drops tasks between columns to update their status.\n- **Postconditions**: Tasks are updated with new statuses based on user actions.\n- **Priority**: Medium\n- **Business Value**: Improves task management efficiency by providing a visual representation of tasks.\n\n### UC-003: Backend Architecture Setup\n- **Actors**: Developer\n- **Preconditions**: Development environment is set up.\n- **Main Flow**:\n  1. Developer designs the backend architecture using Node.js.\n  2. Developer implements APIs for task management.\n  3. Developer integrates the LLM for natural language processing.\n- **Postconditions**: Backend supports task creation and management with AI features.\n- **Priority**: High\n- **Business Value**: Ensures a robust and scalable backend to support application features.\n\n### UC-004: Schedule Follow-up Meeting\n- **Actors**: Project Manager\n- **Preconditions**: Initial development work has commenced.\n- **Main Flow**:\n  1. Project Manager selects a date and time for the meeting.\n  2. Project Manager sends meeting invitations to stakeholders.\n  3. Stakeholders confirm their availability.\n- **Postconditions**: Meeting is scheduled and stakeholders are informed.\n- **Priority**: Low\n- **Business Value**: Facilitates ongoing communication and progress tracking within the project team.\n\n## 7. Functional Requirements\n- **Task Creation**:\n  - System must allow task creation using natural language input.\n  - System should prompt users for additional information if input is incomplete.\n- **Task Management**:\n  - System must display tasks in a Kanban board view.\n  - System should allow drag-and-drop functionality to update task statuses.\n- **Backend Support**:\n  - System must provide APIs for task management.\n  - System must integrate with an LLM for processing natural language inputs.\n\n## 8. Non-Functional Requirements\n- **Performance**: System should process natural language inputs and update tasks within 2 seconds.\n- **Scalability**: Backend must support up to 10,000 concurrent users.\n- **Security**: User data must be encrypted in transit and at rest.\n- **Usability**: User interface should be intuitive and require no more than 3 clicks to create a task.\n\n## 9. Technical Architecture\n- **Frontend**: Built using React for a responsive and dynamic user interface.\n- **Backend**: Developed with Node.js to handle API requests and integrate with LLM.\n- **Integration**: Use a cloud-based LLM service for natural language processing.\n\n## 10. Acceptance Criteria\n- Successful task creation using natural language input.\n- Kanban board displays tasks accurately and allows status updates.\n- Backend handles task management requests efficiently.\n\n## 11. Success Metrics\n- **User Adoption**: 70% of users utilize natural language task creation.\n- **User Satisfaction**: Achieve a satisfaction score of 4.5/5 for the Kanban board feature.\n- **System Performance**: Maintain response times under 2 seconds for task operations.\n\n## 12. Timeline & Milestones\n- **Phase 1**: Backend architecture setup - 4 weeks\n- **Phase 2**: Frontend development and integration - 6 weeks\n- **Phase 3**: Testing and optimization - 2 weeks\n- **Phase 4**: Launch and user feedback collection - 2 weeks\n\n## 13. Risks & Mitigation\n- **NLP Errors**: Inaccurate task creation due to NLP errors.\n  - **Mitigation**: Implement user feedback loops to refine NLP processing.\n- **Scalability Issues**: Backend may not handle high load.\n  - **Mitigation**: Conduct load testing and optimize backend design.\n\n## 14. Dependencies & Assumptions\n- **Dependencies**: Availability of a reliable LLM service.\n- **Assumptions**: Users are familiar with Kanban board concepts and NLP will accurately interpret user inputs.\n\n## 15. Open Questions\n- What specific LLM service will be used for integration?\n- Are there any additional compliance or regulatory requirements to consider?",
+      "project_name": "AI-Powered Task Management System v2",
+      "length": 7031,
+      "sections": [
+        "1. Executive Summary",
+        "2. Goals & Objectives",
+        "3. Problem Statement",
+        "4. User Personas & Stakeholders",
+        "5. Features & User Stories",
+        "6. Use Cases",
+        "7. Functional Requirements",
+        "8. Non-Functional Requirements",
+        "9. Technical Architecture",
+        "10. Acceptance Criteria",
+        "11. Success Metrics",
+        "12. Timeline & Milestones",
+        "13. Risks & Mitigation",
+        "14. Dependencies & Assumptions",
+        "15. Open Questions"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>AI-Powered Task Management System v2</title>\n    <style>\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', sans-serif;\n            margin: 0;\n            color: #1d1d1f;\n            background-color: #ffffff;\n        }\n        header {\n            position: sticky;\n            top: 0;\n            background-color: #ffffff;\n            padding: 10px 20px;\n            box-shadow: 0 1px 5px rgba(0,0,0,0.1);\n            z-index: 1000;\n        }\n        header h1 {\n            margin: 0;\n            font-size: 24px;\n            font-weight: 600;\n            color: #0066cc;\n        }\n        nav {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n        nav a {\n            text-decoration: none;\n            color: #0066cc;\n            margin: 0 10px;\n            font-weight: 500;\n        }\n        .hero {\n            text-align: center;\n            padding: 40px 20px;\n            background-color: #f9f9f9;\n        }\n        .hero h2 {\n            font-size: 32px;\n            font-weight: 700;\n            margin: 0;\n        }\n        .hero p {\n            color: #6e6e73;\n            margin-top: 10px;\n        }\n        .features {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n            gap: 20px;\n            padding: 20px;\n        }\n        .feature-card {\n            background-color: #ffffff;\n            border: 1px solid #e0e0e0;\n            border-radius: 8px;\n            padding: 20px;\n            transition: transform 0.3s;\n        }\n        .feature-card:hover {\n            transform: translateY(-5px);\n        }\n        .feature-card h3 {\n            font-size: 20px;\n            color: #0066cc;\n            margin: 0;\n        }\n        .feature-card p {\n            color: #6e6e73;\n            margin: 10px 0;\n        }\n        .feature-card ul {\n            padding-left: 20px;\n            color: #1d1d1f;\n        }\n        footer {\n            background-color: #f0f0f0;\n            padding: 20px;\n            text-align: center;\n        }\n        footer p {\n            margin: 0;\n            color: #6e6e73;\n        }\n        @media print {\n            body {\n                color: #000;\n                background-color: #fff;\n            }\n            header, footer {\n                display: none;\n            }\n        }\n    </style>\n</head>\n<body>\n    <header>\n        <nav>\n            <h1>AI Task Management</h1>\n            <div>\n                <a href=\"#create-task\">Create Task</a>\n                <a href=\"#kanban-board\">Kanban Board</a>\n                <a href=\"#architecture\">Architecture</a>\n                <a href=\"#meeting\">Meeting</a>\n            </div>\n        </nav>\n    </header>\n    <main>\n        <section class=\"hero\">\n            <h2>AI-Powered Task Management System v2</h2>\n            <p>Enhancing productivity with AI-driven task management and intuitive user interfaces.</p>\n        </section>\n        <section class=\"features\">\n            <div class=\"feature-card\" id=\"create-task\">\n                <h3>Create Task Using Natural Language</h3>\n                <p>Allow users to create tasks using natural language, processed by an integrated LLM.</p>\n                <ul>\n                    <li>Priority: High</li>\n                    <li>Business Value: Simplifies task creation.</li>\n                </ul>\n            </div>\n            <div class=\"feature-card\" id=\"kanban-board\">\n                <h3>View Tasks in Kanban Board</h3>\n                <p>Visualize and manage tasks through an interactive Kanban board.</p>\n                <ul>\n                    <li>Priority: Medium</li>\n                    <li>Business Value: Enhances task management efficiency.</li>\n                </ul>\n            </div>\n            <div class=\"feature-card\" id=\"architecture\">\n                <h3>Backend Architecture Setup</h3>\n                <p>Robust backend support for task management and AI features.</p>\n                <ul>\n                    <li>Priority: High</li>\n                    <li>Business Value: Ensures scalability.</li>\n                </ul>\n            </div>\n            <div class=\"feature-card\" id=\"meeting\">\n                <h3>Schedule Follow-up Meeting</h3>\n                <p>Organize meetings to track progress and address issues.</p>\n                <ul>\n                    <li>Priority: Low</li>\n                    <li>Business Value: Facilitates communication.</li>\n                </ul>\n            </div>\n        </section>\n    </main>\n    <footer>\n        <p>&copy; 2025 AI Task Management System. All rights reserved.</p>\n    </footer>\n</body>\n</html>",
+      "project_name": "AI-Powered Task Management System v2",
+      "length": 4866,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "data_sets": [
+          {
+            "name": "Task Creation Logs",
+            "description": "Logs of tasks created using natural language input",
+            "use_case_id": "UC-001",
+            "format": "json",
+            "schema": {
+              "task_id": "string",
+              "user_id": "string",
+              "input_description": "string",
+              "processed_description": "string",
+              "status": "string",
+              "timestamp": "datetime"
+            },
+            "sample_data": [
+              {
+                "task_id": "task-001",
+                "user_id": "user-123",
+                "input_description": "Plan a team meeting next week",
+                "processed_description": "Schedule a team meeting for next week",
+                "status": "created",
+                "timestamp": "2023-11-01T09:00:00Z"
+              },
+              {
+                "task_id": "task-002",
+                "user_id": "user-456",
+                "input_description": "Buy groceries",
+                "processed_description": "Add 'Buy groceries' to the to-do list",
+                "status": "created",
+                "timestamp": "2023-11-01T10:15:00Z"
+              }
+            ]
+          },
+          {
+            "name": "Kanban Board Status Changes",
+            "description": "Records of task status changes on the Kanban board",
+            "use_case_id": "UC-002",
+            "format": "json",
+            "schema": {
+              "task_id": "string",
+              "user_id": "string",
+              "old_status": "string",
+              "new_status": "string",
+              "timestamp": "datetime"
+            },
+            "sample_data": [
+              {
+                "task_id": "task-001",
+                "user_id": "user-123",
+                "old_status": "To Do",
+                "new_status": "In Progress",
+                "timestamp": "2023-11-02T14:30:00Z"
+              },
+              {
+                "task_id": "task-002",
+                "user_id": "user-456",
+                "old_status": "In Progress",
+                "new_status": "Done",
+                "timestamp": "2023-11-02T15:45:00Z"
+              }
+            ]
+          },
+          {
+            "name": "Backend Development Logs",
+            "description": "Logs of backend development activities",
+            "use_case_id": "UC-003",
+            "format": "json",
+            "schema": {
+              "activity_id": "string",
+              "developer_id": "string",
+              "activity_description": "string",
+              "timestamp": "datetime",
+              "status": "string"
+            },
+            "sample_data": [
+              {
+                "activity_id": "dev-001",
+                "developer_id": "dev-789",
+                "activity_description": "Implemented task management API endpoints",
+                "timestamp": "2023-11-03T09:00:00Z",
+                "status": "completed"
+              },
+              {
+                "activity_id": "dev-002",
+                "developer_id": "dev-789",
+                "activity_description": "Integrated LLM for natural language processing",
+                "timestamp": "2023-11-03T11:30:00Z",
+                "status": "in progress"
+              }
+            ]
+          },
+          {
+            "name": "Meeting Schedules",
+            "description": "Data of scheduled follow-up meetings",
+            "use_case_id": "UC-004",
+            "format": "json",
+            "schema": {
+              "meeting_id": "string",
+              "project_manager_id": "string",
+              "date": "date",
+              "time": "time",
+              "status": "string"
+            },
+            "sample_data": [
+              {
+                "meeting_id": "meet-001",
+                "project_manager_id": "pm-001",
+                "date": "2023-11-04",
+                "time": "10:00:00",
+                "status": "scheduled"
+              },
+              {
+                "meeting_id": "meet-002",
+                "project_manager_id": "pm-002",
+                "date": "2023-11-05",
+                "time": "14:00:00",
+                "status": "scheduled"
+              }
+            ]
+          }
+        ],
+        "summary": "This dataset provides comprehensive data samples for demonstrating key functionalities of the AI-Powered Task Management System v2, including task creation through natural language, task management via a Kanban board, backend development activities, and meeting scheduling."
+      },
+      "project_name": "AI-Powered Task Management System v2",
+      "num_datasets": 4
+    },
+    "reviewer": {
+      "review_cycle_id": "AI-Powered Task Management System v2_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-28T20:15:15.069914"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.003498
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 5.958183
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 77.654827
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 15.332296
+    },
+    {
+      "name": "prd",
+      "status": "completed",
+      "duration": 27.666463
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 26.650942
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 6.870118
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.000579
+    }
+  ]
+}

@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness application - Bill of Materials</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* AICOE Primary Colors */
+            --primary-navy: #1a1a2e;
+            --midnight-blue: #2a2a3e;
+            --deep-purple: #3a2a4e;
+
+            /* AICOE Accent Colors */
+            --accent-pink: #ff69b4;
+            --accent-cyan: #00ffcc;
+            --accent-turquoise: #00e5b3;
+            --accent-mint: #00cc99;
+
+            /* Supporting Colors */
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --bg-white: #ffffff;
+            --bg-gray: #f5f5f7;
+            --border-gray: #d2d2d7;
+
+            /* Shadows */
+            --shadow: 0 2px 16px rgba(26, 26, 46, 0.08);
+            --shadow-hover: 0 4px 24px rgba(26, 26, 46, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', sans-serif;
+            background: var(--bg-gray);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: var(--bg-white);
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--deep-purple) 50%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 21px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-gray);
+        }
+
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .metadata-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .metadata-value {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .summary {
+            background: var(--bg-white);
+            padding: 32px;
+            border-radius: 24px;
+            margin: 32px 0;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .summary-item {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.03) 0%, rgba(58, 42, 78, 0.05) 100%);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .summary-item h3 {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .summary-item .value {
+            color: var(--primary-navy);
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .category {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 32px;
+            margin: 24px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .category h2 {
+            color: var(--primary-navy);
+            font-size: 28px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .category p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        th {
+            background: var(--primary-navy);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        th:hover {
+            background: var(--midnight-blue);
+        }
+
+        th.sortable::after {
+            content: ' ⇅';
+            opacity: 0.5;
+        }
+
+        th.sorted-asc::after {
+            content: ' ↑';
+            opacity: 1;
+        }
+
+        th.sorted-desc::after {
+            content: ' ↓';
+            opacity: 1;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-gray);
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: var(--bg-gray);
+        }
+
+        .cost {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .notes {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.03) 0%, rgba(58, 42, 78, 0.05) 100%);
+            padding: 24px;
+            border-radius: 16px;
+            margin-top: 32px;
+            border-left: 4px solid var(--accent-pink);
+        }
+
+        .notes h3 {
+            color: var(--primary-navy);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .notes ul {
+            padding-left: 24px;
+        }
+
+        .notes li {
+            margin: 8px 0;
+            color: var(--text-primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 19px;
+            }
+
+            .category {
+                padding: 24px;
+            }
+
+            .metadata {
+                gap: 20px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+
+        @media print {
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                background: white;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            header {
+                margin-bottom: 30px;
+                page-break-after: avoid;
+            }
+
+            h1 {
+                font-size: 36px;
+                color: var(--text-primary) !important;
+                -webkit-text-fill-color: var(--text-primary) !important;
+            }
+
+            .category {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid var(--border-gray);
+                margin-bottom: 20px;
+                padding: 24px;
+            }
+
+            footer {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>📊 Bill of Materials</h1>
+                <p class="subtitle">Fitness application</p>
+                <div class="metadata">
+                    <div class="metadata-item">
+                        <span class="metadata-label">Project</span>
+                        <span class="metadata-value">Fitness application</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Version</span>
+                        <span class="metadata-value">1.0</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Generated</span>
+                        <span class="metadata-value">October 31, 2025</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="summary">
+<div class="summary-item">
+<h3>Total Components</h3>
+<div class="value">0</div>
+</div>
+<div class="summary-item">
+<h3>One-Time Cost</h3>
+<div class="value cost">$0.00</div>
+</div>
+<div class="summary-item">
+<h3>Monthly Recurring</h3>
+<div class="value cost">$0.00</div>
+</div>
+<div class="summary-item">
+<h3>Annual Recurring</h3>
+<div class="value cost">$0.00</div>
+</div>
+</div>
+<div class="controls">
+<input type="text" placeholder="🔍 Search items..." />
+<button onclick="window.print()">🖨️ Print</button>
+</div>
+
+        <footer>
+            <div class="footer-logo">AICOE</div>
+            <p>© 2025 AICOE - AI Center of Excellence</p>
+            <p style="margin-top: 8px;">Comprehensive Bill of Materials</p>
+        </footer>
+    </div>
+
+    <script>
+        // Table sorting functionality
+        document.querySelectorAll('th.sortable').forEach(header => {
+            header.addEventListener('click', function() {
+                const table = this.closest('table');
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const columnIndex = Array.from(this.parentElement.children).indexOf(this);
+                const isAscending = this.classList.contains('sorted-asc');
+
+                // Remove sorting classes from all headers in this table
+                table.querySelectorAll('th').forEach(h => {
+                    h.classList.remove('sorted-asc', 'sorted-desc');
+                });
+
+                // Add appropriate class to clicked header
+                this.classList.add(isAscending ? 'sorted-desc' : 'sorted-asc');
+
+                // Sort rows
+                rows.sort((a, b) => {
+                    const aValue = a.cells[columnIndex].textContent.trim();
+                    const bValue = b.cells[columnIndex].textContent.trim();
+
+                    // Try to parse as number
+                    const aNum = parseFloat(aValue.replace(/[^0-9.-]/g, ''));
+                    const bNum = parseFloat(bValue.replace(/[^0-9.-]/g, ''));
+
+                    if (!isNaN(aNum) && !isNaN(bNum)) {
+                        return isAscending ? bNum - aNum : aNum - bNum;
+                    }
+
+                    return isAscending ?
+                        bValue.localeCompare(aValue) :
+                        aValue.localeCompare(bValue);
+                });
+
+                // Reappend sorted rows
+                rows.forEach(row => tbody.appendChild(row));
+            });
+        });
+
+        // Search/filter functionality
+        function filterTable(searchTerm) {
+            const tables = document.querySelectorAll('table');
+            searchTerm = searchTerm.toLowerCase();
+
+            tables.forEach(table => {
+                const rows = table.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+        }
+
+        // Add search input if controls exist
+        const controls = document.querySelector('.controls');
+        if (controls) {
+            const searchInput = controls.querySelector('input[type="text"]');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => filterTable(e.target.value));
+            }
+        }
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

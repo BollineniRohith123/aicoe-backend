@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Analytics Dashboard - AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --aicoe-primary: #0066cc;
+            --aicoe-accent: #00d9ff;
+            --aicoe-dark: #1d1d1f;
+            --aicoe-gray: #6e6e73;
+            --aicoe-light-gray: #f5f5f7;
+            --aicoe-white: #ffffff;
+            --aicoe-success: #34c759;
+            --aicoe-warning: #ff9500;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--aicoe-white);
+            color: var(--aicoe-dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--aicoe-primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--aicoe-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--aicoe-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--aicoe-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--aicoe-gray);
+            font-size: 1.125rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: var(--aicoe-white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--aicoe-light-gray);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon i {
+            color: white;
+            width: 24px;
+            height: 24px;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--aicoe-dark);
+        }
+
+        .feature-description {
+            color: var(--aicoe-gray);
+            line-height: 1.6;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            background: var(--aicoe-light-gray);
+            padding: 4rem 2rem;
+        }
+
+        .use-cases-grid {
+            display: grid;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .use-case-card {
+            background: var(--aicoe-white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--aicoe-primary);
+        }
+
+        .use-case-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15);
+        }
+
+        .use-case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-id {
+            background: var(--aicoe-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .use-case-priority {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .priority-high {
+            background: var(--aicoe-success);
+            color: white;
+        }
+
+        .priority-medium {
+            background: var(--aicoe-warning);
+            color: white;
+        }
+
+        .use-case-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--aicoe-dark);
+        }
+
+        .use-case-description {
+            color: var(--aicoe-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .use-case-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--aicoe-gray);
+            font-size: 0.875rem;
+        }
+
+        .meta-item i {
+            width: 16px;
+            height: 16px;
+            color: var(--aicoe-primary);
+        }
+
+        /* Business Value */
+        .business-value {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 217, 255, 0.1));
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 1px solid var(--aicoe-primary);
+        }
+
+        .business-value-label {
+            font-weight: 600;
+            color: var(--aicoe-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .business-value-text {
+            color: var(--aicoe-dark);
+            font-size: 0.95rem;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 2rem;
+            background: var(--aicoe-white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-4px);
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .team-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--aicoe-dark);
+        }
+
+        .team-role {
+            color: var(--aicoe-gray);
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--aicoe-dark);
+            color: var(--aicoe-gray);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--aicoe-white);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--aicoe-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--aicoe-accent);
+        }
+
+        .footer-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-features {
+                gap: 1.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .use-case-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .use-case-meta {
+                gap: 1rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            nav, .no-print, button {
+                display: none !important;
+            }
+
+            body {
+                font-size: 12pt;
+                color: #000;
+                background: #fff;
+            }
+
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+
+            a[href]:after {
+                content: " (" attr(href) ")";
+            }
+
+            .hero {
+                background: none !important;
+                color: #000 !important;
+            }
+
+            .feature-card, .use-case-card {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="activity"></i>
+                <span>AICOE Multi-Agent Platform</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#features" class="nav-item">
+                    <i data-lucide="zap"></i>
+                    <span>Features</span>
+                </a>
+                <a href="#use-cases" class="nav-item">
+                    <i data-lucide="file-text"></i>
+                    <span>Use Cases</span>
+                </a>
+                <a href="#team" class="nav-item">
+                    <i data-lucide="users"></i>
+                    <span>Team</span>
+                </a>
+                <a href="#settings" class="nav-item">
+                    <i data-lucide="settings"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Real-Time Analytics Dashboard</h1>
+            <p>Monitor business metrics with automatic data refresh every 30 seconds. Make data-driven decisions with confidence.</p>
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <i data-lucide="refresh-cw"></i>
+                    <span>Auto-refresh every 30s</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-lucide="layout"></i>
+                    <span>Drag & Drop Widgets</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-lucide="database"></i>
+                    <span>Multiple Data Sources</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-lucide="smartphone"></i>
+                    <span>Mobile Responsive</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Features Section -->
+        <section id="features" class="container">
+            <div class="section-header">
+                <h2>Powerful Features</h2>
+                <p>Everything you need for comprehensive business intelligence</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <h3 class="feature-title">Real-Time Visualization</h3>
+                    <p class="feature-description">Live data updates with smooth animations and interactive charts. Monitor KPIs as they change.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="move"></i>
+                    </div>
+                    <h3 class="feature-title">Customizable Layout</h3>
+                    <p class="feature-description">Drag-and-drop interface to arrange widgets exactly how you want them. Save layouts for different roles.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="plug"></i>
+                    </div>
+                    <h3 class="feature-title">Multi-Source Integration</h3>
+                    <p class="feature-description">Connect to SQL, MongoDB, APIs and more. Unified view of all your business data.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="bell"></i>
+                    </div>
+                    <h3 class="feature-title">Smart Alerts</h3>
+                    <p class="feature-description">Set threshold-based alerts with email and SMS notifications. Never miss critical changes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="download"></i>
+                    </div>
+                    <h3 class="feature-title">Export & Reporting</h3>
+                    <p class="feature-description">Export data in PDF, CSV, or Excel formats. Schedule automated reports for stakeholders.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="history"></i>
+                    </div>
+                    <h3 class="feature-title">Historical Analysis</h3>
+                    <p class="feature-description">Compare current metrics with historical data. Identify trends and patterns over time.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section id="team" class="container">
+            <div class="section-header">
+                <h2>Project Team</h2>
+                <p>The experts bringing this dashboard to life</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-avatar">SC</div>
+                    <h3 class="team-name">Sarah Chen</h3>
+                    <p class="team-role">Product Manager</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">DK</div>
+                    <h3 class="team-name">David Kim</h3>
+                    <p class="team-role">Lead Developer</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">MR</div>
+                    <h3 class="team-name">Maria Rodriguez</h3>
+                    <p class="team-role">UX Designer</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">JW</div>
+                    <h3 class="team-name">James Wilson</h3>
+                    <p class="team-role">Data Analyst</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Use Cases Section -->
+    <section id="use-cases" class="use-cases">
+        <div class="section-header">
+            <h2>Use Cases</h2>
+            <p>Detailed workflows and business scenarios</p>
+        </div>
+        <div class="use-cases-grid">
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <span class="use-case-id">UC-001</span>
+                    <span class="use-case-priority priority-high">High Priority</span>
+                </div>
+                <h3 class="use-case-title">View Real-Time Analytics Dashboard</h3>
+                <p class="use-case-description">User accesses the dashboard to view real-time business metrics with automatic data refresh every 30 seconds.</p>
+                <div class="use-case-meta">
+                    <div class="meta-item">
+                        <i data-lucide="users"></i>
+                        <span>3 Actors</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="list-checks"></i>
+                        <span>6 Main Steps</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="git-branch"></i>
+                        <span>2 Alternate Flows</span>
+                    </div>
+                </div>
+                <div class="business-value">
+                    <div class="business-value-label">
+                        <i data-lucide="trending-up"></i>
+                        <span>Business Value</span>
+                    </div>
+                    <p class="business-value-text">Enables immediate decision-making based on current business performance, reducing response time to market changes by up to 80%</p>
+                </div>
+            </div>
+
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <span class="use-case-id">UC-002</span>
+                    <span class="use-case-priority priority-high">High Priority</span>
+                </div>
+                <h3 class="use-case-title">Customize Dashboard Layout</h3>
+                <p class="use-case-description">User personalizes their dashboard by arranging widgets through drag-and-drop functionality.</p>
+                <div class="use-case-meta">
+                    <div class="meta-item">
+                        <i data-lucide="users"></i>
+                        <span>2 Actors</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="list-checks"></i>
+                        <span>7 Main Steps</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="git-branch"></i>
+                        <span>2 Alternate Flows</span>
+                    </div>
+                </div>
+                <div class="business-value">
+                    <div class="business-value-label">
+                        <i data-lucide="trending-up"></i>
+                        <span>Business Value</span>
+                    </div>
+                    <p class="business-value-text">Improves user productivity by allowing personalized views tailored to specific roles and preferences</p>
+                </div>
+            </div>
+
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <span class="use-case-id">UC-003</span>
+                    <span class="use-case-priority priority-high">High Priority</span>
+                </div>
+                <h3 class="use-case-title">Configure Data Sources</h3>
+                <p class="use-case-description">Administrator connects and configures various data sources (SQL, MongoDB, APIs) to feed dashboard widgets.</p>
+                <div class="use-case-meta">
+                    <div class="meta-item">
+                        <i data-lucide="users"></i>
+                        <span>2 Actors</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="list-checks"></i>
+                        <span>8 Main Steps</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="git-branch"></i>
+                        <span>2 Alternate Flows</span>
+                    </div>
+                </div>
+                <div class="business-value">
+                    <div class="business-value-label">
+                        <i data-lucide="trending-up"></i>
+                        <span>Business Value</span>
+                    </div>
+                    <p class="business-value-text">Enables comprehensive business intelligence by aggregating data from multiple systems into a single view</p>
+                </div>
+            </div>
+
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <span class="use-case-id">UC-004</span>
+                    <span class="use-case-priority priority-medium">Medium Priority</span>
+                </div>
+                <h3 class="use-case-title">Export Dashboard Data</h3>
+                <p class="use-case-description">User exports dashboard data and visualizations in various formats (PDF, CSV, Excel) for reporting and sharing.</p>
+                <div class="use-case-meta">
+                    <div class="meta-item">
+                        <i data-lucide="users"></i>
+                        <span>3 Actors</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="list-checks"></i>
+                        <span>7 Main Steps</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="git-branch"></i>
+                        <span>2 Alternate Flows</span>
+                    </div>
+                </div>
+                <div class="business-value">
+                    <div class="business-value-label">
+                        <i data-lucide="trending-up"></i>
+                        <span>Business Value</span>
+                    </div>
+                    <p class="business-value-text">Facilitates stakeholder communication and compliance reporting by providing data in standard business formats</p>
+                </div>
+            </div>
+
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <span class="use-case-id">UC-005</span>
+                    <span class="use-case-priority priority-high">High Priority</span>
+                </div>
+                <h3 class="use-case-title">Manage Threshold Alerts</h3>
+                <p class="use-case-description">User sets up and manages alerts that trigger when business metrics cross predefined thresholds.</p>
+                <div class="use-case-meta">
+                    <div class="meta-item">
+                        <i data-lucide="users"></i>
+                        <span>3 Actors</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="list-checks"></i>
+                        <span>8 Main Steps</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="git-branch"></i>
+                        <span>2 Alternate Flows</span>
+                    </div>
+                </div>
+                <div class="business-value">
+                    <div class="business-value-label">
+                        <i data-lucide="trending-up"></i>
+                        <span>Business Value</span>
+                    </div>
+                    <p class="business-value-text">Enables proactive management by immediately notifying stakeholders of critical business changes</p>
+                </div>
+            </div>
+
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <span class="use-case-id">UC-006</span>
+                    <span class="use-case-priority priority-medium">Medium Priority</span>
+                </div>
+                <h3 class="use-case-title">Compare Historical Data</h3>
+                <p class="use-case-description">User analyzes trends by comparing current metrics with historical data across different time periods.</p>
+                <div class="use-case-meta">
+                    <div class="meta-item">
+                        <i data-lucide

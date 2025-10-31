@@ -110,6 +110,9 @@ export default function Results() {
 
   const prdContent = result.results?.prd?.prd_markdown || "PRD not available";
   const mockupContent = result.results?.mockup?.mockup_html || "<p>Mockup not available</p>";
+  const proposalContent = result.results?.commercial_proposal?.proposal_markdown || "Proposal not available";
+  const bomData = result.results?.bom?.bom_json || null;
+  const architectureContent = result.results?.architecture_diagram?.architecture_html || "<p>Architecture diagram not available</p>";
   const projectName = result.project_name || "Project";
   const projectId = result.project_id;
 
@@ -138,7 +141,7 @@ export default function Results() {
                 </p>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <Button
                 size="sm"
                 variant="outline"
@@ -152,7 +155,22 @@ export default function Results() {
                 className="gap-2"
               >
                 <Download className="w-4 h-4" />
-                PRD
+                PRD (MD)
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  if (projectId) {
+                    downloadArtifact(projectId, "prd_pdf", `${projectName}-PRD.pdf`);
+                  } else {
+                    alert("PDF download only available for saved projects");
+                  }
+                }}
+                className="gap-2"
+              >
+                <Download className="w-4 h-4" />
+                PRD (PDF)
               </Button>
               <Button
                 size="sm"
@@ -168,6 +186,81 @@ export default function Results() {
               >
                 <Download className="w-4 h-4" />
                 Mockup
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  if (projectId) {
+                    downloadArtifact(projectId, "commercial_proposal", `${projectName}-Proposal.md`);
+                  } else {
+                    downloadFile(proposalContent, `${projectName}-Proposal.md`, "text/markdown");
+                  }
+                }}
+                className="gap-2"
+              >
+                <Download className="w-4 h-4" />
+                Proposal (MD)
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  if (projectId) {
+                    downloadArtifact(projectId, "commercial_proposal_pdf", `${projectName}-Proposal.pdf`);
+                  } else {
+                    alert("PDF download only available for saved projects");
+                  }
+                }}
+                className="gap-2"
+              >
+                <Download className="w-4 h-4" />
+                Proposal (PDF)
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  if (projectId) {
+                    downloadArtifact(projectId, "bom_json", `${projectName}-BOM.json`);
+                  } else {
+                    downloadFile(JSON.stringify(bomData, null, 2), `${projectName}-BOM.json`, "application/json");
+                  }
+                }}
+                className="gap-2"
+              >
+                <Download className="w-4 h-4" />
+                BOM (JSON)
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  if (projectId) {
+                    downloadArtifact(projectId, "bom_pdf", `${projectName}-BOM.pdf`);
+                  } else {
+                    alert("PDF download only available for saved projects");
+                  }
+                }}
+                className="gap-2"
+              >
+                <Download className="w-4 h-4" />
+                BOM (PDF)
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  if (projectId) {
+                    downloadArtifact(projectId, "architecture_diagram", `${projectName}-Architecture.html`);
+                  } else {
+                    downloadFile(architectureContent, `${projectName}-Architecture.html`, "text/html");
+                  }
+                }}
+                className="gap-2"
+              >
+                <Download className="w-4 h-4" />
+                Architecture
               </Button>
             </div>
           </div>
@@ -212,14 +305,26 @@ export default function Results() {
         )}
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
+          <TabsList className="grid w-full grid-cols-5 mb-8">
             <TabsTrigger value="prd" className="gap-2">
               <FileText className="w-4 h-4" />
-              Product Requirements Document
+              PRD
             </TabsTrigger>
             <TabsTrigger value="mockup" className="gap-2">
               <Code className="w-4 h-4" />
-              Interactive Mockup
+              Mockup
+            </TabsTrigger>
+            <TabsTrigger value="proposal" className="gap-2">
+              <FileText className="w-4 h-4" />
+              Proposal
+            </TabsTrigger>
+            <TabsTrigger value="bom" className="gap-2">
+              <FileText className="w-4 h-4" />
+              BOM
+            </TabsTrigger>
+            <TabsTrigger value="architecture" className="gap-2">
+              <Code className="w-4 h-4" />
+              Architecture
             </TabsTrigger>
           </TabsList>
 
@@ -265,6 +370,89 @@ export default function Results() {
                 </pre>
               </Card>
             )}
+          </TabsContent>
+
+          {/* Commercial Proposal Tab */}
+          <TabsContent value="proposal" className="space-y-4">
+            <Card className="p-8 bg-card border border-border">
+              <div className="prose prose-sm max-w-none dark:prose-invert">
+                <MarkdownRenderer content={proposalContent} />
+              </div>
+            </Card>
+          </TabsContent>
+
+          {/* BOM Tab */}
+          <TabsContent value="bom" className="space-y-4">
+            <Card className="p-8 bg-card border border-border">
+              {bomData ? (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-foreground mb-4">Bill of Materials</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                      <div className="p-4 bg-secondary rounded-lg">
+                        <p className="text-xs text-muted-foreground">Total Components</p>
+                        <p className="text-2xl font-bold text-foreground">{bomData.summary?.total_components || 0}</p>
+                      </div>
+                      <div className="p-4 bg-secondary rounded-lg">
+                        <p className="text-xs text-muted-foreground">One-Time Cost</p>
+                        <p className="text-2xl font-bold text-foreground">${bomData.summary?.total_one_time_cost?.toLocaleString() || 0}</p>
+                      </div>
+                      <div className="p-4 bg-secondary rounded-lg">
+                        <p className="text-xs text-muted-foreground">Monthly Cost</p>
+                        <p className="text-2xl font-bold text-foreground">${bomData.summary?.total_recurring_cost_monthly?.toLocaleString() || 0}</p>
+                      </div>
+                      <div className="p-4 bg-secondary rounded-lg">
+                        <p className="text-xs text-muted-foreground">Annual Cost</p>
+                        <p className="text-2xl font-bold text-foreground">${bomData.summary?.total_recurring_cost_annual?.toLocaleString() || 0}</p>
+                      </div>
+                    </div>
+                  </div>
+                  {bomData.categories?.map((category, idx) => (
+                    <div key={idx} className="border-t border-border pt-4">
+                      <h3 className="text-lg font-semibold text-foreground mb-3">{category.category_name}</h3>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="border-b border-border">
+                              <th className="text-left p-2 text-muted-foreground">ID</th>
+                              <th className="text-left p-2 text-muted-foreground">Name</th>
+                              <th className="text-left p-2 text-muted-foreground">Qty</th>
+                              <th className="text-left p-2 text-muted-foreground">Type</th>
+                              <th className="text-right p-2 text-muted-foreground">Cost</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {category.items?.map((item, itemIdx) => (
+                              <tr key={itemIdx} className="border-b border-border">
+                                <td className="p-2 text-foreground">{item.item_id}</td>
+                                <td className="p-2 text-foreground">{item.name}</td>
+                                <td className="p-2 text-foreground">{item.quantity}</td>
+                                <td className="p-2 text-foreground capitalize">{item.cost_type}</td>
+                                <td className="p-2 text-foreground text-right">${item.unit_cost?.toLocaleString()}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">BOM data not available</p>
+              )}
+            </Card>
+          </TabsContent>
+
+          {/* Architecture Diagram Tab */}
+          <TabsContent value="architecture" className="space-y-4">
+            <Card className="border border-border overflow-hidden">
+              <iframe
+                srcDoc={architectureContent}
+                className="w-full h-screen border-0"
+                title="Architecture Diagram"
+                sandbox="allow-same-origin allow-scripts"
+              />
+            </Card>
           </TabsContent>
         </Tabs>
 

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracking App - Chrome MCP Test | AICOE Platform</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --aicoe-primary: #0066cc;
+            --aicoe-accent: #00d9ff;
+            --aicoe-dark: #1d1d1f;
+            --aicoe-gray: #6e6e73;
+            --aicoe-light-gray: #f5f5f7;
+            --aicoe-white: #ffffff;
+            --aicoe-success: #34c759;
+            --aicoe-warning: #ff9500;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--aicoe-white);
+            color: var(--aicoe-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--aicoe-primary);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--aicoe-dark);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--aicoe-primary);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: var(--aicoe-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--aicoe-dark);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--aicoe-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Use Cases Grid */
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .use-case-card {
+            background: var(--aicoe-white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 102, 204, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--aicoe-primary), var(--aicoe-accent));
+        }
+
+        .use-case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .use-case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-id {
+            font-size: 0.875rem;
+            color: var(--aicoe-primary);
+            font-weight: 600;
+            background: rgba(0, 102, 204, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--aicoe-warning);
+        }
+
+        .priority-medium {
+            background: rgba(52, 199, 89, 0.1);
+            color: var(--aicoe-success);
+        }
+
+        .use-case-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--aicoe-dark);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .use-case-description {
+            color: var(--aicoe-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .use-case-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--aicoe-gray);
+            background: var(--aicoe-light-gray);
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+        }
+
+        .view-details-btn {
+            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));
+            color: var(--aicoe-white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .view-details-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--aicoe-light-gray);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            background: var(--aicoe-white);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: var(--aicoe-white);
+        }
+
+        .feature-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--aicoe-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--aicoe-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--aicoe-dark);
+            color: var(--aicoe-white);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--aicoe-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--aicoe-accent);
+        }
+
+        .footer-copyright {
+            color: var(--aicoe-gray);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            nav, .no-print, button, .mobile-menu-toggle {
+                display: none !important;
+            }
+
+            body {
+                font-size: 12pt;
+                color: #000;
+                background: #fff;
+            }
+
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+
+            a[href]:after {
+                content: " (" attr(href) ")";
+            }
+
+            .hero {
+                background: #f5f5f7 !important;
+                color: #000 !important;
+            }
+
+            .use-case-card {
+                break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--aicoe-white);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-brand">
+                <i data-lucide="layers" style="width: 24px; height: 24px;"></i>
+                AICOE Multi-Agent Platform
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#home"><i data-lucide="home" style="width: 18px; height: 18px;"></i> Home</a></li>
+                <li><a href="#use-cases"><i data-lucide="file-text" style="width: 18px; height: 18px;"></i> Use Cases</a></li>
+                <li><a href="#features"><i data-lucide="zap" style="width: 18px; height: 18px;"></i> Features</a></li>
+                <li><a href="#about"><i data-lucide="info" style="width: 18px; height: 18px;"></i> About</a></li>
+                <li><a href="#use-case-1.html"><i data-lucide="check-circle" style="width: 18px; height: 18px;"></i> Details</a></li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content fade-in">
+            <h1>Fitness Tracking App</h1>
+            <p>Chrome MCP Test - A beginner-friendly fitness tracking platform with AI-powered nutrition analysis and beautiful progress visualization</p>
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <i data-lucide="calendar" style="width: 18px; height: 18px;"></i>
+                    <span>Jan 15, 2025</span>
+                </div>
+                <div class="meta-item">
+                    <i data-lucide="users" style="width: 18px; height: 18px;"></i>
+                    <span>6 Use Cases</span>
+                </div>
+                <div class="meta-item">
+                    <i data-lucide="target" style="width: 18px; height: 18px;"></i>
+                    <span>Beginners 25-45</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="section" id="use-cases">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Use Cases</h2>
+                <p class="section-subtitle">Core functionality designed to help beginners on their fitness journey</p>
+            </div>
+
+            <div class="use-cases-grid">
+                <!-- Use Case 1 -->
+                <div class="use-case-card fade-in">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-001</span>
+                        <span class="priority-badge priority-high">High</span>
+                    </div>
+                    <h3 class="use-case-title">
+                        <i data-lucide="activity" style="width: 20px; height: 20px;"></i>
+                        Track Workout Session
+                    </h3>
+                    <p class="use-case-description">A beginner user logs their workout session, including exercises, sets, and reps, with guidance from pre-made plans and exercise demonstrations.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-tag">
+                            <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+                            Beginner User
+                        </span>
+                        <span class="meta-tag">
+                            <i data-lucide="clock" style="width: 14px; height: 14px;"></i>
+                            Daily
+                        </span>
+                    </div>
+                    <a href="use-case-1.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                </div>
+
+                <!-- Use Case 2 -->
+                <div class="use-case-card fade-in">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-002</span>
+                        <span class="priority-badge priority-high">High</span>
+                    </div>
+                    <h3 class="use-case-title">
+                        <i data-lucide="camera" style="width: 20px; height: 20px;"></i>
+                        Log Nutrition via Photo
+                    </h3>
+                    <p class="use-case-description">User captures a photo of their meal, and the AI analyzes the food items and estimates nutritional information, reducing manual entry friction.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-tag">
+                            <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+                            Beginner User
+                        </span>
+                        <span class="meta-tag">
+                            <i data-lucide="brain" style="width: 14px; height: 14px;"></i>
+                            AI-Powered
+                        </span>
+                    </div>
+                    <a href="use-case-2.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                </div>
+
+                <!-- Use Case 3 -->
+                <div class="use-case-card fade-in">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-003</span>
+                        <span class="priority-badge priority-high">High</span>
+                    </div>
+                    <h3 class="use-case-title">
+                        <i data-lucide="trending-up" style="width: 20px; height: 20px;"></i>
+                        View Progress Visualization
+                    </h3>
+                    <p class="use-case-description">User views their fitness journey through beautiful, intuitive charts and visualizations that celebrate progress without overwhelming with complex data.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-tag">
+                            <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+                            Beginner User
+                        </span>
+                        <span class="meta-tag">
+                            <i data-lucide="bar-chart" style="width: 14px; height: 14px;"></i>
+                            Analytics
+                        </span>
+                    </div>
+                    <a href="use-case-3.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                </div>
+
+                <!-- Use Case 4 -->
+                <div class="use-case-card fade-in">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-004</span>
+                        <span class="priority-badge priority-high">High</span>
+                    </div>
+                    <h3 class="use-case-title">
+                        <i data-lucide="list-checks" style="width: 20px; height: 20px;"></i>
+                        Select and Customize Workout Plan
+                    </h3>
+                    <p class="use-case-description">A beginner user browses and selects a pre-made workout plan tailored to their fitness level and goals, with options for customization.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-tag">
+                            <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+                            Beginner User
+                        </span>
+                        <span class="meta-tag">
+                            <i data-lucide="settings" style="width: 14px; height: 14px;"></i>
+                            Customizable
+                        </span>
+                    </div>
+                    <a href="use-case-4.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                </div>
+
+                <!-- Use Case 5 -->
+                <div class="use-case-card fade-in">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-005</span>
+                        <span class="priority-badge priority-medium">Medium</span>
+                    </div>
+                    <h3 class="use-case-title">
+                        <i data-lucide="award" style="width: 20px; height: 20px;"></i>
+                        Earn and Display Achievements
+                    </h3>
+                    <p class="use-case-description">User earns badges and achievements through consistent activity, completing challenges, and reaching milestones, with gamification elements driving engagement.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-tag">
+                            <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+                            Beginner User
+                        </span>
+                        <span class="meta-tag">
+                            <i data-lucide="gamepad-2" style="width: 14px; height: 14px;"></i>
+                            Gamification
+                        </span>
+                    </div>
+                    <a href="use-case-5.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                </div>
+
+                <!-- Use Case 6 -->
+                <div class="use-case-card fade-in">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-006</span>
+                        <span class="priority-badge priority-medium">Medium</span>
+                    </div>
+                    <h3 class="use-case-title">
+                        <i data-lucide="share-2" style="width: 20px; height: 20px;"></i>
+                        Private Progress Sharing
+                    </h3>
+                    <p class="use-case-description">User selectively shares their progress and achievements with a trusted circle of friends, avoiding public pressure while maintaining social motivation.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-tag">
+                            <i data-lucide="users" style="width: 14px; height: 14px;"></i>
+                            Social
+                        </span>
+                        <span class="meta-tag">
+                            <i data-lucide="shield" style="width: 14px; height: 14px;"></i>
+                            Private
+                        </span>
+                    </div>
+                    <a href="use-case-6.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features" style="background: var(--aicoe-light-gray);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Key Features</h2>
+                <p class="section-subtitle">Core capabilities that make our fitness app unique for beginners</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="dumbbell" style="width: 28px; height: 28px;"></i>
+                    </div>
+                    <h3 class="feature-title">Workout Tracking</h3>
+                    <p class="feature-description">Log exercises, sets, and reps with visual demonstrations</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="camera" style="width: 28px; height: 28px;"></i>
+                    </div>
+                    <h3 class="feature-title">AI Nutrition</h3>
+                    <p class="feature-description">Photo-based meal analysis with automatic calorie counting</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="target" style="width: 28px; height: 28px;"></i>
+                    </div>
+                    <h3 class="feature-title">Progress Visualization</h3>
+                    <p class="feature-description">Beautiful charts and graphs to track your fitness journey</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="trophy" style="width: 28px; height: 28px;"></i>
+                    </div>
+                    <h3 class="feature-title">Achievements</h3>
+                    <p class="feature-description">Earn badges and rewards for reaching milestones</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="users" style="width: 28px; height: 28px;"></i>
+                    </div>
+                    <h3 class="feature-title">Private Sharing</h3>
+                    <p class="feature-description">Share progress with friends without public pressure</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="bell" style="width: 28px; height: 28px;"></i>
+                    </div>
+                    <h3 class="feature-title">Smart Reminders</h3>
+                    <p class="feature-description">Customizable notifications to keep you motivated</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Project Overview</h2>
+                <p class="section-subtitle">Building a beginner-friendly fitness tracking platform</p>
+            </div>
+
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.125rem; color: var(--aicoe-gray); margin-bottom: 2rem;">
+                    Our fitness tracking app is designed specifically for beginners aged 25-45, particularly women, who find existing fitness apps intimidating. We focus on simplicity, guidance, and motivation through beautiful design and AI-powered features.
+                </p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div>
+                        <h4 style="font-size: 2rem; font-weight: 700; color: var(--aicoe-primary);">6-8</h4>
+                        <p style="color: var(--aicoe-gray);">Months to Launch</p>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 2rem; font-weight: 700; color: var(--aicoe-primary);">$9.99</h4>
+                        <p style="color: var(--aicoe-gray);">Premium Monthly</p>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 2rem; font-weight: 700; color: var(--aicoe-primary);">React Native</h4>
+                        <p style="color: var(--aicoe-gray);">Cross-Platform</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i data-lucide="layers" style="width: 24px; height: 24px;"></i>
+                    AICOE Multi-Agent Platform
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#use-cases">Use Cases</a>
+                    <a href="#features">Features</a>
+                    <a href="#about">About</a>
+                </div>
+                <p class="footer-copyright">
+                    Powered by AICOE | Generated by AI Agents | © 2025
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        mobileMenuToggle?.addEventListener('click', () => {
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+            navMenu.style.position = 'absolute';
+            navMenu.style.top = '100%';
+            navMenu.style.left = '0';
+            navMenu.style.right = '0';
+            navMenu.style.background = 'white';
+            navMenu.style.flexDirection = 'column';
+            navMenu.style.padding = '1rem';
+            navMenu.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add hover effect to cards
+        document.querySelectorAll('.use-case-card, .feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Dynamic year in footer
+        const year = new Date().getFullYear();
+        document.querySelectorAll('.footer-copyright').forEach(el => {
+            el.textContent = el.textContent.replace('2025', year);
+        });
+    </script>
+</body>
+</html>

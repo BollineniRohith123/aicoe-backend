@@ -1,0 +1,1491 @@
+{
+  "project_name": "Researcher Agent Test",
+  "workflow_id": "workflow_20251029_124426",
+  "status": "success",
+  "context": {
+    "project_name": "Researcher Agent Test",
+    "workflow_id": "workflow_20251029_124426",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T12:44:26.659008",
+    "end_time": "2025-10-29T12:52:46.862306",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Researcher Agent Test",
+      "project_root": "projects/Researcher Agent Test",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "research",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T12:44:26.661209",
+        "action": "project_created",
+        "project_name": "Researcher Agent Test",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": "Not mentioned",
+        "attendees": [],
+        "meeting_date": "Not specified",
+        "meeting_objective": "To build a fitness tracking mobile app.",
+        "key_discussion_points": [
+          "Building a fitness tracking mobile app.",
+          "Including workout logging functionality.",
+          "Including nutrition tracking functionality.",
+          "Including progress charts functionality.",
+          "Including social features.",
+          "Integration with wearable devices.",
+          "Specific integration with Apple Watch and Fitbit."
+        ],
+        "pain_points": [],
+        "requirements": [
+          "The application must be a mobile app.",
+          "The app must have a workout logging feature.",
+          "The app must have a nutrition tracking feature.",
+          "The app must have a progress charts feature.",
+          "The app must have social features.",
+          "The app must integrate with wearable devices.",
+          "The app must specifically integrate with Apple Watch and Fitbit."
+        ],
+        "decisions_made": [],
+        "action_items": [],
+        "technical_constraints": [],
+        "stakeholders": []
+      },
+      "project_name": "Researcher Agent Test",
+      "transcript_length": 189
+    },
+    "researcher": {
+      "research_insights": {
+        "company_name": "Researcher Agent Test",
+        "product_type": "Researcher Agent Test",
+        "search_queries_used": [
+          "Researcher Agent Test industry trends 2025 best practices",
+          "best Researcher Agent Test applications competitors market leaders",
+          "Researcher Agent Test technical standards architecture patterns",
+          "Researcher Agent Test user experience expectations features",
+          "Researcher Agent Test development best practices design patterns"
+        ],
+        "industry_trends": [
+          "Holistic Health Integration: Apps are expanding beyond just exercise to include sleep, mindfulness, and nutrition tracking, creating a single wellness hub.",
+          "AI-Powered Personalization: Utilizing machine learning to provide customized workout plans, nutrition recommendations, and predictive progress insights.",
+          "Wearable Device Synergy: Deep integration with wearables like Apple Watch and Fitbit is becoming standard for automatic data capture and a seamless user experience.",
+          "Community and Social Fitness: Incorporating social features like challenges, leaderboards, and group workouts to boost user motivation and retention.",
+          "Gamification for Engagement: Using badges, streaks, points, and rewards to make fitness tracking more engaging and to encourage consistent user behavior."
+        ],
+        "competitor_insights": [
+          "MyFitnessPal dominates nutrition tracking with its extensive food database, suggesting that a comprehensive and accurate food library is critical for this feature.",
+          "Strava's success is built on its strong community and social features, particularly for runners and cyclists, highlighting the importance of user-generated content and social interaction.",
+          "Apple Fitness+ demonstrates the power of tight ecosystem integration, using the Apple Watch to provide a seamless, premium experience with guided workouts.",
+          "Fitbit's app focuses on a holistic view of health metrics (steps, sleep, heart rate), indicating that users value a comprehensive dashboard to track overall wellness.",
+          "Nike Training Club (NTC) offers high-quality, expert-led workout content, showing that a robust library of diverse and well-produced exercise programs is a key value proposition."
+        ],
+        "best_practices": [
+          "Prioritize a clean, intuitive, and fast user interface (UI/UX) for logging data to reduce user friction and prevent churn.",
+          "Implement robust data privacy and security measures from the outset, being transparent with users about how their health data is used and protected.",
+          "Design for offline functionality, allowing users to log workouts and meals without an internet connection, with data syncing when connectivity is restored.",
+          "Incorporate gamification elements (e.g., achievement badges, progress streaks) to motivate users and encourage daily engagement with the app.",
+          "Ensure seamless and reliable integration with third-party services like HealthKit and Fitbit, handling errors and authentication gracefully.",
+          "Adopt a scalable backend architecture to handle growing user data and ensure high availability and performance.",
+          "Utilize A/B testing to optimize onboarding flows, feature placements, and messaging to maximize user conversion and retention."
+        ],
+        "technical_standards": [
+          "Leverage Apple's HealthKit framework for bi-directional data sync with Apple Watch and the iOS Health app.",
+          "Utilize the Fitbit Web API for integrating workout, sleep, and heart rate data from Fitbit devices.",
+          "Implement OAuth 2.0 for secure and standardized authorization when connecting to third-party services like Fitbit.",
+          "Use RESTful API design principles for communication between the mobile app and the backend server.",
+          "Adopt established data visualization libraries for rendering progress charts and analytics in a performant and visually appealing way."
+        ],
+        "user_expectations": [
+          "Effortless Data Entry: Users expect quick and easy ways to log workouts and meals, often relying on barcode scanners, extensive food databases, and automatic exercise detection.",
+          "Accurate and Actionable Insights: Users want to trust the data they see and receive clear, easy-to-understand feedback on their progress toward goals.",
+          "Seamless Wearable Sync: Data from wearables should sync automatically and reliably in the background without requiring manual intervention from the user.",
+          "Motivation and Accountability: Users look for features that keep them motivated, such as reminders, social challenges, and visual proof of their progress.",
+          "Personalization: The app should feel tailored to the individual's goals, fitness level, and dietary preferences."
+        ],
+        "regulatory_requirements": [
+          "Compliance with data privacy regulations such as GDPR (for European users) and CCPA (for California users) regarding the collection and processing of personal health data.",
+          "Adherence to platform-specific policies, including Apple's App Store Review Guidelines and Google Play's policies, especially concerning health-related apps and data privacy.",
+          "Consider HIPAA (Health Insurance Portability and Accountability Act) compliance if the app handles protected health information (PHI) in a way that could be defined as a covered entity or business associate.",
+          "Ensure clear and accessible privacy policies and terms of service that explicitly detail data handling practices for health information."
+        ],
+        "sources": []
+      },
+      "company_name": "Researcher Agent Test",
+      "product_type": "Researcher Agent Test",
+      "sources_count": 0
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "Log Workout Session",
+          "description": "Users can manually log their workout sessions including exercise type, duration, sets, reps, and weights. The system should save this data and make it available for progress tracking.",
+          "actors": [
+            "Registered User"
+          ],
+          "preconditions": [
+            "User must be logged into the app",
+            "User must have completed a workout session"
+          ],
+          "main_flow": [
+            "User navigates to the 'Workout' section",
+            "User selects 'Log New Workout' option",
+            "User selects workout type (e.g., cardio, strength training, yoga)",
+            "User enters workout details (duration, exercises, sets, reps, weights)",
+            "User can add notes about the workout",
+            "User saves the workout entry",
+            "System validates and stores the workout data",
+            "System confirms successful logging with a success message"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Import from wearable",
+              "steps": [
+                "User selects 'Import from Device' option",
+                "System retrieves workout data from connected wearable",
+                "User reviews and confirms the imported data",
+                "System saves the imported workout"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Workout session is saved to user's profile",
+            "Data is available for progress charts",
+            "Calorie burn is calculated and added to daily total"
+          ],
+          "priority": "high",
+          "business_value": "Core functionality that enables users to track their fitness activities, providing essential data for progress monitoring and motivation"
+        },
+        {
+          "id": "UC-002",
+          "title": "Track Daily Nutrition",
+          "description": "Users can log their daily food intake, track calories, macronutrients, and water consumption. The system should provide a food database and calculate nutritional values.",
+          "actors": [
+            "Registered User"
+          ],
+          "preconditions": [
+            "User must be logged into the app",
+            "User must have food consumption data to log"
+          ],
+          "main_flow": [
+            "User navigates to the 'Nutrition' section",
+            "User selects 'Add Food' option",
+            "User searches for food item in the database",
+            "User selects the correct food item from search results",
+            "User enters serving size and quantity",
+            "System calculates nutritional values",
+            "User confirms and saves the entry",
+            "System updates daily nutrition totals"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Scan barcode",
+              "steps": [
+                "User selects 'Scan Barcode' option",
+                "User scans food item barcode using phone camera",
+                "System identifies food and retrieves nutritional data",
+                "User confirms serving size and saves"
+              ]
+            },
+            {
+              "name": "Create custom food",
+              "steps": [
+                "User selects 'Create Custom Food' option",
+                "User enters food name and nutritional information",
+                "System saves custom food to user's database",
+                "User can use custom food for future logging"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Food entry is saved to user's daily log",
+            "Daily nutrition totals are updated",
+            "Progress towards nutrition goals is recalculated"
+          ],
+          "priority": "high",
+          "business_value": "Essential for users to maintain a balanced diet and achieve their fitness goals through comprehensive nutrition tracking"
+        },
+        {
+          "id": "UC-003",
+          "title": "View Progress Charts",
+          "description": "Users can visualize their fitness progress through various charts and graphs showing workout history, weight changes, body measurements, and nutrition trends over time.",
+          "actors": [
+            "Registered User"
+          ],
+          "preconditions": [
+            "User must be logged into the app",
+            "User must have logged at least one workout or nutrition entry"
+          ],
+          "main_flow": [
+            "User navigates to the 'Progress' section",
+            "User selects the type of chart to view (weight, workouts, nutrition, etc.)",
+            "User selects the time period (week, month, year, custom)",
+            "System generates and displays the relevant chart",
+            "User can interact with chart to view detailed data points",
+            "User can switch between different chart types",
+            "User can export or share the chart if desired"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Compare multiple metrics",
+              "steps": [
+                "User selects 'Compare Metrics' option",
+                "User chooses multiple data types to compare",
+                "System generates composite chart showing correlations"
+              ]
+            }
+          ],
+          "postconditions": [
+            "User can visualize their fitness trends",
+            "Motivational insights are provided based on progress"
+          ],
+          "priority": "medium",
+          "business_value": "Provides visual feedback and motivation to users, helping them stay committed to their fitness journey"
+        },
+        {
+          "id": "UC-004",
+          "title": "Connect Wearable Device",
+          "description": "Users can connect their wearable devices (Apple Watch, Fitbit) to automatically sync workout data, heart rate, steps, and other health metrics with the app.",
+          "actors": [
+            "Registered User"
+          ],
+          "preconditions": [
+            "User must be logged into the app",
+            "User must have a compatible wearable device",
+            "User must have the wearable's companion app installed"
+          ],
+          "main_flow": [
+            "User navigates to 'Settings' > 'Connected Devices'",
+            "User selects 'Add New Device'",
+            "System displays list of supported devices",
+            "User selects their device type (Apple Watch or Fitbit)",
+            "System initiates OAuth/authentication flow with device's API",
+            "User grants permission on the wearable's platform",
+            "System confirms successful connection",
+            "System begins syncing historical data (if permitted)",
+            "System sets up automatic sync for future data"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Connection fails",
+              "steps": [
+                "System displays error message",
+                "User is provided with troubleshooting steps",
+                "User can retry the connection process"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Wearable device is connected to the app",
+            "Data sync is established",
+            "User can view synced data in the app"
+          ],
+          "priority": "high",
+          "business_value": "Automates data collection, improves accuracy, and enhances user experience by eliminating manual entry"
+        },
+        {
+          "id": "UC-005",
+          "title": "Engage in Social Features",
+          "description": "Users can connect with friends, share achievements, participate in challenges, and provide encouragement to build a supportive fitness community.",
+          "actors": [
+            "Registered User",
+            "User's Friends/Followers"
+          ],
+          "preconditions": [
+            "User must be logged into the app",
+            "User must have completed their profile setup"
+          ],
+          "main_flow": [
+            "User navigates to the 'Community' section",
+            "User can search for and add friends",
+            "User can view friends' activities and achievements",
+            "User can like and comment on friends' posts",
+            "User can share their own workout achievements",
+            "User can join or create fitness challenges",
+            "User can view leaderboards for challenges"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Join group challenge",
+              "steps": [
+                "User browses available challenges",
+                "User selects a challenge to join",
+                "User confirms participation",
+                "System adds user to challenge participants",
+                "User receives challenge updates and reminders"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Social connections are established",
+            "Achievements are shared",
+            "User participates in community activities"
+          ],
+          "priority": "medium",
+          "business_value": "Increases user engagement and retention through social motivation and accountability"
+        },
+        {
+          "id": "UC-006",
+          "title": "Sync Data from Wearable",
+          "description": "The system automatically or manually syncs fitness data from connected wearable devices, ensuring the user's fitness information is up-to-date across all platforms.",
+          "actors": [
+            "System",
+            "Registered User"
+          ],
+          "preconditions": [
+            "User must have at least one wearable device connected",
+            "Wearable must have new data to sync",
+            "App must have internet connectivity"
+          ],
+          "main_flow": [
+            "System checks for new data from connected wearables",
+            "System retrieves workout data, steps, heart rate, sleep data",
+            "System processes and normalizes the data",
+            "System updates user's fitness profile with new data",
+            "System recalculates progress metrics and goals",
+            "System sends notification to user about synced data",
+            "User can view the newly synced data in relevant sections"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Manual sync",
+              "steps": [
+                "User initiates manual sync from settings",
+                "System immediately checks all connected devices",
+                "Sync process is prioritized and executed"
+              ]
+            },
+            {
+              "name": "Sync conflict resolution",
+              "steps": [
+                "System detects conflicting data entries",
+                "System applies conflict resolution rules",
+                "User is notified of any resolved conflicts"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Latest wearable data is available in the app",
+            "Progress charts are updated",
+            "User's fitness profile is current"
+          ],
+          "priority": "high",
+          "business_value": "Ensures data accuracy and provides users with comprehensive fitness tracking by leveraging wearable device capabilities"
+        }
+      ],
+      "business_requirements": {
+        "overview": "The project aims to develop a comprehensive fitness tracking mobile application that enables users to monitor their workouts, nutrition, and overall health progress. The app will integrate with popular wearable devices and include social features to enhance user engagement and motivation.",
+        "business_goals": [
+          "Create a user-friendly fitness tracking solution that helps users achieve their health and wellness goals",
+          "Increase user engagement through social features and progress visualization",
+          "Establish seamless integration with major wearable device ecosystems (Apple Watch, Fitbit)",
+          "Build a scalable platform that can accommodate future feature expansions",
+          "Achieve high user retention rates through comprehensive tracking capabilities"
+        ],
+        "success_criteria": [
+          "Achieve 10,000+ active users within the first 6 months",
+          "Maintain a 4.5+ star rating on app stores",
+          "Achieve 70%+ user retention after 30 days",
+          "Successfully sync data with Apple Watch and Fitbit with 99% reliability",
+          "Average daily engagement time of 5+ minutes per active user"
+        ],
+        "constraints": [
+          "Must comply with health data privacy regulations (HIPAA, GDPR)",
+          "Must support iOS and Android platforms",
+          "Integration with wearable APIs must follow their respective guidelines",
+          "Offline functionality must be available for core features",
+          "App size must be under 150MB for initial download"
+        ],
+        "assumptions": [
+          "Users have smartphones capable of running the app",
+          "Users have basic familiarity with fitness tracking concepts",
+          "Wearable device APIs will remain stable and accessible",
+          "Users will grant necessary permissions for health data access",
+          "Sufficient server infrastructure can be provisioned for data storage and processing"
+        ],
+        "risks": [
+          {
+            "risk": "Wearable API changes could break integration functionality",
+            "mitigation": "Implement robust error handling, maintain close communication with wearable vendors, and create flexible integration architecture"
+          },
+          {
+            "risk": "User adoption may be slow due to market competition",
+            "mitigation": "Focus on unique features, implement referral programs, and ensure superior user experience"
+          },
+          {
+            "risk": "Data privacy concerns may deter users",
+            "mitigation": "Implement transparent privacy policies, provide granular data control options, and obtain relevant certifications"
+          },
+          {
+            "risk": "High server costs due to data storage and processing needs",
+            "mitigation": "Implement efficient data compression, optimize database queries, and consider tiered subscription models"
+          }
+        ]
+      },
+      "project_name": "Researcher Agent Test"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Personalization Engine",
+            "description": "Implement ML-based workout and nutrition recommendations based on user history, goals, and preferences",
+            "priority": "high"
+          },
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Predictive Analytics",
+            "description": "Use historical data to predict fitness outcomes and suggest optimal workout/nutrition plans",
+            "priority": "medium"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Progressive Web App (PWA)",
+            "description": "Implement as PWA for offline workout logging and sync when connection is restored",
+            "priority": "high"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Data Validation Pipeline",
+            "description": "Implement multi-layer validation for workout and nutrition data to ensure accuracy",
+            "priority": "high"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "Adapter Pattern",
+            "description": "Use adapters for different wearable devices to normalize incoming workout data",
+            "priority": "high"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "Event-Driven Architecture",
+            "description": "Implement event-driven updates for real-time calorie and progress calculations",
+            "priority": "medium"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "User Experience",
+            "suggestion": "Implement voice logging for workout entries to reduce manual input friction",
+            "rationale": "Users often have limited time or hands-free capability during/after workouts"
+          },
+          {
+            "area": "Data Analytics",
+            "suggestion": "Add social features for workout sharing and community challenges",
+            "rationale": "Social accountability significantly improves user retention in fitness apps"
+          },
+          {
+            "area": "Health Integration",
+            "suggestion": "Integrate with Apple Health/Google Fit for comprehensive health data aggregation",
+            "rationale": "Centralized health data provides better insights and user convenience"
+          },
+          {
+            "area": "Gamification",
+            "suggestion": "Implement achievement badges and streak tracking for motivation",
+            "rationale": "Gamification elements increase user engagement and long-term app usage"
+          },
+          {
+            "area": "Nutrition Enhancement",
+            "suggestion": "Add barcode scanning and photo recognition for food logging",
+            "rationale": "Reduces friction in nutrition tracking and improves data accuracy"
+          }
+        ],
+        "compliance_notes": [
+          "HIPAA compliance considerations if storing protected health information (PHI)",
+          "GDPR compliance required for EU users regarding data processing and storage",
+          "CCPA compliance for California residents regarding data privacy and deletion rights",
+          "FDA regulations may apply if providing medical-grade health recommendations",
+          "Secure data transmission required for wearable device integrations (TLS 1.2+)",
+          "Implement data retention policies and user consent management"
+        ],
+        "integration_recommendations": [
+          "Implement OAuth 2.0 for secure wearable device authentication",
+          "Use FHIR standards for health data exchange with medical systems",
+          "Integrate with nutrition APIs like USDA FoodData Central for accurate nutritional information",
+          "Implement webhook notifications for real-time sync with external health platforms",
+          "Use GraphQL for efficient data fetching across multiple health data sources",
+          "Implement rate limiting and caching strategies for external API calls"
+        ]
+      },
+      "project_name": "Researcher Agent Test",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "prd": {
+      "prd_markdown": "***\n\n# **Product Requirements Document (PRD)**\n\n## **Project: Researcher Agent Test**\n\n**Version:** 1.0  \n**Date:** October 26, 2023  \n**Status:** Draft  \n**Author:** Product Manager, AICOE\n\n---\n\n### **1. Introduction**\n\n#### 1.1. Purpose\nThis Product Requirements Document (PRD) outlines the specifications, requirements, and business objectives for the development of a comprehensive fitness tracking mobile application, codenamed \"Researcher Agent Test\". This document will serve as the single source of truth for the project team, including stakeholders, designers, engineers, and QA testers.\n\n#### 1.2. Product Vision\nTo create a user-centric fitness tracking solution that empowers individuals to achieve their health and wellness goals through seamless data integration, insightful progress visualization, and a motivating social community.\n\n#### 1.3. Product Goals\n*   **Primary Goal:** Develop a fully functional mobile application for workout logging, nutrition tracking, and progress visualization.\n*   **Secondary Goal:** Establish reliable, two-way integration with leading wearable ecosystems, specifically Apple Watch and Fitbit.\n*   **Tertiary Goal:** Foster user engagement and retention through integrated social features and community challenges.\n\n---\n\n### **2. Business Requirements**\n\n#### 2.1. Business Overview\nThe project aims to develop a comprehensive fitness tracking mobile application that enables users to monitor their workouts, nutrition, and overall health progress. The app will integrate with popular wearable devices and include social features to enhance user engagement and motivation.\n\n#### 2.2. Business Goals\n*   Create a user-friendly fitness tracking solution that helps users achieve their health and wellness goals.\n*   Increase user engagement through social features and progress visualization.\n*   Establish seamless integration with major wearable device ecosystems (Apple Watch, Fitbit).\n*   Build a scalable platform that can accommodate future feature expansions.\n*   Achieve high user retention rates through comprehensive tracking capabilities.\n\n#### 2.3. Success Criteria\n*   Achieve 10,000+ active users within the first 6 months.\n*   Maintain a 4.5+ star rating on app stores.\n*   Achieve 70%+ user retention after 30 days.\n*   Successfully sync data with Apple Watch and Fitbit with 99% reliability.\n*   Average daily engagement time of 5+ minutes per active user.\n\n#### 2.4. Constraints\n*   **Compliance:** Must comply with health data privacy regulations (HIPAA, GDPR).\n*   **Platform:** Must support iOS and Android platforms.\n*   **APIs:** Integration with wearable APIs must follow their respective guidelines.\n*   **Functionality:** Offline functionality must be available for core features.\n*   **Size:** App size must be under 150MB for initial download.\n\n#### 2.5. Assumptions\n*   Users have smartphones capable of running the app.\n*   Users have basic familiarity with fitness tracking concepts.\n*   Wearable device APIs will remain stable and accessible.\n*   Users will grant necessary permissions for health data access.\n*   Sufficient server infrastructure can be provisioned for data storage and processing.\n\n#### 2.6. Risks & Mitigations\n| Risk | Mitigation |\n| :--- | :--- |\n| Wearable API changes could break integration functionality. | Implement robust error handling, maintain close communication with wearable vendors, and create flexible integration architecture. |\n| User adoption may be slow due to market competition. | Focus on unique features, implement referral programs, and ensure superior user experience. |\n| Data privacy concerns may deter users. | Implement transparent privacy policies, provide granular data control options, and obtain relevant certifications. |\n| High server costs due to data storage and processing needs. | Implement efficient data compression, optimize database queries, and consider tiered subscription models. |\n\n---\n\n### **3. User Personas**\n\n*   **Alex, the Aspiring Athlete (Age 28):** Alex is tech-savvy and uses an Apple Watch to track runs and gym sessions. He wants detailed analytics on his performance, heart rate zones, and progress towards marathon goals. He values data accuracy and seamless integration.\n*   **Sam, the Health-Conscious Professional (Age 35):** Sam is busy and wants a simple way to log meals and track calorie intake to maintain a healthy weight. She uses a Fitbit to monitor steps and sleep and is motivated by seeing trends and achieving small daily goals.\n*   **Jordan, the Community Seeker (Age 24):** Jordan is new to fitness and finds motivation in group activities and sharing progress with friends. They are looking for an app with strong social features, challenges, and a supportive community to stay accountable.\n\n---\n\n### **4. Functional Requirements**\n\n#### 4.1. User Management & Profiles\n*   **FR-UM-001:** Users must be able to register for an account using an email address or social login (e.g., Google, Apple ID).\n*   **FR-UM-002:** Users must be able to create and edit a personal profile, including name, photo, fitness goals, and basic body metrics (height, weight).\n*   **FR-UM-003:** The system must securely authenticate users and manage session state.\n\n#### 4.2. Workout Logging\n*   **FR-WL-001:** Users must be able to manually log a workout session, including exercise type, duration, sets, reps, and weights. (Priority: High)\n*   **FR-WL-002:** The system must provide a library of common exercises with instructions and muscle group targets.\n*   **FR-WL-003:** Users must be able to create and save custom workout routines.\n*   **FR-WL-004:** The system must automatically calculate estimated calorie burn based on workout data and user profile.\n*   **FR-WL-005:** Users must be able to add free-text notes to any logged workout.\n\n#### 4.3. Nutrition Tracking\n*   **FR-NT-001:** Users must be able to search for and log food items from a comprehensive food database. (Priority: High)\n*   **FR-NT-002:** Users must be able to log food by scanning its barcode using the device camera.\n*   **FR-NT-003:** The system must automatically calculate and display daily totals for calories and macronutrients (protein, carbs, fat).\n*   **FR-NT-004:** Users must be able to create and save custom food items and recipes.\n*   **FR-NT-005:** Users must be able to track daily water intake.\n\n#### 4.4. Progress Visualization\n*   **FR-PV-001:** Users must be able to view interactive charts displaying progress over time for weight, workouts logged, and nutrition metrics. (Priority: Medium)\n*   **FR-PV-002:** Users must be able to filter charts by different time periods (e.g., week, month, year).\n*   **FR-PV-003:** The system must provide visual indicators of progress towards user-defined goals.\n*   **FR-PV-004:** Users must be able to export progress data (e.g., as a PDF or CSV).\n\n#### 4.5. Wearable Integration\n*   **FR-WI-001:** The app must support OAuth-based integration with the Apple HealthKit API. (Priority: High)\n*   **FR-WI-002:** The app must support OAuth-based integration with the Fitbit Web API. (Priority: High)\n*   **FR-WI-003:** Upon user authorization, the system must automatically sync workout data, steps, heart rate, and sleep data from connected devices.\n*   **FR-WI-004:** Users must be able to manage connected devices and revoke access.\n*   **FR-WI-005:** The system must handle sync conflicts and provide clear feedback to the user.\n\n#### 4.6. Social Features\n*   **FR-SF-001:** Users must be able to find and add other users as friends within the app. (Priority: Medium)\n*   **FR-SF-002:** Users must be able to share workout completions and achievements to their activity feed.\n*   **FR-SF-003:** Users must be able to like and comment on friends' shared activities.\n*   **FR-SF-004:** The system must support the creation of and participation in community fitness challenges with leaderboards.\n\n---\n\n### **5. Use Cases**\n\n#### 5.1. UC-001: Log Workout Session\n*   **Description:** Users can manually log their workout sessions including exercise type, duration, sets, reps, and weights.\n*   **Actors:** Registered User\n*   **Priority:** High\n*   **Main Flow:**\n    1.  User navigates to the 'Workout' section.\n    2.  User selects 'Log New Workout'.\n    3.  User selects workout type and enters details (duration, exercises, sets, reps, weights).\n    4.  User saves the workout entry.\n    5.  System validates, stores the data, and confirms success.\n*   **Alternate Flow:** User can choose to 'Import from Device' to pull data from a connected wearable.\n\n#### 5.2. UC-002: Track Daily Nutrition\n*   **Description:** Users can log their daily food intake, track calories, macronutrients, and water consumption.\n*   **Actors:** Registered User\n*   **Priority:** High\n*   **Main Flow:**\n    1.  User navigates to the 'Nutrition' section.\n    2.  User selects 'Add Food' and searches the database.\n    3.  User selects the food, enters serving size, and saves.\n    4.  System updates daily nutrition totals.\n*   **Alternate Flows:** User can 'Scan Barcode' for quick logging or 'Create Custom Food' for items not in the database.\n\n#### 5.3. UC-003: View Progress Charts\n*   **Description:** Users can visualize their fitness progress through various charts and graphs.\n*   **Actors:** Registered User\n*   **Priority:** Medium\n*   **Main Flow:**\n    1.  User navigates to the 'Progress' section.\n    2.  User selects chart type (e.g., weight) and time period.\n    3.  System generates and displays the interactive chart.\n*   **Alternate Flow:** User can select 'Compare Metrics' to view multiple data types on a single chart.\n\n#### 5.4. UC-004: Connect Wearable Device\n*   **Description:** Users can connect their wearable devices (Apple Watch, Fitbit) to automatically sync data.\n*   **Actors:** Registered User\n*   **Priority:** High\n*   **Main Flow:**\n    1.  User navigates to 'Settings' > 'Connected Devices'.\n    2.  User selects 'Add New Device' and chooses their device type.\n    3.  System initiates OAuth flow; user grants permission.\n    4.  System confirms connection and begins syncing data.\n\n#### 5.5. UC-005: Engage in Social Features\n*   **Description:** Users can connect with friends, share achievements, and participate in challenges.\n*   **Actors:** Registered User, User's Friends/Followers\n*   **Priority:** Medium\n*   **Main Flow:**\n    1.  User navigates to the 'Community' section.\n    2.  User can add friends, view their activity, and share their own achievements.\n    3.  User can join or create fitness challenges.\n*   **Alternate Flow:** User can browse and join a 'Group Challenge' from a list of available options.\n\n#### 5.6. UC-006: Sync Data from Wearable\n*   **Description:** The system automatically or manually syncs fitness data from connected wearable devices.\n*   **Actors:** System, Registered User\n*   **Priority:** High\n*   **Main Flow:**\n    1.  System checks for new data from connected wearables.\n    2.  System retrieves, processes, and normalizes the data.\n    3.  System updates the user's profile and progress metrics.\n    4.  System notifies the user of the successful sync.\n*   **Alternate Flows:** User can initiate a 'Manual sync'. System will handle 'Sync conflict resolution' if conflicting data is detected.\n\n---\n\n### **6. Non-Functional Requirements**\n\n| Category | Requirement |\n| :--- | :--- |\n| **Performance** | The app must load the main dashboard in under 2 seconds on a standard 4G/LTE connection. |\n| **Security** | All data transmission between the mobile app and server must be encrypted using TLS 1.2 or higher. Sensitive user data (PII, health data) must be encrypted at rest. |\n| **Scalability** | The backend architecture must support a 10x growth in active users over 12 months without performance degradation. |\n| **Usability** | The user interface must be intuitive, requiring no more than 3 clicks/taps to perform any core action (e.g., log a workout, add food). |\n| **Reliability** | The application must have an uptime of 99.9%. Data sync with wearables must have a success rate of 99%. |\n| **Compatibility**| The app must be compatible with the current and two previous major versions of iOS and Android. |\n\n---\n\n### **7. User Interface & User Experience (UI/UX) Requirements**\n\n*   **Design System:** The app will adhere to a modern, clean design system with a consistent color palette, typography, and iconography.\n*   **Navigation:** Primary navigation will be handled via a persistent bottom tab bar (e.g., Home, Workout, Nutrition, Progress, Community).\n*   **Accessibility:** The app must meet WCAG 2.1 AA standards, including support for screen readers (VoiceOver, TalkBack), sufficient color contrast, and resizable text.\n*   **Onboarding:** A new user onboarding flow will guide users through profile setup, goal setting, and connecting a wearable device.\n\n---\n\n### **8. Reporting & Analytics**\n\n*   **User Analytics:** The app will track key user engagement metrics (DAU/MAU, session duration, feature usage, retention cohorts) using a tool like Amplitude or Mixpanel.\n*   **Performance Monitoring:** Backend services will be monitored for latency, error rates, and resource utilization using a tool like Datadog or New Relic.\n*   **Business Reporting:** A dashboard will be created to track success criteria, including app store ratings, user acquisition numbers, and wearable sync success rates.\n\n---\n\n### **9. Dependencies**\n\n*   **Third-Party APIs:**\n    *   Apple HealthKit API\n    *   Fitbit Web API\n    *   Food Database API (e.g., Edamam, USDA)\n*   **Backend Infrastructure:** Cloud hosting provider (e.g., AWS, Google Cloud), managed database service, and authentication service (e.g., AWS Cognito, Firebase Auth).\n\n---\n\n### **10. Assumptions & Constraints**\n\n*(This section is a summary of the detailed information in Section 2.4 and 2.5 for quick reference.)*\n\n*   **Assumptions:** Users have compatible smartphones, will grant data permissions, and wearable APIs will remain stable.\n*   **Constraints:** Must be HIPAA/GDPR compliant, support iOS/Android, be under 150MB, and have offline capability for core features.\n\n---\n\n### **11. Future Scope / Out of Scope**\n\n#### 11.1. In Scope (for V1.0)\n*   Manual workout and nutrition logging.\n*   Progress charts for weight, workouts, and nutrition.\n*   Integration with Apple Watch and Fitbit.\n*   Basic social features (friends, activity feed, challenges).\n\n#### 11.2. Out of Scope (for V1.0)\n*   Guided workout videos or training plans.\n*   Integration with other wearable platforms (e.g., Garmin, Whoop).\n*   Premium subscription features or monetization.\n*   Direct messaging between users.\n*   Advanced body composition tracking (e.g., with smart scales).\n\n---\n\n### **12. Success Metrics & KPIs**\n\nThe success of this project will be measured against the criteria defined in Section 2.3. Key Performance Indicators (KPIs) will be monitored via the reporting and analytics tools defined in Section 8.\n\n*   **Acquisition:** 10,000+ active users in 6 months.\n*   **Engagement:** 5+ minutes average daily engagement time.\n*   **Retention:** 70%+ user retention after 30 days.\n*   **Quality:** 4.5+ star rating on app stores; 99% wearable sync reliability.\n\n---\n\n### **13. Glossary**\n\n| Term | Definition |\n| :--- | :--- |\n| **API** | Application Programming Interface. |\n| **DAU** | Daily Active Users. |\n| **GDPR** | General Data Protection Regulation. |\n| **HIPAA** | Health Insurance Portability and Accountability Act. |\n| **MAU** | Monthly Active Users. |\n| **OAuth** | An open standard for access delegation. |\n| **PRD** | Product Requirements Document. |\n| **TLS** | Transport Layer Security. |\n| **UI/UX** | User Interface / User Experience. |\n| **WCAG** | Web Content Accessibility Guidelines. |\n\n---\n\n### **14. Sign-off**\n\n| Role | Name | Signature | Date |\n| :--- | :--- | :--- | :--- |\n| **Product Manager** | | | |\n| **Engineering Lead** | | | |\n| **Design Lead** | | | |\n| **Marketing Lead** | | | |\n| **Project Stakeholder** | | | |",
+      "project_name": "Researcher Agent Test",
+      "length": 15992,
+      "sections": [
+        "**Project: Researcher Agent Test**"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Researcher Agent Test - AICOE Multi-Agent Platform</title>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n    <style>\n        :root {\n            --aicoe-primary: #0066cc;\n            --aicoe-accent: #00d9ff;\n            --aicoe-dark: #1d1d1f;\n            --aicoe-gray: #6e6e73;\n            --aicoe-light-gray: #f5f5f7;\n            --aicoe-white: #ffffff;\n            --aicoe-success: #34c759;\n            --aicoe-warning: #ff9500;\n        }\n\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n            color: var(--aicoe-dark);\n            background-color: var(--aicoe-white);\n            line-height: 1.6;\n        }\n\n        /* Navigation */\n        nav {\n            position: sticky;\n            top: 0;\n            background: rgba(255, 255, 255, 0.95);\n            backdrop-filter: blur(20px);\n            border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n            z-index: 1000;\n            padding: 1rem 0;\n            transition: all 0.3s ease;\n        }\n\n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 0 2rem;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .nav-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n        }\n\n        .nav-brand i {\n            width: 32px;\n            height: 32px;\n            color: var(--aicoe-accent);\n        }\n\n        .nav-menu {\n            display: flex;\n            gap: 2rem;\n            list-style: none;\n        }\n\n        .nav-menu a {\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            transition: color 0.3s ease;\n            font-size: 0.95rem;\n        }\n\n        .nav-menu a:hover {\n            color: var(--aicoe-primary);\n        }\n\n        .nav-menu i {\n            width: 20px;\n            height: 20px;\n        }\n\n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);\n            color: var(--aicoe-white);\n            padding: 5rem 2rem;\n            text-align: center;\n            position: relative;\n            overflow: hidden;\n        }\n\n        .hero::before {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            right: 0;\n            bottom: 0;\n            background: url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\");\n        }\n\n        .hero-content {\n            max-width: 800px;\n            margin: 0 auto;\n            position: relative;\n            z-index: 1;\n        }\n\n        .hero h1 {\n            font-size: 3rem;\n            font-weight: 700;\n            margin-bottom: 1.5rem;\n            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n\n        .hero p {\n            font-size: 1.25rem;\n            margin-bottom: 2rem;\n            opacity: 0.95;\n        }\n\n        .hero-stats {\n            display: flex;\n            justify-content: center;\n            gap: 4rem;\n            margin-top: 3rem;\n        }\n\n        .stat {\n            text-align: center;\n        }\n\n        .stat-number {\n            font-size: 2.5rem;\n            font-weight: 700;\n            display: block;\n            color: var(--aicoe-accent);\n        }\n\n        .stat-label {\n            font-size: 0.9rem;\n            opacity: 0.9;\n            text-transform: uppercase;\n            letter-spacing: 1px;\n        }\n\n        /* Main Content */\n        .container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 0 2rem;\n        }\n\n        /* Features Section */\n        .features {\n            padding: 4rem 0;\n            background: var(--aicoe-light-gray);\n        }\n\n        .section-title {\n            text-align: center;\n            font-size: 2.5rem;\n            font-weight: 700;\n            color: var(--aicoe-dark);\n            margin-bottom: 1rem;\n        }\n\n        .section-subtitle {\n            text-align: center;\n            color: var(--aicoe-gray);\n            font-size: 1.1rem;\n            margin-bottom: 3rem;\n        }\n\n        .features-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n            margin-bottom: 3rem;\n        }\n\n        .feature-card {\n            background: var(--aicoe-white);\n            padding: 2rem;\n            border-radius: 12px;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n            transition: all 0.3s ease;\n            text-align: center;\n        }\n\n        .feature-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);\n        }\n\n        .feature-icon {\n            width: 60px;\n            height: 60px;\n            margin: 0 auto 1.5rem;\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            border-radius: 50%;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            color: var(--aicoe-white);\n        }\n\n        .feature-icon i {\n            width: 30px;\n            height: 30px;\n        }\n\n        .feature-title {\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.75rem;\n        }\n\n        .feature-description {\n            color: var(--aicoe-gray);\n            line-height: 1.6;\n        }\n\n        /* Use Cases Section */\n        .use-cases {\n            padding: 4rem 0;\n        }\n\n        .use-cases-grid {\n            display: grid;\n            gap: 2rem;\n        }\n\n        .use-case-card {\n            background: var(--aicoe-white);\n            border-radius: 12px;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n            overflow: hidden;\n            transition: all 0.3s ease;\n        }\n\n        .use-case-card:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);\n        }\n\n        .use-case-header {\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            color: var(--aicoe-white);\n            padding: 1.5rem 2rem;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .use-case-id {\n            font-size: 0.9rem;\n            opacity: 0.9;\n            font-weight: 500;\n        }\n\n        .use-case-title {\n            font-size: 1.5rem;\n            font-weight: 600;\n        }\n\n        .priority-badge {\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.8rem;\n            font-weight: 600;\n            text-transform: uppercase;\n            letter-spacing: 0.5px;\n        }\n\n        .priority-high {\n            background: var(--aicoe-success);\n        }\n\n        .priority-medium {\n            background: var(--aicoe-warning);\n        }\n\n        .use-case-body {\n            padding: 2rem;\n        }\n\n        .use-case-description {\n            color: var(--aicoe-gray);\n            margin-bottom: 2rem;\n            line-height: 1.6;\n        }\n\n        .use-case-details {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n            gap: 2rem;\n        }\n\n        .detail-section {\n            background: var(--aicoe-light-gray);\n            padding: 1.5rem;\n            border-radius: 8px;\n        }\n\n        .detail-title {\n            font-size: 0.9rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n            margin-bottom: 0.75rem;\n            text-transform: uppercase;\n            letter-spacing: 0.5px;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .detail-title i {\n            width: 16px;\n            height: 16px;\n        }\n\n        .detail-content {\n            color: var(--aicoe-dark);\n            font-size: 0.95rem;\n        }\n\n        .detail-list {\n            list-style: none;\n        }\n\n        .detail-list li {\n            padding: 0.25rem 0;\n            position: relative;\n            padding-left: 1.5rem;\n        }\n\n        .detail-list li::before {\n            content: '\u2022';\n            position: absolute;\n            left: 0;\n            color: var(--aicoe-accent);\n            font-weight: bold;\n        }\n\n        .flow-steps {\n            counter-reset: step;\n        }\n\n        .flow-steps li {\n            counter-increment: step;\n            padding-left: 2rem;\n            margin-bottom: 0.5rem;\n        }\n\n        .flow-steps li::before {\n            content: counter(step);\n            position: absolute;\n            left: 0;\n            background: var(--aicoe-primary);\n            color: var(--aicoe-white);\n            width: 1.5rem;\n            height: 1.5rem;\n            border-radius: 50%;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-size: 0.75rem;\n            font-weight: 600;\n        }\n\n        /* Footer */\n        footer {\n            background: var(--aicoe-dark);\n            color: var(--aicoe-white);\n            padding: 3rem 0 2rem;\n            margin-top: 4rem;\n        }\n\n        .footer-content {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 0 2rem;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            flex-wrap: wrap;\n            gap: 2rem;\n        }\n\n        .footer-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.1rem;\n            font-weight: 600;\n        }\n\n        .footer-brand i {\n            width: 28px;\n            height: 28px;\n            color: var(--aicoe-accent);\n        }\n\n        .footer-info {\n            color: var(--aicoe-gray);\n            font-size: 0.9rem;\n        }\n\n        /* Responsive Design */\n        @media (max-width: 768px) {\n            .nav-menu {\n                display: none;\n            }\n\n            .hero h1 {\n                font-size: 2rem;\n            }\n\n            .hero p {\n                font-size: 1rem;\n            }\n\n            .hero-stats {\n                gap: 2rem;\n            }\n\n            .section-title {\n                font-size: 2rem;\n            }\n\n            .use-case-header {\n                flex-direction: column;\n                align-items: flex-start;\n                gap: 1rem;\n            }\n\n            .footer-content {\n                flex-direction: column;\n                text-align: center;\n            }\n        }\n\n        /* Print Styles */\n        @media print {\n            nav, .no-print, button { \n                display: none !important; \n            }\n            body { \n                font-size: 12pt; \n                color: #000; \n                background: #fff; \n            }\n            * { \n                box-shadow: none !important; \n                text-shadow: none !important; \n            }\n            .page-break { \n                page-break-before: always; \n            }\n            h1, h2, h3 { \n                page-break-after: avoid; \n            }\n            a[href]:after { \n                content: \" (\" attr(href) \")\"; \n            }\n            .hero {\n                background: #f0f0f0 !important;\n                color: #000 !important;\n            }\n            .use-case-header {\n                background: #e0e0e0 !important;\n                color: #000 !important;\n            }\n            .feature-card, .use-case-card {\n                break-inside: avoid;\n            }\n        }\n    </style>\n</head>\n<body>\n    <!-- Navigation -->\n    <nav>\n        <div class=\"nav-container\">\n            <div class=\"nav-brand\">\n                <i data-lucide=\"layers\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <ul class=\"nav-menu\">\n                <li><a href=\"#overview\"><i data-lucide=\"home\"></i> Overview</a></li>\n                <li><a href=\"#features\"><i data-lucide=\"zap\"></i> Features</a></li>\n                <li><a href=\"#use-cases\"><i data-lucide=\"file-text\"></i> Use Cases</a></li>\n                <li><a href=\"#technical\"><i data-lucide=\"database\"></i> Technical</a></li>\n                <li><a href=\"#contact\"><i data-lucide=\"settings\"></i> Settings</a></li>\n            </ul>\n        </div>\n    </nav>\n\n    <!-- Hero Section -->\n    <header class=\"hero\">\n        <div class=\"hero-content\">\n            <h1>Researcher Agent Test</h1>\n            <p>Building a comprehensive fitness tracking mobile app with workout logging, nutrition tracking, progress visualization, and social features</p>\n            <div class=\"hero-stats\">\n                <div class=\"stat\">\n                    <span class=\"stat-number\">6</span>\n                    <span class=\"stat-label\">Use Cases</span>\n                </div>\n                <div class=\"stat\">\n                    <span class=\"stat-number\">7</span>\n                    <span class=\"stat-label\">Core Features</span>\n                </div>\n                <div class=\"stat\">\n                    <span class=\"stat-number\">2</span>\n                    <span class=\"stat-label\">Wearable Integrations</span>\n                </div>\n            </div>\n        </div>\n    </header>\n\n    <!-- Features Section -->\n    <section class=\"features\" id=\"features\">\n        <div class=\"container\">\n            <h2 class=\"section-title\">Core Features</h2>\n            <p class=\"section-subtitle\">Essential capabilities for comprehensive fitness tracking</p>\n            \n            <div class=\"features-grid\">\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"dumbbell\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Workout Logging</h3>\n                    <p class=\"feature-description\">Track exercises, sets, reps, and weights with detailed workout session management</p>\n                </div>\n                \n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"apple\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Nutrition Tracking</h3>\n                    <p class=\"feature-description\">Monitor daily food intake, calories, and macronutrients with comprehensive food database</p>\n                </div>\n                \n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"trending-up\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Progress Charts</h3>\n                    <p class=\"feature-description\">Visualize fitness journey with interactive charts showing trends and achievements</p>\n                </div>\n                \n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"watch\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Wearable Integration</h3>\n                    <p class=\"feature-description\">Seamlessly sync with Apple Watch and Fitbit for automatic data collection</p>\n                </div>\n                \n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"users\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Social Features</h3>\n                    <p class=\"feature-description\">Connect with friends, share achievements, and participate in community challenges</p>\n                </div>\n                \n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"shield\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Data Security</h3>\n                    <p class=\"feature-description\">Enterprise-grade security with encrypted data storage and privacy protection</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Use Cases Section -->\n    <section class=\"use-cases\" id=\"use-cases\">\n        <div class=\"container\">\n            <h2 class=\"section-title\">Use Cases</h2>\n            <p class=\"section-subtitle\">Detailed implementation scenarios and workflows</p>\n            \n            <div class=\"use-cases-grid\">\n                <!-- Use Case 1 -->\n                <article class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div>\n                            <div class=\"use-case-id\">UC-001</div>\n                            <h3 class=\"use-case-title\">Log Workout Session</h3>\n                        </div>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <div class=\"use-case-body\">\n                        <p class=\"use-case-description\">Users can manually log their workout sessions including exercise type, duration, sets, reps, and weights. The system should save this data and make it available for progress tracking.</p>\n                        \n                        <div class=\"use-case-details\">\n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"user\"></i>\n                                    Actors\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>Registered User</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"check-circle\"></i>\n                                    Preconditions\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>User must be logged into the app</li>\n                                    <li>User must have completed a workout session</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"play-circle\"></i>\n                                    Main Flow\n                                </h4>\n                                <ol class=\"detail-list flow-steps\">\n                                    <li>User navigates to the 'Workout' section</li>\n                                    <li>User selects 'Log New Workout' option</li>\n                                    <li>User selects workout type</li>\n                                    <li>User enters workout details</li>\n                                    <li>User can add notes about the workout</li>\n                                    <li>User saves the workout entry</li>\n                                    <li>System validates and stores the workout data</li>\n                                    <li>System confirms successful logging</li>\n                                </ol>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"flag\"></i>\n                                    Postconditions\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>Workout session is saved to user's profile</li>\n                                    <li>Data is available for progress charts</li>\n                                    <li>Calorie burn is calculated and added to daily total</li>\n                                </ul>\n                            </div>\n                        </div>\n                    </div>\n                </article>\n\n                <!-- Use Case 2 -->\n                <article class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div>\n                            <div class=\"use-case-id\">UC-002</div>\n                            <h3 class=\"use-case-title\">Track Daily Nutrition</h3>\n                        </div>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <div class=\"use-case-body\">\n                        <p class=\"use-case-description\">Users can log their daily food intake, track calories, macronutrients, and water consumption. The system should provide a food database and calculate nutritional values.</p>\n                        \n                        <div class=\"use-case-details\">\n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"user\"></i>\n                                    Actors\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>Registered User</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"check-circle\"></i>\n                                    Preconditions\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>User must be logged into the app</li>\n                                    <li>User must have food consumption data to log</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"play-circle\"></i>\n                                    Main Flow\n                                </h4>\n                                <ol class=\"detail-list flow-steps\">\n                                    <li>User navigates to the 'Nutrition' section</li>\n                                    <li>User selects 'Add Food' option</li>\n                                    <li>User searches for food item in the database</li>\n                                    <li>User selects the correct food item</li>\n                                    <li>User enters serving size and quantity</li>\n                                    <li>System calculates nutritional values</li>\n                                    <li>User confirms and saves the entry</li>\n                                    <li>System updates daily nutrition totals</li>\n                                </ol>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"git-branch\"></i>\n                                    Alternate Flows\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li><strong>Scan barcode:</strong> User scans food item barcode using phone camera</li>\n                                    <li><strong>Create custom food:</strong> User enters food name and nutritional information</li>\n                                </ul>\n                            </div>\n                        </div>\n                    </div>\n                </article>\n\n                <!-- Use Case 3 -->\n                <article class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div>\n                            <div class=\"use-case-id\">UC-003</div>\n                            <h3 class=\"use-case-title\">View Progress Charts</h3>\n                        </div>\n                        <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                    </div>\n                    <div class=\"use-case-body\">\n                        <p class=\"use-case-description\">Users can visualize their fitness progress through various charts and graphs showing workout history, weight changes, body measurements, and nutrition trends over time.</p>\n                        \n                        <div class=\"use-case-details\">\n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"user\"></i>\n                                    Actors\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>Registered User</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"check-circle\"></i>\n                                    Preconditions\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>User must be logged into the app</li>\n                                    <li>User must have logged at least one workout or nutrition entry</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"play-circle\"></i>\n                                    Main Flow\n                                </h4>\n                                <ol class=\"detail-list flow-steps\">\n                                    <li>User navigates to the 'Progress' section</li>\n                                    <li>User selects the type of chart to view</li>\n                                    <li>User selects the time period</li>\n                                    <li>System generates and displays the relevant chart</li>\n                                    <li>User can interact with chart to view detailed data points</li>\n                                    <li>User can switch between different chart types</li>\n                                    <li>User can export or share the chart if desired</li>\n                                </ol>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"target\"></i>\n                                    Business Value\n                                </h4>\n                                <p class=\"detail-content\">Provides visual feedback and motivation to users, helping them stay committed to their fitness journey</p>\n                            </div>\n                        </div>\n                    </div>\n                </article>\n\n                <!-- Use Case 4 -->\n                <article class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div>\n                            <div class=\"use-case-id\">UC-004</div>\n                            <h3 class=\"use-case-title\">Connect Wearable Device</h3>\n                        </div>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <div class=\"use-case-body\">\n                        <p class=\"use-case-description\">Users can connect their wearable devices (Apple Watch, Fitbit) to automatically sync workout data, heart rate, steps, and other health metrics with the app.</p>\n                        \n                        <div class=\"use-case-details\">\n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"user\"></i>\n                                    Actors\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>Registered User</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"check-circle\"></i>\n                                    Preconditions\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>User must be logged into the app</li>\n                                    <li>User must have a compatible wearable device</li>\n                                    <li>User must have the wearable's companion app installed</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"play-circle\"></i>\n                                    Main Flow\n                                </h4>\n                                <ol class=\"detail-list flow-steps\">\n                                    <li>User navigates to 'Settings' > 'Connected Devices'</li>\n                                    <li>User selects 'Add New Device'</li>\n                                    <li>System displays list of supported devices</li>\n                                    <li>User selects their device type</li>\n                                    <li>System initiates OAuth/authentication flow</li>\n                                    <li>User grants permission on the wearable's platform</li>\n                                    <li>System confirms successful connection</li>\n                                    <li>System begins syncing historical data</li>\n                                </ol>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"flag\"></i>\n                                    Postconditions\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>Wearable device is connected to the app</li>\n                                    <li>Data sync is established</li>\n                                    <li>User can view synced data in the app</li>\n                                </ul>\n                            </div>\n                        </div>\n                    </div>\n                </article>\n\n                <!-- Use Case 5 -->\n                <article class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div>\n                            <div class=\"use-case-id\">UC-005</div>\n                            <h3 class=\"use-case-title\">Engage in Social Features</h3>\n                        </div>\n                        <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                    </div>\n                    <div class=\"use-case-body\">\n                        <p class=\"use-case-description\">Users can connect with friends, share achievements, participate in challenges, and provide encouragement to build a supportive fitness community.</p>\n                        \n                        <div class=\"use-case-details\">\n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"user\"></i>\n                                    Actors\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>Registered User</li>\n                                    <li>User's Friends/Followers</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"check-circle\"></i>\n                                    Preconditions\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>User must be logged into the app</li>\n                                    <li>User must have completed their profile setup</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"play-circle\"></i>\n                                    Main Flow\n                                </h4>\n                                <ol class=\"detail-list flow-steps\">\n                                    <li>User navigates to the 'Community' section</li>\n                                    <li>User can search for and add friends</li>\n                                    <li>User can view friends' activities and achievements</li>\n                                    <li>User can like and comment on friends' posts</li>\n                                    <li>User can share their own workout achievements</li>\n                                    <li>User can join or create fitness challenges</li>\n                                    <li>User can view leaderboards for challenges</li>\n                                </ol>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"target\"></i>\n                                    Business Value\n                                </h4>\n                                <p class=\"detail-content\">Increases user engagement and retention through social motivation and accountability</p>\n                            </div>\n                        </div>\n                    </div>\n                </article>\n\n                <!-- Use Case 6 -->\n                <article class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div>\n                            <div class=\"use-case-id\">UC-006</div>\n                            <h3 class=\"use-case-title\">Sync Data from Wearable</h3>\n                        </div>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <div class=\"use-case-body\">\n                        <p class=\"use-case-description\">The system automatically or manually syncs fitness data from connected wearable devices, ensuring the user's fitness information is up-to-date across all platforms.</p>\n                        \n                        <div class=\"use-case-details\">\n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"user\"></i>\n                                    Actors\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>System</li>\n                                    <li>Registered User</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"check-circle\"></i>\n                                    Preconditions\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li>User must have at least one wearable device connected</li>\n                                    <li>Wearable must have new data to sync</li>\n                                    <li>App must have internet connectivity</li>\n                                </ul>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"play-circle\"></i>\n                                    Main Flow\n                                </h4>\n                                <ol class=\"detail-list flow-steps\">\n                                    <li>System checks for new data from connected wearables</li>\n                                    <li>System retrieves workout data, steps, heart rate, sleep data</li>\n                                    <li>System processes and normalizes the data</li>\n                                    <li>System updates user's fitness profile</li>\n                                    <li>System recalculates progress metrics and goals</li>\n                                    <li>System sends notification to user about synced data</li>\n                                    <li>User can view the newly synced data</li>\n                                </ol>\n                            </div>\n                            \n                            <div class=\"detail-section\">\n                                <h4 class=\"detail-title\">\n                                    <i data-lucide=\"git-branch\"></i>\n                                    Alternate Flows\n                                </h4>\n                                <ul class=\"detail-list\">\n                                    <li><strong>Manual sync:</strong> User initiates manual sync from settings</li>\n                                    <li><strong>Sync conflict resolution:</strong> System detects conflicting data entries and applies resolution rules</li>\n                                </ul>\n                            </div>\n                        </div>\n                    </div>\n                </article>\n            </div>\n        </div>\n    </section>\n\n    <!-- Footer -->\n    <footer>\n        <div class=\"footer-content\">\n            <div class=\"footer-brand\">\n                <i data-lucide=\"layers\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <div class=\"footer-info\">\n                <p>Powered by AICOE | Generated by AI Agents</p>\n                <p>\u00a9 2024 AICOE. All rights reserved.</p>\n            </div>\n        </div>\n    </footer>\n\n    <script>\n        // Initialize Lucide icons\n        lucide.createIcons();\n\n        // Smooth scrolling for navigation links\n        document.querySelectorAll('a[href^=\"#\"]').forEach(anchor => {\n            anchor.addEventListener('click', function (e) {\n                e.preventDefault();\n                const target = document.querySelector(this.getAttribute('href'));\n                if (target) {\n                    target.scrollIntoView({\n                        behavior: 'smooth',\n                        block: 'start'\n                    });\n                }\n            });\n        });\n\n        // Add scroll effect to navigation\n        let lastScroll = 0;\n        window.addEventListener('scroll', () => {\n            const nav = document.querySelector('nav');\n            const currentScroll = window.pageYOffset;\n            \n            if (currentScroll > 50) {\n                nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';\n            } else {\n                nav.style.boxShadow = 'none';\n            }\n            \n            lastScroll = currentScroll;\n        });\n\n        // Animate elements on scroll\n        const observerOptions = {\n            threshold: 0.1,\n            rootMargin: '0px 0px -50px 0px'\n        };\n\n        const observer = new IntersectionObserver((entries) => {\n            entries.forEach(entry => {\n                if (entry.isIntersecting) {\n                    entry.target.style.opacity = '1';\n                    entry.target.style.transform = 'translateY(0)';\n                }\n            });\n        }, observerOptions);\n\n        // Observe feature cards and use case cards\n        document.querySelectorAll('.feature-card, .use-case-card').forEach(card => {",
+      "project_name": "Researcher Agent Test",
+      "length": 41785,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "data_sets": [
+          {
+            "name": "workout_sessions",
+            "description": "Logged workout sessions with exercises, sets, reps, and weights",
+            "use_case_id": "UC-001",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "session_id": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "workout_type": {
+                  "type": "string",
+                  "enum": [
+                    "strength",
+                    "cardio",
+                    "yoga",
+                    "hiit"
+                  ]
+                },
+                "duration_minutes": {
+                  "type": "integer"
+                },
+                "calories_burned": {
+                  "type": "integer"
+                },
+                "exercises": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "sets": {
+                        "type": "integer"
+                      },
+                      "reps": {
+                        "type": "integer"
+                      },
+                      "weight_kg": {
+                        "type": "number"
+                      },
+                      "duration_seconds": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "notes": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "manual",
+                    "wearable"
+                  ]
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "session_id": "WS001",
+                "user_id": "USR123",
+                "date": "2024-01-15",
+                "workout_type": "strength",
+                "duration_minutes": 45,
+                "calories_burned": 280,
+                "exercises": [
+                  {
+                    "name": "Bench Press",
+                    "sets": 4,
+                    "reps": 8,
+                    "weight_kg": 60,
+                    "duration_seconds": null
+                  },
+                  {
+                    "name": "Squats",
+                    "sets": 4,
+                    "reps": 10,
+                    "weight_kg": 80,
+                    "duration_seconds": null
+                  },
+                  {
+                    "name": "Deadlifts",
+                    "sets": 3,
+                    "reps": 6,
+                    "weight_kg": 100,
+                    "duration_seconds": null
+                  },
+                  {
+                    "name": "Pull-ups",
+                    "sets": 3,
+                    "reps": 8,
+                    "weight_kg": null,
+                    "duration_seconds": null
+                  }
+                ],
+                "notes": "Felt strong today, increased bench press weight",
+                "source": "manual"
+              },
+              {
+                "session_id": "WS002",
+                "user_id": "USR123",
+                "date": "2024-01-16",
+                "workout_type": "cardio",
+                "duration_minutes": 30,
+                "calories_burned": 350,
+                "exercises": [
+                  {
+                    "name": "Running",
+                    "sets": 1,
+                    "reps": null,
+                    "weight_kg": null,
+                    "duration_seconds": 1800
+                  }
+                ],
+                "notes": "Morning run, good pace",
+                "source": "wearable"
+              },
+              {
+                "session_id": "WS003",
+                "user_id": "USR456",
+                "date": "2024-01-16",
+                "workout_type": "yoga",
+                "duration_minutes": 60,
+                "calories_burned": 180,
+                "exercises": [
+                  {
+                    "name": "Vinyasa Flow",
+                    "sets": 1,
+                    "reps": null,
+                    "weight_kg": null,
+                    "duration_seconds": 3600
+                  }
+                ],
+                "notes": "Relaxing session after work",
+                "source": "manual"
+              }
+            ]
+          },
+          {
+            "name": "nutrition_logs",
+            "description": "Daily food intake and nutritional information",
+            "use_case_id": "UC-002",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "log_id": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "meal_type": {
+                  "type": "string",
+                  "enum": [
+                    "breakfast",
+                    "lunch",
+                    "dinner",
+                    "snack"
+                  ]
+                },
+                "food_items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "food_name": {
+                        "type": "string"
+                      },
+                      "brand": {
+                        "type": "string"
+                      },
+                      "serving_size": {
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "type": "number"
+                      },
+                      "calories": {
+                        "type": "integer"
+                      },
+                      "protein_g": {
+                        "type": "number"
+                      },
+                      "carbs_g": {
+                        "type": "number"
+                      },
+                      "fat_g": {
+                        "type": "number"
+                      },
+                      "fiber_g": {
+                        "type": "number"
+                      },
+                      "sugar_g": {
+                        "type": "number"
+                      },
+                      "sodium_mg": {
+                        "type": "integer"
+                      },
+                      "barcode": {
+                        "type": "string"
+                      },
+                      "is_custom": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                },
+                "water_ml": {
+                  "type": "integer"
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "log_id": "NL001",
+                "user_id": "USR123",
+                "date": "2024-01-15",
+                "meal_type": "breakfast",
+                "food_items": [
+                  {
+                    "food_name": "Oatmeal",
+                    "brand": "Quaker",
+                    "serving_size": "1 cup cooked",
+                    "quantity": 1,
+                    "calories": 158,
+                    "protein_g": 6,
+                    "carbs_g": 28,
+                    "fat_g": 3,
+                    "fiber_g": 4,
+                    "sugar_g": 1,
+                    "sodium_mg": 115,
+                    "barcode": null,
+                    "is_custom": false
+                  },
+                  {
+                    "food_name": "Banana",
+                    "brand": null,
+                    "serving_size": "1 medium",
+                    "quantity": 1,
+                    "calories": 105,
+                    "protein_g": 1.3,
+                    "carbs_g": 27,
+                    "fat_g": 0.4,
+                    "fiber_g": 3.1,
+                    "sugar_g": 14,
+                    "sodium_mg": 1,
+                    "barcode": null,
+                    "is_custom": false
+                  }
+                ],
+                "water_ml": 250
+              },
+              {
+                "log_id": "NL002",
+                "user_id": "USR123",
+                "date": "2024-01-15",
+                "meal_type": "lunch",
+                "food_items": [
+                  {
+                    "food_name": "Grilled Chicken Salad",
+                    "brand": "Custom",
+                    "serving_size": "1 bowl",
+                    "quantity": 1,
+                    "calories": 320,
+                    "protein_g": 35,
+                    "carbs_g": 12,
+                    "fat_g": 14,
+                    "fiber_g": 6,
+                    "sugar_g": 4,
+                    "sodium_mg": 450,
+                    "barcode": null,
+                    "is_custom": true
+                  }
+                ],
+                "water_ml": 500
+              },
+              {
+                "log_id": "NL003",
+                "user_id": "USR456",
+                "date": "2024-01-16",
+                "meal_type": "snack",
+                "food_items": [
+                  {
+                    "food_name": "Protein Bar",
+                    "brand": "Quest Nutrition",
+                    "serving_size": "1 bar (60g)",
+                    "quantity": 1,
+                    "calories": 200,
+                    "protein_g": 20,
+                    "carbs_g": 22,
+                    "fat_g": 8,
+                    "fiber_g": 14,
+                    "sugar_g": 1,
+                    "sodium_mg": 260,
+                    "barcode": "855574001234",
+                    "is_custom": false
+                  }
+                ],
+                "water_ml": 0
+              }
+            ]
+          },
+          {
+            "name": "progress_data",
+            "description": "Historical progress tracking data for visualization",
+            "use_case_id": "UC-003",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "record_id": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "weight_kg": {
+                  "type": "number"
+                },
+                "body_fat_percentage": {
+                  "type": "number"
+                },
+                "muscle_mass_kg": {
+                  "type": "number"
+                },
+                "measurements": {
+                  "type": "object",
+                  "properties": {
+                    "chest_cm": {
+                      "type": "number"
+                    },
+                    "waist_cm": {
+                      "type": "number"
+                    },
+                    "arms_cm": {
+                      "type": "number"
+                    },
+                    "thighs_cm": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "weekly_workout_count": {
+                  "type": "integer"
+                },
+                "total_calories_burned": {
+                  "type": "integer"
+                },
+                "avg_daily_calories_intake": {
+                  "type": "integer"
+                },
+                "resting_heart_rate": {
+                  "type": "integer"
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "record_id": "PD001",
+                "user_id": "USR123",
+                "date": "2024-01-01",
+                "weight_kg": 85.5,
+                "body_fat_percentage": 22.5,
+                "muscle_mass_kg": 38.2,
+                "measurements": {
+                  "chest_cm": 105,
+                  "waist_cm": 92,
+                  "arms_cm": 35,
+                  "thighs_cm": 58
+                },
+                "weekly_workout_count": 4,
+                "total_calories_burned": 2100,
+                "avg_daily_calories_intake": 2400,
+                "resting_heart_rate": 68
+              },
+              {
+                "record_id": "PD002",
+                "user_id": "USR123",
+                "date": "2024-01-08",
+                "weight_kg": 84.8,
+                "body_fat_percentage": 22.1,
+                "muscle_mass_kg": 38.5,
+                "measurements": {
+                  "chest_cm": 106,
+                  "waist_cm": 91,
+                  "arms_cm": 35.5,
+                  "thighs_cm": 58.5
+                },
+                "weekly_workout_count": 5,
+                "total_calories_burned": 2800,
+                "avg_daily_calories_intake": 2350,
+                "resting_heart_rate": 66
+              },
+              {
+                "record_id": "PD003",
+                "user_id": "USR456",
+                "date": "2024-01-01",
+                "weight_kg": 62.3,
+                "body_fat_percentage": 28.2,
+                "muscle_mass_kg": 24.8,
+                "measurements": {
+                  "chest_cm": 88,
+                  "waist_cm": 78,
+                  "arms_cm": 28,
+                  "thighs_cm": 48
+                },
+                "weekly_workout_count": 3,
+                "total_calories_burned": 1500,
+                "avg_daily_calories_intake": 1800,
+                "resting_heart_rate": 72
+              }
+            ]
+          },
+          {
+            "name": "connected_devices",
+            "description": "User connected wearable devices and sync status",
+            "use_case_id": "UC-004",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "device_id": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "device_type": {
+                  "type": "string",
+                  "enum": [
+                    "apple_watch",
+                    "fitbit",
+                    "garmin",
+                    "samsung_watch"
+                  ]
+                },
+                "device_name": {
+                  "type": "string"
+                },
+                "model": {
+                  "type": "string"
+                },
+                "firmware_version": {
+                  "type": "string"
+                },
+                "connection_date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "last_sync": {
+                  "type": "string",
+                  "format": "datetime"
+                },
+                "sync_status": {
+                  "type": "string",
+                  "enum": [
+                    "active",
+                    "paused",
+                    "error",
+                    "disconnected"
+                  ]
+                },
+                "auto_sync_enabled": {
+                  "type": "boolean"
+                },
+                "sync_frequency_hours": {
+                  "type": "integer"
+                },
+                "data_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "workouts",
+                      "steps",
+                      "heart_rate",
+                      "sleep",
+                      "weight",
+                      "calories"
+                    ]
+                  }
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "device_id": "DEV001",
+                "user_id": "USR123",
+                "device_type": "apple_watch",
+                "device_name": "My Apple Watch",
+                "model": "Series 9",
+                "firmware_version": "10.1",
+                "connection_date": "2024-01-01",
+                "last_sync": "2024-01-16T08:30:00Z",
+                "sync_status": "active",
+                "auto_sync_enabled": true,
+                "sync_frequency_hours": 2,
+                "data_types": [
+                  "workouts",
+                  "steps",
+                  "heart_rate",
+                  "sleep",
+                  "calories"
+                ]
+              },
+              {
+                "device_id": "DEV002",
+                "user_id": "USR456",
+                "device_type": "fitbit",
+                "device_name": "Fitbit Charge",
+                "model": "Charge 6",
+                "firmware_version": "1.181.26",
+                "connection_date": "2024-01-05",
+                "last_sync": "2024-01-16T07:45:00Z",
+                "sync_status": "active",
+                "auto_sync_enabled": true,
+                "sync_frequency_hours": 1,
+                "data_types": [
+                  "workouts",
+                  "steps",
+                  "heart_rate",
+                  "sleep",
+                  "weight"
+                ]
+              },
+              {
+                "device_id": "DEV003",
+                "user_id": "USR123",
+                "device_type": "garmin",
+                "device_name": "Garmin Runner",
+                "model": "Forerunner 955",
+                "firmware_version": "20.12",
+                "connection_date": "2024-01-10",
+                "last_sync": "2024-01-15T18:20:00Z",
+                "sync_status": "error",
+                "auto_sync_enabled": false,
+                "sync_frequency_hours": 4,
+                "data_types": [
+                  "workouts",
+                  "steps",
+                  "heart_rate"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "social_activities",
+            "description": "User social interactions, achievements, and challenges",
+            "use_case_id": "UC-005",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "activity_id": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "activity_type": {
+                  "type": "string",
+                  "enum": [
+                    "achievement",
+                    "workout_share",
+                    "challenge_join",
+                    "friend_add",
+                    "comment",
+                    "like"
+                  ]
+                },
+                "timestamp": {
+                  "type": "string",
+                  "format": "datetime"
+                },
+                "content": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "workout_id": {
+                      "type": "string"
+                    },
+                    "challenge_id": {
+                      "type": "string"
+                    },
+                    "friend_id": {
+                      "type": "string"
+                    },
+                    "target_user_id": {
+                      "type": "string"
+                    },
+                    "badge_type": {
+                      "type": "string"
+                    },
+                    "metric": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "likes_count": {
+                  "type": "integer"
+                },
+                "comments_count": {
+                  "type": "integer"
+                },
+                "is_public": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "activity_id": "SA001",
+                "user_id": "USR123",
+                "activity_type": "achievement",
+                "timestamp": "2024-01-15T14:30:00Z",
+                "content": {
+                  "title": "100 Workouts Milestone",
+                  "description": "Completed 100 workouts since joining!",
+                  "badge_type": "centurion",
+                  "metric": "workouts",
+                  "value": 100,
+                  "unit": "sessions"
+                },
+                "likes_count": 23,
+                "comments_count": 8,
+                "is_public": true
+              },
+              {
+                "activity_id": "SA002",
+                "user_id": "USR456",
+                "activity_type": "challenge_join",
+                "timestamp": "2024-01-14T09:15:00Z",
+                "content": {
+                  "title": "January Step Challenge",
+                  "description": "Joined the 10,000 steps daily challenge",
+                  "challenge_id": "CH001",
+                  "metric": "steps",
+                  "value": 10000,
+                  "unit": "steps/day"
+                },
+                "likes_count": 5,
+                "comments_count": 2,
+                "is_public": true
+              },
+              {
+                "activity_id": "SA003",
+                "user_id": "USR123",
+                "activity_type": "workout_share",
+                "timestamp": "2024-01-16T07:45:00Z",
+                "content": {
+                  "title": "Morning Run",
+                  "description": "5K run in under 25 minutes!",
+                  "workout_id": "WS002",
+                  "metric": "distance",
+                  "value": 5.2,
+                  "unit": "km"
+                },
+                "likes_count": 12,
+                "comments_count": 3,
+                "is_public": true
+              }
+            ]
+          },
+          {
+            "name": "wearable_sync_data",
+            "description": "Detailed data synced from wearable devices",
+            "use_case_id": "UC-006",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sync_id": {
+                  "type": "string"
+                },
+                "device_id": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "sync_timestamp": {
+                  "type": "string",
+                  "format": "datetime"
+                },
+                "data_type": {
+                  "type": "string",
+                  "enum": [
+                    "workout",
+                    "steps",
+                    "heart_rate",
+                    "sleep",
+                    "weight"
+                  ]
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "metrics": {
+                  "type": "object",
+                  "properties": {
+                    "steps_count": {
+                      "type": "integer"
+                    },
+                    "distance_km": {
+                      "type": "number"
+                    },
+                    "calories_burned": {
+                      "type": "integer"
+                    },
+                    "active_minutes": {
+                      "type": "integer"
+                    },
+                    "avg_heart_rate": {
+                      "type": "integer"
+                    },
+                    "max_heart_rate": {
+                      "type": "integer"
+                    },
+                    "min_heart_rate": {
+                      "type": "integer"
+                    },
+                    "sleep_hours": {
+                      "type": "number"
+                    },
+                    "deep_sleep_hours": {
+                      "type": "number"
+                    },
+                    "rem_sleep_hours": {
+                      "type": "number"
+                    },
+                    "sleep_efficiency": {
+                      "type": "number"
+                    },
+                    "weight_kg": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "raw_data_points": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "timestamp": {
+                        "type": "string",
+                        "format": "datetime"
+                      },
+                      "value": {
+                        "type": "number"
+                      },
+                      "unit": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "sync_status": {
+                  "type": "string",
+                  "enum": [
+                    "success",
+                    "partial",
+                    "failed"
+                  ]
+                },
+                "conflicts_resolved": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "sync_id": "SY001",
+                "device_id": "DEV001",
+                "user_id": "USR123",
+                "sync_timestamp": "2024-01-16T08:30:00Z",
+                "data_type": "steps",
+                "date": "2024-01-15",
+                "metrics": {
+                  "steps_count": 8432,
+                  "distance_km": 6.2,
+                  "calories_burned": 320,
+                  "active_minutes": 65
+                },
+                "raw_data_points": [
+                  {
+                    "timestamp": "2024-01-15T06:00:00Z",
+                    "value": 120,
+                    "unit": "steps/min"
+                  },
+                  {
+                    "timestamp": "2024-01-15T12:30:00Z",
+                    "value": 85,
+                    "unit": "steps/min"
+                  }
+                ],
+                "sync_status": "success",
+                "conflicts_resolved": false
+              },
+              {
+                "sync_id": "SY002",
+                "device_id": "DEV002",
+                "user_id": "USR456",
+                "sync_timestamp": "2024-01-16T07:45:00Z",
+                "data_type": "sleep",
+                "date": "2024-01-15",
+                "metrics": {
+                  "sleep_hours": 7.5,
+                  "deep_sleep_hours": 1.8,
+                  "rem_sleep_hours": 2.1,
+                  "sleep_efficiency": 85
+                },
+                "raw_data_points": [],
+                "sync_status": "success",
+                "conflicts_resolved": false
+              },
+              {
+                "sync_id": "SY003",
+                "device_id": "DEV001",
+                "user_id": "USR123",
+                "sync_timestamp": "2024-01-16T08:30:00Z",
+                "data_type": "workout",
+                "date": "2024-01-15",
+                "metrics": {
+                  "calories_burned": 350,
+                  "active_minutes": 30,
+                  "avg_heart_rate": 145,
+                  "max_heart_rate": 172,
+                  "min_heart_rate": 85
+                },
+                "raw_data_points": [
+                  {
+                    "timestamp": "2024-01-15T06:30:00Z",
+                    "value": 85,
+                    "unit": "bpm"
+                  },
+                  {
+                    "timestamp": "2024-01-15T06:45:00Z",
+                    "value": 165,
+                    "unit": "bpm"
+                  }
+                ],
+                "sync_status": "partial",
+                "conflicts_resolved": true
+              }
+            ]
+          }
+        ],
+        "summary": "Generated comprehensive synthetic data for a fitness tracking application covering workout sessions, nutrition logs, progress tracking, device connections, social activities, and wearable sync data. The data includes realistic values, diverse user profiles, and supports all six use cases with proper relationships and timestamps for demonstration purposes."
+      },
+      "project_name": "Researcher Agent Test",
+      "num_datasets": 6
+    },
+    "reviewer": {
+      "review_cycle_id": "Researcher Agent Test_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-29T12:52:46.861129"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.00222
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 17.979456
+    },
+    {
+      "name": "researcher",
+      "status": "completed",
+      "duration": 73.597197
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 60.608557
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 43.646521
+    },
+    {
+      "name": "prd",
+      "status": "completed",
+      "duration": 136.980796
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 97.111392
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 70.242161
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.000873
+    }
+  ]
+}

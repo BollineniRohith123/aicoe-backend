@@ -1,0 +1,68 @@
+{
+  "structured_notes": {
+    "company_overview": "",
+    "attendees": [
+      "Sarah (PM)",
+      "Mike (Tech Lead)",
+      "Jessica (Designer)",
+      "Tom (Marketing)"
+    ],
+    "meeting_date": "January 15, 2025",
+    "meeting_objective": "To brainstorm and define the core features, target audience, and business model for a new fitness application.",
+    "key_discussion_points": [
+      "Defining the target audience as fitness beginners rather than hardcore athletes.",
+      "Identifying core features: workout tracking, pre-made plans, and exercise demonstrations.",
+      "Discussing nutrition tracking methods, settling on photo logging with AI analysis.",
+      "Exploring gamification elements like badges and achievements to increase engagement.",
+      "Debating the scope of social features for the initial version.",
+      "Outlining a freemium monetization model with a premium subscription.",
+      "Establishing the technical stack, including React Native for mobile and AWS for hosting.",
+      "Estimating project timeline and budget."
+    ],
+    "pain_points": [
+      "Difficulty competing with large companies like Apple.",
+      "High infrastructure costs for hosting video demonstrations.",
+      "Potential inaccuracies of AI food recognition.",
+      "Risks associated with social features, such as moderation and privacy.",
+      "Users feeling overwhelmed by existing, complex fitness apps."
+    ],
+    "requirements": [
+      "The app must be beginner-friendly and simple to use.",
+      "Include workout logging functionality (exercises, sets, reps).",
+      "Provide pre-made workout plans for beginners.",
+      "Feature exercise demonstrations (starting with images/GIFs or links).",
+      "Implement meal photo tracking with AI analysis.",
+      "Offer progress visualization with beautiful, non-boring charts.",
+      "Include basic social features for private progress sharing.",
+      "Support customizable push notifications.",
+      "Integrate with Apple Health and Google Fit.",
+      "Adopt a mobile-first approach."
+    ],
+    "decisions_made": [
+      "Target audience will be fitness beginners (ages 25-45) who find other apps intimidating.",
+      "Core features for V1 will include workout tracking, pre-made plans, exercise demos, meal photo tracking with AI, progress visualization, and basic private social sharing.",
+      "Nutrition tracking will use photo logging with AI analysis instead of manual calorie counting.",
+      "Monetization will be a freemium model at $9.99/month or $79.99/year for premium features like advanced plans and analytics.",
+      "The tech stack will be React Native for mobile, Node.js for the backend, and hosted on AWS.",
+      "The platform will be mobile-first, with no web version planned for the initial launch.",
+      "The project timeline is estimated at 6-8 months.",
+      "V1 integrations will focus on Apple Health and Google Fit, postponing Strava."
+    ],
+    "action_items": [
+      "Sarah will create a formal Product Requirements Document (PRD) based on the discussion for review in the next week's meeting."
+    ],
+    "technical_constraints": [
+      "Video hosting is too expensive for the MVP; alternatives like images, GIFs, or linking to external videos will be used.",
+      "AI for food recognition will be implemented via existing third-party APIs (e.g., Clarifai, Google Cloud Vision) rather than building a custom model.",
+      "Development will use React Native to support both iOS and Android from a single codebase."
+    ],
+    "stakeholders": [
+      "Sarah (PM)",
+      "Mike (Tech Lead)",
+      "Jessica (Designer)",
+      "Tom (Marketing)"
+    ]
+  },
+  "project_name": "Fitness application",
+  "transcript_length": 8780
+}

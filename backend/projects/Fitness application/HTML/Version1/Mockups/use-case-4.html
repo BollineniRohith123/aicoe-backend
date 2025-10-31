@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-004: Synchronize Data with Third-Party Health Platforms | UC001 AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary-navy: #1a1f36;
+            --secondary-navy: #2d3561;
+            --accent-pink: #ff6b9d;
+            --accent-cyan: #66d9ef;
+            --accent-yellow: #ffd93d;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
+            --text-primary: #1a1f36;
+            --text-secondary: #64748b;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --gradient-primary: linear-gradient(135deg, var(--accent-pink), var(--accent-cyan));
+            --gradient-secondary: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: var(--bg-primary);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        .breadcrumb {
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-pink);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-purple);
+        }
+
+        .use-case-header {
+            background: var(--bg-primary);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: var(--gradient-primary);
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .use-case-id {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .use-case-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: var(--bg-tertiary);
+            padding: 0.5rem;
+            border-radius: 16px;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .tab.active {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--bg-primary);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .accordion {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            background: var(--bg-tertiary);
+            padding: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: var(--bg-secondary);
+        }
+
+        .accordion-header.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-content.active {
+            padding: 1.25rem;
+            max-height: 500px;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            padding-top: 0.25rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .priority-medium {
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-pink));
+            color: white;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            padding: 1rem 2rem;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .nav-button.next {
+            margin-left: auto;
+        }
+
+        @media print {
+            header, .navigation {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+                break-inside: avoid;
+            }
+
+            .use-case-header {
+                page-break-after: always;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .use-case-title {
+                font-size: 1.75rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-button.next {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i data-lucide="layers"></i>
+                    </div>
+                    UC001 AICOE
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home"></i>
+                        Home
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i data-lucide="file-text"></i>
+                        Documentation
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i data-lucide="settings"></i>
+                        Settings
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                <span>Fitness Application</span>
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                <span>Use Case 4 of 5</span>
+            </div>
+
+            <div class="use-case-header">
+                <span class="use-case-id">UC-004</span>
+                <h1 class="use-case-title">Synchronize Data with Third-Party Health Platforms</h1>
+                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                    A user connects their account to Apple Health or Google Fit to enable seamless data synchronization. Workout data and weight data are automatically exported to the user's central health hub.
+                </p>
+                <div class="use-case-meta">
+                    <div class="meta-item">
+                        <i data-lucide="user"></i>
+                        <span>Registered User (Beginner)</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="flag"></i>
+                        <span>Priority: Medium</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="trending-up"></i>
+                        <span>Page 4 of 5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('overview')">
+                    <i data-lucide="info"></i>
+                    Overview
+                </button>
+                <button class="tab" onclick="switchTab('flows')">
+                    <i data-lucide="git-branch"></i>
+                    Flows
+                </button>
+                <button class="tab" onclick="switchTab('technical')">
+                    <i data-lucide="code"></i>
+                    Technical Details
+                </button>
+                <button class="tab" onclick="switchTab('business')">
+                    <i data-lucide="briefcase"></i>
+                    Business Value
+                </button>
+            </div>
+
+            <div id="overview" class="tab-content active">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="clipboard-list"></i>
+                        </div>
+                        <h2 class="card-title">Description</h2>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">
+                        This use case enables users to seamlessly connect their fitness app data with established health platforms like Apple Health and Google Fit. By integrating with these ecosystems, users can maintain a centralized view of their health data across multiple applications. The synchronization happens automatically in the background, ensuring that workout metrics (calories burned, duration) and weight measurements are consistently updated across all connected platforms without requiring manual intervention.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h2 class="card-title">Actors</h2>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                        <div style="background: var(--bg-tertiary); padding: 1rem 1.5rem; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem;">
+                            <i data-lucide="user-circle" style="color: var(--accent-pink);"></i>
+                            <span>Registered User (Beginner)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="check-circle"></i>
+                        </div>
+                        <h2 class="card-title">Preconditions</h2>
+                    </div>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.75rem 0; display: flex; align-items: start; gap: 0.75rem;">
+                            <i data-lucide="check" style="color: var(--accent-green); flex-shrink: 0; margin-top: 2px;"></i>
+                            <span>User has an active account with Apple Health or Google Fit.</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; display: flex; align-items: start; gap: 0.75rem;">
+                            <i data-lucide="check" style="color: var(--accent-green); flex-shrink: 0; margin-top: 2px;"></i>
+                            <span>User has the respective health platform app installed on their device.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="target"></i>
+                        </div>
+                        <h2 class="card-title">Postconditions</h2>
+                    </div>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.75rem 0; display: flex; align-items: start; gap: 0.75rem;">
+                            <i data-lucide="check" style="color: var(--accent-green); flex-shrink: 0; margin-top: 2px;"></i>
+                            <span>The user's fitness data is bi-directionally synced with the connected health platform.</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; display: flex; align-items: start; gap: 0.75rem;">
+                            <i data-lucide="check" style="color: var(--accent-green); flex-shrink: 0; margin-top: 2px;"></i>
+                            <span>The app's status for the integration is updated to 'Active'.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="flows" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="play-circle"></i>
+                        </div>
+                        <h2 class="card-title">Main Flow</h2>
+                    </div>
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Step-by-Step Process</span>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="flow-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">User navigates to the 'Settings' or 'Profile' section of the app.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">User finds and selects the 'Integrations' or 'Connected Apps' option.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">User sees toggles for 'Apple Health' and 'Google Fit'.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">User toggles the switch for their preferred platform (e.g., 'Apple Health').</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">The app prompts for authentication and redirects the user to the respective platform's permission screen.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">6</div>
+                                <div class="step-content">The platform asks the user to grant the fitness app permission to read and/or write specific data types (e.g., Workouts, Weight).</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">7</div>
+                                <div class="step-content">User grants the requested permissions.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">8</div>
+                                <div class="step-content">The user is redirected back to the fitness app, which now displays a 'Connected' status.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">9</div>
+                                <div class="step-content">From this point on, relevant data is automatically synced in the background after each workout or when weight is logged.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="git-branch"></i>
+                        </div>
+                        <h2 class="card-title">Alternate Flows</h2>
+                    </div>
+                    
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>User Revokes Permissions</span>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p style="color: var(--text-secondary); line-height: 1.8;">
+                                If the user later revokes permissions in Apple Health/Google Fit settings, the app will detect this on the next sync attempt, disable the integration, and notify the user that data is no longer being synchronized.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Sync Failure</span>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p style="color: var(--text-secondary); line-height: 1.8;">
+                                If a sync attempt fails due to a network error or API issue, the app will queue the data locally and retry the synchronization at a later time. It will not display technical errors to the end-user.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="technical" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="shield"></i>
+                        </div>
+                        <h2 class="card-title">Security & Compliance</h2>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div style="background: var(--bg-tertiary); padding: 1.25rem; border-radius: 12px;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                <i data-lucide="lock" style="color: var(--accent-purple);"></i>
+                                <strong>OAuth 2.0</strong>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">Secure authentication with industry-standard protocols</p>
+                        </div>
+                        <div style="background: var(--bg-tertiary); padding: 1.25rem; border-radius: 12px;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                <i data-lucide="database" style="color: var(--accent-cyan);"></i>
+                                <strong>Encryption</strong>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">End-to-end encryption for all data transfers</p>
+                        </div>
+                        <div style="background: var(--bg-tertiary); padding: 1.25rem; border-radius: 12px;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                <i data-lucide="file-check" style="color: var(--accent-green);"></i>
+                                <strong>HIPAA Compliant</strong>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">Meets healthcare data protection standards</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="cpu"></i>
+                        </div>
+                        <h2 class="card-title">API Integration</h2>
+                    </div>
+                    <div style="background: var(--bg-tertiary); padding: 1.5rem; border-radius: 12px; font-family: monospace; margin-bottom: 1rem;">
+                        <div style="color: var(--accent-purple); margin-bottom: 0.5rem;">// Apple HealthKit Integration</div>
+                        <div style="color: var(--text-primary);">HKHealthStore.requestAuthorization()</div>
+                        <div style="color: var(--text-primary); margin-top: 0.5rem;">.share([workoutType, weightType])</div>
+                        <div style="color: var(--text-primary);">.read([workoutType, weightType])</div>
+                    </div>
+                    <div style="background: var(--bg-tertiary); padding: 1.5rem; border-radius: 12px; font-family: monospace;">
+                        <div style="color: var(--accent-cyan); margin-bottom: 0.5rem;">// Google Fit Integration</div>
+                        <div style="color: var(--text-primary);">Fitness.getHistoryClient()</div>
+                        <div style="color: var(--text-primary); margin-top: 0.5rem;">.readData(DataType.TYPE_WEIGHT)</div>
+                        <div style="color: var(--text-primary);">.insertData(DataType.TYPE_WORKOUT)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="business" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="trending-up"></i>
+                        </div>
+                        <h2 class="card-title">Business Value</h2>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                        Integration with established health ecosystems is a best practice that lowers the barrier to adoption for users already invested in the Apple/Google ecosystems. It centralizes user data, increasing the app's value and making it 'stickier' within the user's digital life.
+                    </p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div style="text-align: center; padding: 1.5rem; background: var(--bg-tertiary); border-radius: 12px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--accent-pink);">35%</div>
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">Higher User Retention</div>
+                        </div>
+                        <div style="text-align: center; padding: 1.5rem; background: var(--bg-tertiary); border-radius: 12px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--accent-cyan);">2.5x</div>
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">Daily Engagement</div>
+                        </div>
+                        <div style="text-align: center; padding: 1.5rem; background: var(--bg-tertiary); border-radius: 12px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--accent-purple);">60%</div>
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">Faster Onboarding</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="target"></i>
+                        </div>
+                        <h2 class="card-title">Key Metrics</h2>
+                    </div>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 1rem 0; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                            <span style="display: flex; align-items: center; gap: 0.75rem;">
+                                <i data-lucide="users" style="color: var(--accent-pink);"></i>
+                                Integration Adoption Rate
+                            </span>
+                            <span style="font-weight: 600;">Target: 75%</span>
+                        </li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                            <span style="display: flex; align-items: center; gap: 0.75rem;">
+                                <i data-lucide="refresh-cw" style="color: var(--accent-cyan);"></i>
+                                Sync Success Rate
+                            </span>
+                            <span style="font-weight: 600;">Target: 99.5%</span>
+                        </li>
+                        <li style="padding: 1rem 0; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="display: flex; align-items: center; gap: 0.75rem;">
+                                <i data-lucide="clock" style="color: var(--accent-purple);"></i>
+                                Average Sync Time
+                            </span>
+                            <span style="font-weight: 600;">Target: &lt; 2s</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <a href="use-case-3.html" class="nav-button">
+                    <i data-lucide="chevron-left"></i>
+                    Previous Use Case
+                </a>
+                <a href="use-case-5.html" class="nav-button next">
+                    Next Use Case
+                    <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            event.target.closest('.tab').classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            lucide.createIcons();
+        }
+
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('i');
+            
+            header.classList.toggle('active');
+            content.classList.toggle('active');
+            
+            if (header.classList.contains('active')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+</body>
+</html>

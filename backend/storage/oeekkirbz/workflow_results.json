@@ -1,0 +1,932 @@
+{
+  "project_name": "WebSocket Test Project",
+  "workflow_id": "workflow_20251029_065419",
+  "status": "success",
+  "context": {
+    "project_name": "WebSocket Test Project",
+    "workflow_id": "workflow_20251029_065419",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T06:54:19.838376",
+    "end_time": "2025-10-29T07:00:43.056527",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "WebSocket Test Project",
+      "project_root": "projects/WebSocket Test Project",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T06:54:19.842850",
+        "action": "project_created",
+        "project_name": "WebSocket Test Project",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": "Not specified",
+        "attendees": [],
+        "meeting_date": "Not specified",
+        "meeting_objective": "To plan and define requirements for building a real-time chat application",
+        "key_discussion_points": [
+          "User authentication and authorization implementation",
+          "Real-time messaging using WebSockets and Socket.io",
+          "Message history and persistence strategy",
+          "User presence and typing indicators",
+          "File sharing capabilities in chat",
+          "Group chat functionality",
+          "Push notifications implementation",
+          "Message search functionality",
+          "Emoji and reaction support features"
+        ],
+        "pain_points": [
+          "Need to support 10,000 concurrent users",
+          "Requirement for sub-100ms message delivery latency",
+          "Ensuring mobile compatibility",
+          "Implementing offline support with message queuing"
+        ],
+        "requirements": [
+          "React frontend",
+          "Node.js backend with Socket.io",
+          "Support for 10,000 concurrent users",
+          "Message delivery under 100ms latency",
+          "Messages load in under 2 seconds",
+          "Mobile device compatibility",
+          "Offline support with message queuing",
+          "End-to-end encryption for messages",
+          "Rate limiting to prevent spam",
+          "Input validation and sanitization",
+          "HTTPS only requirement"
+        ],
+        "decisions_made": [
+          "Use React for frontend development",
+          "Use Node.js with Socket.io for backend",
+          "Implement end-to-end encryption",
+          "Enforce HTTPS-only communication",
+          "Beta version target in 6 weeks",
+          "Full launch target in 3 months"
+        ],
+        "action_items": [],
+        "technical_constraints": [
+          "Must support 10,000 concurrent users",
+          "Message delivery latency must be less than 100ms",
+          "Messages must load in under 2 seconds",
+          "Must work on mobile devices",
+          "Must provide offline support"
+        ],
+        "stakeholders": []
+      },
+      "project_name": "WebSocket Test Project",
+      "transcript_length": 979
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "User Authentication and Session Management",
+          "description": "Users must securely authenticate to access the chat application and maintain their session across interactions.",
+          "actors": [
+            "User",
+            "System"
+          ],
+          "preconditions": [
+            "User has valid credentials",
+            "Network connection is available",
+            "System is running"
+          ],
+          "main_flow": [
+            "User navigates to the application login page",
+            "User enters username and password",
+            "System validates credentials against the database",
+            "System establishes a secure WebSocket connection",
+            "System generates and stores session token",
+            "User is redirected to the main chat interface",
+            "System updates user presence to 'online'"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Invalid credentials",
+              "steps": [
+                "System displays error message",
+                "User is prompted to try again"
+              ]
+            },
+            {
+              "condition": "Network interruption",
+              "steps": [
+                "System displays connection error",
+                "User can retry authentication when connection is restored"
+              ]
+            }
+          ],
+          "postconditions": [
+            "User is successfully authenticated",
+            "WebSocket connection is established",
+            "User session is active"
+          ],
+          "priority": "high",
+          "business_value": "Essential for security and personalized user experience, enabling access to all chat features"
+        },
+        {
+          "id": "UC-002",
+          "title": "Real-time Message Exchange",
+          "description": "Users can send and receive messages in real-time with sub-100ms latency using WebSocket connections.",
+          "actors": [
+            "Sender",
+            "Receiver",
+            "System"
+          ],
+          "preconditions": [
+            "Both users are authenticated",
+            "WebSocket connection is active",
+            "Users are in the same chat room"
+          ],
+          "main_flow": [
+            "Sender types a message in the chat input field",
+            "Sender clicks send or presses enter",
+            "System encrypts the message end-to-end",
+            "System validates and sanitizes the message content",
+            "System broadcasts the message through WebSocket",
+            "Receiver receives the message within 100ms",
+            "System decrypts and displays the message to receiver",
+            "System persists the message in the database",
+            "System updates message history for both users"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Message exceeds size limit",
+              "steps": [
+                "System displays error message",
+                "Message is not sent"
+              ]
+            },
+            {
+              "condition": "Receiver is offline",
+              "steps": [
+                "System queues the message",
+                "Message is delivered when receiver comes online"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Message is successfully delivered",
+            "Message is stored in history",
+            "Both users see the message in their chat"
+          ],
+          "priority": "high",
+          "business_value": "Core functionality that enables real-time communication, meeting the primary business objective"
+        },
+        {
+          "id": "UC-003",
+          "title": "Group Chat Management",
+          "description": "Users can create, join, and participate in group chats with multiple participants.",
+          "actors": [
+            "Group Creator",
+            "Group Member",
+            "System"
+          ],
+          "preconditions": [
+            "User is authenticated",
+            "User has WebSocket connection",
+            "User has permission to create groups"
+          ],
+          "main_flow": [
+            "User initiates group creation",
+            "User enters group name and description",
+            "User selects participants from contact list",
+            "System validates group details",
+            "System creates group chat room",
+            "System sends invitations to selected participants",
+            "Participants receive invitations",
+            "Participants accept or decline invitations",
+            "System updates group member list",
+            "Group chat becomes active for all members"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Group name already exists",
+              "steps": [
+                "System prompts for different name",
+                "User provides alternative name"
+              ]
+            },
+            {
+              "condition": "Participant declines invitation",
+              "steps": [
+                "System updates group status",
+                "Creator is notified of decline"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Group chat is created",
+            "Members are added to group",
+            "Chat room is active"
+          ],
+          "priority": "high",
+          "business_value": "Enables team collaboration and multi-user conversations, expanding the application's utility"
+        },
+        {
+          "id": "UC-004",
+          "title": "File Sharing in Chat",
+          "description": "Users can share files of various types within chat conversations, with proper security and size restrictions.",
+          "actors": [
+            "Sender",
+            "Receiver",
+            "System"
+          ],
+          "preconditions": [
+            "Users are authenticated",
+            "Chat session is active",
+            "File size is within limits"
+          ],
+          "main_flow": [
+            "User clicks file attachment button",
+            "System opens file selection dialog",
+            "User selects file to share",
+            "System validates file type and size",
+            "System uploads file to secure storage",
+            "System generates shareable link",
+            "System encrypts file metadata",
+            "System sends file message with link in chat",
+            "Receiver receives file message",
+            "Receiver can download file using the link"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "File exceeds size limit",
+              "steps": [
+                "System displays error message",
+                "User must select smaller file"
+              ]
+            },
+            {
+              "condition": "Unsupported file type",
+              "steps": [
+                "System blocks upload",
+                "User is informed of supported formats"
+              ]
+            }
+          ],
+          "postconditions": [
+            "File is successfully uploaded",
+            "Share link is generated",
+            "File message is delivered to recipients"
+          ],
+          "priority": "medium",
+          "business_value": "Enhances communication capabilities by allowing document and media sharing"
+        },
+        {
+          "id": "UC-005",
+          "title": "Offline Message Queue Management",
+          "description": "System handles message delivery for users who are offline, queuing messages and delivering them upon reconnection.",
+          "actors": [
+            "User",
+            "System"
+          ],
+          "preconditions": [
+            "User was previously authenticated",
+            "User has pending messages in queue",
+            "Network becomes available"
+          ],
+          "main_flow": [
+            "User goes offline (network lost or app closed)",
+            "System detects disconnection",
+            "System updates user presence to 'offline'",
+            "Incoming messages for user are queued",
+            "System stores queued messages in database",
+            "User comes back online",
+            "System re-establishes WebSocket connection",
+            "System authenticates user session",
+            "System retrieves queued messages",
+            "System delivers queued messages in chronological order",
+            "System clears message queue",
+            "User receives all pending messages"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Queue exceeds maximum size",
+              "steps": [
+                "System notifies user of message limit",
+                "Oldest messages may be archived"
+              ]
+            },
+            {
+              "condition": "Partial message delivery failure",
+              "steps": [
+                "System retries delivery",
+                "Failed messages remain in queue"
+              ]
+            }
+          ],
+          "postconditions": [
+            "User is back online",
+            "All queued messages are delivered",
+            "Message queue is cleared"
+          ],
+          "priority": "high",
+          "business_value": "Ensures message reliability and user experience continuity, critical for mobile users"
+        },
+        {
+          "id": "UC-006",
+          "title": "Message Search and History Retrieval",
+          "description": "Users can search through their message history and retrieve past conversations efficiently.",
+          "actors": [
+            "User",
+            "System"
+          ],
+          "preconditions": [
+            "User is authenticated",
+            "User has message history",
+            "Search index is available"
+          ],
+          "main_flow": [
+            "User accesses search functionality",
+            "User enters search query (keywords, date range, or sender)",
+            "System validates search query",
+            "System queries indexed message database",
+            "System filters results based on user permissions",
+            "System returns matching messages within 2 seconds",
+            "Results are displayed with context",
+            "User can click on any result to view full conversation",
+            "System loads selected conversation with message highlighted"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "No results found",
+              "steps": [
+                "System displays 'No results found' message",
+                "User can refine search"
+              ]
+            },
+            {
+              "condition": "Search timeout",
+              "steps": [
+                "System displays error",
+                "User can retry search"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Search results are displayed",
+            "User can access relevant messages",
+            "Search performance meets SLA"
+          ],
+          "priority": "medium",
+          "business_value": "Improves user productivity by enabling quick access to historical information"
+        }
+      ],
+      "business_requirements": {
+        "overview": "The WebSocket Test Project aims to develop a real-time chat application that supports high-concurrency messaging with sub-100ms latency. The application will provide secure, encrypted communication with features including group chats, file sharing, offline support, and message search capabilities.",
+        "business_goals": [
+          "Deliver a scalable real-time chat platform supporting 10,000 concurrent users",
+          "Achieve message delivery latency under 100ms for optimal user experience",
+          "Provide seamless mobile compatibility and offline functionality",
+          "Ensure end-to-end security for all communications",
+          "Launch beta version within 6 weeks and full version within 3 months"
+        ],
+        "success_criteria": [
+          "Support 10,000 concurrent users without performance degradation",
+          "Maintain average message delivery latency below 100ms",
+          "Achieve 99.9% uptime for the chat service",
+          "Load message history in under 2 seconds",
+          "Zero security breaches with end-to-end encryption implementation",
+          "Achieve user satisfaction score above 4.5/5 in beta testing"
+        ],
+        "constraints": [
+          "Must use React for frontend development",
+          "Must use Node.js with Socket.io for backend",
+          "All communication must be HTTPS-only",
+          "Maximum message delivery latency of 100ms",
+          "Message history loading time under 2 seconds",
+          "Must be compatible with mobile devices",
+          "Must provide offline support with message queuing",
+          "Must implement rate limiting to prevent spam",
+          "Must validate and sanitize all user inputs"
+        ],
+        "assumptions": [
+          "Users have modern web browsers supporting WebSocket connections",
+          "Network infrastructure can support the required bandwidth",
+          "Database can handle the expected message volume",
+          "Development team has expertise in React and Node.js",
+          "Security certificates for HTTPS are available",
+          "Sufficient server resources are provisioned for 10,000 concurrent users"
+        ],
+        "risks": [
+          {
+            "risk": "Performance bottleneck at 10,000 concurrent users",
+            "mitigation": "Implement horizontal scaling, load testing, and performance monitoring"
+          },
+          {
+            "risk": "WebSocket connection stability issues",
+            "mitigation": "Implement reconnection logic and fallback mechanisms"
+          },
+          {
+            "risk": "Security vulnerabilities in real-time communication",
+            "mitigation": "Regular security audits, penetration testing, and encryption implementation"
+          },
+          {
+            "risk": "Message delivery latency exceeding 100ms",
+            "mitigation": "Optimize server architecture, implement CDN, and monitor performance metrics"
+          },
+          {
+            "risk": "Offline message queue overflow",
+            "mitigation": "Implement queue size limits and message archival strategies"
+          }
+        ]
+      },
+      "project_name": "WebSocket Test Project"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "Best Practices",
+            "pattern": "Heartbeat Pattern",
+            "description": "Implement periodic ping/pong messages to detect and handle connection failures gracefully",
+            "priority": "high"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Circuit Breaker Pattern",
+            "description": "Protect the system from cascading failures during high load or connection issues",
+            "priority": "medium"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "Message Acknowledgment",
+            "description": "Implement ACK/NACK patterns to ensure message delivery reliability",
+            "priority": "high"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Connection Pooling",
+            "description": "Reuse WebSocket connections efficiently to handle multiple concurrent users",
+            "priority": "medium"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Exponential Backoff",
+            "description": "Use for reconnection attempts to prevent overwhelming the server during outages",
+            "priority": "high"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "Security",
+            "suggestion": "Implement rate limiting on authentication endpoints to prevent brute force attacks",
+            "rationale": "Critical for protecting user accounts and maintaining system availability"
+          },
+          {
+            "area": "Performance",
+            "suggestion": "Add message queuing and batching for high-frequency message scenarios",
+            "rationale": "Prevents system overload and maintains sub-100ms latency requirements"
+          },
+          {
+            "area": "Reliability",
+            "suggestion": "Implement message persistence and replay functionality for disconnected users",
+            "rationale": "Ensures users don't miss messages during temporary network issues"
+          },
+          {
+            "area": "Monitoring",
+            "suggestion": "Add comprehensive logging and metrics for WebSocket connection lifecycle events",
+            "rationale": "Essential for debugging and maintaining system health"
+          },
+          {
+            "area": "Scalability",
+            "suggestion": "Design for horizontal scaling with load balancers that support WebSocket sticky sessions",
+            "rationale": "Prepares the system for growth and high availability requirements"
+          }
+        ],
+        "compliance_notes": [
+          "Implement GDPR-compliant data handling for user messages and authentication data",
+          "Ensure secure storage of credentials using industry-standard hashing algorithms (bcrypt, Argon2)",
+          "Consider implementing end-to-end encryption for sensitive message content",
+          "Add audit logging for authentication events and message access",
+          "Implement data retention policies for chat messages according to regulatory requirements"
+        ],
+        "integration_recommendations": [
+          "Integrate with Redis or similar for session management and real-time data synchronization",
+          "Use message broker (RabbitMQ/Kafka) for reliable message delivery between services",
+          "Implement API gateway for unified authentication and rate limiting across services",
+          "Consider using CDN for static assets to reduce WebSocket server load",
+          "Integrate with monitoring tools (Prometheus/Grafana) for real-time performance tracking"
+        ]
+      },
+      "project_name": "WebSocket Test Project",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "prd": {
+      "prd_markdown": "---\n**AICOE Product Requirements Document**\n\n**Document Classification:** Internal - Confidential\n**Version:** 1.0\n**Date:** October 26, 2023\n**Prepared By:** AICOE Multi-Agent Platform\n**Project:** WebSocket Test Project\n\n---\n\n# WebSocket Test Project - Product Requirements Document\n\n## 1. Executive Summary\n\nThe WebSocket Test Project aims to develop a state-of-the-art real-time chat application designed to support high-concurrency messaging with exceptional performance. The application will provide secure, end-to-end encrypted communication, supporting features such as group chats, file sharing, offline message queuing, and comprehensive search functionality. This project addresses the growing market need for reliable, scalable, and secure real-time communication platforms for both professional and personal use. The primary stakeholders include end-users requiring dependable communication, development teams, and business leadership focused on rapid market entry. The project targets a beta launch within 6 weeks and a full production release within 3 months.\n\n## 2. Goals & Objectives\n\n### Business Goals\n- Deliver a scalable real-time chat platform supporting 10,000 concurrent users to capture a significant market share.\n- Achieve a user satisfaction score above 4.5/5 during beta testing to ensure product-market fit.\n- Launch a beta version within 6 weeks and a full production version within 3 months to establish a first-mover advantage.\n- Ensure 99.9% uptime for the chat service to build user trust and reliability.\n\n### User Goals\n- Communicate in real-time with sub-100ms message delivery latency for a seamless conversational experience.\n- Access chat history and search for past messages in under 2 seconds to improve productivity.\n- Seamlessly use the application on mobile devices and maintain functionality while offline for uninterrupted communication.\n- Share files securely within chats to enhance collaborative workflows.\n\n### Technical Goals\n- Architect a system that can horizontally scale to support 10,000 concurrent WebSocket connections.\n- Implement end-to-end encryption for all messages to guarantee user privacy and data security.\n- Optimize database queries and caching strategies to meet the sub-2-second message history loading requirement.\n- Build a resilient system with robust reconnection logic and offline message queuing.\n\n## 3. Problem Statement\n\n### What problem are we solving?\nModern communication is increasingly real-time and distributed. Existing solutions often struggle with scalability, latency, and security, especially under high load. Businesses and individuals require a communication platform that is not only fast and reliable but also secure and accessible across all devices, including offline scenarios.\n\n### Who has this problem?\n- Remote and hybrid teams needing reliable, instant communication.\n- Mobile professionals who experience inconsistent network connectivity.\n- Organizations handling sensitive information requiring end-to-end encryption.\n- User communities and large groups needing scalable chat infrastructure.\n\n### Current pain points and limitations\n- **Performance Degradation:** Many chat platforms become slow or unresponsive with a high number of concurrent users.\n- **Latency Issues:** Delays in message delivery disrupt the natural flow of conversation.\n- **Security Concerns:** Lack of robust encryption exposes sensitive communications to potential breaches.\n- **Poor Offline Experience:** Users lose messages or cannot access the app without a stable internet connection.\n- **Mobile Incompatibility:** Non-optimized interfaces lead to a poor user experience on mobile devices.\n\n### Opportunity size and market context\nThe demand for secure, scalable, real-time communication tools is at an all-time high, accelerated by the global shift towards remote work and digital collaboration. A platform that can guarantee performance, security, and reliability at scale has a significant opportunity to capture a substantial user base in both the enterprise and consumer markets.\n\n## 4. User Personas & Stakeholders\n\n### User Personas\n\n**Persona 1: \"Alex, the Remote Team Lead\"**\n- **Role/Title:** Software Development Team Lead\n- **Goals and Motivations:** To maintain clear, constant communication with a distributed team; to share code snippets and documents securely; to ensure project discussions are documented and searchable.\n- **Pain Points:** Unreliable chat tools that drop messages; slow performance during team-wide discussions; security concerns when discussing proprietary code.\n- **Technical Proficiency:** High. Comfortable with various software tools and understands the importance of security protocols.\n\n**Persona 2: \"Brenda, the Mobile Sales Executive\"**\n- **Role/Title:** Field Sales Representative\n- **Goals and Motivations:** To stay connected with the office and clients while traveling; to quickly share contracts and presentations; to receive critical updates instantly.\n- **Pain Points:** Spotty mobile network coverage causing missed messages; difficulty accessing large files on a mobile device; apps that drain battery quickly.\n- **Technical Proficiency:** Medium. Uses essential business apps but prefers simplicity and reliability.\n\n### Key Stakeholders\n- **Product Management:** Defines the vision, prioritizes features, and ensures market alignment.\n- **Development Team:** Responsible for technical implementation, architecture, and quality assurance.\n- **Business Leadership:** Provides funding, sets strategic goals, and monitors business impact.\n- **End-Users:** The ultimate consumers of the product whose satisfaction determines success.\n\n## 5. Features & User Stories\n\n### Must-Have Features (Priority: P0)\n\n**User Authentication & Session Management**\n- As a user, I want to securely log in with my credentials so that I can access my private chats.\n- As a user, I want my session to remain active so that I don't have to log in repeatedly.\n- As a system administrator, I want all communications to be HTTPS-only so that data is encrypted in transit.\n\n**Real-time Messaging**\n- As a user, I want to send and receive messages instantly so that I can have real-time conversations.\n- As a user, I want my messages to be delivered in under 100ms so that the chat feels responsive.\n- As a user, I want my messages to be end-to-end encrypted so that my conversations are private.\n\n**Offline Support**\n- As a mobile user, I want to be able to compose messages while offline so that I can stay productive.\n- As a user, I want my sent messages to be queued when I'm offline and delivered automatically when I'm back online so that no messages are lost.\n\n**Scalability & Performance**\n- As a system architect, I want the platform to support 10,000 concurrent users so that we can serve large communities.\n- As a user, I want my chat history to load in under 2 seconds so that I can quickly find past information.\n\n### Should-Have Features (Priority: P1)\n\n**Group Chat Management**\n- As a team lead, I want to create group chats so that I can communicate with multiple team members at once.\n- As a user, I want to be invited to and join group chats so that I can participate in team discussions.\n\n**Message Search & History**\n- As a user, I want to search through my message history by keyword so that I can quickly find specific information.\n- As a user, I want to be able to view my conversation history so that I can reference past discussions.\n\n**File Sharing**\n- As a user, I want to share files in my chats so that I can collaborate on documents and media.\n- As a user, I want the system to validate file types and sizes so that the platform remains secure and performant.\n\n**User Presence & Typing Indicators**\n- As a user, I want to see when my contacts are online so that I know who is available to chat.\n- As a user, I want to see when someone is typing a message so that I know a response is pending.\n\n### Nice-to-Have Features (Priority: P2)\n\n**Emoji & Reactions**\n- As a user, I want to add emojis to my messages so that I can express myself better.\n- As a user, I want to react to messages with emojis so that I can provide quick feedback.\n\n**Push Notifications**\n- As a user, I want to receive push notifications for new messages when the app is in the background so that I don't miss important communications.\n\n## 6. Use Cases\n\n### Use Case UC-001: User Authentication and Session Management\n- **Actors:** User, System\n- **Preconditions:** User has valid credentials, Network connection is available, System is running.\n- **Main Flow:**\n  1. User navigates to the application login page.\n  2. User enters username and password.\n  3. System validates credentials against the database.\n  4. System establishes a secure WebSocket connection.\n  5. System generates and stores session token.\n  6. User is redirected to the main chat interface.\n  7. System updates user presence to 'online'.\n- **Alternative Flows:**\n  - **Invalid credentials:** System displays error message; User is prompted to try again.\n  - **Network interruption:** System displays connection error; User can retry authentication when connection is restored.\n- **Postconditions:** User is successfully authenticated, WebSocket connection is established, User session is active.\n- **Success Criteria:** User is logged in, has an active session, and a persistent WebSocket connection.\n\n### Use Case UC-002: Real-time Message Exchange\n- **Actors:** Sender, Receiver, System\n- **Preconditions:** Both users are authenticated, WebSocket connection is active, Users are in the same chat room.\n- **Main Flow:**\n  1. Sender types a message in the chat input field.\n  2. Sender clicks send or presses enter.\n  3. System encrypts the message end-to-end.\n  4. System validates and sanitizes the message content.\n  5. System broadcasts the message through WebSocket.\n  6. Receiver receives the message within 100ms.\n  7. System decrypts and displays the message to receiver.\n  8. System persists the message in the database.\n  9. System updates message history for both users.\n- **Alternative Flows:**\n  - **Message exceeds size limit:** System displays error message; Message is not sent.\n  - **Receiver is offline:** System queues the message; Message is delivered when receiver comes online.\n- **Postconditions:** Message is successfully delivered, Message is stored in history, Both users see the message in their chat.\n- **Success Criteria:** Message is delivered in under 100ms, encrypted, and persisted.\n\n### Use Case UC-003: Group Chat Management\n- **Actors:** Group Creator, Group Member, System\n- **Preconditions:** User is authenticated, User has WebSocket connection, User has permission to create groups.\n- **Main Flow:**\n  1. User initiates group creation.\n  2. User enters group name and description.\n  3. User selects participants from contact list.\n  4. System validates group details.\n  5. System creates group chat room.\n  6. System sends invitations to selected participants.\n  7. Participants receive invitations.\n  8. Participants accept or decline invitations.\n  9. System updates group member list.\n  10. Group chat becomes active for all members.\n- **Alternative Flows:**\n  - **Group name already exists:** System prompts for different name; User provides alternative name.\n  - **Participant declines invitation:** System updates group status; Creator is notified of decline.\n- **Postconditions:** Group chat is created, Members are added to group, Chat room is active.\n- **Success Criteria:** A functional group chat exists with the correct members.\n\n### Use Case UC-004: File Sharing in Chat\n- **Actors:** Sender, Receiver, System\n- **Preconditions:** Users are authenticated, Chat session is active, File size is within limits.\n- **Main Flow:**\n  1. User clicks file attachment button.\n  2. System opens file selection dialog.\n  3. User selects file to share.\n  4. System validates file type and size.\n  5. System uploads file to secure storage.\n  6. System generates shareable link.\n  7. System encrypts file metadata.\n  8. System sends file message with link in chat.\n  9. Receiver receives file message.\n  10. Receiver can download file using the link.\n- **Alternative Flows:**\n  - **File exceeds size limit:** System displays error message; User must select smaller file.\n  - **Unsupported file type:** System blocks upload; User is informed of supported formats.\n- **Postconditions:** File is successfully uploaded, Share link is generated, File message is delivered to recipients.\n- **Success Criteria:** The intended recipient can download the correct, uncorrupted file.\n\n### Use Case UC-005: Offline Message Queue Management\n- **Actors:** User, System\n- **Preconditions:** User was previously authenticated, User has pending messages in queue, Network becomes available.\n- **Main Flow:**\n  1. User goes offline (network lost or app closed).\n  2. System detects disconnection.\n  3. System updates user presence to 'offline'.\n  4. Incoming messages for user are queued.\n  5. System stores queued messages in database.\n  6. User comes back online.\n  7. System re-establishes WebSocket connection.\n  8. System authenticates user session.\n  9. System retrieves queued messages.\n  10. System delivers queued messages in chronological order.\n  11. System clears message queue.\n  12. User receives all pending messages.\n- **Alternative Flows:**\n  - **Queue exceeds maximum size:** System notifies user of message limit; Oldest messages may be archived.\n  - **Partial message delivery failure:** System retries delivery; Failed messages remain in queue.\n- **Postconditions:** User is back online, All queued messages are delivered, Message queue is cleared.\n- **Success Criteria:** The user receives all messages sent while they were offline upon reconnecting.\n\n### Use Case UC-006: Message Search and History Retrieval\n- **Actors:** User, System\n- **Preconditions:** User is authenticated, User has message history, Search index is available.\n- **Main Flow:**\n  1. User accesses search functionality.\n  2. User enters search query (keywords, date range, or sender).\n  3. System validates search query.\n  4. System queries indexed message database.\n  5. System filters results based on user permissions.\n  6. System returns matching messages within 2 seconds.\n  7. Results are displayed with context.\n  8. User can click on any result to view full conversation.\n  9. System loads selected conversation with message highlighted.\n- **Alternative Flows:**\n  - **No results found:** System displays 'No results found' message; User can refine search.\n  - **Search timeout:** System displays error; User can retry search.\n- **Postconditions:** Search results are displayed, User can access relevant messages, Search performance meets SLA.\n- **Success Criteria:** Relevant results are found and presented to the user in under 2 seconds.\n\n## 7. Functional Requirements\n\n### Authentication & Authorization\n- **FR-01:** The system shall authenticate users via a username and password.\n- **FR-02:** The system shall enforce HTTPS-only communication for all requests.\n- **FR-03:** The system shall generate a secure session token upon successful authentication.\n- **FR-04:** The system shall invalidate the session token upon user logout.\n- **FR-05:** The system shall implement rate limiting on authentication endpoints to prevent brute-force attacks.\n\n### Real-time Messaging\n- **FR-06:** The system shall establish a WebSocket connection using Socket.io for authenticated users.\n- **FR-07:** The system shall deliver messages from sender to receiver in under 100ms.\n- **FR-08:** The system shall encrypt all messages end-to-end before transmission and storage.\n- **FR-09:** The system shall validate and sanitize all incoming message content to prevent XSS attacks.\n- **FR-10:** The system shall persist every successfully delivered message in the database.\n- **FR-11:** The system shall broadcast messages to all participants in a group chat.\n\n### User Presence & Status\n- **FR-12:** The system shall update a user's presence to 'online' upon successful WebSocket connection.\n- **FR-13:** The system shall update a user's presence to 'offline' upon WebSocket disconnection.\n- **FR-14:** The system shall broadcast a 'user is typing' indicator to other participants in the chat.\n- **FR-15:** The system shall display the online/offline status of users in the contact list.\n\n### Offline Support & Message Queuing\n- **FR-16:** The system shall detect when a user's WebSocket connection is lost.\n- **FR-17:** The system shall queue all incoming messages for an offline user.\n- **FR-18:** The system shall deliver all queued messages to a user upon reconnection, in chronological order.\n- **FR-19:** The system shall allow users to compose messages while offline and queue them for delivery.\n- **FR-20:** The system shall notify the user if their offline message queue exceeds a predefined limit.\n\n### Group Chat Functionality\n- **FR-21:** The system shall allow authenticated users to create a new group chat.\n- **FR-22:** The system shall ensure group names are unique within the application scope.\n- **FR-23:** The system shall send invitations to selected users for a new group chat.\n- **FR-24:** The system shall add a user to a group chat upon accepting an invitation.\n- **FR-25:** The system shall allow a group creator to add or remove members from the group.\n\n### File Sharing\n- **FR-26:** The system shall allow users to attach and send files within a chat.\n- **FR-27:** The system shall validate the file type against a list of allowed types.\n- **FR-28:** The system shall validate the file size against a maximum size limit.\n- **FR-29:** The system shall upload files to a secure, encrypted storage service.\n- **FR-30:** The system shall generate a unique, secure, and time-limited URL for each shared file.\n\n### Message Search & History\n- **FR-31:** The system shall provide a search interface for users to query their message history.\n- **FR-32:** The system shall return search results in under 2 seconds.\n- **FR-33:** The system shall index message content, sender, and timestamp for efficient searching.\n- **FR-34:** The system shall only return search results for messages the user was a participant in.\n- **FR-35:** The system shall load the full conversation context when a user selects a search result.\n\n## 8. Non-Functional Requirements\n\n### Performance\n- **Concurrency:** The system must support at least 10,000 concurrent WebSocket connections without performance degradation.\n- **Latency:** The 95th percentile for message delivery latency must be under 100ms.\n- **Response Time:** The 95th percentile for loading message history must be under 2 seconds.\n- **Throughput:** The system must handle a sustained rate of 1,000 messages per second.\n\n### Security\n- **Encryption:** All messages must be encrypted end-to-end. All data in transit must be encrypted using TLS 1.2 or higher.\n- **Authentication:** User passwords must be salted and hashed using a strong algorithm (e.g., bcrypt).\n- **Authorization:** Users must only be able to access messages and chats they are a participant in.\n- **Input Validation:** All user inputs must be validated and sanitized to prevent injection attacks (XSS, SQLi).\n- **Compliance:** The system should be designed with principles aligning with GDPR and CCPA data privacy regulations.\n\n### Usability\n- **Accessibility:** The user interface must comply with WCAG 2.1 AA accessibility standards.\n- **Responsiveness:** The application must be fully functional and visually appealing on desktop, tablet, and mobile device viewports.\n- **Intuitiveness:** A new user should be able to send their first message within 60 seconds of logging in for the first time.\n\n### Reliability\n- **Uptime:** The chat service must achieve 99.9% uptime availability.\n- **Error Handling:** The system must gracefully handle network interruptions and server errors without data loss.\n- **Disaster Recovery:** A robust backup and recovery plan must be in place, with a Recovery Time Objective (RTO) of 4 hours and a Recovery Point Objective (RPO) of 1 hour.\n\n### Maintainability\n- **Code Quality:** Code must adhere to established linting and formatting standards (e.g., ESLint for JavaScript).\n- **Documentation:** All APIs and core components must have comprehensive documentation.\n- **Modularity:** The system should be built with a modular architecture to facilitate independent scaling and maintenance of components.\n\n## 9. Technical Architecture\n\n### System Components and Interactions\n- **Frontend (React Client):** A single-page application (SPA) responsible for the user interface. It will communicate with the backend via a REST API for authentication and profile management, and via WebSockets for real-time messaging.\n- **Backend API Gateway (Node.js):** An Express.js server that handles HTTP requests for user authentication, profile management, and file uploads. It will also manage the initial WebSocket handshake.\n- **Real-time Messaging Server (Node.js + Socket.io):** A dedicated server (or cluster of servers) to manage WebSocket connections, message routing, and broadcasting. It will be horizontally scalable.\n- **Database (PostgreSQL):** A relational database to store user data, chat metadata, and message history. It will be optimized for read-heavy workloads.\n- **Cache (Redis):** An in-memory data store used for managing session tokens, real-time user presence, and offline message queues.\n- **File Storage (AWS S3 / compatible):** A secure object storage service for storing shared files.\n\n### Technology Stack\n- **Frontend:** React, Redux (for state management), Socket.io-client.\n- **Backend:** Node.js, Express.js, Socket.io.\n- **Database:** PostgreSQL.\n- **Caching:** Redis.\n- **Infrastructure:** Docker, Kubernetes (for orchestration), Nginx (as a reverse proxy/load balancer).\n\n### Data Flow and Storage\n1. **Authentication:** User sends credentials to the API Gateway over HTTPS. The API validates against PostgreSQL, creates a session in Redis, and returns a token.\n2. **Real-time Messaging:** The React client establishes a WebSocket connection to the Messaging Server. Messages are sent, encrypted, broadcasted to relevant rooms, and then persisted to PostgreSQL.\n3. **Offline Queue:** When a user disconnects, messages destined for them are stored in a Redis list. Upon reconnection, the server drains this queue and delivers the messages.\n4. **File Sharing:** The client uploads a file to the API Gateway, which streams it directly to S3. A metadata record with the S3 object key is stored in PostgreSQL and a message with a link is sent via WebSocket.\n\n### Deployment Architecture\nThe system will be deployed in a cloud environment (e.g., AWS, GCP) using a containerized approach.\n- **Load Balancer:** A public-facing load balancer will distribute traffic across multiple instances of the API Gateway and Messaging Servers.\n- **Auto-scaling:** Auto-scaling groups will be configured for the Messaging Servers to handle fluctuations in concurrent user load.\n- **Database:** A managed PostgreSQL service with read replicas will be used to handle database load.\n- **CI/CD:** A continuous integration and deployment pipeline will automate testing and deployment.\n\n## 10. Acceptance Criteria\n\n### Authentication\n- **AC-01:** Given a user with valid credentials, when they log in, then they are redirected to the chat interface with an active session.\n- **AC-02:** Given a user with invalid credentials, when they attempt to log in, then they see an error message and are not granted access.\n- **AC-03:** Given any request to the server, when it is not over HTTPS, then the server rejects the connection.\n\n### Real-time Messaging\n- **AC-04:** Given two online users in a chat, when one sends a message, then the other receives it within 100ms.\n- **AC-05:** Given a sent message, when it is stored in the database, then it is encrypted.\n- **AC-06:** Given a message containing script tags, when it is sent, then the script is sanitized and not executed on the recipient's client.\n\n### Offline Support\n- **AC-07:** Given a user who goes offline, when a message is sent to them, then it is added to their queue.\n- **AC-08:** Given a user with queued messages, when they come back online, then all queued messages are delivered in order.\n\n### Group Chat\n- **AC-09:** Given a user, when they create a group with a unique name and add members, then the group is created and members receive invitations.\n- **AC-10:** Given a user in a group, when a message is sent to the group, then all online members receive the message.\n\n### File Sharing\n- **AC-11:** Given a user who selects a valid file under the size limit, when they share it, then a downloadable link is sent in the chat.\n- **AC-12:** Given a user who selects an invalid file type, when they try to share it, then an error is shown and the file is not uploaded.\n\n### Search\n- **AC-13:** Given a user with chat history, when they search for a keyword present in a message, then the relevant message is returned in the results in under 2 seconds.\n- **AC-14:** Given a user searching for a keyword in a chat they are not part of, when the search is executed, then no messages from that chat appear in the results.\n\n## 11. Success Metrics\n\n### User Adoption Metrics\n- **Daily Active Users (DAU):** Target 5,000 DAU within 3 months of launch.\n- **User Retention Rate:** Target a 7-day retention rate of 60% for new users.\n- **Messages Sent Per Day:** Target an average of 10 messages sent per active user per day.\n\n### Business Impact Metrics\n- **User Satisfaction Score (CSAT/NPS):** Achieve a score above 4.5/5 in post-beta surveys.\n- **Feature Adoption Rate:** 80% of active users should utilize at least one \"Should-Have\" feature (e.g., group chat, file sharing).\n- **Time to Market:** Beta launch in 6 weeks, full launch in 3 months.\n\n### Technical Performance Metrics\n- **Message Delivery Latency:** 95th percentile latency below 100ms.\n- **System Uptime:** 99.9% availability measured monthly.\n- **Concurrent User Capacity:** Successfully sustain 10,000 concurrent users in a load test.\n- **Error Rate:** Application error rate below 0.1%.\n\n## 12. Timeline & Milestones\n\n### Phase 1: Core Foundation (Weeks 1-4)\n- **Scope:**\n  - Project setup, CI/CD pipeline, and development environment.\n  - User authentication and session management.\n  - Basic one-on-one real-time messaging.\n  - Database schema design and implementation.\n- **Timeline:** 4 weeks.\n- **Milestone:** Internal demo of a functional, authenticated chat between two users.\n\n### Phase 2: Feature Expansion (Weeks 5-8)\n- **Scope:**\n  - Group chat creation and management.\n  - Offline message queuing and delivery.\n  - File sharing capabilities.\n  - Basic UI/UX polish and mobile responsiveness.\n- **Timeline:** 4 weeks.\n- **Milestone:** Beta version release for internal and limited external testing.\n\n### Phase 3: Polish & Launch (Weeks 9-12)\n- **Scope:**\n  - Message search and history functionality.\n  - User presence and typing indicators.\n  - Performance optimization and load testing.\n  - Security audit and penetration testing.\n  - Final UI/UX improvements and bug fixes.\n- **Timeline:** 4 weeks.\n- **Milestone:** Full production launch (v1.0).\n\n## 13. Risks & Mitigation\n\n| Risk | Impact | Probability | Mitigation Strategy |\n|------|--------|-------------|---------------------|\n| Performance bottleneck at 10,000 concurrent users | High | Medium | Implement horizontal scaling with Kubernetes, conduct rigorous load testing early, and use Redis for connection state management. |\n| WebSocket connection stability issues | High | Medium | Implement robust reconnection logic with exponential backoff in the client, and use a message acknowledgment (ACK) system to ensure delivery. |\n| Security vulnerabilities in real-time communication | High | Low | Conduct regular third-party security audits and penetration testing. Implement end-to-end encryption and enforce strict input validation. |\n| Message delivery latency exceeding 100ms | Medium | Medium | Optimize",
+      "project_name": "WebSocket Test Project",
+      "length": 28062,
+      "sections": [
+        "1. Executive Summary",
+        "2. Goals & Objectives",
+        "3. Problem Statement",
+        "4. User Personas & Stakeholders",
+        "5. Features & User Stories",
+        "6. Use Cases",
+        "7. Functional Requirements",
+        "8. Non-Functional Requirements",
+        "9. Technical Architecture",
+        "10. Acceptance Criteria",
+        "11. Success Metrics",
+        "12. Timeline & Milestones",
+        "13. Risks & Mitigation"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>WebSocket Test Project - AICOE</title>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n    <style>\n        :root {\n            --aicoe-primary: #0066cc;\n            --aicoe-accent: #00d9ff;\n            --aicoe-dark: #1d1d1f;\n            --aicoe-gray: #6e6e73;\n            --aicoe-light-gray: #f5f5f7;\n            --aicoe-white: #ffffff;\n            --aicoe-success: #34c759;\n            --aicoe-warning: #ff9500;\n        }\n\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n            color: var(--aicoe-dark);\n            background: var(--aicoe-light-gray);\n            line-height: 1.6;\n        }\n\n        /* Navigation */\n        nav {\n            position: sticky;\n            top: 0;\n            background: var(--aicoe-white);\n            box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n            z-index: 1000;\n            transition: all 0.3s ease;\n        }\n\n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 1rem 2rem;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .nav-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n            text-decoration: none;\n        }\n\n        .nav-links {\n            display: flex;\n            gap: 2rem;\n            align-items: center;\n        }\n\n        .nav-link {\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            transition: color 0.3s ease;\n        }\n\n        .nav-link:hover {\n            color: var(--aicoe-primary);\n        }\n\n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);\n            color: var(--aicoe-white);\n            padding: 4rem 2rem;\n            text-align: center;\n        }\n\n        .hero-content {\n            max-width: 800px;\n            margin: 0 auto;\n        }\n\n        .hero h1 {\n            font-size: 3rem;\n            font-weight: 700;\n            margin-bottom: 1rem;\n            animation: fadeInUp 0.6s ease;\n        }\n\n        .hero p {\n            font-size: 1.25rem;\n            opacity: 0.95;\n            margin-bottom: 2rem;\n            animation: fadeInUp 0.8s ease;\n        }\n\n        .hero-stats {\n            display: flex;\n            justify-content: center;\n            gap: 3rem;\n            margin-top: 3rem;\n            flex-wrap: wrap;\n        }\n\n        .stat-item {\n            animation: fadeInUp 1s ease;\n        }\n\n        .stat-value {\n            font-size: 2rem;\n            font-weight: 700;\n            display: block;\n        }\n\n        .stat-label {\n            font-size: 0.9rem;\n            opacity: 0.9;\n        }\n\n        /* Main Content */\n        .container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 3rem 2rem;\n        }\n\n        /* Section Headers */\n        .section-header {\n            text-align: center;\n            margin-bottom: 3rem;\n        }\n\n        .section-header h2 {\n            font-size: 2.5rem;\n            font-weight: 700;\n            color: var(--aicoe-dark);\n            margin-bottom: 1rem;\n        }\n\n        .section-header p {\n            color: var(--aicoe-gray);\n            font-size: 1.1rem;\n        }\n\n        /* Features Grid */\n        .features-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n            margin-bottom: 4rem;\n        }\n\n        .feature-card {\n            background: var(--aicoe-white);\n            padding: 2rem;\n            border-radius: 12px;\n            box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n            transition: transform 0.3s ease, box-shadow 0.3s ease;\n        }\n\n        .feature-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 4px 16px rgba(0,0,0,0.15);\n        }\n\n        .feature-icon {\n            width: 48px;\n            height: 48px;\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            border-radius: 12px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            margin-bottom: 1rem;\n        }\n\n        .feature-icon i {\n            color: var(--aicoe-white);\n            width: 24px;\n            height: 24px;\n        }\n\n        .feature-title {\n            font-size: 1.25rem;\n            font-weight: 600;\n            margin-bottom: 0.75rem;\n            color: var(--aicoe-dark);\n        }\n\n        .feature-description {\n            color: var(--aicoe-gray);\n            line-height: 1.6;\n        }\n\n        /* Use Cases */\n        .use-case {\n            background: var(--aicoe-white);\n            border-radius: 12px;\n            padding: 2rem;\n            margin-bottom: 2rem;\n            box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n            transition: box-shadow 0.3s ease;\n        }\n\n        .use-case:hover {\n            box-shadow: 0 4px 16px rgba(0,0,0,0.15);\n        }\n\n        .use-case-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: start;\n            margin-bottom: 1.5rem;\n            flex-wrap: wrap;\n            gap: 1rem;\n        }\n\n        .use-case-title {\n            flex: 1;\n        }\n\n        .use-case-id {\n            color: var(--aicoe-primary);\n            font-weight: 600;\n            font-size: 0.9rem;\n            margin-bottom: 0.5rem;\n        }\n\n        .use-case-name {\n            font-size: 1.5rem;\n            font-weight: 600;\n            color: var(--aicoe-dark);\n        }\n\n        .priority-badge {\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.85rem;\n            font-weight: 600;\n            text-transform: uppercase;\n        }\n\n        .priority-high {\n            background: rgba(255, 149, 0, 0.1);\n            color: var(--aicoe-warning);\n        }\n\n        .priority-medium {\n            background: rgba(52, 199, 89, 0.1);\n            color: var(--aicoe-success);\n        }\n\n        .use-case-description {\n            color: var(--aicoe-gray);\n            margin-bottom: 2rem;\n            line-height: 1.6;\n        }\n\n        .use-case-details {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n            gap: 2rem;\n        }\n\n        .detail-section {\n            background: var(--aicoe-light-gray);\n            padding: 1.5rem;\n            border-radius: 8px;\n        }\n\n        .detail-title {\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.75rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .detail-title i {\n            color: var(--aicoe-primary);\n            width: 18px;\n            height: 18px;\n        }\n\n        .detail-list {\n            list-style: none;\n        }\n\n        .detail-list li {\n            color: var(--aicoe-gray);\n            padding: 0.25rem 0;\n            padding-left: 1rem;\n            position: relative;\n        }\n\n        .detail-list li:before {\n            content: \"\u2022\";\n            color: var(--aicoe-accent);\n            position: absolute;\n            left: 0;\n            font-weight: bold;\n        }\n\n        .business-value {\n            background: linear-gradient(135deg, rgba(0, 102, 204, 0.05), rgba(0, 217, 255, 0.05));\n            border-left: 4px solid var(--aicoe-primary);\n            padding: 1rem 1.5rem;\n            margin-top: 2rem;\n            border-radius: 0 8px 8px 0;\n        }\n\n        .business-value-title {\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.5rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .business-value-title i {\n            color: var(--aicoe-primary);\n        }\n\n        /* Requirements Section */\n        .requirements-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n            gap: 1.5rem;\n            margin-bottom: 4rem;\n        }\n\n        .requirement-item {\n            background: var(--aicoe-white);\n            padding: 1.25rem;\n            border-radius: 8px;\n            border-left: 3px solid var(--aicoe-accent);\n            box-shadow: 0 2px 4px rgba(0,0,0,0.05);\n            transition: transform 0.2s ease;\n        }\n\n        .requirement-item:hover {\n            transform: translateX(4px);\n        }\n\n        /* Footer */\n        footer {\n            background: var(--aicoe-dark);\n            color: var(--aicoe-white);\n            padding: 3rem 2rem;\n            text-align: center;\n        }\n\n        .footer-content {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .footer-brand {\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            margin-bottom: 1rem;\n        }\n\n        .footer-links {\n            display: flex;\n            justify-content: center;\n            gap: 2rem;\n            margin-top: 2rem;\n            flex-wrap: wrap;\n        }\n\n        .footer-link {\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            transition: color 0.3s ease;\n        }\n\n        .footer-link:hover {\n            color: var(--aicoe-accent);\n        }\n\n        /* Animations */\n        @keyframes fadeInUp {\n            from {\n                opacity: 0;\n                transform: translateY(20px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        /* Print Styles */\n        @media print {\n            nav, .no-print, button { \n                display: none !important; \n            }\n            body { \n                font-size: 12pt; \n                color: #000; \n                background: #fff; \n            }\n            * { \n                box-shadow: none !important; \n                text-shadow: none !important; \n            }\n            .page-break { \n                page-break-before: always; \n            }\n            h1, h2, h3 { \n                page-break-after: avoid; \n            }\n            a[href]:after { \n                content: \" (\" attr(href) \")\"; \n            }\n            .hero {\n                background: none !important;\n                color: #000 !important;\n            }\n            .feature-card, .use-case {\n                break-inside: avoid;\n            }\n        }\n\n        /* Responsive Design */\n        @media (max-width: 768px) {\n            .hero h1 {\n                font-size: 2rem;\n            }\n            \n            .hero p {\n                font-size: 1rem;\n            }\n            \n            .nav-links {\n                display: none;\n            }\n            \n            .hero-stats {\n                gap: 1.5rem;\n            }\n            \n            .use-case-header {\n                flex-direction: column;\n            }\n            \n            .section-header h2 {\n                font-size: 1.75rem;\n            }\n        }\n    </style>\n</head>\n<body>\n    <!-- Navigation -->\n    <nav class=\"no-print\">\n        <div class=\"nav-container\">\n            <a href=\"#\" class=\"nav-brand\">\n                <i data-lucide=\"layers\"></i>\n                AICOE Multi-Agent Platform\n            </a>\n            <div class=\"nav-links\">\n                <a href=\"#overview\" class=\"nav-link\">\n                    <i data-lucide=\"home\"></i>\n                    Overview\n                </a>\n                <a href=\"#usecases\" class=\"nav-link\">\n                    <i data-lucide=\"file-text\"></i>\n                    Use Cases\n                </a>\n                <a href=\"#requirements\" class=\"nav-link\">\n                    <i data-lucide=\"check-circle\"></i>\n                    Requirements\n                </a>\n                <a href=\"#technical\" class=\"nav-link\">\n                    <i data-lucide=\"database\"></i>\n                    Technical\n                </a>\n            </div>\n        </div>\n    </nav>\n\n    <!-- Hero Section -->\n    <section class=\"hero\">\n        <div class=\"hero-content\">\n            <h1>WebSocket Test Project</h1>\n            <p>Real-time chat application with sub-100ms latency, supporting 10,000 concurrent users with enterprise-grade security</p>\n            <div class=\"hero-stats\">\n                <div class=\"stat-item\">\n                    <span class=\"stat-value\">10,000+</span>\n                    <span class=\"stat-label\">Concurrent Users</span>\n                </div>\n                <div class=\"stat-item\">\n                    <span class=\"stat-value\">&lt;100ms</span>\n                    <span class=\"stat-label\">Message Latency</span>\n                </div>\n                <div class=\"stat-item\">\n                    <span class=\"stat-value\">E2E</span>\n                    <span class=\"stat-label\">Encryption</span>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Main Content -->\n    <main class=\"container\">\n        <!-- Key Features -->\n        <section id=\"overview\">\n            <div class=\"section-header\">\n                <h2>Core Features</h2>\n                <p>Essential capabilities powering our real-time communication platform</p>\n            </div>\n            <div class=\"features-grid\">\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"shield\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Secure Authentication</h3>\n                    <p class=\"feature-description\">Enterprise-grade user authentication with session management and secure WebSocket connections</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"zap\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Real-time Messaging</h3>\n                    <p class=\"feature-description\">Instant message delivery with sub-100ms latency and end-to-end encryption</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"users\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Group Chat</h3>\n                    <p class=\"feature-description\">Create and manage group conversations with multiple participants</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"paperclip\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">File Sharing</h3>\n                    <p class=\"feature-description\">Secure file sharing with type validation and size restrictions</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"clock\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Offline Support</h3>\n                    <p class=\"feature-description\">Message queuing for offline users with automatic delivery on reconnection</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"search\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Message Search</h3>\n                    <p class=\"feature-description\">Efficient search through message history with sub-2second response times</p>\n                </div>\n            </div>\n        </section>\n\n        <!-- Use Cases -->\n        <section id=\"usecases\">\n            <div class=\"section-header\">\n                <h2>Use Cases</h2>\n                <p>Detailed workflows defining system behavior and user interactions</p>\n            </div>\n\n            <!-- Use Case 1 -->\n            <div class=\"use-case\">\n                <div class=\"use-case-header\">\n                    <div class=\"use-case-title\">\n                        <div class=\"use-case-id\">UC-001</div>\n                        <h3 class=\"use-case-name\">User Authentication and Session Management</h3>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                </div>\n                <p class=\"use-case-description\">Users must securely authenticate to access the chat application and maintain their session across interactions.</p>\n                <div class=\"use-case-details\">\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"users\"></i>\n                            Actors\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>User</li>\n                            <li>System</li>\n                        </ul>\n                    </div>\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"check-square\"></i>\n                            Preconditions\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>User has valid credentials</li>\n                            <li>Network connection is available</li>\n                            <li>System is running</li>\n                        </ul>\n                    </div>\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"play\"></i>\n                            Main Flow\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>User navigates to login page</li>\n                            <li>Enters username and password</li>\n                            <li>System validates credentials</li>\n                            <li>WebSocket connection established</li>\n                            <li>Session token generated</li>\n                            <li>User redirected to chat interface</li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"business-value\">\n                    <div class=\"business-value-title\">\n                        <i data-lucide=\"trending-up\"></i>\n                        Business Value\n                    </div>\n                    <p>Essential for security and personalized user experience, enabling access to all chat features</p>\n                </div>\n            </div>\n\n            <!-- Use Case 2 -->\n            <div class=\"use-case\">\n                <div class=\"use-case-header\">\n                    <div class=\"use-case-title\">\n                        <div class=\"use-case-id\">UC-002</div>\n                        <h3 class=\"use-case-name\">Real-time Message Exchange</h3>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                </div>\n                <p class=\"use-case-description\">Users can send and receive messages in real-time with sub-100ms latency using WebSocket connections.</p>\n                <div class=\"use-case-details\">\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"users\"></i>\n                            Actors\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>Sender</li>\n                            <li>Receiver</li>\n                            <li>System</li>\n                        </ul>\n                    </div>\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"check-square\"></i>\n                            Preconditions\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>Both users are authenticated</li>\n                            <li>WebSocket connection is active</li>\n                            <li>Users are in same chat room</li>\n                        </ul>\n                    </div>\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"play\"></i>\n                            Main Flow\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>Sender types message</li>\n                            <li>Message encrypted end-to-end</li>\n                            <li>Content validated and sanitized</li>\n                            <li>Broadcasted via WebSocket</li>\n                            <li>Receiver gets message within 100ms</li>\n                            <li>Message persisted in database</li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"business-value\">\n                    <div class=\"business-value-title\">\n                        <i data-lucide=\"trending-up\"></i>\n                        Business Value\n                    </div>\n                    <p>Core functionality that enables real-time communication, meeting the primary business objective</p>\n                </div>\n            </div>\n\n            <!-- Use Case 3 -->\n            <div class=\"use-case\">\n                <div class=\"use-case-header\">\n                    <div class=\"use-case-title\">\n                        <div class=\"use-case-id\">UC-003</div>\n                        <h3 class=\"use-case-name\">Group Chat Management</h3>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                </div>\n                <p class=\"use-case-description\">Users can create, join, and participate in group chats with multiple participants.</p>\n                <div class=\"use-case-details\">\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"users\"></i>\n                            Actors\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>Group Creator</li>\n                            <li>Group Member</li>\n                            <li>System</li>\n                        </ul>\n                    </div>\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"check-square\"></i>\n                            Preconditions\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>User is authenticated</li>\n                            <li>WebSocket connection active</li>\n                            <li>Permission to create groups</li>\n                        </ul>\n                    </div>\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"play\"></i>\n                            Main Flow\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>User initiates group creation</li>\n                            <li>Enters group name and description</li>\n                            <li>Selects participants</li>\n                            <li>System creates group chat room</li>\n                            <li>Invitations sent to participants</li>\n                            <li>Group becomes active</li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"business-value\">\n                    <div class=\"business-value-title\">\n                        <i data-lucide=\"trending-up\"></i>\n                        Business Value\n                    </div>\n                    <p>Enables team collaboration and multi-user conversations, expanding the application's utility</p>\n                </div>\n            </div>\n\n            <!-- Use Case 4 -->\n            <div class=\"use-case\">\n                <div class=\"use-case-header\">\n                    <div class=\"use-case-title\">\n                        <div class=\"use-case-id\">UC-004</div>\n                        <h3 class=\"use-case-name\">File Sharing in Chat</h3>\n                    </div>\n                    <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                </div>\n                <p class=\"use-case-description\">Users can share files of various types within chat conversations, with proper security and size restrictions.</p>\n                <div class=\"use-case-details\">\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"users\"></i>\n                            Actors\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>Sender</li>\n                            <li>Receiver</li>\n                            <li>System</li>\n                        </ul>\n                    </div>\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"check-square\"></i>\n                            Preconditions\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>Users are authenticated</li>\n                            <li>Chat session is active</li>\n                            <li>File size within limits</li>\n                        </ul>\n                    </div>\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"play\"></i>\n                            Main Flow\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>User clicks attachment button</li>\n                            <li>Selects file to share</li>\n                            <li>System validates file type/size</li>\n                            <li>File uploaded to secure storage</li>\n                            <li>Shareable link generated</li>\n                            <li>File message sent in chat</li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"business-value\">\n                    <div class=\"business-value-title\">\n                        <i data-lucide=\"trending-up\"></i>\n                        Business Value\n                    </div>\n                    <p>Enhances communication capabilities by allowing document and media sharing</p>\n                </div>\n            </div>\n\n            <!-- Use Case 5 -->\n            <div class=\"use-case\">\n                <div class=\"use-case-header\">\n                    <div class=\"use-case-title\">\n                        <div class=\"use-case-id\">UC-005</div>\n                        <h3 class=\"use-case-name\">Offline Message Queue Management</h3>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                </div>\n                <p class=\"use-case-description\">System handles message delivery for users who are offline, queuing messages and delivering them upon reconnection.</p>\n                <div class=\"use-case-details\">\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"users\"></i>\n                            Actors\n                        </div>\n                        <ul class=\"detail-list\">\n                            <li>User</li>\n                            <li>System</li>\n                        </ul>\n                    </div>\n                    <div class=\"detail-section\">\n                        <div class=\"detail-title\">\n                            <i data-lucide=\"check-square\"></i>\n                            Preconditions\n                        </div>\n                        <ul",
+      "project_name": "WebSocket Test Project",
+      "length": 28986,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "data_sets": [
+          {
+            "name": "User Authentication Data",
+            "description": "Sample user credentials and session tokens for authentication testing",
+            "use_case_id": "UC-001",
+            "format": "json",
+            "schema": {
+              "username": "string",
+              "password_hash": "string",
+              "session_token": "string",
+              "login_timestamp": "datetime",
+              "ip_address": "string",
+              "user_agent": "string",
+              "login_status": "string"
+            },
+            "sample_data": [
+              {
+                "username": "john.doe",
+                "password_hash": "sha256$5f4dcc3b5aa765d61d8327deb882cf99",
+                "session_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNjE2MjM5MDIyfQ",
+                "login_timestamp": "2024-01-15T09:30:22Z",
+                "ip_address": "192.168.1.100",
+                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "login_status": "success"
+              },
+              {
+                "username": "jane.smith",
+                "password_hash": "sha256$5f4dcc3b5aa765d61d8327deb882cf99",
+                "session_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5ODc2NTQzMjEiLCJpYXQiOjE2MTYyMzkwMjJ9",
+                "login_timestamp": "2024-01-15T09:31:45Z",
+                "ip_address": "10.0.0.25",
+                "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X)",
+                "login_status": "success"
+              },
+              {
+                "username": "mike.wilson",
+                "password_hash": "sha256$5f4dcc3b5aa765d61d8327deb882cf99",
+                "session_token": null,
+                "login_timestamp": "2024-01-15T09:32:10Z",
+                "ip_address": "172.16.0.50",
+                "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36",
+                "login_status": "failed"
+              }
+            ]
+          },
+          {
+            "name": "Real-time Messages",
+            "description": "Sample chat messages with metadata for real-time exchange testing",
+            "use_case_id": "UC-002",
+            "format": "json",
+            "schema": {
+              "message_id": "string",
+              "sender_id": "string",
+              "receiver_id": "string",
+              "message_content": "string",
+              "timestamp": "datetime",
+              "delivery_time_ms": "number",
+              "message_type": "string",
+              "encryption_status": "string",
+              "message_status": "string"
+            },
+            "sample_data": [
+              {
+                "message_id": "msg_001",
+                "sender_id": "john.doe",
+                "receiver_id": "jane.smith",
+                "message_content": "Hey Jane! Are you available for the 2 PM meeting?",
+                "timestamp": "2024-01-15T10:15:30.123Z",
+                "delivery_time_ms": 45,
+                "message_type": "text",
+                "encryption_status": "encrypted",
+                "message_status": "delivered"
+              },
+              {
+                "message_id": "msg_002",
+                "sender_id": "jane.smith",
+                "receiver_id": "john.doe",
+                "message_content": "Yes, I'll be there. Just finishing up some documentation.",
+                "timestamp": "2024-01-15T10:15:55.456Z",
+                "delivery_time_ms": 38,
+                "message_type": "text",
+                "encryption_status": "encrypted",
+                "message_status": "delivered"
+              },
+              {
+                "message_id": "msg_003",
+                "sender_id": "mike.wilson",
+                "receiver_id": "john.doe",
+                "message_content": "Can you review the latest pull request when you get a chance?",
+                "timestamp": "2024-01-15T10:16:20.789Z",
+                "delivery_time_ms": 92,
+                "message_type": "text",
+                "encryption_status": "encrypted",
+                "message_status": "delivered"
+              }
+            ]
+          },
+          {
+            "name": "Group Chat Data",
+            "description": "Sample group chat configurations and member lists",
+            "use_case_id": "UC-003",
+            "format": "json",
+            "schema": {
+              "group_id": "string",
+              "group_name": "string",
+              "description": "string",
+              "creator_id": "string",
+              "members": "array",
+              "created_timestamp": "datetime",
+              "group_status": "string",
+              "max_members": "number"
+            },
+            "sample_data": [
+              {
+                "group_id": "grp_001",
+                "group_name": "Development Team",
+                "description": "Main development team coordination group",
+                "creator_id": "john.doe",
+                "members": [
+                  {
+                    "user_id": "john.doe",
+                    "role": "admin",
+                    "joined_at": "2024-01-15T08:00:00Z"
+                  },
+                  {
+                    "user_id": "jane.smith",
+                    "role": "member",
+                    "joined_at": "2024-01-15T08:05:00Z"
+                  },
+                  {
+                    "user_id": "mike.wilson",
+                    "role": "member",
+                    "joined_at": "2024-01-15T08:10:00Z"
+                  }
+                ],
+                "created_timestamp": "2024-01-15T08:00:00Z",
+                "group_status": "active",
+                "max_members": 50
+              },
+              {
+                "group_id": "grp_002",
+                "group_name": "Project Alpha",
+                "description": "Alpha project stakeholders and developers",
+                "creator_id": "jane.smith",
+                "members": [
+                  {
+                    "user_id": "jane.smith",
+                    "role": "admin",
+                    "joined_at": "2024-01-14T14:00:00Z"
+                  },
+                  {
+                    "user_id": "john.doe",
+                    "role": "member",
+                    "joined_at": "2024-01-14T14:15:00Z"
+                  },
+                  {
+                    "user_id": "sarah.jones",
+                    "role": "member",
+                    "joined_at": "2024-01-14T14:30:00Z"
+                  }
+                ],
+                "created_timestamp": "2024-01-14T14:00:00Z",
+                "group_status": "active",
+                "max_members": 25
+              }
+            ]
+          },
+          {
+            "name": "File Sharing Data",
+            "description": "Sample file sharing records with metadata",
+            "use_case_id": "UC-004",
+            "format": "json",
+            "schema": {
+              "file_id": "string",
+              "sender_id": "string",
+              "receiver_id": "string",
+              "file_name": "string",
+              "file_type": "string",
+              "file_size_bytes": "number",
+              "share_link": "string",
+              "upload_timestamp": "datetime",
+              "download_count": "number",
+              "encryption_key": "string"
+            },
+            "sample_data": [
+              {
+                "file_id": "file_001",
+                "sender_id": "john.doe",
+                "receiver_id": "jane.smith",
+                "file_name": "Q4_Report.pdf",
+                "file_type": "application/pdf",
+                "file_size_bytes": 2048576,
+                "share_link": "https://chat.example.com/files/download/abc123xyz789",
+                "upload_timestamp": "2024-01-15T11:20:00Z",
+                "download_count": 1,
+                "encryption_key": "AES256:gK7pL9mN2qR5sT8u"
+              },
+              {
+                "file_id": "file_002",
+                "sender_id": "jane.smith",
+                "receiver_id": "mike.wilson",
+                "file_name": "design_mockup.fig",
+                "file_type": "application/x-figma",
+                "file_size_bytes": 5242880,
+                "share_link": "https://chat.example.com/files/download/def456uvw012",
+                "upload_timestamp": "2024-01-15T11:45:00Z",
+                "download_count": 0,
+                "encryption_key": "AES256:hJ3kL8mP4qR7sT2w"
+              }
+            ]
+          },
+          {
+            "name": "Offline Message Queue",
+            "description": "Sample queued messages for offline users",
+            "use_case_id": "UC-005",
+            "format": "json",
+            "schema": {
+              "queue_id": "string",
+              "user_id": "string",
+              "message_id": "string",
+              "sender_id": "string",
+              "message_content": "string",
+              "queued_timestamp": "datetime",
+              "delivery_attempts": "number",
+              "priority": "string",
+              "expiry_timestamp": "datetime"
+            },
+            "sample_data": [
+              {
+                "queue_id": "queue_001",
+                "user_id": "sarah.jones",
+                "message_id": "msg_004",
+                "sender_id": "john.doe",
+                "message_content": "Sarah, can you check the server logs when you're back online?",
+                "queued_timestamp": "2024-01-15T12:00:00Z",
+                "delivery_attempts": 0,
+                "priority": "normal",
+                "expiry_timestamp": "2024-01-22T12:00:00Z"
+              },
+              {
+                "queue_id": "queue_002",
+                "user_id": "tom.brown",
+                "message_id": "msg_005",
+                "sender_id": "jane.smith",
+                "message_content": "Urgent: Database migration scheduled for tonight at 2 AM",
+                "queued_timestamp": "2024-01-15T12:30:00Z",
+                "delivery_attempts": 2,
+                "priority": "high",
+                "expiry_timestamp": "2024-01-16T12:30:00Z"
+              }
+            ]
+          },
+          {
+            "name": "Message Search Results",
+            "description": "Sample search queries and results for message history",
+            "use_case_id": "UC-006",
+            "format": "json",
+            "schema": {
+              "search_id": "string",
+              "user_id": "string",
+              "query": "string",
+              "search_timestamp": "datetime",
+              "results_count": "number",
+              "search_time_ms": "number",
+              "results": "array"
+            },
+            "sample_data": [
+              {
+                "search_id": "search_001",
+                "user_id": "john.doe",
+                "query": "meeting tomorrow",
+                "search_timestamp": "2024-01-15T13:15:00Z",
+                "results_count": 3,
+                "search_time_ms": 1250,
+                "results": [
+                  {
+                    "message_id": "msg_006",
+                    "sender": "jane.smith",
+                    "content": "Don't forget about the meeting tomorrow at 2 PM",
+                    "timestamp": "2024-01-14T16:30:00Z",
+                    "context": "Development Team"
+                  },
+                  {
+                    "message_id": "msg_007",
+                    "sender": "mike.wilson",
+                    "content": "Can we reschedule the meeting tomorrow to 3 PM?",
+                    "timestamp": "2024-01-14T17:45:00Z",
+                    "context": "Project Alpha"
+                  }
+                ]
+              },
+              {
+                "search_id": "search_002",
+                "user_id": "jane.smith",
+                "query": "database backup",
+                "search_timestamp": "2024-01-15T13:20:00Z",
+                "results_count": 1,
+                "search_time_ms": 890,
+                "results": [
+                  {
+                    "message_id": "msg_008",
+                    "sender": "john.doe",
+                    "content": "Database backup completed successfully. Size: 15.2GB",
+                    "timestamp": "2024-01-13T22:00:00Z",
+                    "context": "Development Team"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "summary": "Generated 6 comprehensive synthetic datasets covering all WebSocket Test Project use cases: user authentication with session tokens, real-time messages with delivery metrics, group chat configurations, file sharing metadata, offline message queues, and search functionality with performance metrics. Each dataset includes realistic fields and values suitable for demonstrating the chat application's features and performance characteristics."
+      },
+      "project_name": "WebSocket Test Project",
+      "num_datasets": 6
+    },
+    "reviewer": {
+      "review_cycle_id": "WebSocket Test Project_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-29T07:00:43.050722"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.004475
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 14.186021
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 36.647453
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 25.900915
+    },
+    {
+      "name": "prd",
+      "status": "completed",
+      "duration": 88.986801
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 169.028731
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 48.437454
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.001884
+    }
+  ]
+}

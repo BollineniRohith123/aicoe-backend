@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test V3 - System Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-navy: #1a1a2e;
+            --midnight-blue: #2a2a3e;
+            --deep-purple: #3a2a4e;
+            --accent-pink: #ff69b4;
+            --accent-cyan: #00ffcc;
+            --accent-turquoise: #00e5b3;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --bg-white: #ffffff;
+            --bg-gray: #f5f5f7;
+            --border-gray: #d2d2d7;
+            --shadow: 0 2px 16px rgba(26, 26, 46, 0.08);
+            --shadow-hover: 0 4px 24px rgba(26, 26, 46, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: var(--bg-gray);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: var(--bg-white);
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--deep-purple) 50%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 21px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .diagram-section {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .diagram-section:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary-navy);
+        }
+
+        .diagram-description {
+            font-size: 17px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .mermaid-container {
+            background: var(--bg-gray);
+            padding: 32px;
+            border-radius: 16px;
+            overflow-x: auto;
+        }
+
+        .components-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .components-table th {
+            background: var(--primary-navy);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .components-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .components-table tr:hover {
+            background: var(--bg-gray);
+        }
+
+        code {
+            background: var(--bg-gray);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--accent-pink);
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .integrations-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .integrations-list li {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: var(--bg-gray);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.03) 0%, rgba(58, 42, 78, 0.05) 100%);
+            padding: 24px;
+            border-radius: 16px;
+            margin: 24px 0;
+            border-left: 4px solid var(--accent-pink);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: var(--bg-white);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>System Architecture</h1>
+            <p class="subtitle">Test V3</p>
+            <p style="color: var(--text-secondary);">Generated by AICOE Multi-Agent Platform</p>
+        </header>
+
+        
+            <div class="diagram-section">
+                <h2>High-Level System Architecture</h2>
+                <p class="diagram-description">Overview of the entire system and its major components</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+C4Context
+    title Test V3 - High-Level System Architecture
+    
+    Person(user, "End Users", "Uses the application")
+    Person(pm, "Product Manager", "Manages product development")
+    Person(ux, "UX Designer", "Designs user experience")
+    Person(dev, "Development Team", "Builds and maintains system")
+    
+    System(test_v3, "Test V3 Platform", "Main application platform")
+    System(market_research, "Market Research Module", "Data collection and analysis")
+    System(ucd_system, "UCD System", "User-centered design tools")
+    System(arch_system, "Architecture System", "Scalable infrastructure")
+    
+    System_extern(analytics, "Analytics Platform", "External analytics service")
+    System_extern(compliance, "Compliance Service", "WCAG 2.1 AA monitoring")
+    
+    Rel(user, test_v3, "Uses")
+    Rel(pm, market_research, "Manages")
+    Rel(ux, ucd_system, "Utilizes")
+    Rel(dev, arch_system, "Maintains")
+    Rel(test_v3, analytics, "Sends data")
+    Rel(test_v3, compliance, "Validates against")
+                    </pre>
+                </div>
+            </div>
+            
+            <div class="diagram-section">
+                <h2>Component Architecture</h2>
+                <p class="diagram-description">Detailed view of system components and their interactions</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+graph LR
+    subgraph "Frontend Layer"
+        UI[UI Components] --> DS[Design System]
+        UI --> WF[Wireframes/Prototypes]
+        UI --> UT[Usability Testing]
+    end
+    
+    subgraph "API Gateway Layer"
+        AG[API Gateway] --> AUTH[Authentication Service]
+        AG --> RATE[Rate Limiting]
+        AG --> LOG[Logging Service]
+    end
+    
+    subgraph "Business Logic Layer"
+        MR[Market Research Service] --> DA[Data Analytics]
+        UCD[UCD Service] --> FB[Feedback Loop]
+        ARCH[Architecture Service] --> SC[Scalability Controller]
+        QA[Quality Assurance] --> CT[Continuous Testing]
+    end
+    
+    subgraph "Data Layer"
+        DB[(PostgreSQL)]
+        CACHE[(Redis Cache)]
+        FILES[(File Storage)]
+    end
+    
+    subgraph "External Integrations"
+        EXT1[Analytics API]
+        EXT2[Compliance API]
+        EXT3[Research Tools]
+    end
+    
+    UI --> AG
+    AG --> MR
+    AG --> UCD
+    AG --> ARCH
+    AG --> QA
+    
+    MR --> DB
+    UCD --> CACHE
+    ARCH --> FILES
+    QA --> DB
+    
+    DA --> EXT1
+    FB --> EXT2
+    SC --> EXT3
+                    </pre>
+                </div>
+            </div>
+            
+            <div class="diagram-section">
+                <h2>Data Flow Diagram</h2>
+                <p class="diagram-description">How data flows through the system</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+graph TD
+    subgraph "Data Input Sources"
+        USER[User Input] --> |Interactions| UI
+        RESEARCH[Market Research Data] --> |Analysis| MR
+        FEEDBACK[User Feedback] --> |Collection| FB
+        METRICS[Performance Metrics] --> |Monitoring| PERF
+    end
+    
+    subgraph "Processing Layer"
+        UI --> |Validates| API[API Gateway]
+        MR --> |Processes| DATA[Data Processing Engine]
+        FB --> |Analyzes| INSIGHTS[Insight Generator]
+        PERF --> |Evaluates| SCALE[Scalability Monitor]
+    end
+    
+    subgraph "Storage Layer"
+        API --> |Stores| USERDB[(User Database)]
+        DATA --> |Saves| MARKETDB[(Market Database)]
+        INSIGHTS --> |Caches| REDIS[(Redis Cache)]
+        SCALE --> |Logs| LOGDB[(Log Database)]
+    end
+    
+    subgraph "Output Destinations"
+        USERDB --> |Serves| DASHBOARD[Analytics Dashboard]
+        MARKETDB --> |Generates| REPORTS[Research Reports]
+        REDIS --> |Provides| RECOMMENDATIONS[Recommendations]
+        LOGDB --> |Alerts| ALERTS[Performance Alerts]
+    end
+    
+    subgraph "Feedback Loops"
+        DASHBOARD --> |Informs| DECISIONS[Product Decisions]
+        REPORTS --> |Guides| ITERATIONS[Design Iterations]
+        RECOMMENDATIONS --> |Triggers| IMPROVEMENTS[System Improvements]
+        ALERTS --> |Initiates| OPTIMIZATION[Architecture Optimization]
+    end
+                    </pre>
+                </div>
+            </div>
+            
+            <div class="diagram-section">
+                <h2>Deployment Architecture</h2>
+                <p class="diagram-description">Infrastructure and deployment topology</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+graph TB
+    subgraph "CDN Layer"
+        CDN[CloudFlare CDN]
+    end
+    
+    subgraph "Load Balancer Layer"
+        LB[Application Load Balancer]
+    end
+    
+    subgraph "Web Server Cluster"
+        WS1[Web Server 1]
+        WS2[Web Server 2]
+        WS3[Web Server 3]
+    end
+    
+    subgraph "Application Servers"
+        APP1[App Server - Market Research]
+        APP2[App Server - UCD]
+        APP3[App Server - Architecture]
+        APP4[App Server - QA]
+    end
+    
+    subgraph "Database Cluster"
+        DB_MASTER[(PostgreSQL Master)]
+        DB_SLAVE1[(PostgreSQL Slave 1)]
+        DB_SLAVE2[(PostgreSQL Slave 2)]
+    end
+    
+    subgraph "Cache Layer"
+        REDIS_CLUSTER[Redis Cluster]
+    end
+    
+    subgraph "Message Queue"
+        MQ[RabbitMQ]
+    end
+    
+    subgraph "Monitoring & Logging"
+        MON[Prometheus/Grafana]
+        LOG[ELK Stack]
+    end
+    
+    subgraph "CI/CD Pipeline"
+        JENKINS[Jenkins/GitHub Actions]
+        DOCKER[Docker Registry]
+        K8S[Kubernetes Cluster]
+    end
+    
+    CDN --> LB
+    LB --> WS1
+    LB --> WS2
+    LB --> WS3
+    
+    WS1 --> APP1
+    WS2 --> APP2
+    WS3 --> APP3
+    
+    APP1 --> DB_MASTER
+    APP2 --> DB_SLAVE1
+    APP3 --> DB_SLAVE2
+    APP4 --> REDIS_CLUSTER
+    
+    APP1 --> MQ
+    APP2 --> MQ
+    APP3 --> MQ
+    
+    DB_MASTER --> DB_SLAVE1
+    DB_MASTER --> DB_SLAVE2
+    
+    APP1 --> MON
+    APP2 --> MON
+    APP3 --> LOG
+    APP4 --> LOG
+    
+    JENKINS --> DOCKER
+    DOCKER --> K8S
+    K8S --> WS1
+    K8S --> WS2
+    K8S --> WS3
+                    </pre>
+                </div>
+            </div>
+            
+
+        <div class="diagram-section">
+            <h2>System Components</h2>
+            <p class="diagram-description">Detailed breakdown of all system components and their technologies</p>
+            <table class="components-table"><tr><th>Component</th><th>Type</th><th>Technology</th><th>Description</th></tr>
+            <tr>
+                <td><strong>Frontend Application</strong></td>
+                <td>Web Application</td>
+                <td><code>React.js with TypeScript</code></td>
+                <td>User-facing web interface with responsive design</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Market Research Module</strong></td>
+                <td>Microservice</td>
+                <td><code>Node.js/Express</code></td>
+                <td>Handles market data collection and analysis</td>
+            </tr>
+            
+            <tr>
+                <td><strong>UCD System</strong></td>
+                <td>Microservice</td>
+                <td><code>Python/Django</code></td>
+                <td>User-centered design implementation</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Architecture Service</strong></td>
+                <td>Microservice</td>
+                <td><code>Java/Spring Boot</code></td>
+                <td>Manages scalable architecture</td>
+            </tr>
+            
+            <tr>
+                <td><strong>API Gateway</strong></td>
+                <td>Gateway</td>
+                <td><code>Kong/AWS API Gateway</code></td>
+                <td>Central API management</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Quality Assurance Service</strong></td>
+                <td>Microservice</td>
+                <td><code>Go</code></td>
+                <td>Continuous testing and QA</td>
+            </tr>
+            </table>
+        </div>
+
+        <div class="diagram-section">
+            <h2>External Integrations</h2>
+            <p class="diagram-description">Third-party services and APIs integrated into the system</p>
+            <ul class="integrations-list"><li><strong>Analytics Platform</strong> (REST API): External analytics data integration</li><li><strong>Compliance Service</strong> (SOAP API): WCAG 2.1 AA compliance monitoring</li><li><strong>Research Tools API</strong> (GraphQL API): Third-party market research data</li><li><strong>Feedback Collection Service</strong> (Webhook): Real-time user feedback processing</li></ul>
+        </div>
+
+        <div class="diagram-section">
+            <h2>Infrastructure Overview</h2>
+            <p class="diagram-description">Hosting and infrastructure details</p>
+            <div class="info-box">
+                <p><strong>Hosting:</strong> Cloud-based (AWS with Kubernetes)</p>
+                <p><strong>Database:</strong> PostgreSQL with read replicas</p>
+                <p><strong>Caching:</strong> Redis Cluster</p>
+                <p><strong>CDN:</strong> CloudFlare</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>AICOE</strong> - Transforming Ideas into Intelligent Solutions</p>
+            <p style="color: var(--text-secondary); margin-top: 8px;">Interactive Architecture Diagrams</p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#1a1a2e',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#00ffcc',
+                lineColor: '#ff69b4',
+                secondaryColor: '#3a2a4e',
+                tertiaryColor: '#f5f5f7'
+            }
+        });
+        lucide.createIcons();
+    </script>
+</body>
+</html>

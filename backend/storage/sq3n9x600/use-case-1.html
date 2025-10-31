@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Case UC-001: Log a Workout Session | AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --aicoe-primary: #007AFF;
+            --aicoe-primary-dark: #0051D5;
+            --aicoe-secondary: #5856D6;
+            --aicoe-success: #34C759;
+            --aicoe-warning: #FF9500;
+            --aicoe-danger: #FF3B30;
+            --aicoe-gray-50: #F9FAFB;
+            --aicoe-gray-100: #F3F4F6;
+            --aicoe-gray-200: #E5E7EB;
+            --aicoe-gray-300: #D1D5DB;
+            --aicoe-gray-400: #9CA3AF;
+            --aicoe-gray-500: #6B7280;
+            --aicoe-gray-600: #4B5563;
+            --aicoe-gray-700: #374151;
+            --aicoe-gray-800: #1F2937;
+            --aicoe-gray-900: #111827;
+            --aicoe-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --aicoe-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --aicoe-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --aicoe-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --aicoe-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --aicoe-radius-sm: 0.25rem;
+            --aicoe-radius: 0.375rem;
+            --aicoe-radius-md: 0.5rem;
+            --aicoe-radius-lg: 0.75rem;
+            --aicoe-radius-xl: 1rem;
+            --aicoe-radius-2xl: 1.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--aicoe-gray-800);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: var(--aicoe-radius-2xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--aicoe-shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--aicoe-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--aicoe-gray-50);
+            color: var(--aicoe-gray-700);
+            text-decoration: none;
+            border-radius: var(--aicoe-radius-lg);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--aicoe-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--aicoe-shadow-md);
+        }
+
+        .nav-link i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--aicoe-gray-500);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb-separator {
+            color: var(--aicoe-gray-400);
+        }
+
+        .use-case-header {
+            background: white;
+            border-radius: var(--aicoe-radius-2xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--aicoe-shadow-lg);
+            border-left: 4px solid var(--aicoe-primary);
+        }
+
+        .use-case-id {
+            display: inline-block;
+            background: var(--aicoe-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--aicoe-radius);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--aicoe-gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .use-case-description {
+            color: var(--aicoe-gray-600);
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--aicoe-radius-xl);
+            padding: 1.5rem;
+            box-shadow: var(--aicoe-shadow-lg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--aicoe-shadow-xl);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--aicoe-gray-100);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--aicoe-primary);
+            color: white;
+            border-radius: var(--aicoe-radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--aicoe-gray-800);
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--aicoe-danger);
+            color: white;
+            border-radius: var(--aicoe-radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .priority-high {
+            background: var(--aicoe-danger);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .list-item i {
+            color: var(--aicoe-primary);
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+
+        .accordion {
+            background: white;
+            border-radius: var(--aicoe-radius-xl);
+            overflow: hidden;
+            box-shadow: var(--aicoe-shadow-lg);
+            margin-bottom: 2rem;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--aicoe-gray-100);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--aicoe-gray-50);
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--aicoe-gray-800);
+            transition: background 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: var(--aicoe-gray-100);
+        }
+
+        .accordion-header.active {
+            background: var(--aicoe-primary);
+            color: white;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-content.active {
+            max-height: 2000px;
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1.5rem;
+            bottom: -1.25rem;
+            width: 2px;
+            background: var(--aicoe-gray-200);
+        }
+
+        .flow-step:last-child::before {
+            display: none;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--aicoe-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 0.25rem;
+        }
+
+        .tabs {
+            background: white;
+            border-radius: var(--aicoe-radius-xl);
+            padding: 1.5rem;
+            box-shadow: var(--aicoe-shadow-lg);
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--aicoe-gray-100);
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--aicoe-gray-600);
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            color: var(--aicoe-primary);
+        }
+
+        .tab-button.active {
+            color: var(--aicoe-primary);
+            border-bottom-color: var(--aicoe-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: var(--aicoe-radius-xl);
+            padding: 1.5rem;
+            box-shadow: var(--aicoe-shadow-lg);
+        }
+
+        .page-indicator {
+            color: var(--aicoe-gray-600);
+            font-weight: 500;
+        }
+
+        .page-number {
+            color: var(--aicoe-primary);
+            font-weight: 700;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                padding: 0;
+            }
+
+            .header,
+            .card,
+            .accordion,
+            .tabs,
+            .pagination {
+                box-shadow: none;
+                border: 1px solid var(--aicoe-gray-300);
+                break-inside: avoid;
+            }
+
+            .nav-bar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .use-case-title {
+                font-size: 1.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-nav {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <nav class="nav-bar">
+                <div class="logo">
+                    <i data-lucide="zap"></i>
+                    <span>AICOE</span>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home"></i>
+                        Back to Home
+                    </a>
+                </div>
+            </nav>
+            <div class="breadcrumbs">
+                <span>Project: Fitness Tracking App - Chrome MCP Test</span>
+                <span class="breadcrumb-separator">›</span>
+                <span>Use Cases</span>
+                <span class="breadcrumb-separator">›</span>
+                <span>UC-001</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="use-case-header">
+                <span class="use-case-id">UC-001</span>
+                <h1 class="use-case-title">Log a Workout Session</h1>
+                <p class="use-case-description">
+                    The user manually logs the exercises, sets, and reps completed during a workout session, either as part of a pre-made plan or a custom workout. This use case is designed to be simple and quick to accommodate beginners.
+                </p>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h2 class="card-title">Actors</h2>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="user"></i>
+                        <span>User (Fitness Beginner)</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="flag"></i>
+                        </div>
+                        <h2 class="card-title">Priority</h2>
+                    </div>
+                    <span class="priority-badge priority-high">
+                        <i data-lucide="alert-circle"></i>
+                        High Priority
+                    </span>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Preconditions</span>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="list-item">
+                                <i data-lucide="check-circle"></i>
+                                <span>User is logged into the application.</span>
+                            </div>
+                            <div class="list-item">
+                                <i data-lucide="check-circle"></i>
+                                <span>User has either selected a pre-made workout plan or chosen to log a custom workout.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Main Flow</span>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="flow-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">User navigates to the 'Log Workout' screen.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">System displays the current day's planned exercises if a plan is active, or presents an option to 'Add Exercise'.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">User selects an exercise from the list (e.g., 'Squat').</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">System displays the exercise demonstration (image/GIF/link) and input fields for sets, reps, and weight.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">User enters the number of sets, reps, and weight lifted for the first set.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">6</div>
+                                <div class="step-content">User taps 'Log Set'.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">7</div>
+                                <div class="step-content">System saves the set and presents input fields for the next set.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">8</div>
+                                <div class="step-content">User repeats steps 5-7 for all sets of the exercise.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">9</div>
+                                <div class="step-content">User taps 'Complete Exercise' to finish the current exercise.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">10</div>
+                                <div class="step-content">System marks the exercise as complete and returns the user to the workout overview.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">11</div>
+                                <div class="step-content">User repeats steps 3-10 for all exercises in the workout.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">12</div>
+                                <div class="step-content">User taps 'Finish Workout'.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">13</div>
+                                <div class="step-content">System displays a summary screen with total volume, estimated calories, and a congratulatory message.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">14</div>
+                                <div class="step-content">System awards a badge or streak milestone if applicable (gamification).</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">15</div>
+                                <div class="step-content">User taps 'Save Workout'.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">16</div>
+                                <div class="step-content">System saves the complete workout session to the user's history and updates progress visualizations.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Alternate Flows</span>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="card" style="margin-bottom: 1rem;">
+                                <h3 style="color: var(--aicoe-primary); margin-bottom: 0.5rem;">Add Custom Exercise</h3>
+                                <p style="color: var(--aicoe-gray-600);">If the desired exercise is not in the list, the user can search for it or add a new custom exercise with a name and muscle group.</p>
+                            </div>
+                            <div class="card">
+                                <h3 style="color: var(--aicoe-primary); margin-bottom: 0.5rem;">Use Previous Stats</h3>
+                                <p style="color: var(--aicoe-gray-600);">When logging an exercise done before, the system pre-fills the weight and reps from the last session to save the user time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Postconditions</span>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="list-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <span>The workout session is saved and accurately reflected in the user's progress history.</span>
+                            </div>
+                            <div class="list-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <span>Progress charts and achievements are updated.</span>
+                            </div>
+                            <div class="list-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <span>Data is ready for synchronization with Apple Health/Google Fit.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab-nav">
+                    <button class="tab-button active" onclick="switchTab(event, 'business')">Business Value</button>
+                    <button class="tab-button" onclick="switchTab(event, 'technical')">Technical Notes</button>
+                </div>
+                <div id="business" class="tab-content active">
+                    <h3 style="color: var(--aicoe-gray-800); margin-bottom: 1rem;">Business Value Analysis</h3>
+                    <p style="color: var(--aicoe-gray-600); line-height: 1.7;">
+                        This is a core feature that provides the fundamental value of the app. A simple, frictionless logging experience is critical for user retention and differentiates the app from more complex competitors, directly addressing the needs of the target beginner audience.
+                    </p>
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="color: var(--aicoe-gray-700); margin-bottom: 0.75rem;">Key Benefits:</h4>
+                        <div class="list-item">
+                            <i data-lucide="trending-up"></i>
+                            <span>Increases user engagement and retention</span>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="users"></i>
+                            <span>Caters specifically to fitness beginners</span>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="award"></i>
+                            <span>Provides competitive differentiation</span>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="zap"></i>
+                            <span>Reduces friction in workout logging</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="technical" class="tab-content">
+                    <h3 style="color: var(--aicoe-gray-800); margin-bottom: 1rem;">Technical Considerations</h3>
+                    <div class="list-item">
+                        <i data-lucide="database"></i>
+                        <span>Local storage for offline logging capabilities</span>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="sync"></i>
+                        <span>Background sync with cloud storage</span>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="smartphone"></i>
+                        <span>Responsive design for mobile-first experience</span>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="shield"></i>
+                        <span>Secure data handling for personal fitness information</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <a href="use-case-0.html" class="nav-link" style="opacity: 0.5; pointer-events: none;">
+                    <i data-lucide="chevron-left"></i>
+                    Previous
+                </a>
+                <div class="page-indicator">
+                    Page <span class="page-number">1</span> of 6
+                </div>
+                <a href="use-case-2.html" class="nav-link">
+                    Next
+                    <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isActive = header.classList.contains('active');
+            
+            // Close all accordions
+            document.querySelectorAll('.accordion-header').forEach(h => {
+                h.classList.remove('active');
+            });
+            document.querySelectorAll('.accordion-content').forEach(c => {
+                c.classList.remove('active');
+            });
+            
+            // Open clicked accordion if it wasn't active
+            if (!isActive) {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+            
+            // Reinitialize icons after DOM change
+            lucide.createIcons();
+        }
+
+        function switchTab(event, tabName) {
+            // Remove active class from all buttons and contents
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Add active class to clicked button and corresponding content
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Open the first accordion by default
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstAccordion = document.querySelector('.accordion-header');
+            if (firstAccordion) {
+                toggleAccordion(firstAccordion);
+            }
+        });
+    </script>
+</body>
+</html>

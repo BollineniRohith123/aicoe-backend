@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-004: View and Share Progress - AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --dark: #1e293b;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --radius: 0.5rem;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            color: var(--gray-600);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-100);
+            color: var(--primary);
+        }
+
+        .nav-link.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-link.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .use-case-header {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        .use-case-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .meta-item strong {
+            color: var(--gray-700);
+        }
+
+        .use-case-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .use-case-description {
+            color: var(--gray-600);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .card-content {
+            color: var(--gray-600);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-icon {
+            flex-shrink: 0;
+            color: var(--primary);
+            margin-top: 0.25rem;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: var(--error);
+            color: white;
+        }
+
+        .priority-badge.high {
+            background: var(--error);
+        }
+
+        .priority-badge.medium {
+            background: var(--warning);
+        }
+
+        .priority-badge.low {
+            background: var(--success);
+        }
+
+        .tabs {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .tab-header {
+            display: flex;
+            background: var(--gray-50);
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-button:hover {
+            background: var(--gray-100);
+        }
+
+        .tab-button.active {
+            background: white;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .tab-content {
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .flow-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            margin-bottom: 0.75rem;
+            transition: background 0.2s;
+        }
+
+        .flow-item:hover {
+            background: var(--gray-100);
+        }
+
+        .flow-number {
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .flow-text {
+            flex: 1;
+            color: var(--gray-700);
+        }
+
+        .accordion {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            padding: 1rem 1.5rem;
+            background: var(--gray-50);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
+            background: var(--gray-100);
+        }
+
+        .accordion-title {
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .accordion-icon {
+            transition: transform 0.2s;
+        }
+
+        .accordion.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 500px;
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+            color: var(--gray-600);
+        }
+
+        .page-navigation {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-button.prev {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .nav-button.next {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateX(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-button.next:hover {
+            transform: translateX(2px);
+        }
+
+        .page-indicator {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .use-case-title {
+                font-size: 1.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media print {
+            header, .page-navigation {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .card, .tabs, .accordion {
+                box-shadow: none;
+                border: 1px solid var(--gray-300);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i data-lucide="cpu" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <span>AICOE</span>
+                </a>
+                <nav>
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+                        Back to Home
+                    </a>
+                    <a href="use-case-3.html" class="nav-link">
+                        <i data-lucide="chevron-left" style="width: 16px; height: 16px;"></i>
+                        Previous
+                    </a>
+                    <a href="use-case-5.html" class="nav-link primary">
+                        Next
+                        <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="use-case-header">
+                <div class="use-case-meta">
+                    <div class="meta-item">
+                        <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
+                        <strong>ID:</strong> UC-004
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="folder" style="width: 16px; height: 16px;"></i>
+                        <strong>Project:</strong> Fitness Tracking App
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+                        <strong>Page:</strong> 4 of 5
+                    </div>
+                    <div class="meta-item">
+                        <span class="priority-badge high">
+                            <i data-lucide="flag" style="width: 14px; height: 14px;"></i>
+                            High Priority
+                        </span>
+                    </div>
+                </div>
+                <h1 class="use-case-title">View and Share Progress</h1>
+                <p class="use-case-description">
+                    A user visualizes their fitness and nutrition progress over time through charts, photos, and achievements. They can also share a summary of their progress with a small, private group of friends for motivation and accountability.
+                </p>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="users" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <h3 class="card-title">Actors</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="list-item">
+                            <i data-lucide="check-circle" class="list-icon" style="width: 16px; height: 16px;"></i>
+                            <span>Registered User</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <h3 class="card-title">Preconditions</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="list-item">
+                            <i data-lucide="check-circle" class="list-icon" style="width: 16px; height: 16px;"></i>
+                            <span>User is logged into the app</span>
+                        </div>
+                        <div class="list-item">
+                            <i data-lucide="check-circle" class="list-icon" style="width: 16px; height: 16px;"></i>
+                            <span>User has logged at least one workout or meal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab-header">
+                    <button class="tab-button active" onclick="switchTab(0)">
+                        <i data-lucide="play-circle" style="width: 16px; height: 16px;"></i>
+                        Main Flow
+                    </button>
+                    <button class="tab-button" onclick="switchTab(1)">
+                        <i data-lucide="git-branch" style="width: 16px; height: 16px;"></i>
+                        Alternate Flows
+                    </button>
+                    <button class="tab-button" onclick="switchTab(2)">
+                        <i data-lucide="check-square" style="width: 16px; height: 16px;"></i>
+                        Postconditions
+                    </button>
+                    <button class="tab-button" onclick="switchTab(3)">
+                        <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+                        Business Value
+                    </button>
+                </div>
+
+                <div class="tab-content active">
+                    <div class="flow-item">
+                        <div class="flow-number">1</div>
+                        <div class="flow-text">User navigates to the 'Progress' tab</div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-number">2</div>
+                        <div class="flow-text">The dashboard displays a summary of key metrics: workouts completed this week, current streak, and weight change</div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-number">3</div>
+                        <div class="flow-text">User taps on a metric, e.g., 'Weight', to view a detailed line chart showing their weight over time</div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-number">4</div>
+                        <div class="flow-text">User navigates to the 'Photos' section to view a timeline of their uploaded progress photos, displayed in a motivating 'before and during' format</div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-number">5</div>
+                        <div class="flow-text">User navigates to the 'Achievements' section to view unlocked badges and milestones (e.g., 'First Workout Logged', '7-Day Streak')</div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-number">6</div>
+                        <div class="flow-text">User taps the 'Share Progress' button</div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-number">7</div>
+                        <div class="flow-text">A pre-formatted, privacy-safe summary card is generated (e.g., 'Sarah just completed her 10th workout this month!')</div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-number">8</div>
+                        <div class="flow-text">The user selects one or more friends from their approved list to share the card with</div>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <div class="accordion" onclick="toggleAccordion(this)">
+                        <div class="accordion-header">
+                            <div class="accordion-title">
+                                <i data-lucide="alert-circle" style="width: 20px; height: 20px;"></i>
+                                No Data Available
+                            </div>
+                            <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                If a new user views the Progress tab with no data, the app displays an encouraging message: "Start your first workout or log a meal to see your progress here!"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion" onclick="toggleAccordion(this)">
+                        <div class="accordion-header">
+                            <div class="accordion-title">
+                                <i data-lucide="crown" style="width: 20px; height: 20px;"></i>
+                                Premium Analytics
+                            </div>
+                            <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                If a free user tries to access a detailed report (e.g., 'Muscle Group Volume Analysis'), they are prompted with an upgrade message to unlock advanced analytics.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <div class="list-item">
+                        <i data-lucide="smile" class="list-icon" style="width: 16px; height: 16px;"></i>
+                        <span>User feels a sense of accomplishment and is motivated to continue</span>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="bell" class="list-icon" style="width: 16px; height: 16px;"></i>
+                        <span>Selected friends receive a notification about the user's progress share</span>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="repeat" class="list-icon" style="width: 16px; height: 16px;"></i>
+                        <span>The user's engagement with the app is reinforced</span>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <p style="color: var(--gray-700); line-height: 1.8;">
+                        Progress visualization is critical for long-term user retention, a key industry best practice. The gamification elements (badges) and minimal social sharing address trends in engagement while mitigating the risks associated with complex social features. This feature provides the 'encouragement' pillar of the app's value proposition.
+                    </p>
+                    <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--gray-50); border-radius: var(--radius);">
+                            <i data-lucide="users" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                            <span style="font-size: 0.9rem; color: var(--gray-600);">User Retention</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--gray-50); border-radius: var(--radius);">
+                            <i data-lucide="trophy" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                            <span style="font-size: 0.9rem; color: var(--gray-600);">Gamification</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--gray-50); border-radius: var(--radius);">
+                            <i data-lucide="share-2" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                            <span style="font-size: 0.9rem; color: var(--gray-600);">Social Engagement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-navigation">
+                <a href="use-case-3.html" class="nav-button prev">
+                    <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+                    Previous Use Case
+                </a>
+                <div class="page-indicator">Page 4 of 5</div>
+                <a href="use-case-5.html" class="nav-button next">
+                    Next Use Case
+                    <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(index) {
+            const tabs = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach((tab, i) => {
+                if (i === index) {
+                    tab.classList.add('active');
+                    contents[i].classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                    contents[i].classList.remove('active');
+                }
+            });
+        }
+
+        function toggleAccordion(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

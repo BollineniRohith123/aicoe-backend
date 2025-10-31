@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-004: Select and Customize Workout Plan | AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #dbeafe;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray-900: #0f172a;
+            --gray-800: #1e293b;
+            --gray-700: #334155;
+            --gray-600: #475569;
+            --gray-500: #64748b;
+            --gray-400: #94a3b8;
+            --gray-300: #cbd5e1;
+            --gray-200: #e2e8f0;
+            --gray-100: #f1f5f9;
+            --gray-50: #f8fafc;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+            color: var(--gray-900);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: var(--gray-700);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-100);
+            color: var(--primary);
+        }
+
+        .nav-link i {
+            width: 16px;
+            height: 16px;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .use-case-header {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        .use-case-title {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-id {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .use-case-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            flex: 1;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--success);
+            color: var(--white);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--gray-200);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab:hover {
+            color: var(--gray-900);
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-header i {
+            width: 20px;
+            height: 20px;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .description {
+            color: var(--gray-700);
+            line-height: 1.7;
+        }
+
+        .flow-list {
+            list-style: none;
+            counter-reset: flow-counter;
+        }
+
+        .flow-item {
+            position: relative;
+            padding: 1rem 1rem 1rem 3rem;
+            margin-bottom: 0.75rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            border-left: 3px solid var(--primary);
+            transition: all 0.2s;
+        }
+
+        .flow-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow);
+        }
+
+        .flow-item::before {
+            counter-increment: flow-counter;
+            content: counter(flow-counter);
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .accordion {
+            margin-bottom: 1rem;
+        }
+
+        .accordion-trigger {
+            width: 100%;
+            padding: 1rem;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            font-weight: 500;
+            color: var(--gray-900);
+        }
+
+        .accordion-trigger:hover {
+            background: var(--gray-50);
+            border-color: var(--primary);
+        }
+
+        .accordion-trigger.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+        }
+
+        .accordion-icon {
+            transition: transform 0.2s;
+        }
+
+        .accordion-trigger.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-content.active {
+            max-height: 500px;
+            transition: max-height 0.3s ease-in;
+        }
+
+        .accordion-body {
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: 0 0 var(--radius) var(--radius);
+            border: 1px solid var(--gray-200);
+            border-top: none;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+        }
+
+        .info-item i {
+            width: 20px;
+            height: 20px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 0.875rem;
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .business-value {
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            color: var(--gray-900);
+        }
+
+        .business-value h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.125rem;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-button:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-button.primary {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .nav-button.primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .page-indicator {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .use-case-title {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .use-case-title h1 {
+                font-size: 1.5rem;
+            }
+
+            .tabs {
+                gap: 0;
+            }
+
+            .tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: var(--white);
+            }
+
+            header, .navigation {
+                display: none;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid var(--gray-300);
+            }
+
+            .tab-content {
+                display: block !important;
+            }
+
+            .tabs {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i data-lucide="cpu"></i>
+                    <span>AICOE</span>
+                </div>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home"></i>
+                        Back to Home
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="use-case-header">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                    <span>Fitness Tracking App</span>
+                    <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                    <span>Use Case UC-004</span>
+                </div>
+                <div class="use-case-title">
+                    <span class="use-case-id">UC-004</span>
+                    <h1>Select and Customize Workout Plan</h1>
+                    <span class="priority-badge">
+                        <i data-lucide="flag" style="width: 12px; height: 12px;"></i>
+                        High Priority
+                    </span>
+                </div>
+                <p class="description">
+                    A beginner user browses and selects a pre-made workout plan tailored to their fitness level and goals, with options for customization.
+                </p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('overview')">
+                    <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+                    Overview
+                </button>
+                <button class="tab" onclick="switchTab('flows')">
+                    <i data-lucide="git-branch" style="width: 16px; height: 16px;"></i>
+                    Process Flows
+                </button>
+                <button class="tab" onclick="switchTab('details')">
+                    <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+                    Details
+                </button>
+                <button class="tab" onclick="switchTab('value')">
+                    <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+                    Business Value
+                </button>
+            </div>
+
+            <div id="overview" class="tab-content active">
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="user"></i>
+                        <h2 class="card-title">Actors</h2>
+                    </div>
+                    <p class="description">Beginner User</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                        <h2 class="card-title">Preconditions</h2>
+                    </div>
+                    <p class="description">User has completed onboarding and fitness level assessment</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
+                        <h2 class="card-title">Postconditions</h2>
+                    </div>
+                    <p class="description">User is enrolled in a structured workout program with clear path and scheduled sessions</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="target" style="width: 20px; height: 20px;"></i>
+                        <h2 class="card-title">Key Features</h2>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <i data-lucide="calendar"></i>
+                            <div>
+                                <div class="info-label">Duration</div>
+                                <div class="info-value">30 Days</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="zap"></i>
+                            <div>
+                                <div class="info-label">Difficulty</div>
+                                <div class="info-value">Beginner</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="package"></i>
+                            <div>
+                                <div class="info-label">Equipment</div>
+                                <div class="info-value">Minimal</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="users"></i>
+                            <div>
+                                <div class="info-label">Target Users</div>
+                                <div class="info-value">New to Fitness</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="flows" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
+                        <h2 class="card-title">Main Flow</h2>
+                    </div>
+                    <ul class="flow-list">
+                        <li class="flow-item">User navigates to 'Workout Plans' section</li>
+                        <li class="flow-item">App displays curated plans for beginners (e.g., '30-Day Challenge', 'Home Workout Basics')</li>
+                        <li class="flow-item">Each plan shows duration, difficulty, equipment needed, and preview of exercises</li>
+                        <li class="flow-item">User taps on a plan to view detailed schedule and progression</li>
+                        <li class="flow-item">App shows user testimonials and success stories for social proof</li>
+                        <li class="flow-item">User selects 'Start Plan' and can customize start date</li>
+                        <li class="flow-item">App integrates the plan into the user's calendar and sets up reminders</li>
+                        <li class="flow-item">User receives confirmation and first day's workout is scheduled</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="git-branch" style="width: 20px; height: 20px;"></i>
+                        <h2 class="card-title">Alternate Flows</h2>
+                    </div>
+                    <div class="accordion">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span>Exercise Modification (Premium Feature)</span>
+                            <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p class="description">User can modify the plan by swapping exercises. This premium feature allows customization based on preferences or equipment availability.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span>Plan Management</span>
+                            <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p class="description">User can pause or restart the plan at any time. Progress is saved and can be resumed from where the user left off.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span>Equipment Limitations</span>
+                            <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p class="description">If user has equipment limitations, app suggests alternative plans that match available equipment and fitness goals.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="details" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="info" style="width: 20px; height: 20px;"></i>
+                        <h2 class="card-title">Use Case Details</h2>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <i data-lucide="hash" style="width: 20px; height: 20px;"></i>
+                            <div>
+                                <div class="info-label">Use Case ID</div>
+                                <div class="info-value">UC-004</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="folder" style="width: 20px; height: 20px;"></i>
+                            <div>
+                                <div class="info-label">Project</div>
+                                <div class="info-value">Fitness Tracking App</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="flag" style="width: 20px; height: 20px;"></i>
+                            <div>
+                                <div class="info-label">Priority</div>
+                                <div class="info-value">High</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="file-text" style="width: 20px; height: 20px;"></i>
+                            <div>
+                                <div class="info-label">Page</div>
+                                <div class="info-value">4 of 6</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="list-checks" style="width: 20px; height: 20px;"></i>
+                        <h2 class="card-title">Implementation Requirements</h2>
+                    </div>
+                    <ul class="flow-list">
+                        <li class="flow-item">Curated workout plan library with filtering options</li>
+                        <li class="flow-item">Plan preview with exercise demonstrations</li>
+                        <li class="flow-item">Social proof integration (testimonials, success stories)</li>
+                        <li class="flow-item">Calendar integration and reminder system</li>
+                        <li class="flow-item">Progress tracking and milestone celebrations</li>
+                        <li class="flow-item">Premium upgrade prompts for customization features</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="value" class="tab-content">
+                <div class="business-value">
+                    <h3>
+                        <i data-lucide="trending-up" style="width: 24px; height: 24px;"></i>
+                        Business Value
+                    </h3>
+                    <p class="description" style="margin-bottom: 1rem;">
+                        Provides structure for overwhelmed beginners, creates commitment through schedules, and drives premium conversions for customization features.
+                    </p>
+                    <div class="info-grid">
+                        <div class="info-item" style="background: rgba(255, 255, 255, 0.5);">
+                            <i data-lucide="users" style="width: 20px; height: 20px;"></i>
+                            <div>
+                                <div class="info-label">Target Impact</div>
+                                <div class="info-value">40% increase in user retention</div>
+                            </div>
+                        </div>
+                        <div class="info-item" style="background: rgba(255, 255, 255, 0.5);">
+                            <i data-lucide="dollar-sign" style="width: 20px; height: 20px;"></i>
+                            <div>
+                                <div class="info-label">Revenue Potential</div>
+                                <div class="info-value">25% premium conversion rate</div>
+                            </div>
+                        </div>
+                        <div class="info-item" style="background: rgba(255, 255, 255, 0.5);">
+                            <i data-lucide="star" style="width: 20px; height: 20px;"></i>
+                            <div>
+                                <div class="info-label">User Satisfaction</div>
+                                <div class="info-value">Reduced decision fatigue</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i data-lucide="target" style="width: 20px; height: 20px;"></i>
+                        <h2 class="card-title">Success Metrics</h2>
+                    </div>
+                    <ul class="flow-list">
+                        <li class="flow-item">Plan completion rate > 60%</li>
+                        <li class="flow-item">Average user engagement: 4+ sessions per week</li>
+                        <li class="flow-item">Premium feature adoption rate: 20-30%</li>
+                        <li class="flow-item">User satisfaction score: 4.5/5</li>
+                        <li class="flow-item">Reduced app abandonment within first 30 days</li>
+                    </ul>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <a href="use-case-3.html" class="nav-button">
+                    <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+                    Previous
+                </a>
+                <span class="page-indicator">Page 4 of 6</span>
+                <a href="use-case-5.html" class="nav-button primary">
+                    Next
+                    <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.closest('.tab').classList.add('active');
+
+            // Re-create icons for the newly visible content
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const isActive = button.classList.contains('active');
+
+            // Close all accordions
+            const allTriggers = document.querySelectorAll('.accordion-trigger');
+            const allContents = document.querySelectorAll('.accordion-content');
+            
+            allTriggers.forEach(trigger => trigger.classList.remove('active'));
+            allContents.forEach(content => content.classList.remove('active'));
+
+            // Open clicked accordion if it wasn't active
+            if (!isActive) {
+                button.classList.add('active');
+                content.classList.add('active');
+            }
+
+            // Re-create icons
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+    </script>
+</body>
+</html>

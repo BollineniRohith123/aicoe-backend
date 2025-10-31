@@ -2,6 +2,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "@/pages/Home";
 import TranscriptInput from "@/pages/TranscriptInput";
+import ProcessingView from "@/pages/ProcessingView";
 import Results from "@/pages/Results";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/input" element={<TranscriptInput />} />
+          <Route path="/processing" element={<ProcessingView />} />
           <Route path="/results" element={<Results />} />
         </Routes>
       </BrowserRouter>

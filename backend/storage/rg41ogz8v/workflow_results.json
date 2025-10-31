@@ -1,0 +1,70 @@
+{
+  "project_name": "Task Management App",
+  "workflow_id": "workflow_20251029_070816",
+  "status": "failed",
+  "error": "Critical stage requirements failed: JSON parsing failed: Unterminated string starting at: line 103 column 9 (char 4337)",
+  "context": {
+    "project_name": "Task Management App",
+    "workflow_id": "workflow_20251029_070816",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T07:08:16.795945",
+    "end_time": "2025-10-29T07:09:38.041499",
+    "status": "failed",
+    "error": "Critical stage requirements failed: JSON parsing failed: Unterminated string starting at: line 103 column 9 (char 4337)"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Task Management App",
+      "project_root": "projects/Task Management App",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T07:08:16.798311",
+        "action": "project_created",
+        "project_name": "Task Management App",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": null,
+        "attendees": [],
+        "meeting_date": "Not specified",
+        "meeting_objective": "To build a task management application.",
+        "key_discussion_points": [
+          "User authentication",
+          "Task creation",
+          "Task assignment",
+          "Status tracking",
+          "Notifications"
+        ],
+        "pain_points": [],
+        "requirements": [
+          "User authentication",
+          "Task creation",
+          "Task assignment",
+          "Status tracking",
+          "Notifications"
+        ],
+        "decisions_made": [],
+        "action_items": [],
+        "technical_constraints": [],
+        "stakeholders": []
+      },
+      "project_name": "Task Management App",
+      "transcript_length": 124
+    }
+  }
+}

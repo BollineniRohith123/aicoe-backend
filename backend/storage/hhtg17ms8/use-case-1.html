@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Case UC-001: Log a Workout Session - AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #3b82f6;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--light-gray);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .progress-indicator {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        main {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            animation: fadeIn 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .use-case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light-gray);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .use-case-title {
+            flex: 1;
+        }
+
+        .use-case-id {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-description {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--danger);
+            color: var(--white);
+            border-radius: var(--radius);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--light-gray);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .accordion {
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: var(--light-gray);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: var(--white);
+            transform: translateX(4px);
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 1000px;
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--light-gray);
+            border-top: none;
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 0.875rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 0.25rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content {
+            color: var(--gray);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--light-gray);
+            color: var(--dark);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            margin: 0.25rem;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+
+        .business-value {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .business-value::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        .business-value h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        .business-value p {
+            line-height: 1.7;
+            position: relative;
+        }
+
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--light-gray);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray);
+            color: var(--white);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .use-case-header {
+                flex-direction: column;
+            }
+
+            .use-case-name {
+                font-size: 1.5rem;
+            }
+
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                padding: 0;
+            }
+
+            header, .progress-indicator, .page-navigation {
+                display: none;
+            }
+
+            main {
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .accordion-header:hover {
+                background: var(--light-gray);
+                color: var(--dark);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i data-lucide="layers"></i>
+                    <span>AICOE</span>
+                </div>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home" style="width: 18px; height: 18px;"></i>
+                        Back to Home
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="progress-indicator">
+            <span class="progress-text">Project: Fitness Tracking App</span>
+            <div class="progress-dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <span class="progress-text">Page 1 of 5</span>
+        </div>
+
+        <main>
+            <div class="use-case-header">
+                <div class="use-case-title">
+                    <span class="use-case-id">UC-001</span>
+                    <h1 class="use-case-name">Log a Workout Session</h1>
+                    <p class="use-case-description">A user, typically a fitness beginner, manually tracks the exercises they perform during a workout session, including details like sets, reps, and weight. This use case is central to the app's core value of simple and encouraging fitness tracking.</p>
+                </div>
+                <div class="priority-badge">
+                    <i data-lucide="flag" style="width: 18px; height: 18px;"></i>
+                    High Priority
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('overview')">Overview</button>
+                <button class="tab" onclick="switchTab('flows')">Flows</button>
+                <button class="tab" onclick="switchTab('details')">Details</button>
+            </div>
+
+            <div id="overview" class="tab-content active">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h3 class="card-title">Actors</h3>
+                        <div class="card-content">
+                            <span class="tag">Registered User</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <h3 class="card-title">Preconditions</h3>
+                        <div class="card-content">
+                            <span class="tag">User logged in</span>
+                            <span class="tag">Workout selected</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i data-lucide="check-circle"></i>
+                        </div>
+                        <h3 class="card-title">Postconditions</h3>
+                        <div class="card-content">
+                            <span class="tag">Workout saved</span>
+                            <span class="tag">Progress updated</span>
+                            <span class="tag">Badges unlocked</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="business-value">
+                    <h3>
+                        <i data-lucide="trending-up" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i>
+                        Business Value
+                    </h3>
+                    <p>This is the core functionality of the app, driving user engagement and data collection. It directly addresses the need for simple workout tracking for beginners, differentiating from complex, data-heavy competitor apps.</p>
+                </div>
+            </div>
+
+            <div id="flows" class="tab-content">
+                <div class="accordion active">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
+                            Main Flow
+                        </div>
+                        <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="flow-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">User navigates to the 'Workout' section and taps 'Start Workout'.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">The app presents a list of exercises for the day (if a plan is active) or a search bar.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">User searches for an exercise (e.g., 'Push-ups') or selects one from the list.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">User views the exercise demonstration (image/GIF for MVP) to ensure correct form.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">User inputs the number of sets completed, repetitions per set, and optionally the weight used.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">6</div>
+                                <div class="step-content">User taps 'Log Set' to record the data.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">7</div>
+                                <div class="step-content">The app displays the logged set and provides an option to add another set for the same exercise or move to a new exercise.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">8</div>
+                                <div class="step-content">User repeats steps 2-7 for all exercises in their workout.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">9</div>
+                                <div class="step-content">Upon completion, user taps 'Finish Workout'.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">10</div>
+                                <div class="step-content">The app displays a summary screen showing total exercises, volume, and an encouraging message.</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">11</div>
+                                <div class="step-content">User confirms to save the workout. The data is synced with their profile.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <i data-lucide="git-branch" style="width: 20px; height: 20px;"></i>
+                            Alternate Flows
+                        </div>
+                        <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: var(--primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i data-lucide="search-x" style="width: 18px; height: 18px;"></i>
+                                    Exercise Not Found
+                                </h4>
+                                <p style="margin-left: 1.5rem; color: var(--gray);">If a user searches for an exercise that is not in the database, they are presented with an option to 'Request Exercise'. They can input the name, and the request is logged for admin review.</p>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i data-lucide="timer" style="width: 18px; height: 18px;"></i>
+                                    Use Rest Timer
+                                </h4>
+                                <p style="margin-left: 1.5rem; color: var(--gray);">After logging a set, the user can tap 'Start Rest Timer'. A countdown timer is displayed, and a notification alerts the user when the rest period is over.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="details" class="tab-content">
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <i data-lucide="users" style="width: 20px; height: 20px;"></i>
+                            Actors
+                        </div>
+                        <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i data-lucide="user" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                                    Registered User
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                            Preconditions
+                        </div>
+                        <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.5rem 0; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                    <i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); margin-top: 4px;"></i>
+                                    <span>User is logged into the app.</span>
+                                </li>
+                                <li style="padding: 0.5rem 0; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                    <i data-lucide="check" style="width: 16px; height: 16px; color: var(--success); margin-top: 4px;"></i>
+                                    <span>User has either selected a pre-made workout plan or is in a 'free workout' mode.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
+                            Postconditions
+                        </div>
+                        <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.5rem 0; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                    <i data-lucide="save" style="width: 16px; height: 16px; color: var(--success); margin-top: 4px;"></i>
+                                    <span>The workout session is saved to the user's history.</span>
+                                </li>
+                                <li style="padding: 0.5rem 0; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                    <i data-lucide="bar-chart-2" style="width: 16px; height: 16px; color: var(--success); margin-top: 4px;"></i>
+                                    <span>The user's progress visualizations (e.g., weekly volume) are updated.</span>
+                                </li>
+                                <li style="padding: 0.5rem 0; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                    <i data-lucide="award" style="width: 16px; height: 16px; color: var(--success); margin-top: 4px;"></i>
+                                    <span>Relevant gamification badges may be unlocked.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-navigation">
+                <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+                    <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i>
+                    Previous
+                </button>
+                <button class="btn" onclick="window.location.href='use-case-2.html'">
+                    Next
+                    <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab and content
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            // Reinitialize icons in the newly shown content
+            lucide.createIcons();
+        }
+
+        function toggleAccordion(header) {
+            const accordion = header.parentElement;
+            accordion.classList.toggle('active');
+            
+            // Reinitialize icons for rotation effect
+            lucide.createIcons();
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add keyboard navigation for tabs
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const tabs = Array.from(document.querySelectorAll('.tab'));
+                const activeTab = document.querySelector('.tab.active');
+                const currentIndex = tabs.indexOf(activeTab);
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                } else {
+                    newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                }
+                
+                tabs[newIndex].click();
+            }
+        });
+    </script>
+</body>
+</html>

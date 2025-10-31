@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Case UC-002 - Test V3 | AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #dbeafe;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .project-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb {
+            padding: 1rem 0;
+            background: var(--light);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        .use-case-header {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .use-case-title {
+            display: flex;
+            align-items: start;
+            gap: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .use-case-id {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .use-case-name {
+            flex: 1;
+        }
+
+        .use-case-name h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .use-case-description {
+            color: var(--gray);
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        .meta-tags {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .tag-priority {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .actors-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .actor-badge {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-icon {
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .tabs {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .tab-nav {
+            display: flex;
+            background: var(--light);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-button:hover {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .tab-button.active {
+            background: var(--white);
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .tab-content {
+            padding: 2rem;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .flow-steps {
+            counter-reset: step;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: start;
+            gap: 20px;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 48px;
+            width: 2px;
+            height: calc(100% + 16px);
+            background: var(--border);
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 12px;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .step-description {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .accordion {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            padding: 1.5rem;
+            background: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
+            background: var(--light);
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .accordion-icon {
+            transition: transform 0.2s;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 500px;
+        }
+
+        .accordion-body {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--gray);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 3rem;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-button:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-button.next {
+            margin-left: auto;
+        }
+
+        .value-box {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--white) 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .value-box strong {
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .use-case-title {
+                flex-direction: column;
+            }
+
+            .tab-nav {
+                flex-direction: column;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-button.next {
+                margin-left: 0;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            header, .breadcrumb, .navigation {
+                display: none;
+            }
+
+            .card, .tabs, .accordion {
+                box-shadow: none;
+                border: 1px solid var(--border);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i data-lucide="cpu"></i>
+                    </div>
+                    <span class="logo-text">AICOE</span>
+                </a>
+                <div class="project-info">
+                    <span>Project: Test V3</span>
+                    <span>•</span>
+                    <span>Page 2 of 6</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-content">
+                <a href="index.html">Home</a>
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                <span>Use Case UC-002</span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="use-case-header">
+                <div class="use-case-title">
+                    <span class="use-case-id">UC-002</span>
+                    <div class="use-case-name">
+                        <h1>Implement User-Centered Design</h1>
+                        <p class="use-case-description">Apply user-centered design principles throughout the Test V3 development lifecycle</p>
+                    </div>
+                </div>
+                <div class="meta-tags">
+                    <span class="tag tag-priority">
+                        <i data-lucide="alert-circle" style="width: 16px; height: 16px;"></i>
+                        High Priority
+                    </span>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: var(--primary-light); color: var(--primary-dark);">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h2 class="card-title">Actors</h2>
+                    </div>
+                    <div class="actors-list">
+                        <div class="actor-badge">
+                            <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+                            UX Designer
+                        </div>
+                        <div class="actor-badge">
+                            <i data-lucide="code" style="width: 16px; height: 16px;"></i>
+                            UI Developer
+                        </div>
+                        <div class="actor-badge">
+                            <i data-lucide="briefcase" style="width: 16px; height: 16px;"></i>
+                            Product Manager
+                        </div>
+                        <div class="actor-badge">
+                            <i data-lucide="user-check" style="width: 16px; height: 16px;"></i>
+                            End Users
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: var(--success); color: white;">
+                            <i data-lucide="check-circle"></i>
+                        </div>
+                        <h2 class="card-title">Preconditions</h2>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="check" class="list-icon"></i>
+                        <span>User personas are defined</span>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="check" class="list-icon"></i>
+                        <span>Design system is established</span>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="check" class="list-icon"></i>
+                        <span>User research data is available</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab-nav">
+                    <button class="tab-button active" onclick="switchTab(event, 'main-flow')">
+                        <i data-lucide="arrow-right-circle"></i>
+                        Main Flow
+                    </button>
+                    <button class="tab-button" onclick="switchTab(event, 'postconditions')">
+                        <i data-lucide="flag" style="width: 18px; height: 18px;"></i>
+                        Postconditions
+                    </button>
+                    <button class="tab-button" onclick="switchTab(event, 'business-value')">
+                        <i data-lucide="trending-up" style="width: 18px; height: 18px;"></i>
+                        Business Value
+                    </button>
+                </div>
+
+                <div id="main-flow" class="tab-content active">
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <div class="step-title">Conduct user research and interviews</div>
+                                <div class="step-description">Gather qualitative and quantitative data from target users</div>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <div class="step-title">Create user personas and journey maps</div>
+                                <div class="step-description">Document user profiles and their interaction paths</div>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <div class="step-title">Develop wireframes and prototypes</div>
+                                <div class="step-description">Create low and high-fidelity design mockups</div>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <div class="step-title">Conduct usability testing sessions</div>
+                                <div class="step-description">Test designs with actual users in controlled environments</div>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <div class="step-title">Gather and analyze user feedback</div>
+                                <div class="step-description">Collect and categorize user insights and suggestions</div>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">6</div>
+                            <div class="step-content">
+                                <div class="step-title">Iterate on designs based on feedback</div>
+                                <div class="step-description">Refine designs addressing identified issues</div>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">7</div>
+                            <div class="step-content">
+                                <div class="step-title">Finalize design specifications</div>
+                                <div class="step-description">Document all design decisions and specifications</div>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">8</div>
+                            <div class="step-content">
+                                <div class="step-title">Validate designs with stakeholders</div>
+                                <div class="step-description">Get final approval from all relevant stakeholders</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="postconditions" class="tab-content">
+                    <div class="list-item">
+                        <i data-lucide="check-circle" class="list-icon"></i>
+                        <span>Designs are validated by users</span>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="check-circle" class="list-icon"></i>
+                        <span>User experience meets expectations</span>
+                    </div>
+                    <div class="list-item">
+                        <i data-lucide="check-circle" class="list-icon"></i>
+                        <span>Design documentation is complete</span>
+                    </div>
+                </div>
+
+                <div id="business-value" class="tab-content">
+                    <div class="value-box">
+                        <p><strong>Business Impact:</strong></p>
+                        <p>Increases user adoption and satisfaction by ensuring the product meets actual user needs. This approach reduces development costs by identifying issues early, improves time-to-market through efficient iterations, and creates a competitive advantage through superior user experience.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <i data-lucide="git-branch" style="width: 20px; height: 20px;"></i>
+                            Alternate Flow: User Feedback Conflicts
+                        </div>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="flow-steps">
+                                <div class="flow-step">
+                                    <div class="step-number">A1</div>
+                                    <div class="step-content">
+                                        <div class="step-title">Identify conflicting feedback</div>
+                                        <div class="step-description">Document and categorize conflicting user inputs</div>
+                                    </div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">A2</div>
+                                    <div class="step-content">
+                                        <div class="step-title">Prioritize based on user segments</div>
+                                        <div class="step-description">Weight feedback according to target user importance</div>
+                                    </div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">A3</div>
+                                    <div class="step-content">
+                                        <div class="step-title">Conduct additional research if needed</div>
+                                        <div class="step-description">Gather more data to resolve conflicts</div>
+                                    </div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">A4</div>
+                                    <div class="step-content">
+                                        <div class="step-title">Document design decisions with rationale</div>
+                                        <div class="step-description">Record why specific decisions were made</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <a href="use-case-1.html" class="nav-button">
+                    <i data-lucide="arrow-left"></i>
+                    Previous
+                </a>
+                <a href="index.html" class="nav-button">
+                    <i data-lucide="home"></i>
+                    Back to Home
+                </a>
+                <a href="use-case-3.html" class="nav-button next">
+                    Next
+                    <i data-lucide="arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(event, tabId) {
+            const buttons = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            lucide.createIcons();
+        }
+
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const wasActive = item.classList.contains('active');
+            
+            // Close all accordion items
+            document.querySelectorAll('.accordion-item').forEach(accItem => {
+                accItem.classList.remove('active');
+            });
+            
+            // Toggle current item
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+            
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

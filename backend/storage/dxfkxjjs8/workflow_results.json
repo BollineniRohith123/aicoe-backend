@@ -1,0 +1,44 @@
+{
+  "project_name": "HTML Generation Test",
+  "workflow_id": "workflow_20251030_121715",
+  "status": "failed",
+  "error": "Critical stage transcript failed: LLM call failed after 3 retries: LLM call failed: Connection error.",
+  "context": {
+    "project_name": "HTML Generation Test",
+    "workflow_id": "workflow_20251030_121715",
+    "workflow_type": "full",
+    "start_time": "2025-10-30T12:17:15.643794",
+    "end_time": "2025-10-30T12:17:25.632462",
+    "status": "failed",
+    "error": "Critical stage transcript failed: LLM call failed after 3 retries: LLM call failed: Connection error."
+  },
+  "results": {
+    "storage": {
+      "project_name": "HTML Generation Test",
+      "project_root": "projects/HTML Generation Test",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "research",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit",
+        "commercial_proposals",
+        "bom"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-30T12:17:15.646747",
+        "action": "project_created",
+        "project_name": "HTML Generation Test",
+        "user": "system"
+      }
+    }
+  }
+}

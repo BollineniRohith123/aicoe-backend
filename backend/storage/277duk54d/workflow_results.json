@@ -1,0 +1,474 @@
+{
+  "project_name": "Fitness Tracking App",
+  "workflow_id": "workflow_20251029_071654",
+  "status": "success",
+  "context": {
+    "project_name": "Fitness Tracking App",
+    "workflow_id": "workflow_20251029_071654",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T07:16:54.202241",
+    "end_time": "2025-10-29T07:29:15.508045",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Fitness Tracking App",
+      "project_root": "projects/Fitness Tracking App",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T07:16:54.203420",
+        "action": "project_created",
+        "project_name": "Fitness Tracking App",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": null,
+        "attendees": [],
+        "meeting_date": "Not specified",
+        "meeting_objective": "Create a fitness tracking application.",
+        "key_discussion_points": [
+          "Workout logging functionality",
+          "Progress tracking features",
+          "Goal setting capabilities",
+          "Nutrition tracking component",
+          "Social features for sharing achievements"
+        ],
+        "pain_points": [],
+        "requirements": [
+          "Workout logging",
+          "Progress tracking",
+          "Goal setting",
+          "Nutrition tracking",
+          "Social features for sharing achievements"
+        ],
+        "decisions_made": [
+          "To proceed with the development of a fitness tracking application with the specified features."
+        ],
+        "action_items": [],
+        "technical_constraints": [],
+        "stakeholders": []
+      },
+      "project_name": "Fitness Tracking App",
+      "transcript_length": 158
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "Log a Workout",
+          "description": "The user records the details of a completed workout session, including exercises, sets, reps, weight, and duration, to maintain a historical record of their physical activity.",
+          "actors": [
+            "Registered User"
+          ],
+          "preconditions": [
+            "The user is logged into the application.",
+            "The user has completed a workout they wish to log."
+          ],
+          "main_flow": [
+            "The user navigates to the 'Workout' section of the app.",
+            "The user selects the option to 'Log New Workout'.",
+            "The system presents a form to enter workout details.",
+            "The user selects the date of the workout.",
+            "The user adds an exercise by searching for it or creating a custom one.",
+            "For each exercise, the user enters details such as sets, repetitions, weight, or duration.",
+            "The user can add multiple exercises to the workout.",
+            "The user reviews the entered workout summary.",
+            "The user clicks the 'Save Workout' button.",
+            "The system validates the input and saves the workout to the user's history.",
+            "The system displays a confirmation message to the user."
+          ],
+          "alternate_flows": [
+            {
+              "name": "Use Workout Template",
+              "description": "If the user has saved templates, they can select one to pre-populate the workout form, then adjust the details as needed before saving."
+            },
+            {
+              "name": "Cancel Logging",
+              "description": "At any point before saving, the user can choose to cancel the process. The system will not save any data and will return the user to the previous screen."
+            }
+          ],
+          "postconditions": [
+            "A new workout entry is created and stored in the user's workout history.",
+            "The user's progress tracking data is updated to reflect the new workout."
+          ],
+          "priority": "high",
+          "business_value": "This is the core functionality of the application, providing the primary value proposition for users to track their fitness activities and build consistency."
+        },
+        {
+          "id": "UC-002",
+          "title": "View Fitness Progress",
+          "description": "The user visualizes their performance over time through charts and graphs to understand trends, stay motivated, and make informed adjustments to their fitness plan.",
+          "actors": [
+            "Registered User"
+          ],
+          "preconditions": [
+            "The user is logged into the application.",
+            "The user has logged at least one workout."
+          ],
+          "main_flow": [
+            "The user navigates to the 'Progress' or 'Dashboard' section.",
+            "The system displays a default overview of progress (e.g., last 30 days).",
+            "The user can select a specific metric to visualize (e.g., total volume, workout frequency, body weight).",
+            "The user can adjust the time frame (e.g., last week, last 3 months, last year).",
+            "The system dynamically updates the charts and graphs based on the user's selections.",
+            "The user views the visual representation of their progress."
+          ],
+          "alternate_flows": [
+            {
+              "name": "No Data Available",
+              "description": "If the user has not logged any workouts, the system displays a message encouraging them to log their first workout to see progress."
+            },
+            {
+              "name": "Filter by Exercise",
+              "description": "The user can filter the progress view to show data for a specific exercise (e.g., 'Squat' progress over time)."
+            }
+          ],
+          "postconditions": [
+            "The user gains a clear understanding of their fitness trends and performance over a selected period."
+          ],
+          "priority": "high",
+          "business_value": "Progress visualization is a key motivational driver, encouraging long-term user engagement and retention by demonstrating the value of their efforts."
+        },
+        {
+          "id": "UC-003",
+          "title": "Set a Fitness Goal",
+          "description": "The user defines specific, measurable fitness objectives to provide direction and purpose to their training, with the app helping to track completion.",
+          "actors": [
+            "Registered User"
+          ],
+          "preconditions": [
+            "The user is logged into the application."
+          ],
+          "main_flow": [
+            "The user navigates to the 'Goals' section.",
+            "The user selects the option to 'Create New Goal'.",
+            "The system presents a list of goal templates (e.g., 'Workout 3 times per week', 'Run 5km without stopping', 'Lose 5kg').",
+            "The user selects a goal type or creates a custom goal.",
+            "The user enters the target parameters (e.g., target number, target date, target weight).",
+            "The user clicks 'Save Goal'.",
+            "The system stores the goal and begins tracking progress against it.",
+            "The new goal appears in the user's active goals list."
+          ],
+          "alternate_flows": [
+            {
+              "name": "Edit an Existing Goal",
+              "description": "The user can select an active goal and modify its parameters or deadline."
+            },
+            {
+              "name": "Delete a Goal",
+              "description": "The user can select an active or completed goal and choose to delete it. The system will ask for confirmation before permanently deleting it."
+            }
+          ],
+          "postconditions": [
+            "A new, active goal is created and associated with the user's profile.",
+            "The system will now track the user's activities to measure progress toward this goal."
+          ],
+          "priority": "high",
+          "business_value": "Goal setting transforms the app from a simple logging tool into a personal fitness coach, increasing user commitment and the perceived value of the application."
+        },
+        {
+          "id": "UC-004",
+          "title": "Track Daily Nutrition",
+          "description": "The user records their food and beverage intake to monitor caloric consumption and macronutrient balance, complementing their fitness efforts.",
+          "actors": [
+            "Registered User"
+          ],
+          "preconditions": [
+            "The user is logged into the application."
+          ],
+          "main_flow": [
+            "The user navigates to the 'Nutrition' section.",
+            "The user selects a meal type (e.g., Breakfast, Lunch, Dinner, Snacks).",
+            "The user uses the search bar to find a food item.",
+            "The system displays a list of matching food items from a database.",
+            "The user selects the correct food item.",
+            "The user specifies the serving size or number of servings.",
+            "The user clicks 'Add to Meal'.",
+            "The system adds the food to the meal and updates the daily calorie and macro summary.",
+            "The user can repeat the process to add more items."
+          ],
+          "alternate_flows": [
+            {
+              "name": "Scan Barcode",
+              "description": "If the food has a barcode, the user can use their phone's camera to scan it, and the system will automatically find and add the item."
+            },
+            {
+              "name": "Create Custom Food",
+              "description": "If a food item is not found in the database, the user can manually create a custom food entry by entering its name, serving size, and nutritional information."
+            }
+          ],
+          "postconditions": [
+            "The selected food items are logged for the specified meal.",
+            "The user's daily nutrition totals are updated in real-time."
+          ],
+          "priority": "medium",
+          "business_value": "Expands the app's utility into the broader health and wellness market, making it a more comprehensive tool for users looking to manage their diet alongside exercise."
+        },
+        {
+          "id": "UC-005",
+          "title": "Share an Achievement",
+          "description": "The user shares a fitness milestone, such as a new personal record or a completed goal, with their social network or within the app community to celebrate success and foster motivation.",
+          "actors": [
+            "Registered User"
+          ],
+          "preconditions": [
+            "The user is logged into the application.",
+            "The user has recently achieved a notable milestone (e.g., completed a goal, hit a new PR)."
+          ],
+          "main_flow": [
+            "Upon completing a milestone, the system presents a 'Congratulations' screen with a 'Share' button.",
+            "The user clicks the 'Share' button.",
+            "The system presents sharing options (e.g., 'Share to App Feed', 'Share to Facebook', 'Share to Instagram Stories').",
+            "The user selects a destination for the share.",
+            "The system generates a pre-formatted graphic or text summary of the achievement.",
+            "The user can add a personal comment.",
+            "The user confirms the share.",
+            "The system posts the achievement to the selected platform."
+          ],
+          "alternate_flows": [
+            {
+              "name": "Decline to Share",
+              "description": "The user can dismiss the 'Congratulations' screen or the share prompt without sharing. The achievement is still recorded privately."
+            },
+            {
+              "name": "Share from History",
+              "description": "The user can navigate to their workout history or completed goals and manually choose an achievement to share at any time."
+            }
+          ],
+          "postconditions": [
+            "The user's achievement is successfully posted to the chosen external or internal social platform.",
+            "The activity is logged in the user's in-app profile."
+          ],
+          "priority": "low",
+          "business_value": "Acts as a powerful marketing tool through organic, user-generated content. It also builds a sense of community and friendly competition, which can boost user engagement and retention."
+        }
+      ],
+      "business_requirements": {
+        "overview": "The project aims to develop a comprehensive mobile fitness tracking application. The app will serve as a centralized tool for users to log workouts, monitor their progress, set and achieve fitness goals, track nutrition, and share their successes. The primary objective is to create an intuitive, motivating, and data-rich experience that helps users of all fitness levels improve their health and well-being.",
+        "business_goals": [
+          "Establish a strong presence in the competitive health and fitness app market.",
+          "Achieve 100,000 downloads within the first 6 months post-launch.",
+          "Maintain a monthly active user (MAU) retention rate of over 40% after the first month.",
+          "Achieve an average app store rating of 4.5 stars or higher.",
+          "Create a platform that can be monetized in the future through premium features or partnerships."
+        ],
+        "success_criteria": [
+          "User Adoption: Measured by the number of new user sign-ups and total downloads.",
+          "User Engagement: Measured by Daily Active Users (DAU) and Monthly Active Users (MAU), frequency of workout logging, and session duration.",
+          "User Retention: Measured by 7-day, 30-day, and 90-day retention rates.",
+          "User Satisfaction: Measured by app store ratings, reviews, and net promoter score (NPS) surveys.",
+          "Feature Utilization: Percentage of users engaging with key features like goal setting and progress tracking.",
+          "Technical Performance: App crash rate below 0.5% and average load time under 2 seconds."
+        ],
+        "constraints": [
+          "Platform: The application must be developed for both iOS and Android platforms, preferably using a cross-platform framework to ensure consistency and reduce maintenance overhead.",
+          "Compliance: The app must comply with data privacy regulations such as GDPR and CCPA, ensuring user data is handled securely and transparently.",
+          "Budget & Timeline: The project must be delivered within the allocated budget and projected timeline (e.g., MVP launch in 9 months).",
+          "Scalability: The backend architecture must be designed to scale efficiently to support a growing user base without performance degradation."
+        ],
+        "assumptions": [
+          "Users possess a modern smartphone (iOS or Android) with a reliable internet connection.",
+          "Users have a basic familiarity with mobile applications and fitness concepts.",
+          "A reliable and comprehensive third-party food database API will be available for integration.",
+          "The development team has the necessary expertise in mobile app development, UI/UX design, and backend systems.",
+          "Market research indicates a clear demand for an app with this specific combination of features."
+        ],
+        "risks": [
+          {
+            "risk": "High Market Competition: The fitness app market is saturated with established competitors.",
+            "mitigation": "Focus on a superior user experience, a unique design, and a specific niche (e.g., for powerlifters or generalists). Implement a robust marketing strategy pre- and post-launch."
+          },
+          {
+            "risk": "Low User Adoption/Retention: Users may download the app but fail to form a habit of using it.",
+            "mitigation": "Implement a seamless onboarding process, use push notifications intelligently for motivation, and incorporate gamification elements like streaks and badges."
+          },
+          {
+            "risk": "Technical Integration Failures: Difficulties may arise when integrating with third-party services (e.g., food database, social media APIs).",
+            "mitigation": "Conduct thorough technical proof-of-concepts (POCs) early in the development cycle. Have contingency plans or alternative vendors ready."
+          },
+          {
+            "risk": "Data Security Breach: A breach of sensitive user health data could lead to legal and reputational damage.",
+            "mitigation": "Adopt a security-by-design approach. Implement end-to-end encryption, secure authentication protocols, and regular security audits."
+          }
+        ]
+      },
+      "project_name": "Fitness Tracking App"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "Best Practices",
+            "pattern": "Repository Pattern",
+            "description": "Implement a repository pattern for workout data storage to abstract data access and enable easier testing and future database changes",
+            "priority": "high"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Command Pattern",
+            "description": "Use command pattern for workout logging actions to enable undo/redo functionality and better audit trails",
+            "priority": "medium"
+          },
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Recommendation Engine",
+            "description": "Implement ML-based exercise recommendations based on user's workout history and goals",
+            "priority": "medium"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Observer Pattern",
+            "description": "Use observer pattern to automatically update progress tracking and achievements when workouts are saved",
+            "priority": "high"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "Adapter Pattern",
+            "description": "Implement adapter pattern for integrating with various wearable devices and health platforms",
+            "priority": "medium"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "User Experience",
+            "suggestion": "Add voice-to-text input for exercise names and quick logging options",
+            "rationale": "Reduces friction during workout logging when users may be tired or have limited mobility"
+          },
+          {
+            "area": "Data Validation",
+            "suggestion": "Implement real-time form validation with contextual feedback (e.g., warning if weight increases dramatically)",
+            "rationale": "Prevents data entry errors and provides immediate user guidance"
+          },
+          {
+            "area": "Offline Support",
+            "suggestion": "Enable offline workout logging with sync when connection is restored",
+            "rationale": "Gyms often have poor connectivity; users should be able to log workouts regardless of network status"
+          },
+          {
+            "area": "AI Enhancement",
+            "suggestion": "Add automatic exercise detection and form analysis using device sensors",
+            "rationale": "Provides value-added features that differentiate from basic logging apps"
+          },
+          {
+            "area": "Template System",
+            "suggestion": "Implement smart templates that adapt based on recent performance and goals",
+            "rationale": "Makes workout logging more efficient and personalized"
+          }
+        ],
+        "compliance_notes": [
+          "Ensure compliance with health data privacy regulations (HIPAA in US, GDPR in EU) for storing workout history",
+          "Implement secure data transmission and encryption for all personal health information",
+          "Provide clear data export and deletion capabilities per GDPR requirements",
+          "Consider accessibility compliance (WCAG) for users with disabilities",
+          "Implement age verification and parental controls if targeting minors"
+        ],
+        "integration_recommendations": [
+          "Integrate with Apple HealthKit and Google Health Connect for centralized health data",
+          "Connect with popular wearable devices (Fitbit, Garmin, Apple Watch) for automatic workout detection",
+          "Implement OAuth2 integration with social platforms for workout sharing and community features",
+          "Integrate with nutrition APIs (like USDA FoodData Central) for comprehensive fitness tracking",
+          "Add integration with calendar apps for workout scheduling and reminders"
+        ]
+      },
+      "project_name": "Fitness Tracking App",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "prd": {
+      "prd_markdown": "---\n**AICOE Product Requirements Document**\n\n**Document Classification:** Internal - Confidential\n**Version:** 1.0\n**Date:** October 26, 2023\n**Prepared By:** AICOE Multi-Agent Platform\n**Project:** Fitness Tracking App\n\n---\n\n# Fitness Tracking App - Product Requirements Document\n\n## 1. Executive Summary\nThis document outlines the requirements for the development of a comprehensive mobile fitness tracking application. The project's purpose is to create a centralized, intuitive, and motivating platform for users to log workouts, monitor progress, set fitness goals, track nutrition, and share achievements. The app aims to capture a significant share of the health and wellness market by providing superior user experience and a holistic feature set. The primary business impact will be measured through user acquisition, engagement, and retention, establishing a foundation for future monetization. Key stakeholders include the AICOE Product, Engineering, Design, and Marketing teams. The target timeline for a Minimum Viable Product (MVP) launch is 9 months from project initiation.\n\n## 2. Goals & Objectives\n### Business Goals\n- Achieve 100,000 downloads within the first 6 months post-launch.\n- Maintain a monthly active user (MAU) retention rate of over 40% after the first month.\n- Achieve an average app store rating of 4.5 stars or higher.\n- Establish a strong brand presence in the competitive fitness app market.\n- Create a platform for future monetization through premium features.\n\n### User Goals\n- To easily and accurately log workout details in a centralized location.\n- To visualize fitness progress over time to stay motivated.\n- To set, track, and achieve personalized fitness goals.\n- To monitor daily nutritional intake to complement fitness efforts.\n- To celebrate and share fitness milestones with a community.\n\n### Technical Goals\n- Develop a cross-platform application (iOS & Android) with a consistent user experience.\n- Ensure the backend architecture is scalable to support a growing user base.\n- Achieve an app crash rate below 0.5% and average load times under 2 seconds.\n- Comply with data privacy regulations (GDPR, CCPA) through a security-by-design approach.\n\n## 3. Problem Statement\n### What problem are we solving?\nMany individuals struggle to maintain consistency and motivation in their fitness journeys due to a lack of a centralized, easy-to-use tool for tracking their activities. They often juggle multiple apps, notebooks, or memory to log workouts, nutrition, and progress, leading to fragmented data and loss of motivation.\n\n### Who has this problem?\nThis problem affects a wide spectrum of individuals, from fitness beginners seeking guidance to seasoned athletes aiming for peak performance. It is particularly prevalent among busy professionals, gym-goers, and anyone looking to take a data-driven approach to their health.\n\n### Current pain points and limitations\n- **Fragmented Tracking:** Using separate apps for workouts, nutrition, and progress is inefficient.\n- **Lack of Motivation:** Without clear visualization of progress, users often abandon their fitness routines.\n- **Goal Setting Difficulty:** Users struggle to define and track measurable, achievable goals.\n- **Data Overload/Underload:** Existing apps are either too complex for beginners or too simplistic for advanced users.\n- **Isolation:** Working out alone can lead to a lack of accountability and community support.\n\n### Opportunity size and market context\nThe global health and fitness app market is large and growing, but highly saturated. The opportunity lies not in creating a novel feature, but in executing a combination of core features (workout logging, progress tracking, goal setting, nutrition) with a superior user experience, intuitive design, and motivational elements that foster long-term engagement.\n\n## 4. User Personas & Stakeholders\n### User Personas\n\n**Persona 1: Alex, \"The Achiever\"**\n- **Role/Title:** Dedicated Fitness Enthusiast / Amateur Powerlifter\n- **Goals and Motivations:** Wants to break personal records (PRs), track detailed workout metrics (volume, intensity), and ensure progressive overload. Motivated by data and measurable gains.\n- **Pain Points:** Finds many apps too basic; needs detailed exercise tracking (e.g., RPE, rest times) and robust progress charts for specific lifts.\n- **Technical Proficiency:** High. Comfortable with complex apps and data analysis.\n\n**Persona 2: Sam, \"The Busy Professional\"**\n- **Role/Title:** Office Worker trying to stay active\n- **Goals and Motivations:** Wants to maintain a consistent fitness routine (e.g., 3 workouts/ week) to manage stress and stay healthy. Motivated by habit formation and quick, easy logging.\n- **Pain Points:** Lacks time for complex logging. Needs quick-start workout templates and gentle, motivating reminders. Gets discouraged by overly complex interfaces.\n- **Technical Proficiency:** Medium. Uses apps daily but prefers simplicity and efficiency.\n\n**Persona 3: Chris, \"The Newcomer\"**\n- **Role/Title:** Fitness Beginner\n- **Goals and Motivations:** Wants to learn proper exercises, build a sustainable habit, and see initial progress to build confidence. Motivated by guidance, clear goals, and positive reinforcement.\n- **Pain Points:** Intimidated by the gym and complex terminology. Doesn't know how to structure a workout or set realistic goals.\n- **Technical Proficiency:** Low to Medium. Needs a very intuitive, guided, and encouraging user experience.\n\n### Key Stakeholders\n- **Product Team:** Defines the vision, roadmap, and prioritizes features.\n- **Engineering Team:** Responsible for technical design, development, testing, and deployment.\n- **UX/UI Design Team:** Responsible for user research, wireframing, and creating a visually appealing and intuitive interface.\n- **Marketing Team:** Responsible for go-to-market strategy, user acquisition, and brand management.\n- **Legal/Compliance Team:** Ensures adherence to data privacy and security regulations.\n\n## 5. Features & User Stories\n### Must-Have (MVP)\n- **Workout Logging:**\n  - *As a* user, *I want to* log my workouts with exercises, sets, reps, and weight, *so that* I can keep a detailed record of my training.\n  - *As a* user, *I want to* create and save custom workout templates, *so that* I can log recurring workouts faster.\n- **Progress Tracking:**\n  - *As a* user, *I want to* view my workout data in charts and graphs, *so that* I can visualize my progress over time.\n  - *As a* user, *I want to* filter my progress view by specific exercises or time frames, *so that* I can analyze my performance in detail.\n- **Goal Setting:**\n  - *As a* user, *I want to* set specific, measurable fitness goals (e.g., workout frequency, lift a certain weight), *so that* I have a clear target to work towards.\n  - *As a* user, *I want to* see my progress towards my active goals, *so that* I stay motivated.\n\n### Should-Have (Post-MVP)\n- **Nutrition Tracking:**\n  - *As a* user, *I want to* log my daily food intake, *so that* I can monitor my calorie and macronutrient consumption.\n  - *As a* user, *I want to* search a comprehensive food database and scan barcodes, *so that* logging food is quick and easy.\n- **Exercise Library:**\n  - *As a* user, *I want to* access a library of exercises with instructions and videos, *so that* I can learn how to perform them correctly.\n\n### Nice-to-Have (Future)\n- **Social Features:**\n  - *As a* user, *I want to* share my achievements (e.g., completed goals, new PRs) on social media or an in-app feed, *so that* I can celebrate my success.\n- **Advanced Analytics:**\n  - *As a* user, *I want to* receive insights and recommendations based on my workout data, *so that* I can optimize my training.\n- **Wearable Integration:**\n  - *As a* user, *I want to* connect my fitness tracker (e.g., Apple Watch, Fitbit), *so that* my health data is automatically synced.\n\n## 6. Use Cases\n\n### UC-001: Log a Workout\n- **Description:** The user records the details of a completed workout session, including exercises, sets, reps, weight, and duration, to maintain a historical record of their physical activity.\n- **Actors:** Registered User\n- **Preconditions:**\n  - The user is logged into the application.\n  - The user has completed a workout they wish to log.\n- **Main Flow:**\n  1. The user navigates to the 'Workout' section of the app.\n  2. The user selects the option to 'Log New Workout'.\n  3. The system presents a form to enter workout details.\n  4. The user selects the date of the workout.\n  5. The user adds an exercise by searching for it or creating a custom one.\n  6. For each exercise, the user enters details such as sets, repetitions, weight, or duration.\n  7. The user can add multiple exercises to the workout.\n  8. The user reviews the entered workout summary.\n  9. The user clicks the 'Save Workout' button.\n  10. The system validates the input and saves the workout to the user's history.\n  11. The system displays a confirmation message to the user.\n- **Alternate Flows:**\n  - **Use Workout Template:** If the user has saved templates, they can select one to pre-populate the workout form, then adjust the details as needed before saving.\n  - **Cancel Logging:** At any point before saving, the user can choose to cancel the process. The system will not save any data and will return the user to the previous screen.\n- **Postconditions:**\n  - A new workout entry is created and stored in the user's workout history.\n  - The user's progress tracking data is updated to reflect the new workout.\n- **Priority:** high\n- **Business Value:** This is the core functionality of the application, providing the primary value proposition for users to track their fitness activities and build consistency.\n\n### UC-002: View Fitness Progress\n- **Description:** The user visualizes their performance over time through charts and graphs to understand trends, stay motivated, and make informed adjustments to their fitness plan.\n- **Actors:** Registered User\n- **Preconditions:**\n  - The user is logged into the application.\n  - The user has logged at least one workout.\n- **Main Flow:**\n  1. The user navigates to the 'Progress' or 'Dashboard' section.\n  2. The system displays a default overview of progress (e.g., last 30 days).\n  3. The user can select a specific metric to visualize (e.g., total volume, workout frequency, body weight).\n  4. The user can adjust the time frame (e.g., last week, last 3 months, last year).\n  5. The system dynamically updates the charts and graphs based on the user's selections.\n  6. The user views the visual representation of their progress.\n- **Alternate Flows:**\n  - **No Data Available:** If the user has not logged any workouts, the system displays a message encouraging them to log their first workout to see progress.\n  - **Filter by Exercise:** The user can filter the progress view to show data for a specific exercise (e.g., 'Squat' progress over time).\n- **Postconditions:**\n  - The user gains a clear understanding of their fitness trends and performance over a selected period.\n- **Priority:** high\n- **Business Value:** Progress visualization is a key motivational driver, encouraging long-term user engagement and retention by demonstrating the value of their efforts.\n\n### UC-003: Set a Fitness Goal\n- **Description:** The user defines specific, measurable fitness objectives to provide direction and purpose to their training, with the app helping to track completion.\n- **Actors:** Registered User\n- **Preconditions:**\n  - The user is logged into the application.\n- **Main Flow:**\n  1. The user navigates to the 'Goals' section.\n  2. The user selects the option to 'Create New Goal'.\n  3. The system presents a list of goal templates (e.g., 'Workout 3 times per week', 'Run 5km without stopping', 'Lose 5kg').\n  4. The user selects a goal type or creates a custom goal.\n  5. The user enters the target parameters (e.g., target number, target date, target weight).\n  6. The user clicks 'Save Goal'.\n  7. The system stores the goal and begins tracking progress against it.\n  8. The new goal appears in the user's active goals list.\n- **Alternate Flows:**\n  - **Edit an Existing Goal:** The user can select an active goal and modify its parameters or deadline.\n  - **Delete a Goal:** The user can select an active or completed goal and choose to delete it. The system will ask for confirmation before permanently deleting it.\n- **Postconditions:**\n  - A new, active goal is created and associated with the user's profile.\n  - The system will now track the user's activities to measure progress toward this goal.\n- **Priority:** high\n- **Business Value:** Goal setting transforms the app from a simple logging tool into a personal fitness coach, increasing user commitment and the perceived value of the application.\n\n### UC-004: Track Daily Nutrition\n- **Description:** The user records their food and beverage intake to monitor caloric consumption and macronutrient balance, complementing their fitness efforts.\n- **Actors:** Registered User\n- **Preconditions:**\n  - The user is logged into the application.\n- **Main Flow:**\n  1. The user navigates to the 'Nutrition' section.\n  2. The user selects a meal type (e.g., Breakfast, Lunch, Dinner, Snacks).\n  3. The user uses the search bar to find a food item.\n  4. The system displays a list of matching food items from a database.\n  5. The user selects the correct food item.\n  6. The user specifies the serving size or number of servings.\n  7. The user clicks 'Add to Meal'.\n  8. The system adds the food to the meal and updates the daily calorie and macro summary.\n  9. The user can repeat the process to add more items.\n- **Alternate Flows:**\n  - **Scan Barcode:** If the food has a barcode, the user can use their phone's camera to scan it, and the system will automatically find and add the item.\n  - **Create Custom Food:** If a food item is not found in the database, the user can manually create a custom food entry by entering its name, serving size, and nutritional information.\n- **Postconditions:**\n  - The selected food items are logged for the specified meal.\n  - The user's daily nutrition totals are updated in real-time.\n- **Priority:** medium\n- **Business Value:** Expands the app's utility into the broader health and wellness market, making it a more comprehensive tool for users looking to manage their diet alongside exercise.\n\n### UC-005: Share an Achievement\n- **Description:** The user shares a fitness milestone, such as a new personal record or a completed goal, with their social network or within the app community to celebrate success and foster motivation.\n- **Actors:** Registered User\n- **Preconditions:**\n  - The user is logged into the application.\n  - The user has recently achieved a notable milestone (e.g., completed a goal, hit a new PR).\n- **Main Flow:**\n  1. Upon completing a milestone, the system presents a 'Congratulations' screen with a 'Share' button.\n  2. The user clicks the 'Share' button.\n  3. The system presents sharing options (e.g., 'Share to App Feed', 'Share to Facebook', 'Share to Instagram Stories').\n  4. The user selects a destination for the share.\n  5. The system generates a pre-formatted graphic or text summary of the achievement.\n  6. The user can add a personal comment.\n  7. The user confirms the share.\n  8. The system posts the achievement to the selected platform.\n- **Alternate Flows:**\n  - **Decline to Share:** The user can dismiss the 'Congratulations' screen or the share prompt without sharing. The achievement is still recorded privately.\n  - **Share from History:** The user can navigate to their workout history or completed goals and manually choose an achievement to share at any time.\n- **Postconditions:**\n  - The user's achievement is successfully posted to the chosen external or internal social platform.\n  - The activity is logged in the user's in-app profile.\n- **Priority:** low\n- **Business Value:** Acts as a powerful marketing tool through organic, user-generated content. It also builds a sense of community and friendly competition, which can boost user engagement and retention.\n\n## 7. Functional Requirements\n### Workout Logging\n- FR-01: The system shall allow a registered user to create a new workout entry.\n- FR-02: The system shall allow the user to add one or more exercises to a workout entry.\n- FR-03: For each exercise, the system shall allow the user to log sets, repetitions, weight, and duration.\n- FR-04: The system shall provide a searchable database of common exercises.\n- FR-05: The system shall allow the user to create and save custom exercises.\n- FR-06: The system shall allow the user to save a workout as a template for future use.\n- FR-07: The system shall validate all workout data before saving (e.g., weight must be a positive number).\n- FR-08: The system shall display a confirmation message upon successful workout logging.\n\n### Progress Tracking\n- FR-09: The system shall generate visual charts (e.g., line graphs, bar charts) for user workout data.\n- FR-10: The system shall allow the user to select the metric to visualize (e.g., total weight lifted, workout frequency).\n- FR-11: The system shall allow the user to filter progress data by a custom date range.\n- FR-12: The system shall allow the user to filter progress data by a specific exercise.\n- FR-13: The system shall display a default progress dashboard upon navigation to the section.\n\n### Goal Setting\n- FR-14: The system shall allow the user to create a new fitness goal.\n- FR-15: The system shall provide pre-defined goal templates (e.g., frequency, weight loss, performance).\n- FR-16: The system shall allow the user to create a custom goal with a target metric and a deadline.\n- FR-17: The system shall display a list of the user's active and completed goals.\n- FR-18: The system shall track the user's progress towards each active goal and display it.\n- FR-19: The system shall allow the user to edit or delete an existing goal.\n\n### Nutrition Tracking\n- FR-20: The system shall allow the user to log food items for different meals (Breakfast, Lunch, Dinner, Snacks).\n- FR-21: The system shall integrate with a third-party food database API for searching food items.\n- FR-22: The system shall allow the user to specify serving sizes for logged food items.\n- FR-23: The system shall calculate and display a daily summary of calories and macronutrients (protein, carbs, fat).\n- FR-24: The system shall allow the user to create custom food entries with nutritional information.\n- FR-25: The system shall support barcode scanning for food item lookup.\n\n### Social Features\n- FR-26: The system shall identify user achievements (e.g., new personal record, goal completion).\n- FR-27: The system shall",
+      "project_name": "Fitness Tracking App",
+      "length": 18723,
+      "sections": [
+        "1. Executive Summary",
+        "2. Goals & Objectives",
+        "3. Problem Statement",
+        "4. User Personas & Stakeholders",
+        "5. Features & User Stories",
+        "6. Use Cases",
+        "7. Functional Requirements"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Fitness Tracking App - AICOE Platform</title>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n    <style>\n        :root {\n            --aicoe-primary: #0066cc;\n            --aicoe-accent: #00d9ff;\n            --aicoe-dark: #1d1d1f;\n            --aicoe-gray: #6e6e73;\n            --aicoe-light-gray: #f5f5f7;\n            --aicoe-white: #ffffff;\n            --aicoe-success: #34c759;\n            --aicoe-warning: #ff9500;\n        }\n\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n            background-color: var(--aicoe-white);\n            color: var(--aicoe-dark);\n            line-height: 1.6;\n        }\n\n        /* Navigation */\n        nav {\n            position: sticky;\n            top: 0;\n            background: rgba(255, 255, 255, 0.95);\n            backdrop-filter: blur(20px);\n            border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n            z-index: 1000;\n            padding: 1rem 2rem;\n        }\n\n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .nav-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n        }\n\n        .nav-menu {\n            display: flex;\n            gap: 2rem;\n            align-items: center;\n        }\n\n        .nav-item {\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            transition: color 0.3s ease;\n        }\n\n        .nav-item:hover {\n            color: var(--aicoe-primary);\n        }\n\n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            padding: 5rem 2rem;\n            text-align: center;\n            color: var(--aicoe-white);\n        }\n\n        .hero-content {\n            max-width: 800px;\n            margin: 0 auto;\n        }\n\n        .hero h1 {\n            font-size: 3rem;\n            font-weight: 700;\n            margin-bottom: 1rem;\n            animation: fadeInUp 0.8s ease;\n        }\n\n        .hero p {\n            font-size: 1.25rem;\n            opacity: 0.95;\n            margin-bottom: 2rem;\n            animation: fadeInUp 0.8s ease 0.2s both;\n        }\n\n        .hero-buttons {\n            display: flex;\n            gap: 1rem;\n            justify-content: center;\n            animation: fadeInUp 0.8s ease 0.4s both;\n        }\n\n        .btn {\n            padding: 0.875rem 2rem;\n            border-radius: 12px;\n            border: none;\n            font-size: 1rem;\n            font-weight: 600;\n            cursor: pointer;\n            transition: all 0.3s ease;\n            text-decoration: none;\n            display: inline-flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .btn-primary {\n            background: var(--aicoe-white);\n            color: var(--aicoe-primary);\n        }\n\n        .btn-primary:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);\n        }\n\n        .btn-secondary {\n            background: rgba(255, 255, 255, 0.2);\n            color: var(--aicoe-white);\n            backdrop-filter: blur(10px);\n        }\n\n        .btn-secondary:hover {\n            background: rgba(255, 255, 255, 0.3);\n        }\n\n        /* Features Grid */\n        .features {\n            padding: 4rem 2rem;\n            background: var(--aicoe-light-gray);\n        }\n\n        .container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .section-title {\n            text-align: center;\n            font-size: 2.5rem;\n            font-weight: 700;\n            margin-bottom: 3rem;\n            color: var(--aicoe-dark);\n        }\n\n        .features-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n        }\n\n        .feature-card {\n            background: var(--aicoe-white);\n            padding: 2rem;\n            border-radius: 12px;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n            transition: all 0.3s ease;\n            cursor: pointer;\n        }\n\n        .feature-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);\n        }\n\n        .feature-icon {\n            width: 60px;\n            height: 60px;\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            border-radius: 12px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            margin-bottom: 1rem;\n        }\n\n        .feature-icon i {\n            color: var(--aicoe-white);\n            width: 30px;\n            height: 30px;\n        }\n\n        .feature-title {\n            font-size: 1.25rem;\n            font-weight: 600;\n            margin-bottom: 0.5rem;\n            color: var(--aicoe-dark);\n        }\n\n        .feature-description {\n            color: var(--aicoe-gray);\n            line-height: 1.6;\n        }\n\n        /* Use Cases Section */\n        .use-cases {\n            padding: 4rem 2rem;\n        }\n\n        .use-case-cards {\n            display: grid;\n            gap: 2rem;\n        }\n\n        .use-case-card {\n            background: var(--aicoe-white);\n            border: 1px solid rgba(0, 0, 0, 0.1);\n            border-radius: 12px;\n            padding: 2rem;\n            transition: all 0.3s ease;\n        }\n\n        .use-case-card:hover {\n            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);\n        }\n\n        .use-case-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: start;\n            margin-bottom: 1rem;\n        }\n\n        .use-case-id {\n            background: var(--aicoe-light-gray);\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.875rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n        }\n\n        .priority-badge {\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.875rem;\n            font-weight: 600;\n        }\n\n        .priority-high {\n            background: rgba(239, 68, 68, 0.1);\n            color: #ef4444;\n        }\n\n        .priority-medium {\n            background: rgba(255, 149, 0, 0.1);\n            color: var(--aicoe-warning);\n        }\n\n        .priority-low {\n            background: rgba(156, 163, 175, 0.1);\n            color: #9ca3af;\n        }\n\n        .use-case-title {\n            font-size: 1.5rem;\n            font-weight: 600;\n            margin-bottom: 0.5rem;\n            color: var(--aicoe-dark);\n        }\n\n        .use-case-description {\n            color: var(--aicoe-gray);\n            margin-bottom: 1.5rem;\n        }\n\n        .use-case-details {\n            display: grid;\n            gap: 1rem;\n        }\n\n        .detail-section {\n            background: var(--aicoe-light-gray);\n            padding: 1rem;\n            border-radius: 8px;\n        }\n\n        .detail-title {\n            font-weight: 600;\n            color: var(--aicoe-primary);\n            margin-bottom: 0.5rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .detail-content {\n            color: var(--aicoe-dark);\n        }\n\n        .detail-list {\n            list-style: none;\n            padding-left: 0;\n        }\n\n        .detail-list li {\n            padding: 0.25rem 0;\n            position: relative;\n            padding-left: 1.5rem;\n        }\n\n        .detail-list li:before {\n            content: \"\u2022\";\n            position: absolute;\n            left: 0;\n            color: var(--aicoe-primary);\n        }\n\n        /* Footer */\n        footer {\n            background: var(--aicoe-dark);\n            color: var(--aicoe-white);\n            padding: 3rem 2rem;\n            text-align: center;\n        }\n\n        .footer-content {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .footer-brand {\n            font-size: 1.5rem;\n            font-weight: 600;\n            margin-bottom: 1rem;\n            color: var(--aicoe-accent);\n        }\n\n        .footer-text {\n            color: var(--aicoe-gray);\n            margin-bottom: 2rem;\n        }\n\n        .footer-links {\n            display: flex;\n            justify-content: center;\n            gap: 2rem;\n            margin-bottom: 2rem;\n        }\n\n        .footer-link {\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            transition: color 0.3s ease;\n        }\n\n        .footer-link:hover {\n            color: var(--aicoe-accent);\n        }\n\n        /* Animations */\n        @keyframes fadeInUp {\n            from {\n                opacity: 0;\n                transform: translateY(30px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        /* Responsive Design */\n        @media (max-width: 768px) {\n            .nav-menu {\n                display: none;\n            }\n\n            .hero h1 {\n                font-size: 2rem;\n            }\n\n            .hero p {\n                font-size: 1rem;\n            }\n\n            .hero-buttons {\n                flex-direction: column;\n                align-items: center;\n            }\n\n            .features-grid {\n                grid-template-columns: 1fr;\n            }\n\n            .section-title {\n                font-size: 2rem;\n            }\n\n            .footer-links {\n                flex-direction: column;\n                gap: 1rem;\n            }\n        }\n\n        /* Printer-Friendly CSS */\n        @media print {\n            nav, .no-print, button, .hero-buttons {\n                display: none !important;\n            }\n            \n            body {\n                font-size: 12pt;\n                color: #000;\n                background: #fff;\n            }\n            \n            * {\n                box-shadow: none !important;\n                text-shadow: none !important;\n            }\n            \n            .page-break {\n                page-break-before: always;\n            }\n            \n            h1, h2, h3 {\n                page-break-after: avoid;\n            }\n            \n            a[href]:after {\n                content: \" (\" attr(href) \")\";\n            }\n            \n            .hero {\n                background: #f5f5f7 !important;\n                color: #000 !important;\n                padding: 2rem 0;\n            }\n            \n            .feature-card, .use-case-card {\n                break-inside: avoid;\n                border: 1px solid #ccc;\n            }\n        }\n    </style>\n</head>\n<body>\n    <!-- Navigation -->\n    <nav>\n        <div class=\"nav-container\">\n            <div class=\"nav-brand\">\n                <i data-lucide=\"activity\"></i>\n                <span>AICOE Fitness Tracker</span>\n            </div>\n            <div class=\"nav-menu\">\n                <a href=\"#features\" class=\"nav-item\">\n                    <i data-lucide=\"grid-3x3\"></i>\n                    <span>Features</span>\n                </a>\n                <a href=\"#use-cases\" class=\"nav-item\">\n                    <i data-lucide=\"file-text\"></i>\n                    <span>Use Cases</span>\n                </a>\n                <a href=\"#dashboard\" class=\"nav-item\">\n                    <i data-lucide=\"layout-dashboard\"></i>\n                    <span>Dashboard</span>\n                </a>\n                <a href=\"#settings\" class=\"nav-item\">\n                    <i data-lucide=\"settings\"></i>\n                    <span>Settings</span>\n                </a>\n            </div>\n        </div>\n    </nav>\n\n    <!-- Hero Section -->\n    <section class=\"hero\">\n        <div class=\"hero-content\">\n            <h1>Transform Your Fitness Journey</h1>\n            <p>Track workouts, monitor progress, set goals, and achieve your best self with our comprehensive fitness tracking platform.</p>\n            <div class=\"hero-buttons\">\n                <button class=\"btn btn-primary\">\n                    <i data-lucide=\"play\"></i>\n                    Get Started\n                </button>\n                <button class=\"btn btn-secondary\">\n                    <i data-lucide=\"info\"></i>\n                    Learn More\n                </button>\n            </div>\n        </div>\n    </section>\n\n    <!-- Features Section -->\n    <section class=\"features\" id=\"features\">\n        <div class=\"container\">\n            <h2 class=\"section-title\">Core Features</h2>\n            <div class=\"features-grid\">\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"dumbbell\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Workout Logging</h3>\n                    <p class=\"feature-description\">Record every exercise, set, and rep with our intuitive workout logger. Build a comprehensive history of your fitness journey.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"trending-up\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Progress Tracking</h3>\n                    <p class=\"feature-description\">Visualize your performance with beautiful charts and graphs. Track strength gains, endurance improvements, and body composition changes.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"target\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Goal Setting</h3>\n                    <p class=\"feature-description\">Set SMART goals and let our intelligent system help you achieve them. Get personalized recommendations and milestone celebrations.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"apple\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Nutrition Tracking</h3>\n                    <p class=\"feature-description\">Monitor your daily caloric intake and macronutrient balance. Access our extensive food database and track meals effortlessly.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"share-2\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Social Sharing</h3>\n                    <p class=\"feature-description\">Share your achievements with friends and the community. Celebrate milestones and stay motivated through social engagement.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"shield-check\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Privacy & Security</h3>\n                    <p class=\"feature-description\">Your health data is protected with enterprise-grade security. Control who sees your information and maintain complete privacy.</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Use Cases Section -->\n    <section class=\"use-cases\" id=\"use-cases\">\n        <div class=\"container\">\n            <h2 class=\"section-title\">Use Cases & Workflows</h2>\n            <div class=\"use-case-cards\">\n                <!-- Use Case 1 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-001</span>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Log a Workout</h3>\n                    <p class=\"use-case-description\">The user records the details of a completed workout session, including exercises, sets, reps, weight, and duration, to maintain a historical record of their physical activity.</p>\n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"check-circle\"></i>\n                                Preconditions\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>The user is logged into the application</li>\n                                <li>The user has completed a workout they wish to log</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i>\n                                Main Flow\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>Navigate to 'Workout' section</li>\n                                <li>Select 'Log New Workout'</li>\n                                <li>Enter workout details (date, exercises, sets, reps, weight)</li>\n                                <li>Review workout summary</li>\n                                <li>Save workout to history</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shuffle\"></i>\n                                Alternate Flows\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>Use Workout Template for quick logging</li>\n                                <li>Cancel logging without saving</li>\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Use Case 2 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-002</span>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">View Fitness Progress</h3>\n                    <p class=\"use-case-description\">The user visualizes their performance over time through charts and graphs to understand trends, stay motivated, and make informed adjustments to their fitness plan.</p>\n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"check-circle\"></i>\n                                Preconditions\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>The user is logged into the application</li>\n                                <li>The user has logged at least one workout</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i>\n                                Main Flow\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>Navigate to 'Progress' or 'Dashboard' section</li>\n                                <li>View default overview (last 30 days)</li>\n                                <li>Select specific metrics to visualize</li>\n                                <li>Adjust time frame as needed</li>\n                                <li>View dynamic charts and graphs</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shuffle\"></i>\n                                Alternate Flows\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>No data available - prompt to log first workout</li>\n                                <li>Filter progress by specific exercise</li>\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Use Case 3 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-003</span>\n                        <span class=\"priority-badge priority-high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Set a Fitness Goal</h3>\n                    <p class=\"use-case-description\">The user defines specific, measurable fitness objectives to provide direction and purpose to their training, with the app helping to track completion.</p>\n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"check-circle\"></i>\n                                Preconditions\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>The user is logged into the application</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i>\n                                Main Flow\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>Navigate to 'Goals' section</li>\n                                <li>Select 'Create New Goal'</li>\n                                <li>Choose goal template or create custom</li>\n                                <li>Enter target parameters</li>\n                                <li>Save goal to active goals list</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shuffle\"></i>\n                                Alternate Flows\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>Edit existing goal parameters</li>\n                                <li>Delete goal with confirmation</li>\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Use Case 4 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-004</span>\n                        <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Track Daily Nutrition</h3>\n                    <p class=\"use-case-description\">The user records their food and beverage intake to monitor caloric consumption and macronutrient balance, complementing their fitness efforts.</p>\n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"check-circle\"></i>\n                                Preconditions\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>The user is logged into the application</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i>\n                                Main Flow\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>Navigate to 'Nutrition' section</li>\n                                <li>Select meal type (Breakfast, Lunch, Dinner, Snacks)</li>\n                                <li>Search or scan food items</li>\n                                <li>Specify serving size</li>\n                                <li>Add to meal and update daily totals</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shuffle\"></i>\n                                Alternate Flows\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>Scan barcode for automatic lookup</li>\n                                <li>Create custom food entry</li>\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Use Case 5 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-005</span>\n                        <span class=\"priority-badge priority-low\">Low Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Share an Achievement</h3>\n                    <p class=\"use-case-description\">The user shares a fitness milestone, such as a new personal record or a completed goal, with their social network or within the app community to celebrate success and foster motivation.</p>\n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"check-circle\"></i>\n                                Preconditions\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>The user is logged into the application</li>\n                                <li>The user has recently achieved a notable milestone</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i>\n                                Main Flow\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>System presents 'Congratulations' screen</li>\n                                <li>Click 'Share' button</li>\n                                <li>Select sharing destination</li>\n                                <li>Review auto-generated achievement graphic</li>\n                                <li>Add personal comment and confirm share</li>\n                            </ul>\n                        </div>\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shuffle\"></i>\n                                Alternate Flows\n                            </div>\n                            <ul class=\"detail-list\">\n                                <li>Decline to share (achievement remains private)</li>\n                                <li>Share from history at any time</li>\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Footer -->\n    <footer>",
+      "project_name": "Fitness Tracking App",
+      "length": 28467,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "raw_response": "{\n    \"data_sets\": [\n        {\n            \"name\": \"Workout Logs\",\n            \"description\": \"Detailed workout sessions with exercises, sets, reps, weights, and duration for workout logging functionality\",\n            \"use_case_id\": \"UC-001\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"workout_id\": \"string\",\n                \"user_id\": \"string\",\n                \"date\": \"string (ISO date)\",\n                \"duration_minutes\": \"number\",\n                \"type\": \"string\",\n                \"notes\": \"string\",\n                \"exercises\": {\n                    \"exercise_id\": \"string\",\n                    \"name\": \"string\",\n                    \"category\": \"string\",\n                    \"sets\": [\n                        {\n                            \"set_number\": \"number\",\n                            \"reps\": \"number\",\n                            \"weight_kg\": \"number\",\n                            \"duration_seconds\": \"number\",\n                            \"distance_km\": \"number\",\n                            \"rest_seconds\": \"number\"\n                        }\n                    ]\n                }\n            },\n            \"sample_data\": [\n                {\n                    \"workout_id\": \"WO-2024-001\",\n                    \"user_id\": \"USR-12345\",\n                    \"date\": \"2024-01-15\",\n                    \"duration_minutes\": 65,\n                    \"type\": \"Strength Training\",\n                    \"notes\": \"Felt strong today, increased bench press weight\",\n                    \"exercises\": [\n                        {\n                            \"exercise_id\": \"EX-001\",\n                            \"name\": \"Bench Press\",\n                            \"category\": \"Chest\",\n                            \"sets\": [\n                                {\"set_number\": 1, \"reps\": 12, \"weight_kg\": 60, \"rest_seconds\": 90},\n                                {\"set_number\": 2, \"reps\": 10, \"weight_kg\": 65, \"rest_seconds\": 90},\n                                {\"set_number\": 3, \"reps\": 8, \"weight_kg\": 70, \"rest_seconds\": 90},\n                                {\"set_number\": 4, \"reps\": 6, \"weight_kg\": 72.5, \"rest_seconds\": 0}\n                            ]\n                        },\n                        {\n                            \"exercise_id\": \"EX-002\",\n                            \"name\": \"Squats\",\n                            \"category\": \"Legs\",\n                            \"sets\": [\n                                {\"set_number\": 1, \"reps\": 15, \"weight_kg\": 80, \"rest_seconds\": 120},\n                                {\"set_number\": 2, \"reps\": 12, \"weight_kg\": 85, \"rest_seconds\": 120},\n                                {\"set_number\": 3, \"reps\": 10, \"weight_kg\": 90, \"rest_seconds\": 0}\n                            ]\n                        },\n                        {\n                            \"exercise_id\": \"EX-003\",\n                            \"name\": \"Deadlifts\",\n                            \"category\": \"Back\",\n                            \"sets\": [\n                                {\"set_number\": 1, \"reps\": 8, \"weight_kg\": 100, \"rest_seconds\": 150},\n                                {\"set_number\": 2, \"reps\": 6, \"weight_kg\": 110, \"rest_seconds\": 150},\n                                {\"set_number\": 3, \"reps\": 5, \"weight_kg\": 115, \"rest_seconds\": 0}\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"workout_id\": \"WO-2024-002\",\n                    \"user_id\": \"USR-12345\",\n                    \"date\": \"2024-01-17\",\n                    \"duration_minutes\": 45,\n                    \"type\": \"Cardio\",\n                    \"notes\": \"Morning run before work\",\n                    \"exercises\": [\n                        {\n                            \"exercise_id\": \"EX-004\",\n                            \"name\": \"Running\",\n                            \"category\": \"Cardio\",\n                            \"sets\": [\n                                {\"set_number\": 1, \"duration_seconds\": 1800, \"distance_km\": 5.2, \"rest_seconds\": 0}\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"workout_id\": \"WO-2024-003\",\n                    \"user_id\": \"USR-67890\",\n                    \"date\": \"2024-01-18\",\n                    \"duration_minutes\": 50,\n                    \"type\": \"HIIT\",\n                    \"notes\": \"Quick and intense workout\",\n                    \"exercises\": [\n                        {\n                            \"exercise_id\": \"EX-005\",\n                            \"name\": \"Burpees\",\n                            \"category\": \"Full Body\",\n                            \"sets\": [\n                                {\"set_number\": 1, \"reps\": 20, \"duration_seconds\": 60, \"rest_seconds\": 30},\n                                {\"set_number\": 2, \"reps\": 18, \"duration_seconds\": 60, \"rest_seconds\": 30},\n                                {\"set_number\": 3, \"reps\": 15, \"duration_seconds\": 60, \"rest_seconds\": 0}\n                            ]\n                        },\n                        {\n                            \"exercise_id\": \"EX-006\",\n                            \"name\": \"Mountain Climbers\",\n                            \"category\": \"Core\",\n                            \"sets\": [\n                                {\"set_number\": 1, \"reps\": 50, \"duration_seconds\": 45, \"rest_seconds\": 30},\n                                {\"set_number\": 2, \"reps\": 45, \"duration_seconds\": 45, \"rest_seconds\": 30},\n                                {\"set_number\": 3, \"reps\": 40, \"duration_seconds\": 45, \"rest_seconds\": 0}\n                            ]\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"name\": \"Progress Tracking Data\",\n            \"description\": \"Historical workout data showing user progress over time for charts and analytics\",\n            \"use_case_id\": \"UC-002\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"user_id\": \"string\",\n                \"date\": \"string (ISO date)\",\n                \"body_weight_kg\": \"number\",\n                \"body_fat_percentage\": \"number\",\n                \"total_workout_volume_kg\": \"number\",\n                \"workout_frequency_week\": \"number\",\n                \"personal_records\": [\n                    {\n                        \"exercise_id\": \"string\",\n                        \"exercise_name\": \"string\",\n                        \"weight_kg\": \"number\",\n                        \"reps\": \"number\",\n                        \"date_achieved\": \"string\"\n                    }\n                ]\n            },\n            \"sample_data\": [\n                {\n                    \"user_id\": \"USR-12345\",\n                    \"date\": \"2024-01-01\",\n                    \"body_weight_kg\": 85.5,\n                    \"body_fat_percentage\": 18.5,\n                    \"total_workout_volume_kg\": 3250,\n                    \"workout_frequency_week\": 3,\n                    \"personal_records\": []\n                },\n                {\n                    \"user_id\": \"USR-12345\",\n                    \"date\": \"2024-01-08\",\n                    \"body_weight_kg\": 85.2,\n                    \"body_fat_percentage\": 18.3,\n                    \"total_workout_volume_kg\": 3480,\n                    \"workout_frequency_week\": 4,\n                    \"personal_records\": [\n                        {\n                            \"exercise_id\": \"EX-001\",\n                            \"exercise_name\": \"Bench Press\",\n                            \"weight_kg\": 70,\n                            \"reps\": 8,\n                            \"date_achieved\": \"2024-01-05\"\n                        }\n                    ]\n                },\n                {\n                    \"user_id\": \"USR-12345\",\n                    \"date\": \"2024-01-15\",\n                    \"body_weight_kg\": 84.8,\n                    \"body_fat_percentage\": 18.0,\n                    \"total_workout_volume_kg\": 3720,\n                    \"workout_frequency_week\": 4,\n                    \"personal_records\": [\n                        {\n                            \"exercise_id\": \"EX-002\",\n                            \"exercise_name\": \"Squats\",\n                            \"weight_kg\": 90,\n                            \"reps\": 10,\n                            \"date_achieved\": \"2024-01-12\"\n                        },\n                        {\n                            \"exercise_id\": \"EX-003\",\n                            \"exercise_name\": \"Deadlifts\",\n                            \"weight_kg\": 115,\n                            \"reps\": 5,\n                            \"date_achieved\": \"2024-01-15\"\n                        }\n                    ]\n                },\n                {\n                    \"user_id\": \"USR-12345\",\n                    \"date\": \"2024-01-22\",\n                    \"body_weight_kg\": 84.5,\n                    \"body_fat_percentage\": 17.8,\n                    \"total_workout_volume_kg\": 3890,\n                    \"workout_frequency_week\": 5,\n                    \"personal_records\": [\n                        {\n                            \"exercise_id\": \"EX-004\",\n                            \"exercise_name\": \"Running\",\n                            \"weight_kg\": 0,\n                            \"reps\": 0,\n                            \"date_achieved\": \"2024-01-20\",\n                            \"distance_km\": 6.5,\n                            \"duration_seconds\": 2100\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"name\": \"Fitness Goals\",\n            \"description\": \"User-defined fitness goals with tracking parameters and progress indicators\",\n            \"use_case_id\": \"UC-003\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"goal_id\": \"string\",\n                \"user_id\": \"string\",\n                \"title\": \"string\",\n                \"description\": \"string\",\n                \"type\": \"string\",\n                \"target_value\": \"number\",\n                \"current_value\": \"number\",\n                \"unit\": \"string\",\n                \"start_date\": \"string (ISO date)\",\n                \"target_date\": \"string (ISO date)\",\n                \"status\": \"string\",\n                \"progress_percentage\": \"number\",\n                \"milestones\": [\n                    {\n                        \"milestone_id\": \"string\",\n                        \"title\": \"string\",\n                        \"target_value\": \"number\",\n                        \"achieved_date\": \"string (ISO date)\",\n                        \"achieved\": \"boolean\"\n                    }\n                ]\n            },\n            \"sample_data\": [\n                {\n                    \"goal_id\": \"GOAL-001\",\n                    \"user_id\": \"USR-12345\",\n                    \"title\": \"Lose 5kg\",\n                    \"description\": \"Reduce body weight from 85kg to 80kg through diet and exercise\",\n                    \"type\": \"Weight Loss\",\n                    \"target_value\": 80,\n                    \"current_value\": 84.5,\n                    \"unit\": \"kg\",\n                    \"start_date\": \"2024-01-01\",\n                    \"target_date\": \"2024-03-31\",\n                    \"status\": \"In Progress\",\n                    \"progress_percentage\": 10,\n                    \"milestones\": [\n                        {\n                            \"milestone_id\": \"M-001\",\n                            \"title\": \"First kg lost\",\n                            \"target_value\": 84,\n                            \"achieved_date\": \"2024-01-08\",\n                            \"achieved\": true\n                        },\n                        {\n                            \"milestone_id\": \"M-002\",\n                            \"title\": \"Halfway point\",\n                            \"target_value\": 82.5,\n                            \"achieved_date\": null,\n                            \"achieved\": false\n                        }\n                    ]\n                },\n                {\n                    \"goal_id\": \"GOAL-002\",\n                    \"user_id\": \"USR-12345\",\n                    \"title\": \"Bench Press 100kg\",\n                    \"description\": \"Achieve a 100kg bench press for 1 repetition\",\n                    \"type\": \"Strength\",\n                    \"target_value\": 100,\n                    \"current_value\": 72.5,\n                    \"unit\": \"kg\",\n                    \"start_date\": \"2024-01-01\",\n                    \"target_date\": \"2024-06-30\",\n                    \"status\": \"In Progress\",\n                    \"progress_percentage\": 35,\n                    \"milestones\": [\n                        {\n                            \"milestone_id\": \"M-003\",\n                            \"title\": \"Break 70kg\",\n                            \"target_value\": 70,\n                            \"achieved_date\": \"2024-01-15\",\n                            \"achieved\": true\n                        },\n                        {\n                            \"milestone_id\": \"M-004\",\n                            \"title\": \"Break 80kg\",\n                            \"target_value\": 80,\n                            \"achieved_date\": null,\n                            \"achieved\": false\n                        }\n                    ]\n                },\n                {\n                    \"goal_id\": \"GOAL-003\",\n                    \"user_id\": \"USR-67890\",\n                    \"title\": \"Run 5km Under 25 Minutes\",\n                    \"description\": \"Complete a 5km run in under 25 minutes\",\n                    \"type\": \"Endurance\",\n                    \"target_value\": 25,\n                    \"current_value\": 28.5,\n                    \"unit\": \"minutes\",\n                    \"start_date\": \"2024-01-01\",\n                    \"target_date\": \"2024-04-30\",\n                    \"status\": \"In Progress\",\n                    \"progress_percentage\": 40,\n                    \"milestones\": [\n                        {\n                            \"milestone_id\": \"M-005\",\n                            \"title\": \"Sub 30 minutes\",\n                            \"target_value\": 30,\n                            \"achieved_date\": \"2024-01-10\",\n                            \"achieved\": true\n                        }\n                    ]\n                },\n                {\n                    \"goal_id\": \"GOAL-004\",\n                    \"user_id\": \"USR-67890\",\n                    \"title\": \"Workout 4 Times Per Week\",\n                    \"description\": \"Maintain consistent workout frequency of 4 sessions per week\",\n                    \"type\": \"Frequency\",\n                    \"target_value\": 4,\n                    \"current_value\": 3.5,\n                    \"unit\": \"sessions/week\",\n                    \"start_date\": \"2024-01-01\",\n                    \"target_date\": \"2024-12-31\",\n                    \"status\": \"In Progress\",\n                    \"progress_percentage\": 87.5,\n                    \"milestones\": []\n                }\n            ]\n        },\n        {\n            \"name\": \"Food Database\",\n            \"description\": \"Comprehensive food items with nutritional information for nutrition tracking\",\n            \"use_case_id\": \"UC-004\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"food_id\": \"string\",\n                \"name\": \"string\",\n                \"brand\": \"string\",\n                \"category\": \"string\",\n                \"barcode\": \"string\",\n                \"serving_size\": \"number\",\n                \"serving_unit\": \"string\",\n                \"calories_per_serving\": \"number\",\n                \"macros\": {\n                    \"protein_g\": \"number\",\n                    \"carbs_g\": \"number\",\n                    \"fat_g\": \"number\",\n                    \"fiber_g\": \"number\",\n                    \"sugar_g\": \"number\"\n                },\n                \"micronutrients\": {\n                    \"sodium_mg\": \"number\",\n                    \"cholesterol_mg\": \"number\",\n                    \"potassium_mg\": \"number\",\n                    \"calcium_mg\": \"number\",\n                    \"iron_mg\": \"number\",\n                    \"vitamin_c_mg\": \"number\"\n                }\n            },\n            \"sample_data\": [\n                {\n                    \"food_id\": \"FD-001\",\n                    \"name\": \"Grilled Chicken Breast\",\n                    \"brand\": \"Generic\",\n                    \"category\": \"Protein\",\n                    \"barcode\": \"\",\n                    \"serving_size\": 100,\n                    \"serving_unit\": \"g\",\n                    \"calories_per_serving\": 165,\n                    \"macros\": {\n                        \"protein_g\": 31,\n                        \"carbs_g\": 0,\n                        \"fat_g\": 3.6,\n                        \"fiber_g\": 0,\n                        \"sugar_g\": 0\n                    },\n                    \"micronutrients\": {\n                        \"sodium_mg\": 74,\n                        \"cholesterol_mg\": 85,\n                        \"potassium_mg\": 256,\n                        \"calcium_mg\": 15,\n                        \"iron_mg\": 1.0,\n                        \"vitamin_c_mg\": 0\n                    }\n                },\n                {\n                    \"food_id\": \"FD-002\",\n                    \"name\": \"Brown Rice\",\n                    \"brand\": \"Uncle Ben's\",\n                    \"category\": \"Grains\",\n                    \"barcode\": \"041000025512\",\n                    \"serving_size\": 1,\n                    \"serving_unit\": \"cup (cooked)\",\n                    \"calories_per_serving\": 216,\n                    \"macros\": {\n                        \"protein_g\": 5,\n                        \"carbs_g\": 45,\n                        \"fat_g\": 1.8,\n                        \"fiber_g\": 3.5,\n                        \"sugar_g\": 0.7\n                    },\n                    \"micronutrients\": {\n                        \"sodium_mg\": 10,\n                        \"cholesterol_mg\": 0,\n                        \"potassium_mg\": 84,\n                        \"calcium_mg\": 20,\n                        \"iron_mg\": 0.8,\n                        \"vitamin_c_mg\": 0\n                    }\n                },\n                {\n                    \"food_id\": \"FD-003\",\n                    \"name\": \"Greek Yogurt\",\n                    \"brand\": \"Chobani\",\n                    \"category\": \"Dairy\",\n                    \"barcode\": \"0818487011206\",\n                    \"serving_size\": 150,\n                    \"serving_unit\": \"g\",\n                    \"calories"
+      },
+      "project_name": "Fitness Tracking App",
+      "warning": "Could not parse as JSON"
+    },
+    "reviewer": {
+      "review_cycle_id": "Fitness Tracking App_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-29T07:29:15.506383"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.001304
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 59.285215
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 114.017332
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 28.434056
+    },
+    {
+      "name": "prd",
+      "status": "completed",
+      "duration": 89.937563
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 333.262566
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 116.34223
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.000583
+    }
+  ]
+}

@@ -1,0 +1,1069 @@
+{
+  "project_name": "Simple Test",
+  "workflow_id": "workflow_20251029_073236",
+  "status": "success",
+  "context": {
+    "project_name": "Simple Test",
+    "workflow_id": "workflow_20251029_073236",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T07:32:36.145014",
+    "end_time": "2025-10-29T07:40:13.451427",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Simple Test",
+      "project_root": "projects/Simple Test",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T07:32:36.149981",
+        "action": "project_created",
+        "project_name": "Simple Test",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": null,
+        "attendees": [],
+        "meeting_date": "Not specified",
+        "meeting_objective": "Build a simple todo app.",
+        "key_discussion_points": [
+          "The project is to build a todo application.",
+          "The application should be simple.",
+          "This is the primary goal for the project."
+        ],
+        "pain_points": [],
+        "requirements": [
+          "Build a todo app",
+          "The app should be simple"
+        ],
+        "decisions_made": [
+          "The project will be to build a simple todo app."
+        ],
+        "action_items": [],
+        "technical_constraints": [],
+        "stakeholders": []
+      },
+      "project_name": "Simple Test",
+      "transcript_length": 24
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "Create Todo Item",
+          "description": "User creates a new todo item to track a task that needs to be completed",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User is logged into the application",
+            "User is on the main todo list view"
+          ],
+          "main_flow": [
+            "User clicks on the 'Add New Todo' button or input field",
+            "User types the todo item description",
+            "User presses Enter or clicks the 'Add' button",
+            "System validates the input is not empty",
+            "System creates the new todo item with default status (active)",
+            "System displays the new item in the todo list",
+            "System clears the input field for the next entry"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Empty Input",
+              "steps": [
+                "User clicks 'Add' without entering text",
+                "System displays validation message 'Please enter a todo item'",
+                "System does not create a new item"
+              ]
+            },
+            {
+              "name": "Cancel Creation",
+              "steps": [
+                "User starts typing but decides not to create the item",
+                "User presses Escape or clicks outside the input",
+                "System clears the input field without creating an item"
+              ]
+            }
+          ],
+          "postconditions": [
+            "New todo item is created and displayed in the list",
+            "Input field is cleared and ready for next entry"
+          ],
+          "priority": "high",
+          "business_value": "Core functionality that enables users to track their tasks, providing the primary value of the application"
+        },
+        {
+          "id": "UC-002",
+          "title": "View Todo List",
+          "description": "User views all their todo items in a consolidated list",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User is logged into the application",
+            "User has one or more todo items (or none)"
+          ],
+          "main_flow": [
+            "User navigates to the main application view",
+            "System retrieves all todo items for the user",
+            "System displays the todo items in a list format",
+            "Each item shows: description, completion status, and action buttons",
+            "System indicates the total number of items",
+            "System updates the list in real-time as changes occur"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Empty List",
+              "steps": [
+                "User has no todo items",
+                "System displays a message 'No todos yet. Add your first todo!'",
+                "System shows the input field prominently to encourage adding items"
+              ]
+            }
+          ],
+          "postconditions": [
+            "User can see all their todo items",
+            "List is sorted appropriately (e.g., by creation date or status)"
+          ],
+          "priority": "high",
+          "business_value": "Provides users with a clear overview of all their tasks, enabling effective task management"
+        },
+        {
+          "id": "UC-003",
+          "title": "Mark Todo as Complete",
+          "description": "User marks a todo item as complete when they have finished the task",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User is viewing the todo list",
+            "There is at least one active (incomplete) todo item"
+          ],
+          "main_flow": [
+            "User locates the todo item they want to mark as complete",
+            "User clicks the checkbox or 'Complete' button next to the item",
+            "System updates the item's status to complete",
+            "System applies visual styling to indicate completion (e.g., strikethrough text)",
+            "System moves the item to the completed section if using separate views",
+            "System updates the count of active/completed items"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Unmark as Complete",
+              "steps": [
+                "User accidentally marks an item as complete",
+                "User clicks the checkbox again on the completed item",
+                "System changes the status back to active",
+                "System removes completion styling"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Todo item status is updated to complete",
+            "Visual indicators reflect the completion status",
+            "Item counts are updated"
+          ],
+          "priority": "high",
+          "business_value": "Allows users to track their progress and maintain a clear distinction between pending and completed tasks"
+        },
+        {
+          "id": "UC-004",
+          "title": "Delete Todo Item",
+          "description": "User removes a todo item that is no longer needed or relevant",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User is viewing the todo list",
+            "There is at least one todo item to delete"
+          ],
+          "main_flow": [
+            "User locates the todo item they want to delete",
+            "User clicks the 'Delete' button/icon next to the item",
+            "System shows a confirmation dialog 'Are you sure you want to delete this todo?'",
+            "User clicks 'Confirm' to proceed with deletion",
+            "System removes the item from the list",
+            "System updates the item count",
+            "System shows a brief success message 'Todo deleted successfully'"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Cancel Deletion",
+              "steps": [
+                "User clicks 'Delete' but changes their mind",
+                "User clicks 'Cancel' in the confirmation dialog",
+                "System closes the dialog without deleting the item",
+                "Item remains in the list"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Todo item is permanently removed from the system",
+            "List no longer contains the deleted item",
+            "Item counts are updated"
+          ],
+          "priority": "medium",
+          "business_value": "Helps users maintain a clean and relevant todo list by removing obsolete or completed tasks"
+        },
+        {
+          "id": "UC-005",
+          "title": "Edit Todo Item",
+          "description": "User modifies the description of an existing todo item",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User is viewing the todo list",
+            "There is at least one todo item to edit"
+          ],
+          "main_flow": [
+            "User locates the todo item they want to edit",
+            "User clicks the 'Edit' button or double-clicks on the item text",
+            "System converts the item text to an editable input field",
+            "User modifies the todo description",
+            "User presses Enter or clicks outside the field to save",
+            "System validates the input is not empty",
+            "System updates the item with the new description",
+            "System displays the updated item in normal view mode"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Cancel Edit",
+              "steps": [
+                "User starts editing but decides not to save changes",
+                "User presses Escape key",
+                "System reverts to the original description",
+                "Item returns to normal view mode"
+              ]
+            },
+            {
+              "name": "Empty Edit",
+              "steps": [
+                "User deletes all text and tries to save",
+                "System shows validation error 'Todo item cannot be empty'",
+                "System keeps the item in edit mode"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Todo item description is updated",
+            "Item is displayed in normal view mode",
+            "Changes are saved to the system"
+          ],
+          "priority": "medium",
+          "business_value": "Provides flexibility for users to refine and update their task descriptions as requirements change"
+        },
+        {
+          "id": "UC-006",
+          "title": "Filter Todo Items",
+          "description": "User filters the todo list to view specific categories of items",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "User is viewing the todo list",
+            "User has multiple todo items with different statuses"
+          ],
+          "main_flow": [
+            "User clicks on the filter options (e.g., 'All', 'Active', 'Completed')",
+            "System retrieves todos matching the selected filter criteria",
+            "System updates the displayed list to show only filtered items",
+            "System highlights the active filter option",
+            "System updates the item count to reflect filtered results"
+          ],
+          "alternate_flows": [
+            {
+              "name": "No Items in Filter",
+              "steps": [
+                "User selects a filter with no matching items",
+                "System displays 'No items found' message",
+                "System shows option to switch to a different filter"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Todo list displays only items matching the selected filter",
+            "Active filter is clearly indicated",
+            "Item count reflects filtered results"
+          ],
+          "priority": "low",
+          "business_value": "Enhances user experience by allowing them to focus on specific subsets of their tasks"
+        }
+      ],
+      "business_requirements": {
+        "overview": "The Simple Test project aims to develop a straightforward todo application that allows users to create, manage, and track their daily tasks. The application will focus on simplicity and ease of use, providing essential todo functionality without unnecessary complexity.",
+        "business_goals": [
+          "Deliver a functional todo application that meets basic task management needs",
+          "Ensure the application is intuitive and requires minimal learning curve",
+          "Provide a reliable tool for personal task organization",
+          "Create a foundation for potential future enhancements",
+          "Demonstrate capability to deliver simple, effective software solutions"
+        ],
+        "success_criteria": [
+          "Users can successfully create, view, complete, edit, and delete todo items",
+          "Application loads and responds to user actions within 2 seconds",
+          "User interface is clean and intuitive, requiring no documentation for basic use",
+          "Zero critical bugs in core functionality",
+          "Application maintains data integrity during all operations",
+          "Positive user feedback on simplicity and ease of use"
+        ],
+        "constraints": [
+          "Application must remain simple and avoid feature creep",
+          "Development timeline and budget are not specified but should be reasonable for a simple app",
+          "Must work on modern web browsers without requiring plugins",
+          "Should be responsive and work on both desktop and mobile devices",
+          "No complex integrations with external systems required"
+        ],
+        "assumptions": [
+          "Users have basic computer literacy and familiarity with web applications",
+          "Application will be used by individuals for personal task management",
+          "No requirement for user authentication or multi-user support in initial version",
+          "Data can be stored locally in the browser without requiring a backend database",
+          "Users have access to modern web browsers with JavaScript enabled"
+        ],
+        "risks": [
+          {
+            "risk": "Scope creep leading to complexity",
+            "mitigation": "Strict adherence to simplicity principle, regular scope reviews"
+          },
+          {
+            "risk": "Poor user experience due to oversimplification",
+            "mitigation": "User testing and feedback collection during development"
+          },
+          {
+            "risk": "Data loss if using only local storage",
+            "mitigation": "Clear communication about data storage limitations, consider export functionality"
+          },
+          {
+            "risk": "Browser compatibility issues",
+            "mitigation": "Test on multiple browsers, use standard web technologies"
+          },
+          {
+            "risk": "Unclear requirements leading to rework",
+            "mitigation": "Regular stakeholder communication, prototype validation"
+          }
+        ]
+      },
+      "project_name": "Simple Test"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "Best Practices",
+            "pattern": "Command Query Responsibility Segregation (CQRS)",
+            "description": "Separate read operations (View Todo List) from write operations (Create Todo Item) to optimize performance and scalability",
+            "priority": "medium"
+          },
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Smart Input Validation",
+            "description": "Implement AI-powered input validation that can detect and suggest corrections for typos, duplicate tasks, or categorize items automatically",
+            "priority": "low"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Optimistic UI Updates",
+            "description": "Update the UI immediately when user creates a todo item before server confirmation, then rollback if needed",
+            "priority": "high"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "Event-Driven Architecture",
+            "description": "Use events for todo item creation to enable future features like notifications, analytics, or synchronization",
+            "priority": "medium"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "User Experience",
+            "suggestion": "Add keyboard shortcuts for common actions (e.g., 'N' for new todo, 'Enter' to save, 'Escape' to cancel)",
+            "rationale": "Improves productivity and accessibility for power users"
+          },
+          {
+            "area": "Data Management",
+            "suggestion": "Implement auto-save functionality while typing to prevent data loss",
+            "rationale": "Reduces risk of losing user input due to accidental navigation or browser crashes"
+          },
+          {
+            "area": "Feature Enhancement",
+            "suggestion": "Add priority levels and due dates to todo items",
+            "rationale": "Provides better task organization and time management capabilities"
+          },
+          {
+            "area": "Performance",
+            "suggestion": "Implement pagination or virtual scrolling for large todo lists",
+            "rationale": "Maintains application performance as the number of items grows"
+          },
+          {
+            "area": "Accessibility",
+            "suggestion": "Add ARIA labels and screen reader support for all interactive elements",
+            "rationale": "Ensures the application is usable by people with disabilities"
+          }
+        ],
+        "compliance_notes": [
+          "Ensure GDPR compliance if storing user data, including right to delete all todo items",
+          "Implement proper data encryption at rest and in transit for user privacy",
+          "Consider WCAG 2.1 AA compliance for accessibility requirements",
+          "Add audit logging for data changes if handling sensitive information"
+        ],
+        "integration_recommendations": [
+          "Integrate with calendar systems (Google Calendar, Outlook) for due date synchronization",
+          "Add email notification system for deadline reminders",
+          "Implement cloud storage backup (AWS S3, Azure Blob) for data persistence",
+          "Consider RESTful API design for future mobile app integration"
+        ]
+      },
+      "project_name": "Simple Test",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "prd": {
+      "prd_markdown": "---\n**AICOE Product Requirements Document**\n\n**Document Classification:** Internal - Confidential\n**Version:** 1.0\n**Date:** October 26, 2023\n**Prepared By:** AICOE Multi-Agent Platform\n**Project:** Simple Test\n\n---\n\n# Simple Test - Product Requirements Document\n\n## 1. Executive Summary\n\nThe Simple Test project aims to develop a straightforward, intuitive todo application that allows users to effectively create, manage, and track their daily tasks. The project's core purpose is to deliver a clean, minimal, and highly usable task management tool that eliminates the complexity often found in larger productivity suites. The expected impact is to provide users with a reliable digital solution for personal organization, thereby improving individual productivity and task completion rates. The primary business value lies in demonstrating AICOE's capability to deliver simple, elegant, and effective software solutions that address fundamental user needs. Key stakeholders include the AICOE Product Management and Development teams. The target timeline is designed for an agile delivery, with a projected launch within a single development sprint cycle.\n\n## 2. Goals & Objectives\n\n**Business Goals:**\n- Deliver a fully functional todo application that meets core task management needs within a short development cycle.\n- Establish a foundation for potential future enhancements and feature iterations.\n- Demonstrate AICOE's ability to execute on projects with a focus on simplicity and user-centric design.\n- Achieve a 95% user satisfaction score regarding ease of use in initial feedback sessions.\n\n**User Goals:**\n- Quickly and easily add new tasks to a personal list without friction.\n- View all tasks in a single, uncluttered interface.\n- Mark tasks as complete to track progress and maintain a clear sense of accomplishment.\n- Modify or remove tasks as priorities change.\n- Filter tasks to focus on what's currently relevant (e.g., active vs. completed).\n\n**Technical Goals:**\n- Ensure the application loads and responds to user interactions within 2 seconds.\n- Achieve 100% uptime for the client-side application.\n- Build a responsive user interface that functions seamlessly on both desktop and mobile browsers.\n- Implement a robust data handling layer that maintains data integrity during all user operations.\n\n## 3. Problem Statement\n\n**What problem are we solving?**\nIndividuals often struggle to keep track of their daily tasks and responsibilities, leading to forgotten commitments and increased stress. Many existing digital tools are overly complex, bloated with unnecessary features that create a steep learning curve and distract from the primary goal of task management. There is a clear need for a simple, fast, and distraction-free digital solution for personal task tracking.\n\n**Who has this problem?**\nThe primary users are individuals seeking personal organization, ranging from students and professionals to anyone managing personal projects or daily errands. These users value efficiency and simplicity over complex project management features.\n\n**Current pain points and limitations:**\n- **Complexity:** Many todo apps are cluttered with features like tags, priorities, due dates, and collaborations, which can be overwhelming for simple task tracking.\n- **Slow Performance:** Some applications are sluggish, hindering the quick capture of tasks.\n- **Poor User Experience:** Non-intuitive interfaces can make simple actions like adding or completing a task cumbersome.\n- **Platform Dependency:** Users may be tied to a specific ecosystem (e.g., Apple Reminders, Google Tasks) and lack a simple, cross-platform solution.\n\n**Opportunity size and market context:**\nThe productivity and task management market is substantial, but there is a persistent niche for minimalist applications. By focusing on simplicity and core functionality, the Simple Test app can appeal to users frustrated with feature-bloat, capturing a dedicated user base that prioritizes ease of use over extensive functionality.\n\n## 4. User Personas & Stakeholders\n\n**User Persona: \"Alex, the Busy Professional\"**\n- **Role/Title:** Marketing Manager\n- **Goals and motivations:** Alex wants to quickly jot down work tasks, meeting follow-ups, and personal reminders throughout the day. Their primary motivation is to offload mental tracking to a reliable system to reduce cognitive load and ensure nothing is forgotten.\n- **Pain points:** Alex is often in back-to-back meetings and needs to capture tasks in under 5 seconds. Complex apps with multiple fields are a deterrent. Alex also needs to access their list from both their work desktop and personal phone.\n- **Technical proficiency:** Alex is comfortable with standard web and mobile applications but is not a power user. They prefer intuitive, self-explanatory interfaces.\n\n**User Persona: \"Sam, the Student\"**\n- **Role/Title:** University Student\n- **Goals and motivations:** Sam needs to manage assignments, study goals, and personal chores. Their goal is to maintain a clear overview of all pending tasks to balance academic and personal life effectively.\n- **Pain points:** Sam is often distracted by feature-heavy apps that offer more than they need. They want a free, simple tool that doesn't require a lengthy setup or tutorial.\n- **Technical proficiency:** Sam is a digital native and very comfortable with new applications, but values speed and efficiency above all else.\n\n**Key Stakeholders:**\n- **AICOE Product Team:** Responsible for defining the product vision, managing the roadmap, and ensuring the final product meets user needs and business goals.\n- **AICOE Development Team:** Responsible for the technical implementation, quality assurance, and deployment of the application.\n- **AICOE Leadership:** Interested in the project as a demonstration of the team's agile capabilities and product development acumen.\n\n## 5. Features & User Stories\n\n**Must-Have Features**\n\n| Feature | User Story |\n|---|---|\n| Create Todo Item | As a user, I want to quickly add a new todo item to my list so that I can capture tasks as soon as I think of them. |\n| View Todo List | As a user, I want to see all my todo items in a single, clean list so that I have a complete overview of my tasks. |\n| Mark Todo as Complete | As a user, I want to mark an item as complete so that I can track my progress and focus on remaining tasks. |\n| Delete Todo Item | As a user, I want to delete a todo item so that I can remove irrelevant or completed tasks and keep my list clean. |\n\n**Should-Have Features**\n\n| Feature | User Story |\n|---|---|\n| Edit Todo Item | As a user, I want to edit the description of an existing todo item so that I can update it as details change. |\n| Filter Todo Items | As a user, I want to filter my list to view only 'Active' or 'Completed' items so that I can better focus on my current priorities. |\n\n**Nice-to-Have Features**\n\n| Feature | User Story |\n|---|---|\n| Item Counter | As a user, I want to see a count of my total, active, and completed items so that I can quickly gauge my workload. |\n| Data Persistence | As a user, I want my todos to be saved automatically so that I don't lose my list when I close the browser. |\n\n## 6. Use Cases\n\n### UC-001: Create Todo Item\n- **Actors:** User\n- **Preconditions:** User is logged into the application, User is on the main todo list view.\n- **Main Flow:**\n  1. User clicks on the 'Add New Todo' button or input field.\n  2. User types the todo item description.\n  3. User presses Enter or clicks the 'Add' button.\n  4. System validates the input is not empty.\n  5. System creates the new todo item with default status (active).\n  6. System displays the new item in the todo list.\n  7. System clears the input field for the next entry.\n- **Alternative Flows:**\n  - **Empty Input:** User clicks 'Add' without entering text. System displays validation message 'Please enter a todo item'. System does not create a new item.\n  - **Cancel Creation:** User starts typing but decides not to create the item. User presses Escape or clicks outside the input. System clears the input field without creating an item.\n- **Postconditions:** New todo item is created and displayed in the list, Input field is cleared and ready for next entry.\n- **Success Criteria:** Item is created and visible in the list within 1 second of user action.\n\n### UC-002: View Todo List\n- **Actors:** User\n- **Preconditions:** User is logged into the application, User has one or more todo items (or none).\n- **Main Flow:**\n  1. User navigates to the main application view.\n  2. System retrieves all todo items for the user.\n  3. System displays the todo items in a list format.\n  4. Each item shows: description, completion status, and action buttons.\n  5. System indicates the total number of items.\n  6. System updates the list in real-time as changes occur.\n- **Alternative Flows:**\n  - **Empty List:** User has no todo items. System displays a message 'No todos yet. Add your first todo!'. System shows the input field prominently to encourage adding items.\n- **Postconditions:** User can see all their todo items, List is sorted appropriately (e.g., by creation date or status).\n- **Success Criteria:** The list is fully rendered and interactive within 2 seconds of loading.\n\n### UC-003: Mark Todo as Complete\n- **Actors:** User\n- **Preconditions:** User is viewing the todo list, There is at least one active (incomplete) todo item.\n- **Main Flow:**\n  1. User locates the todo item they want to mark as complete.\n  2. User clicks the checkbox or 'Complete' button next to the item.\n  3. System updates the item's status to complete.\n  4. System applies visual styling to indicate completion (e.g., strikethrough text).\n  5. System moves the item to the completed section if using separate views.\n  6. System updates the count of active/completed items.\n- **Alternative Flows:**\n  - **Unmark as Complete:** User accidentally marks an item as complete. User clicks the checkbox again on the completed item. System changes the status back to active. System removes completion styling.\n- **Postconditions:** Todo item status is updated to complete, Visual indicators reflect the completion status, Item counts are updated.\n- **Success Criteria:** The status change is reflected visually and in the data model instantly upon user click.\n\n### UC-004: Delete Todo Item\n- **Actors:** User\n- **Preconditions:** User is viewing the todo list, There is at least one todo item to delete.\n- **Main Flow:**\n  1. User locates the todo item they want to delete.\n  2. User clicks the 'Delete' button/icon next to the item.\n  3. System shows a confirmation dialog 'Are you sure you want to delete this todo?'.\n  4. User clicks 'Confirm' to proceed with deletion.\n  5. System removes the item from the list.\n  6. System updates the item count.\n  7. System shows a brief success message 'Todo deleted successfully'.\n- **Alternative Flows:**\n  - **Cancel Deletion:** User clicks 'Delete' but changes their mind. User clicks 'Cancel' in the confirmation dialog. System closes the dialog without deleting the item. Item remains in the list.\n- **Postconditions:** Todo item is permanently removed from the system, List no longer contains the deleted item, Item counts are updated.\n- **Success Criteria:** Item is removed from the UI immediately upon confirmation.\n\n### UC-005: Edit Todo Item\n- **Actors:** User\n- **Preconditions:** User is viewing the todo list, There is at least one todo item to edit.\n- **Main Flow:**\n  1. User locates the todo item they want to edit.\n  2. User clicks the 'Edit' button or double-clicks on the item text.\n  3. System converts the item text to an editable input field.\n  4. User modifies the todo description.\n  5. User presses Enter or clicks outside the field to save.\n  6. System validates the input is not empty.\n  7. System updates the item with the new description.\n  8. System displays the updated item in normal view mode.\n- **Alternative Flows:**\n  - **Cancel Edit:** User starts editing but decides not to save changes. User presses Escape key. System reverts to the original description. Item returns to normal view mode.\n  - **Empty Edit:** User deletes all text and tries to save. System shows validation error 'Todo item cannot be empty'. System keeps the item in edit mode.\n- **Postconditions:** Todo item description is updated, Item is displayed in normal view mode, Changes are saved to the system.\n- **Success Criteria:** The edit is saved and reflected in the list within 500ms of the user's save action.\n\n### UC-006: Filter Todo Items\n- **Actors:** User\n- **Preconditions:** User is viewing the todo list, User has multiple todo items with different statuses.\n- **Main Flow:**\n  1. User clicks on the filter options (e.g., 'All', 'Active', 'Completed').\n  2. System retrieves todos matching the selected filter criteria.\n  3. System updates the displayed list to show only filtered items.\n  4. System highlights the active filter option.\n  5. System updates the item count to reflect filtered results.\n- **Alternative Flows:**\n  - **No Items in Filter:** User selects a filter with no matching items. System displays 'No items found' message. System shows option to switch to a different filter.\n- **Postconditions:** Todo list displays only items matching the selected filter, Active filter is clearly indicated, Item count reflects filtered results.\n- **Success Criteria:** The list is re-rendered with the correct items within 1 second of selecting a filter.\n\n## 7. Functional Requirements\n\n**FR-01: Todo Item Creation**\nThe system shall allow a user to create a new todo item by entering text into a designated input field and submitting it.\n\n**FR-02: Input Validation**\nThe system shall prevent the creation of a todo item if the description field is empty and shall display a validation error message.\n\n**FR-03: Todo List Display**\nThe system shall display all todo items in a vertically scrollable list on the main view.\n\n**FR-04: Item Information Display**\nFor each todo item, the system shall display its description and current status (active or complete).\n\n**FR-05: Mark as Complete**\nThe system shall provide a clickable element (e.g., checkbox) for each item to toggle its status between active and complete.\n\n**FR-06: Completion Styling**\nThe system shall apply distinct visual styling (e.g., strikethrough text, muted color) to items marked as complete.\n\n**FR-07: Todo Item Deletion**\nThe system shall provide a 'Delete' control for each todo item that initiates a deletion process.\n\n**FR-08: Deletion Confirmation**\nThe system shall require user confirmation before permanently deleting a todo item.\n\n**FR-09: Todo Item Editing**\nThe system shall allow a user to edit the description of an existing todo item in-place.\n\n**FR-10: Edit Mode Activation**\nThe system shall enter edit mode for an item when the user clicks an 'Edit' button or double-clicks the item text.\n\n**FR-11: Edit Cancellation**\nThe system shall allow a user to cancel an edit and revert to the original text.\n\n**FR-12: Filter Controls**\nThe system shall provide UI controls to filter the todo list by 'All', 'Active', and 'Completed' statuses.\n\n**FR-13: Filter State Persistence**\nThe system shall maintain the selected filter state during the user's session.\n\n**FR-14: Empty State Messaging**\nThe system shall display a helpful message when the todo list is empty or when a filter returns no results.\n\n**FR-15: Item Counter**\nThe system shall display a count of items that corresponds to the currently active filter.\n\n## 8. Non-Functional Requirements\n\n**Performance:**\n- The application must load and become interactive within 2 seconds on a standard broadband connection.\n- All user actions (add, edit, delete, complete, filter) must provide visual feedback within 200 milliseconds.\n- The application must be able to handle a list of up to 1,000 todo items without significant degradation in performance.\n\n**Security:**\n- As a client-side only application, data is stored locally in the browser. The system must ensure no sensitive data is exposed through cross-site scripting (XSS) vulnerabilities.\n- All user input must be sanitized to prevent injection attacks.\n\n**Usability:**\n- The user interface must be clean, uncluttered, and intuitive, requiring no documentation for basic use.\n- The application must be fully responsive and usable on screen sizes from 320px (mobile) to 1920px (desktop).\n- The application must meet WCAG 2.1 Level AA accessibility standards, including keyboard navigation and screen reader compatibility.\n\n**Reliability:**\n- The application must function correctly on the latest versions of major browsers (Chrome, Firefox, Safari, Edge).\n- Data stored in the browser's local storage must not be corrupted by application errors.\n- The application must gracefully handle browser storage quota being exceeded.\n\n**Maintainability:**\n- Code must be well-documented, modular, and follow industry-standard best practices.\n- The front-end architecture must allow for easy addition of new features without significant refactoring.\n- A comprehensive style guide must be used to ensure UI consistency.\n\n## 9. Technical Architecture\n\n**System Components and Interactions:**\nThe application will be a Single-Page Application (SPA) composed of three main layers:\n1.  **Presentation Layer (UI):** Built with a modern JavaScript framework (e.g., React, Vue, Svelte) to manage the user interface and state. This layer will handle all user interactions and render the todo list and input controls.\n2.  **Business Logic Layer:** This layer, contained within the SPA, will manage the core application logic, including creating, updating, deleting, and filtering todo items.\n3.  **Data Persistence Layer:** The application will use the browser's `localStorage` API to persist todo data on the client's device. This eliminates the need for a backend server and database for the initial version.\n\n**Technology Stack Recommendations:**\n- **Frontend Framework:** React or Vue.js for component-based architecture and efficient state management.\n- **Styling:** CSS Modules or a utility-first CSS framework like Tailwind CSS to create a clean, responsive design.\n- **Build Tool:** Vite or Webpack for fast development and optimized production builds.\n- **Language:** TypeScript for improved code quality and maintainability.\n\n**Integration Points and APIs:**\n- No external APIs are required for the core functionality.\n- The only integration point is with the browser's native `localStorage` API.\n\n**Data Flow and Storage:**\n- User actions trigger events in the Presentation Layer.\n- The Business Logic Layer processes these events, updating the in-memory state.\n- The state is then persisted to `localStorage` as a JSON string.\n- On application load, the data is retrieved from `localStorage` to populate the initial state.\n\n**Deployment Architecture:**\n- The application will be deployed as a set of static assets (HTML, CSS, JavaScript) to a Content Delivery Network (CDN) or a static hosting service (e.g., Vercel, Netlify, GitHub Pages). This ensures high availability, scalability, and fast load times globally.\n\n## 10. Acceptance Criteria\n\n**AC-01: Todo Creation**\nGiven the user is on the main page, when they type a task and press Enter, the task appears in the list below the input field, and the input field is cleared.\n\n**AC-02: Empty Todo Rejection**\nGiven the user is on the main page, when they press Enter or click 'Add' with an empty input field, no new item is created, and an error message is shown.\n\n**AC-03: Todo Completion**\nGiven there is an active todo item in the list, when the user clicks its checkbox, the item's text is struck through and its appearance changes to indicate completion.\n\n**AC-04: Todo Un-completion**\nGiven there is a completed todo item in the list, when the user clicks its checkbox again, the strikethrough and completion styling are removed, and it appears as an active item.\n\n**AC-05: Todo Deletion**\nGiven there is a todo item in the list, when the user clicks its delete button and confirms the action, the item is immediately removed from the list.\n\n**AC-06: Todo Editing**\nGiven there is a todo item in the list, when the user double-clicks its text, it becomes an editable field. Upon saving, the new text is displayed.\n\n**AC-07: Filter by Active**\nGiven there are both active and completed todos, when the user clicks the 'Active' filter, only the active todos are displayed.\n\n**AC-08: Filter by Completed**\nGiven there are both active and completed todos, when the user clicks the 'Completed' filter, only the completed todos are displayed.\n\n**AC-09: Data Persistence**\nGiven the user has added todos, when they close and reopen the browser tab, their todo list is restored to its previous state.\n\n**AC-10: Empty List Display**\nGiven the user has no todos, when they load the application, a message encouraging them to add their first todo is displayed.\n\n## 11. Success Metrics\n\n**User Adoption Metrics:**\n- **Daily Active Users (DAU):** Target of 50 DAU within the first month post-launch.\n- **Task Completion Rate:** Percentage of created todos that are eventually marked as complete. Target: >70%.\n\n**Business Impact Metrics:**\n- **User Satisfaction Score:** Achieve an average rating of 4.5/5.0 in post-launch user feedback surveys.\n- **Development Efficiency:** Project delivered on time and within the estimated budget for a simple application.\n\n**Technical Performance Metrics:**\n- **Average Page Load Time:** Maintain an average load time of under 2 seconds.\n- **Error Rate:** Less than 0.1% of user sessions encounter a client-side JavaScript error.\n\n**User Satisfaction Metrics:**\n- **Net Promoter Score (NPS):** Achieve an NPS of +40 or higher.\n- **Qualitative Feedback:** Collect and analyze user comments to ensure the app is perceived as \"simple\" and \"easy to use.\"\n\n## 12. Timeline & Milestones\n\n**Phase 1: Core Functionality (2 Weeks)**\n- **Scope:** Implement Create, View, Complete, and Delete todo functionalities. Set up the basic project structure, UI components, and local storage integration.\n- **Timeline:** Week 1-2.\n- **Milestone:** A functional but unstyled version of the app where users can manage their todos.\n\n**Phase 2: UI/UX Polish & Editing (1 Week)**\n- **Scope:** Implement the final UI design, responsive layout, and the Edit todo item feature. Conduct initial usability testing.\n- **Timeline:** Week 3.\n- **Milestone:** A visually complete and responsive application with all core features implemented.\n\n**Phase 3: Filtering & Launch Preparation (1 Week)**\n- **Scope:** Implement the filtering feature, fix bugs identified in testing, optimize performance, and prepare for deployment.\n- **Timeline:** Week 4.\n- **Milestone:** Production-ready application deployed and available to users.\n\n**Key Milestones and Dependencies:**\n- **Milestone 1:** Completion of Phase 1 (End of Week 2). Dependency: Finalized UI design mockups.\n- **Milestone 2:** Beta Release for Internal Testing (End of Week 3). Dependency: Completion of Phase 2.\n- **Milestone 3:** Public Launch (End of Week 4). Dependency: Successful completion of Phase 3 and final sign-off.\n\n## 13. Risks & Mitigation\n\n| Risk | Impact | Probability | Mitigation Strategy |\n|------|--------|-------------|---------------------|\n| Scope creep leading to complexity | High | Medium | Strict adherence to the defined feature set. Any new feature requests must be deferred to a future version. Regular scope review meetings with stakeholders. |\n| Poor user experience due to oversimplification | Medium | Medium | Conduct iterative usability testing with target users during development. Gather feedback on the prototype to ensure the app is simple but not frustrating. |\n| Data loss if using only local storage | High | Low | Clearly communicate to users that data is stored locally in the browser. Consider adding an 'Export to File' feature in a future version to allow users to back up their data. |\n| Browser compatibility issues | Medium | Medium | Utilize a modern JavaScript framework that handles many cross-browser inconsistencies. Perform testing on the latest versions of Chrome, Firefox, Safari, and Edge before launch. |\n| Unclear requirements leading to rework | Medium | Low | Maintain open and frequent communication between the Product and Development teams. Use this PRD as the single source of truth and validate assumptions with prototypes. |\n\n## 14. Dependencies & Assumptions\n\n**Dependencies:**\n- **External Systems/APIs:** None. The application is self-contained.\n- **Third-party Services:** A static hosting service (e.g., Vercel, Netlify) for deployment.\n- **Team Resources:** Availability of one front-end developer and one product manager for the duration of the 4-week timeline.\n\n**Assumptions:**\n- **Technical Assumptions:** Users will have a modern web browser (e.g., Chrome, Firefox, Safari, Edge) released within the last 2 years. JavaScript will be enabled.\n- **Business Assumptions:** The project does not require user authentication or a multi-user database for the initial version. The primary goal is to validate the core concept and user experience.\n- **User Behavior Assumptions:** Users are familiar with basic web application interactions like clicking buttons, typing in text fields, and using checkboxes. They are looking for a personal, single-user tool.\n\n## 15. Open Questions\n\n1.  **Branding and Visual Identity:** What are the specific brand colors, logos, and typography guidelines to be used for the application?\n2.  **Data Export Priority:** Should an 'Export to File' (e.g., JSON, CSV) feature be considered a \"Should-Have\" instead of a \"Nice-to-Have\" to fully mitigate the data loss risk?\n3.  **Long-Term Roadmap:** Are there any specific features (e.g., due dates, tags) that are being considered for a potential V2, which might influence the current data model structure?\n\n---\n\n**Document Footer:**\n*This PRD was generated by the AICOE Multi-Agent Platform using AI-powered analysis.*\n*For questions or feedback, contact the AICOE Product Team.*\n\n---",
+      "project_name": "Simple Test",
+      "length": 26057,
+      "sections": [
+        "1. Executive Summary",
+        "2. Goals & Objectives",
+        "3. Problem Statement",
+        "4. User Personas & Stakeholders",
+        "5. Features & User Stories",
+        "6. Use Cases",
+        "7. Functional Requirements",
+        "8. Non-Functional Requirements",
+        "9. Technical Architecture",
+        "10. Acceptance Criteria",
+        "11. Success Metrics",
+        "12. Timeline & Milestones",
+        "13. Risks & Mitigation",
+        "14. Dependencies & Assumptions",
+        "15. Open Questions"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Simple Test - AICOE Multi-Agent Platform</title>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n    <style>\n        :root {\n            --aicoe-primary: #0066cc;\n            --aicoe-accent: #00d9ff;\n            --aicoe-dark: #1d1d1f;\n            --aicoe-gray: #6e6e73;\n            --aicoe-light-gray: #f5f5f7;\n            --aicoe-white: #ffffff;\n            --aicoe-success: #34c759;\n            --aicoe-warning: #ff9500;\n        }\n\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n            color: var(--aicoe-dark);\n            background: var(--aicoe-white);\n            line-height: 1.6;\n        }\n\n        /* Navigation */\n        nav {\n            position: sticky;\n            top: 0;\n            background: rgba(255, 255, 255, 0.95);\n            backdrop-filter: blur(20px);\n            border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n            z-index: 1000;\n            padding: 1rem 0;\n        }\n\n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 0 2rem;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .nav-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n        }\n\n        .nav-brand i {\n            width: 32px;\n            height: 32px;\n        }\n\n        .nav-links {\n            display: flex;\n            gap: 2rem;\n            list-style: none;\n        }\n\n        .nav-links a {\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            transition: color 0.3s ease;\n        }\n\n        .nav-links a:hover {\n            color: var(--aicoe-primary);\n        }\n\n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);\n            color: var(--aicoe-white);\n            padding: 5rem 2rem;\n            text-align: center;\n        }\n\n        .hero-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .hero h1 {\n            font-size: 3rem;\n            font-weight: 700;\n            margin-bottom: 1rem;\n            animation: fadeInUp 0.8s ease;\n        }\n\n        .hero p {\n            font-size: 1.25rem;\n            opacity: 0.95;\n            max-width: 600px;\n            margin: 0 auto 2rem;\n            animation: fadeInUp 0.8s ease 0.2s both;\n        }\n\n        .project-meta {\n            display: flex;\n            justify-content: center;\n            gap: 2rem;\n            flex-wrap: wrap;\n            animation: fadeInUp 0.8s ease 0.4s both;\n        }\n\n        .meta-item {\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            background: rgba(255, 255, 255, 0.2);\n            padding: 0.5rem 1rem;\n            border-radius: 20px;\n            backdrop-filter: blur(10px);\n        }\n\n        /* Main Content */\n        .main-content {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 3rem 2rem;\n        }\n\n        /* Section Headers */\n        .section-header {\n            margin-bottom: 2rem;\n        }\n\n        .section-header h2 {\n            font-size: 2rem;\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.5rem;\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n        }\n\n        .section-header p {\n            color: var(--aicoe-gray);\n        }\n\n        /* Use Cases Grid */\n        .use-cases-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));\n            gap: 2rem;\n            margin-bottom: 3rem;\n        }\n\n        .use-case-card {\n            background: var(--aicoe-white);\n            border: 1px solid rgba(0, 0, 0, 0.1);\n            border-radius: 12px;\n            padding: 1.5rem;\n            transition: all 0.3s ease;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n        }\n\n        .use-case-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n        }\n\n        .use-case-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: start;\n            margin-bottom: 1rem;\n        }\n\n        .use-case-id {\n            background: var(--aicoe-light-gray);\n            color: var(--aicoe-primary);\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.875rem;\n            font-weight: 600;\n        }\n\n        .priority-badge {\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.75rem;\n            font-weight: 600;\n            text-transform: uppercase;\n        }\n\n        .priority-high {\n            background: rgba(255, 149, 0, 0.1);\n            color: var(--aicoe-warning);\n        }\n\n        .priority-medium {\n            background: rgba(0, 102, 204, 0.1);\n            color: var(--aicoe-primary);\n        }\n\n        .priority-low {\n            background: rgba(110, 110, 115, 0.1);\n            color: var(--aicoe-gray);\n        }\n\n        .use-case-title {\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.5rem;\n        }\n\n        .use-case-description {\n            color: var(--aicoe-gray);\n            margin-bottom: 1rem;\n            line-height: 1.6;\n        }\n\n        .use-case-details {\n            display: flex;\n            flex-direction: column;\n            gap: 1rem;\n        }\n\n        .detail-section {\n            border-top: 1px solid var(--aicoe-light-gray);\n            padding-top: 1rem;\n        }\n\n        .detail-title {\n            font-size: 0.875rem;\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.5rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .detail-content {\n            font-size: 0.875rem;\n            color: var(--aicoe-gray);\n        }\n\n        .flow-list {\n            list-style: none;\n            counter-reset: flow-counter;\n        }\n\n        .flow-list li {\n            counter-increment: flow-counter;\n            position: relative;\n            padding-left: 2rem;\n            margin-bottom: 0.5rem;\n            font-size: 0.875rem;\n            color: var(--aicoe-gray);\n        }\n\n        .flow-list li::before {\n            content: counter(flow-counter);\n            position: absolute;\n            left: 0;\n            top: 0;\n            width: 1.5rem;\n            height: 1.5rem;\n            background: var(--aicoe-light-gray);\n            color: var(--aicoe-primary);\n            border-radius: 50%;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-size: 0.75rem;\n            font-weight: 600;\n        }\n\n        .actor-tags {\n            display: flex;\n            gap: 0.5rem;\n            flex-wrap: wrap;\n        }\n\n        .actor-tag {\n            background: var(--aicoe-light-gray);\n            color: var(--aicoe-dark);\n            padding: 0.25rem 0.75rem;\n            border-radius: 16px;\n            font-size: 0.875rem;\n        }\n\n        /* Business Value */\n        .business-value {\n            background: linear-gradient(135deg, rgba(0, 102, 204, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);\n            border-left: 3px solid var(--aicoe-primary);\n            padding: 1rem;\n            border-radius: 8px;\n            font-size: 0.875rem;\n            color: var(--aicoe-dark);\n        }\n\n        /* Context Section */\n        .context-section {\n            background: var(--aicoe-light-gray);\n            border-radius: 12px;\n            padding: 2rem;\n            margin-bottom: 3rem;\n        }\n\n        .context-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n            gap: 2rem;\n        }\n\n        .context-item {\n            background: var(--aicoe-white);\n            padding: 1.5rem;\n            border-radius: 8px;\n        }\n\n        .context-item h3 {\n            font-size: 1rem;\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.75rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .context-item ul {\n            list-style: none;\n        }\n\n        .context-item li {\n            padding: 0.25rem 0;\n            color: var(--aicoe-gray);\n            font-size: 0.875rem;\n            position: relative;\n            padding-left: 1.5rem;\n        }\n\n        .context-item li::before {\n            content: \"\u2022\";\n            position: absolute;\n            left: 0;\n            color: var(--aicoe-primary);\n            font-weight: bold;\n        }\n\n        /* Footer */\n        footer {\n            background: var(--aicoe-dark);\n            color: var(--aicoe-white);\n            padding: 3rem 2rem;\n            text-align: center;\n        }\n\n        .footer-content {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .footer-brand {\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            margin-bottom: 1rem;\n        }\n\n        .footer-text {\n            color: var(--aicoe-gray);\n            margin-bottom: 2rem;\n        }\n\n        .footer-links {\n            display: flex;\n            justify-content: center;\n            gap: 2rem;\n            flex-wrap: wrap;\n        }\n\n        .footer-links a {\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            transition: color 0.3s ease;\n        }\n\n        .footer-links a:hover {\n            color: var(--aicoe-accent);\n        }\n\n        /* Animations */\n        @keyframes fadeInUp {\n            from {\n                opacity: 0;\n                transform: translateY(20px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        /* Responsive */\n        @media (max-width: 768px) {\n            .nav-links {\n                display: none;\n            }\n\n            .hero h1 {\n                font-size: 2rem;\n            }\n\n            .hero p {\n                font-size: 1rem;\n            }\n\n            .use-cases-grid {\n                grid-template-columns: 1fr;\n            }\n\n            .context-grid {\n                grid-template-columns: 1fr;\n            }\n        }\n\n        /* Print Styles */\n        @media print {\n            nav, .nav-links, button, .no-print {\n                display: none !important;\n            }\n\n            body {\n                font-size: 12pt;\n                color: #000;\n                background: #fff;\n            }\n\n            * {\n                box-shadow: none !important;\n                text-shadow: none !important;\n            }\n\n            .page-break {\n                page-break-before: always;\n            }\n\n            h1, h2, h3 {\n                page-break-after: avoid;\n            }\n\n            a[href]:after {\n                content: \" (\" attr(href) \")\";\n            }\n\n            .hero {\n                background: var(--aicoe-primary) !important;\n                color: #fff !important;\n            }\n\n            .use-case-card {\n                break-inside: avoid;\n                border: 1px solid #ccc;\n            }\n        }\n    </style>\n</head>\n<body>\n    <!-- Navigation -->\n    <nav>\n        <div class=\"nav-container\">\n            <div class=\"nav-brand\">\n                <i data-lucide=\"layers\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <ul class=\"nav-links\">\n                <li><a href=\"#home\"><i data-lucide=\"home\"></i> Home</a></li>\n                <li><a href=\"#overview\"><i data-lucide=\"file-text\"></i> Overview</a></li>\n                <li><a href=\"#use-cases\"><i data-lucide=\"check-circle\"></i> Use Cases</a></li>\n                <li><a href=\"#context\"><i data-lucide=\"database\"></i> Context</a></li>\n                <li><a href=\"#settings\"><i data-lucide=\"settings\"></i> Settings</a></li>\n            </ul>\n        </div>\n    </nav>\n\n    <!-- Hero Section -->\n    <section class=\"hero\" id=\"home\">\n        <div class=\"hero-container\">\n            <h1>Simple Test</h1>\n            <p>A streamlined todo application designed for simplicity and efficiency</p>\n            <div class=\"project-meta\">\n                <div class=\"meta-item\">\n                    <i data-lucide=\"target\"></i>\n                    <span>Simple Todo App</span>\n                </div>\n                <div class=\"meta-item\">\n                    <i data-lucide=\"check-circle\"></i>\n                    <span>6 Use Cases</span>\n                </div>\n                <div class=\"meta-item\">\n                    <i data-lucide=\"zap\"></i>\n                    <span>High Priority</span>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Main Content -->\n    <main class=\"main-content\">\n        <!-- Use Cases Section -->\n        <section id=\"use-cases\">\n            <div class=\"section-header\">\n                <h2><i data-lucide=\"check-circle\"></i> Use Cases</h2>\n                <p>Comprehensive functionality coverage for the Simple Test todo application</p>\n            </div>\n\n            <div class=\"use-cases-grid\">\n                <!-- Use Case 1 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-001</span>\n                        <span class=\"priority-badge priority-high\">High</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Create Todo Item</h3>\n                    <p class=\"use-case-description\">User creates a new todo item to track a task that needs to be completed</p>\n                    \n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"users\"></i> Actors\n                            </div>\n                            <div class=\"actor-tags\">\n                                <span class=\"actor-tag\">User</span>\n                            </div>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i> Main Flow\n                            </div>\n                            <ul class=\"flow-list\">\n                                <li>User clicks on the 'Add New Todo' button or input field</li>\n                                <li>User types the todo item description</li>\n                                <li>User presses Enter or clicks the 'Add' button</li>\n                                <li>System validates the input is not empty</li>\n                                <li>System creates the new todo item with default status (active)</li>\n                                <li>System displays the new item in the todo list</li>\n                                <li>System clears the input field for the next entry</li>\n                            </ul>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shield\"></i> Business Value\n                            </div>\n                            <div class=\"business-value\">\n                                Core functionality that enables users to track their tasks, providing the primary value of the application\n                            </div>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Use Case 2 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-002</span>\n                        <span class=\"priority-badge priority-high\">High</span>\n                    </div>\n                    <h3 class=\"use-case-title\">View Todo List</h3>\n                    <p class=\"use-case-description\">User views all their todo items in a consolidated list</p>\n                    \n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"users\"></i> Actors\n                            </div>\n                            <div class=\"actor-tags\">\n                                <span class=\"actor-tag\">User</span>\n                            </div>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i> Main Flow\n                            </div>\n                            <ul class=\"flow-list\">\n                                <li>User navigates to the main application view</li>\n                                <li>System retrieves all todo items for the user</li>\n                                <li>System displays the todo items in a list format</li>\n                                <li>Each item shows: description, completion status, and action buttons</li>\n                                <li>System indicates the total number of items</li>\n                                <li>System updates the list in real-time as changes occur</li>\n                            </ul>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shield\"></i> Business Value\n                            </div>\n                            <div class=\"business-value\">\n                                Provides users with a clear overview of all their tasks, enabling effective task management\n                            </div>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Use Case 3 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-003</span>\n                        <span class=\"priority-badge priority-high\">High</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Mark Todo as Complete</h3>\n                    <p class=\"use-case-description\">User marks a todo item as complete when they have finished the task</p>\n                    \n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"users\"></i> Actors\n                            </div>\n                            <div class=\"actor-tags\">\n                                <span class=\"actor-tag\">User</span>\n                            </div>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i> Main Flow\n                            </div>\n                            <ul class=\"flow-list\">\n                                <li>User locates the todo item they want to mark as complete</li>\n                                <li>User clicks the checkbox or 'Complete' button next to the item</li>\n                                <li>System updates the item's status to complete</li>\n                                <li>System applies visual styling to indicate completion</li>\n                                <li>System moves the item to the completed section if using separate views</li>\n                                <li>System updates the count of active/completed items</li>\n                            </ul>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shield\"></i> Business Value\n                            </div>\n                            <div class=\"business-value\">\n                                Allows users to track their progress and maintain a clear distinction between pending and completed tasks\n                            </div>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Use Case 4 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-004</span>\n                        <span class=\"priority-badge priority-medium\">Medium</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Delete Todo Item</h3>\n                    <p class=\"use-case-description\">User removes a todo item that is no longer needed or relevant</p>\n                    \n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"users\"></i> Actors\n                            </div>\n                            <div class=\"actor-tags\">\n                                <span class=\"actor-tag\">User</span>\n                            </div>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i> Main Flow\n                            </div>\n                            <ul class=\"flow-list\">\n                                <li>User locates the todo item they want to delete</li>\n                                <li>User clicks the 'Delete' button/icon next to the item</li>\n                                <li>System shows a confirmation dialog</li>\n                                <li>User clicks 'Confirm' to proceed with deletion</li>\n                                <li>System removes the item from the list</li>\n                                <li>System updates the item count</li>\n                                <li>System shows a brief success message</li>\n                            </ul>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shield\"></i> Business Value\n                            </div>\n                            <div class=\"business-value\">\n                                Helps users maintain a clean and relevant todo list by removing obsolete or completed tasks\n                            </div>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Use Case 5 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-005</span>\n                        <span class=\"priority-badge priority-medium\">Medium</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Edit Todo Item</h3>\n                    <p class=\"use-case-description\">User modifies the description of an existing todo item</p>\n                    \n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"users\"></i> Actors\n                            </div>\n                            <div class=\"actor-tags\">\n                                <span class=\"actor-tag\">User</span>\n                            </div>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i> Main Flow\n                            </div>\n                            <ul class=\"flow-list\">\n                                <li>User locates the todo item they want to edit</li>\n                                <li>User clicks the 'Edit' button or double-clicks on the item text</li>\n                                <li>System converts the item text to an editable input field</li>\n                                <li>User modifies the todo description</li>\n                                <li>User presses Enter or clicks outside the field to save</li>\n                                <li>System validates the input is not empty</li>\n                                <li>System updates the item with the new description</li>\n                            </ul>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shield\"></i> Business Value\n                            </div>\n                            <div class=\"business-value\">\n                                Provides flexibility for users to refine and update their task descriptions as requirements change\n                            </div>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Use Case 6 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-006</span>\n                        <span class=\"priority-badge priority-low\">Low</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Filter Todo Items</h3>\n                    <p class=\"use-case-description\">User filters the todo list to view specific categories of items</p>\n                    \n                    <div class=\"use-case-details\">\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"users\"></i> Actors\n                            </div>\n                            <div class=\"actor-tags\">\n                                <span class=\"actor-tag\">User</span>\n                            </div>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"list\"></i> Main Flow\n                            </div>\n                            <ul class=\"flow-list\">\n                                <li>User clicks on the filter options (e.g., 'All', 'Active', 'Completed')</li>\n                                <li>System retrieves todos matching the selected filter criteria</li>\n                                <li>System updates the displayed list to show only filtered items</li>\n                                <li>System highlights the active filter option</li>\n                                <li>System updates the item count to reflect filtered results</li>\n                            </ul>\n                        </div>\n\n                        <div class=\"detail-section\">\n                            <div class=\"detail-title\">\n                                <i data-lucide=\"shield\"></i> Business Value\n                            </div>\n                            <div class=\"business-value\">\n                                Enhances user experience by allowing them to focus on specific subsets of their tasks\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </section>\n\n        <!-- Context Section -->\n        <section id=\"context\" class=\"context-section\">\n            <div class=\"section-header\">\n                <h2><i data-lucide=\"database\"></i> Project Context</h2>\n                <p>Meeting details and project requirements</p>\n            </div>\n\n            <div class=\"context-grid\">\n                <div class=\"context-item\">\n                    <h3><i data-lucide=\"target\"></i> Meeting Objective</h3>\n                    <ul>\n                        <li>Build a simple todo app</li>\n                    </ul>\n                </div>\n\n                <div class=\"context-item\">\n                    <h3><i data-lucide=\"message-square\"></i> Key Discussion Points</h3",
+      "project_name": "Simple Test",
+      "length": 29071,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "data_sets": [
+          {
+            "name": "Todo Items Collection",
+            "description": "A comprehensive set of todo items representing various states, priorities, and types of tasks",
+            "use_case_id": "UC-002",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "active",
+                    "completed"
+                  ]
+                },
+                "created_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "completed_date": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date-time"
+                },
+                "priority": {
+                  "type": "string",
+                  "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                  ]
+                },
+                "category": {
+                  "type": "string"
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "id": "todo-001",
+                "description": "Buy groceries for the week",
+                "status": "active",
+                "created_date": "2024-01-15T09:30:00Z",
+                "completed_date": null,
+                "priority": "high",
+                "category": "personal"
+              },
+              {
+                "id": "todo-002",
+                "description": "Complete project presentation slides",
+                "status": "active",
+                "created_date": "2024-01-14T14:20:00Z",
+                "completed_date": null,
+                "priority": "high",
+                "category": "work"
+              },
+              {
+                "id": "todo-003",
+                "description": "Schedule dentist appointment",
+                "status": "completed",
+                "created_date": "2024-01-13T10:15:00Z",
+                "completed_date": "2024-01-13T11:30:00Z",
+                "priority": "medium",
+                "category": "personal"
+              },
+              {
+                "id": "todo-004",
+                "description": "Review quarterly budget report",
+                "status": "active",
+                "created_date": "2024-01-15T08:45:00Z",
+                "completed_date": null,
+                "priority": "medium",
+                "category": "work"
+              },
+              {
+                "id": "todo-005",
+                "description": "Call mom for her birthday",
+                "status": "completed",
+                "created_date": "2024-01-12T16:00:00Z",
+                "completed_date": "2024-01-12T18:30:00Z",
+                "priority": "high",
+                "category": "personal"
+              },
+              {
+                "id": "todo-006",
+                "description": "Update LinkedIn profile",
+                "status": "active",
+                "created_date": "2024-01-11T13:20:00Z",
+                "completed_date": null,
+                "priority": "low",
+                "category": "career"
+              },
+              {
+                "id": "todo-007",
+                "description": "Pay electricity bill",
+                "status": "active",
+                "created_date": "2024-01-15T07:00:00Z",
+                "completed_date": null,
+                "priority": "high",
+                "category": "personal"
+              },
+              {
+                "id": "todo-008",
+                "description": "Read 30 pages of new book",
+                "status": "completed",
+                "created_date": "2024-01-10T20:00:00Z",
+                "completed_date": "2024-01-10T22:15:00Z",
+                "priority": "low",
+                "category": "personal"
+              }
+            ]
+          },
+          {
+            "name": "New Todo Creation Samples",
+            "description": "Sample data for testing todo item creation including various input scenarios",
+            "use_case_id": "UC-001",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "input_text": {
+                  "type": "string"
+                },
+                "expected_result": {
+                  "type": "string"
+                },
+                "validation_message": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "input_text": "Finish coding the user authentication module",
+                "expected_result": "success",
+                "validation_message": null
+              },
+              {
+                "input_text": "",
+                "expected_result": "failure",
+                "validation_message": "Please enter a todo item"
+              },
+              {
+                "input_text": "   ",
+                "expected_result": "failure",
+                "validation_message": "Please enter a todo item"
+              },
+              {
+                "input_text": "Prepare meeting agenda for Monday's team sync",
+                "expected_result": "success",
+                "validation_message": null
+              },
+              {
+                "input_text": "Order office supplies - pens, notebooks, and printer paper",
+                "expected_result": "success",
+                "validation_message": null
+              }
+            ]
+          },
+          {
+            "name": "Todo Status Transitions",
+            "description": "Data representing todo items transitioning between active and completed states",
+            "use_case_id": "UC-003",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "initial_status": {
+                  "type": "string"
+                },
+                "action": {
+                  "type": "string"
+                },
+                "final_status": {
+                  "type": "string"
+                },
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "id": "todo-009",
+                "description": "Submit expense report",
+                "initial_status": "active",
+                "action": "mark_complete",
+                "final_status": "completed",
+                "timestamp": "2024-01-15T15:30:00Z"
+              },
+              {
+                "id": "todo-010",
+                "description": "Team meeting preparation",
+                "initial_status": "active",
+                "action": "mark_complete",
+                "final_status": "completed",
+                "timestamp": "2024-01-15T16:45:00Z"
+              },
+              {
+                "id": "todo-011",
+                "description": "Update project documentation",
+                "initial_status": "completed",
+                "action": "unmark_complete",
+                "final_status": "active",
+                "timestamp": "2024-01-15T17:20:00Z"
+              },
+              {
+                "id": "todo-012",
+                "description": "Code review for feature branch",
+                "initial_status": "active",
+                "action": "mark_complete",
+                "final_status": "completed",
+                "timestamp": "2024-01-15T18:00:00Z"
+              }
+            ]
+          },
+          {
+            "name": "Todo Deletion Scenarios",
+            "description": "Sample data for demonstrating todo item deletion with confirmation scenarios",
+            "use_case_id": "UC-004",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "user_action": {
+                  "type": "string"
+                },
+                "confirmation_response": {
+                  "type": "string"
+                },
+                "result": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "id": "todo-013",
+                "description": "Old project notes",
+                "user_action": "delete_clicked",
+                "confirmation_response": "confirm",
+                "result": "deleted",
+                "message": "Todo deleted successfully"
+              },
+              {
+                "id": "todo-014",
+                "description": "Completed task from last week",
+                "user_action": "delete_clicked",
+                "confirmation_response": "confirm",
+                "result": "deleted",
+                "message": "Todo deleted successfully"
+              },
+              {
+                "id": "todo-015",
+                "description": "Duplicate todo item",
+                "user_action": "delete_clicked",
+                "confirmation_response": "cancel",
+                "result": "not_deleted",
+                "message": null
+              },
+              {
+                "id": "todo-016",
+                "description": "Outdated reminder",
+                "user_action": "delete_clicked",
+                "confirmation_response": "confirm",
+                "result": "deleted",
+                "message": "Todo deleted successfully"
+              }
+            ]
+          },
+          {
+            "name": "Todo Edit Operations",
+            "description": "Sample data for testing todo item editing with various scenarios",
+            "use_case_id": "UC-005",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "original_description": {
+                  "type": "string"
+                },
+                "new_description": {
+                  "type": "string"
+                },
+                "action": {
+                  "type": "string"
+                },
+                "result": {
+                  "type": "string"
+                },
+                "validation_message": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "id": "todo-017",
+                "original_description": "Buy milk",
+                "new_description": "Buy organic milk and eggs",
+                "action": "save",
+                "result": "updated",
+                "validation_message": null
+              },
+              {
+                "id": "todo-018",
+                "original_description": "Call client",
+                "new_description": "Call client about project timeline",
+                "action": "save",
+                "result": "updated",
+                "validation_message": null
+              },
+              {
+                "id": "todo-019",
+                "original_description": "Send email",
+                "new_description": "",
+                "action": "save",
+                "result": "validation_error",
+                "validation_message": "Todo item cannot be empty"
+              },
+              {
+                "id": "todo-020",
+                "original_description": "Review documents",
+                "new_description": "Review quarterly financial documents",
+                "action": "cancel",
+                "result": "not_updated",
+                "validation_message": null
+              }
+            ]
+          },
+          {
+            "name": "Todo Filter Views",
+            "description": "Data representing different filtered views of the todo list",
+            "use_case_id": "UC-006",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "filter_type": {
+                  "type": "string"
+                },
+                "item_count": {
+                  "type": "number"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "filter_type": "all",
+                "item_count": 8,
+                "items": [
+                  {
+                    "id": "todo-001",
+                    "description": "Buy groceries for the week",
+                    "status": "active"
+                  },
+                  {
+                    "id": "todo-002",
+                    "description": "Complete project presentation slides",
+                    "status": "active"
+                  },
+                  {
+                    "id": "todo-003",
+                    "description": "Schedule dentist appointment",
+                    "status": "completed"
+                  },
+                  {
+                    "id": "todo-004",
+                    "description": "Review quarterly budget report",
+                    "status": "active"
+                  },
+                  {
+                    "id": "todo-005",
+                    "description": "Call mom for her birthday",
+                    "status": "completed"
+                  },
+                  {
+                    "id": "todo-006",
+                    "description": "Update LinkedIn profile",
+                    "status": "active"
+                  },
+                  {
+                    "id": "todo-007",
+                    "description": "Pay electricity bill",
+                    "status": "active"
+                  },
+                  {
+                    "id": "todo-008",
+                    "description": "Read 30 pages of new book",
+                    "status": "completed"
+                  }
+                ]
+              },
+              {
+                "filter_type": "active",
+                "item_count": 5,
+                "items": [
+                  {
+                    "id": "todo-001",
+                    "description": "Buy groceries for the week",
+                    "status": "active"
+                  },
+                  {
+                    "id": "todo-002",
+                    "description": "Complete project presentation slides",
+                    "status": "active"
+                  },
+                  {
+                    "id": "todo-004",
+                    "description": "Review quarterly budget report",
+                    "status": "active"
+                  },
+                  {
+                    "id": "todo-006",
+                    "description": "Update LinkedIn profile",
+                    "status": "active"
+                  },
+                  {
+                    "id": "todo-007",
+                    "description": "Pay electricity bill",
+                    "status": "active"
+                  }
+                ]
+              },
+              {
+                "filter_type": "completed",
+                "item_count": 3,
+                "items": [
+                  {
+                    "id": "todo-003",
+                    "description": "Schedule dentist appointment",
+                    "status": "completed"
+                  },
+                  {
+                    "id": "todo-005",
+                    "description": "Call mom for her birthday",
+                    "status": "completed"
+                  },
+                  {
+                    "id": "todo-008",
+                    "description": "Read 30 pages of new book",
+                    "status": "completed"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Empty State Scenarios",
+            "description": "Data for testing empty todo list scenarios and new user onboarding",
+            "use_case_id": "UC-002",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "scenario": {
+                  "type": "string"
+                },
+                "item_count": {
+                  "type": "number"
+                },
+                "display_message": {
+                  "type": "string"
+                },
+                "show_input_prompt": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "sample_data": [
+              {
+                "scenario": "new_user",
+                "item_count": 0,
+                "display_message": "No todos yet. Add your first todo!",
+                "show_input_prompt": true
+              },
+              {
+                "scenario": "all_completed",
+                "item_count": 0,
+                "display_message": "All tasks completed! Great job!",
+                "show_input_prompt": true
+              },
+              {
+                "scenario": "empty_filter",
+                "item_count": 0,
+                "display_message": "No items found in this filter",
+                "show_input_prompt": false
+              }
+            ]
+          }
+        ],
+        "summary": "Generated comprehensive synthetic data for the Simple Test todo application, covering all six use cases with realistic todo items, various status transitions, CRUD operations, filtering scenarios, and edge cases. The data includes diverse task types, priorities, and user interaction patterns to demonstrate the application's core functionality effectively."
+      },
+      "project_name": "Simple Test",
+      "num_datasets": 7
+    },
+    "reviewer": {
+      "review_cycle_id": "Simple Test_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-29T07:40:13.449791"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.00517
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 42.693561
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 37.859233
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 14.155453
+    },
+    {
+      "name": "prd",
+      "status": "completed",
+      "duration": 155.055501
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 108.915357
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 98.593217
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.000856
+    }
+  ]
+}

@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracking App - AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --aicoe-primary: #0066cc;
+            --aicoe-accent: #00d9ff;
+            --aicoe-dark: #1d1d1f;
+            --aicoe-gray: #6e6e73;
+            --aicoe-light-gray: #f5f5f7;
+            --aicoe-white: #ffffff;
+            --aicoe-success: #34c759;
+            --aicoe-warning: #ff9500;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--aicoe-dark);
+            background: var(--aicoe-white);
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--aicoe-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--aicoe-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--aicoe-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);
+            color: var(--aicoe-white);
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 2rem;
+            background: var(--aicoe-light-gray);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--aicoe-dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--aicoe-white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--aicoe-white);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--aicoe-dark);
+        }
+
+        .feature-description {
+            color: var(--aicoe-gray);
+            line-height: 1.6;
+        }
+
+        /* Use Cases Section */
+        .use-cases {
+            padding: 4rem 2rem;
+        }
+
+        .use-cases-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .use-case-card {
+            background: var(--aicoe-white);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .use-case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .use-case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-id {
+            background: var(--aicoe-primary);
+            color: var(--aicoe-white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: var(--aicoe-success);
+            color: var(--aicoe-white);
+        }
+
+        .priority-medium {
+            background: var(--aicoe-warning);
+            color: var(--aicoe-white);
+        }
+
+        .use-case-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--aicoe-dark);
+        }
+
+        .use-case-description {
+            color: var(--aicoe-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .use-case-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--aicoe-gray);
+            font-size: 0.875rem;
+        }
+
+        .view-details-btn {
+            background: var(--aicoe-primary);
+            color: var(--aicoe-white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-details-btn:hover {
+            background: #0052a3;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--aicoe-dark);
+            color: var(--aicoe-white);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--aicoe-accent);
+        }
+
+        .footer-text {
+            color: var(--aicoe-gray);
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--aicoe-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--aicoe-accent);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--aicoe-white);
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            padding: 2rem;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .mobile-menu-links a {
+            color: var(--aicoe-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.125rem;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-stats {
+                gap: 2rem;
+            }
+
+            .features-grid,
+            .use-case-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            nav, .no-print, button, .mobile-menu-toggle, .mobile-menu {
+                display: none !important;
+            }
+            
+            body {
+                font-size: 12pt;
+                color: #000;
+                background: #fff;
+            }
+            
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+            
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+            
+            a[href]:after {
+                content: " (" attr(href) ")";
+            }
+            
+            .hero {
+                background: #f5f5f7;
+                color: #000;
+            }
+            
+            .feature-card,
+            .use-case-card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="no-print">
+        <div class="nav-container">
+            <div class="logo">
+                <i data-lucide="activity"></i>
+                <span>AICOE Fitness Tracker</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home">
+                    <i data-lucide="home"></i>
+                    Home
+                </a>
+                <a href="#features">
+                    <i data-lucide="zap"></i>
+                    Features
+                </a>
+                <a href="#use-cases">
+                    <i data-lucide="file-text"></i>
+                    Use Cases
+                </a>
+                <a href="use-case-1.html">
+                    <i data-lucide="layers"></i>
+                    Details
+                </a>
+                <a href="#contact">
+                    <i data-lucide="settings"></i>
+                    Settings
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="close-menu" onclick="toggleMobileMenu()">
+            <i data-lucide="x"></i>
+        </button>
+        <div class="mobile-menu-links">
+            <a href="#home">
+                <i data-lucide="home"></i>
+                Home
+            </a>
+            <a href="#features">
+                <i data-lucide="zap"></i>
+                Features
+            </a>
+            <a href="#use-cases">
+                <i data-lucide="file-text"></i>
+                Use Cases
+            </a>
+            <a href="use-case-1.html">
+                <i data-lucide="layers"></i>
+                Details
+            </a>
+            <a href="#contact">
+                <i data-lucide="settings"></i>
+                Settings
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Fitness Tracking Made Simple</h1>
+        <p>Empowering fitness beginners with AI-powered workout and nutrition tracking for a healthier lifestyle</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number">5</span>
+                <span class="stat-label">Core Features</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">AI</span>
+                <span class="stat-label">Powered Analysis</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">0%</span>
+                <span class="stat-label">Intimidation</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <h2 class="section-title">Core Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="dumbbell"></i>
+                    </div>
+                    <h3 class="feature-title">Workout Tracking</h3>
+                    <p class="feature-description">Log exercises, sets, reps, and weights with ease. Perfect for beginners tracking their fitness journey.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="calendar"></i>
+                    </div>
+                    <h3 class="feature-title">Pre-made Plans</h3>
+                    <p class="feature-description">Structured workout plans designed for beginners. From 30-day challenges to full-body transformations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="camera"></i>
+                    </div>
+                    <h3 class="feature-title">AI Meal Analysis</h3>
+                    <p class="feature-description">Take a photo of your meal and let AI identify foods and estimate nutritional content automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <h3 class="feature-title">Progress Visualization</h3>
+                    <p class="feature-description">Track your journey with beautiful charts, progress photos, and achievement badges to stay motivated.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <h3 class="feature-title">Private Sharing</h3>
+                    <p class="feature-description">Share your progress with a small group of friends for accountability and motivation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="crown"></i>
+                    </div>
+                    <h3 class="feature-title">Premium Features</h3>
+                    <p class="feature-description">Unlock advanced analytics, personalized plans, and exclusive content with our premium subscription.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="use-cases" id="use-cases">
+        <div class="use-cases-container">
+            <h2 class="section-title">Use Cases</h2>
+            <div class="use-case-grid">
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-001</span>
+                        <span class="priority-badge priority-high">High Priority</span>
+                    </div>
+                    <h3 class="use-case-title">Log a Workout Session</h3>
+                    <p class="use-case-description">A user, typically a fitness beginner, manually tracks the exercises they perform during a workout session, including details like sets, reps, and weight.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-item">
+                            <i data-lucide="user"></i>
+                            Registered User
+                        </span>
+                        <span class="meta-item">
+                            <i data-lucide="target"></i>
+                            Core Feature
+                        </span>
+                    </div>
+                    <a href="use-case-1.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-002</span>
+                        <span class="priority-badge priority-high">High Priority</span>
+                    </div>
+                    <h3 class="use-case-title">Start a Pre-made Workout Plan</h3>
+                    <p class="use-case-description">A user browses, selects, and begins a structured, pre-made workout plan designed for beginners to provide guidance and structure.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-item">
+                            <i data-lucide="user"></i>
+                            Registered User
+                        </span>
+                        <span class="meta-item">
+                            <i data-lucide="target"></i>
+                            Key Driver
+                        </span>
+                    </div>
+                    <a href="use-case-2.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-003</span>
+                        <span class="priority-badge priority-high">High Priority</span>
+                    </div>
+                    <h3 class="use-case-title">Log a Meal Using AI Photo Analysis</h3>
+                    <p class="use-case-description">A user logs their nutritional intake by taking a photo of their meal. The app uses AI to identify food items and estimate nutritional content.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-item">
+                            <i data-lucide="user"></i>
+                            Registered User
+                        </span>
+                        <span class="meta-item">
+                            <i data-lucide="target"></i>
+                            USP Feature
+                        </span>
+                    </div>
+                    <a href="use-case-3.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-004</span>
+                        <span class="priority-badge priority-high">High Priority</span>
+                    </div>
+                    <h3 class="use-case-title">View and Share Progress</h3>
+                    <p class="use-case-description">A user visualizes their fitness and nutrition progress over time through charts, photos, and achievements, sharing with friends for motivation.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-item">
+                            <i data-lucide="user"></i>
+                            Registered User
+                        </span>
+                        <span class="meta-item">
+                            <i data-lucide="target"></i>
+                            Retention
+                        </span>
+                    </div>
+                    <a href="use-case-4.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <span class="use-case-id">UC-005</span>
+                        <span class="priority-badge priority-medium">Medium Priority</span>
+                    </div>
+                    <h3 class="use-case-title">Subscribe to Premium Plan</h3>
+                    <p class="use-case-description">A user upgrades from the free tier to a premium subscription to unlock advanced features, contributing to the app's revenue stream.</p>
+                    <div class="use-case-meta">
+                        <span class="meta-item">
+                            <i data-lucide="user"></i>
+                            Registered User
+                        </span>
+                        <span class="meta-item">
+                            <i data-lucide="target"></i>
+                            Monetization
+                        </span>
+                    </div>
+                    <a href="use-case-5.html" class="view-details-btn">
+                        View Details
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="no-print">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i data-lucide="activity"></i>
+                AICOE Multi-Agent Platform
+            </div>
+            <p class="footer-text">Empowering fitness journeys with AI-driven insights and simplicity</p>
+            <div class="footer-links">
+                <a href="#">Documentation</a>
+                <a href="#">Support</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            <p class="footer-text">Powered by AICOE | Generated by AI Agents</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+            
+            // Re-initialize icons when menu opens
+            if (mobileMenu.classList.contains('active')) {
+                setTimeout(() => lucide.createIcons(), 100);
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    document.getElementById('mobileMenu').classList.remove('active');
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            } else {
+                nav.style.boxShadow = '0 1px 0 rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards and use case cards
+        document.querySelectorAll('.feature-card, .use-case-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

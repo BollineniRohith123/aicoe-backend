@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Case UC-002: Add a New Task - AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0056CC;
+            --secondary: #5856D6;
+            --success: #34C759;
+            --warning: #FF9500;
+            --danger: #FF3B30;
+            --dark: #1C1C1E;
+            --gray-900: #2C2C2E;
+            --gray-800: #3A3A3C;
+            --gray-700: #48484A;
+            --gray-600: #636366;
+            --gray-500: #8E8E93;
+            --gray-400: #C7C7CC;
+            --gray-300: #E5E5EA;
+            --gray-200: #F2F2F7;
+            --gray-100: #FAFAFB;
+            --white: #FFFFFF;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--gray-100) 0%, var(--white) 100%);
+            color: var(--gray-900);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .header-content {
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            text-decoration: none;
+            color: var(--gray-700);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-100);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .nav-link.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-link.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+        }
+
+        .use-case-header {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .use-case-id {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gray-100);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: var(--gray-700);
+            margin-bottom: 1rem;
+        }
+
+        .use-case-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .use-case-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .priority-high {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--danger);
+        }
+
+        /* Content Sections */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .content-section {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .content-section:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            flex: 1;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding-left: 3.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .description-text {
+            color: var(--gray-700);
+            line-height: 1.8;
+        }
+
+        /* Lists */
+        .list-item {
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            background: var(--gray-100);
+            border-radius: var(--border-radius-sm);
+            border-left: 3px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .list-item:hover {
+            background: var(--gray-200);
+            transform: translateX(5px);
+        }
+
+        .flow-steps {
+            counter-reset: step;
+        }
+
+        .flow-step {
+            counter-increment: step;
+            position: relative;
+            padding: 1rem 1rem 1rem 3rem;
+            margin: 1rem 0;
+            background: var(--gray-50);
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+
+        .flow-step::before {
+            content: counter(step);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .flow-step:hover {
+            background: var(--gray-100);
+            transform: translateX(5px);
+        }
+
+        .alternate-flow {
+            background: var(--white);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius-sm);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .alternate-flow-title {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alternate-step {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            color: var(--gray-700);
+        }
+
+        /* Business Value */
+        .business-value {
+            background: linear-gradient(135deg, rgba(0, 122, 255, 0.05), rgba(88, 86, 214, 0.05));
+            border: 1px solid rgba(0, 122, 255, 0.2);
+        }
+
+        .business-value .section-icon {
+            background: linear-gradient(135deg, var(--success), var(--primary));
+        }
+
+        /* Footer Navigation */
+        footer {
+            background: var(--white);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            box-shadow: 0 -4px 6px rgba(0,0,0,0.05);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-link {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--gray-700);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gray-100);
+        }
+
+        .footer-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .page-indicator {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            header, footer {
+                position: static;
+                box-shadow: none;
+            }
+            .nav-links, .footer-nav {
+                display: none;
+            }
+            .content-section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid var(--gray-300);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .use-case-title {
+                font-size: 1.5rem;
+            }
+            
+            .use-case-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .section-content {
+                padding-left: 0;
+            }
+            
+            .flow-step {
+                padding-left: 2.5rem;
+            }
+            
+            .footer-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i data-lucide="layers"></i>
+                    </div>
+                    <span>AICOE</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home"></i>
+                        Back to Home
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="use-case-header">
+                <div class="use-case-id">
+                    <i data-lucide="hash" style="width: 16px; height: 16px;"></i>
+                    UC-002
+                </div>
+                <h1 class="use-case-title">Add a New Task</h1>
+                <div class="use-case-meta">
+                    <div class="meta-item">
+                        <i data-lucide="user"></i>
+                        <span>Actor: User</span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="flag"></i>
+                        <span class="priority-badge priority-high">
+                            <i data-lucide="alert-circle" style="width: 14px; height: 14px;"></i>
+                            High Priority
+                        </span>
+                    </div>
+                    <div class="meta-item">
+                        <i data-lucide="file-text"></i>
+                        <span>Page 2 of 5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-section">
+                    <div class="section-header" onclick="toggleAccordion(this)">
+                        <div class="section-icon">
+                            <i data-lucide="info"></i>
+                        </div>
+                        <h2 class="section-title">Description</h2>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </div>
+                    <div class="section-content">
+                        <p class="description-text">
+                            The user creates a new task to add to their list. The process is designed for speed and minimal friction, following the trend of intuitive and fast interaction seen in competitors like Any.do and Google Tasks.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header" onclick="toggleAccordion(this)">
+                        <div class="section-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h2 class="section-title">Actors</h2>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="list-item">User</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header" onclick="toggleAccordion(this)">
+                        <div class="section-icon">
+                            <i data-lucide="check-square"></i>
+                        </div>
+                        <h2 class="section-title">Preconditions</h2>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="list-item">The user is viewing the task list (UC-001).</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header" onclick="toggleAccordion(this)">
+                        <div class="section-icon">
+                            <i data-lucide="play-circle"></i>
+                        </div>
+                        <h2 class="section-title">Main Flow</h2>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="flow-steps">
+                            <div class="flow-step">The user clicks or focuses on the 'Add a new task' input field.</div>
+                            <div class="flow-step">The user types the task description.</div>
+                            <div class="flow-step">The user presses the 'Enter' key or clicks the 'Add' button.</div>
+                            <div class="flow-step">The system performs client-side validation to ensure the task description is not empty.</div>
+                            <div class="flow-step">The system sends an asynchronous POST request to the backend API endpoint (e.g., /api/tasks) with the new task data.</div>
+                            <div class="flow-step">The backend receives the request, validates the data, saves the new task to the database, and returns a success response with the newly created task object (including its unique ID).</div>
+                            <div class="flow-step">The system updates the UI by adding the new task to the top of the task list without a full page reload.</div>
+                            <div class="flow-step">The 'Add a new task' input field is cleared, ready for the next entry.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header" onclick="toggleAccordion(this)">
+                        <div class="section-icon">
+                            <i data-lucide="git-branch"></i>
+                        </div>
+                        <h2 class="section-title">Alternate Flows</h2>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="alternate-flow">
+                            <div class="alternate-flow-title">
+                                <i data-lucide="alert-triangle"></i>
+                                Empty Task Submission
+                            </div>
+                            <div class="alternate-step">3a. The user presses 'Enter' or clicks 'Add' with an empty input field.</div>
+                            <div class="alternate-step">4a. The system's client-side validation fails.</div>
+                            <div class="alternate-step">5a. The system displays an inline error message (e.g., 'Task description cannot be empty') and prevents the API request from being sent.</div>
+                        </div>
+                        <div class="alternate-flow">
+                            <div class="alternate-flow-title">
+                                <i data-lucide="server-off"></i>
+                                Backend Save Failure
+                            </div>
+                            <div class="alternate-step">6a. The backend fails to save the task (e.g., database error).</div>
+                            <div class="alternate-step">7a. The backend returns an error response (e.g., HTTP 500).</div>
+                            <div class="alternate-step">8a. The system displays a user-friendly error message: 'Failed to add task. Please try again.'</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header" onclick="toggleAccordion(this)">
+                        <div class="section-icon">
+                            <i data-lucide="check-circle-2"></i>
+                        </div>
+                        <h2 class="section-title">Postconditions</h2>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="list-item">The new task is successfully saved in the database and appears in the user's task list.</div>
+                        <div class="list-item">The application state is updated to reflect the new list of tasks.</div>
+                    </div>
+                </div>
+
+                <div class="content-section business-value">
+                    <div class="section-header" onclick="toggleAccordion(this)">
+                        <div class="section-icon">
+                            <i data-lucide="trending-up"></i>
+                        </div>
+                        <h2 class="section-title">Business Value</h2>
+                        <i data-lucide="chevron-down" class="accordion-icon"></i>
+                    </div>
+                    <div class="section-content">
+                        <p class="description-text">
+                            This is a core functional requirement that enables the primary purpose of the application. An efficient and reliable add feature is critical for user adoption and productivity.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-nav">
+                <a href="use-case-1.html" class="footer-link">
+                    <i data-lucide="chevron-left"></i>
+                    Previous
+                </a>
+                <span class="page-indicator">HTML Generation Test - Page 2 of 5</span>
+                <a href="use-case-3.html" class="footer-link">
+                    Next
+                    <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.classList.remove('rotated');
+            } else {
+                content.style.display = 'none';
+                icon.classList.add('rotated');
+            }
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add hover effect to flow steps
+        document.querySelectorAll('.flow-step').forEach(step => {
+            step.addEventListener('mouseenter', function() {
+                this.style.background = 'var(--gray-100)';
+            });
+            step.addEventListener('mouseleave', function() {
+                this.style.background = 'var(--gray-50)';
+            });
+        });
+
+        // Initialize all accordions to open
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.section-content').forEach(content => {
+                content.style.display = 'block';
+            });
+            document.querySelectorAll('.accordion-icon').forEach(icon => {
+                icon.classList.remove('rotated');
+            });
+        });
+    </script>
+</body>
+</html>

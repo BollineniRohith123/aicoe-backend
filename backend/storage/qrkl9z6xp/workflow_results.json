@@ -1,0 +1,446 @@
+{
+  "project_name": "Real-time Analytics Dashboard",
+  "workflow_id": "workflow_20251029_080651",
+  "status": "success",
+  "context": {
+    "project_name": "Real-time Analytics Dashboard",
+    "workflow_id": "workflow_20251029_080651",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T08:06:51.340249",
+    "end_time": "2025-10-29T08:15:33.347937",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Real-time Analytics Dashboard",
+      "project_root": "projects/Real-time Analytics Dashboard",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T08:06:51.343992",
+        "action": "project_created",
+        "project_name": "Real-time Analytics Dashboard",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": null,
+        "attendees": [],
+        "meeting_date": "Not specified",
+        "meeting_objective": "To build a real-time analytics dashboard that displays live metrics, KPIs, and data visualizations.",
+        "key_discussion_points": [
+          "Building a real-time analytics dashboard",
+          "Displaying live metrics",
+          "Displaying KPIs",
+          "Displaying data visualizations",
+          "Supporting multiple data sources",
+          "Implementing customizable widgets",
+          "Enabling real-time updates via WebSocket",
+          "Creating user-specific dashboards",
+          "Providing export capabilities for reports"
+        ],
+        "pain_points": [],
+        "requirements": [
+          "Support for multiple data sources",
+          "Customizable widgets",
+          "Real-time updates via WebSocket",
+          "User-specific dashboards",
+          "Export capabilities for reports"
+        ],
+        "decisions_made": [],
+        "action_items": [],
+        "technical_constraints": [],
+        "stakeholders": []
+      },
+      "project_name": "Real-time Analytics Dashboard",
+      "transcript_length": 277
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "View Real-Time Dashboard",
+          "description": "The user logs into the system and views their primary or a selected analytics dashboard. The dashboard displays a collection of widgets showing live metrics, KPIs, and data visualizations that update in real-time as new data becomes available.",
+          "actors": [
+            "User",
+            "Business Analyst",
+            "Manager"
+          ],
+          "preconditions": [
+            "The user must be authenticated and logged into the system.",
+            "At least one dashboard must be configured and available to the user.",
+            "Backend data sources must be accessible and operational."
+          ],
+          "main_flow": [
+            "The user navigates to the analytics dashboard URL.",
+            "The system authenticates the user and loads their default dashboard view.",
+            "The system fetches the initial data for all widgets on the dashboard from their respective data sources.",
+            "The system renders the widgets, displaying metrics, KPIs, and charts.",
+            "A WebSocket connection is established between the client and the server for real-time updates.",
+            "As new data points are available, the server pushes updates through the WebSocket.",
+            "The client receives the updates and refreshes the corresponding widget's data visualization."
+          ],
+          "alternate_flows": [
+            {
+              "name": "Select a Different Dashboard",
+              "description": "If the user has access to multiple dashboards, they can select a different one from a dropdown menu. The system then loads the selected dashboard's configuration and data."
+            },
+            {
+              "name": "WebSocket Connection Fails",
+              "description": "If the WebSocket connection cannot be established or is lost, the system displays a notification indicating the real-time connection is down. The system can fall back to polling for updates every 30-60 seconds and will automatically attempt to re-establish the WebSocket connection."
+            },
+            {
+              "name": "No Dashboards Available",
+              "description": "If a new user has no dashboards, the system presents them with an option to create their first dashboard."
+            }
+          ],
+          "postconditions": [
+            "The user is viewing a dashboard with current data.",
+            "The system is actively listening for real-time data updates for the displayed widgets."
+          ],
+          "priority": "high",
+          "business_value": "Provides immediate visibility into business performance and operational health, enabling faster, data-driven decision-making and proactive issue detection."
+        },
+        {
+          "id": "UC-002",
+          "title": "Customize Dashboard Layout",
+          "description": "The user modifies the layout and content of their dashboard to suit their specific needs. This includes adding new widgets, removing existing ones, resizing them, and rearranging their position on the grid.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "The user must be logged in.",
+            "The user must be viewing a dashboard for which they have edit permissions."
+          ],
+          "main_flow": [
+            "The user clicks an 'Edit' or 'Customize' button on the dashboard.",
+            "The dashboard enters an editable state, showing resize handles and a palette of available widget types.",
+            "The user drags a new widget from the palette and drops it onto the dashboard grid.",
+            "The user resizes a widget by dragging its corners.",
+            "The user drags a widget to a new position on the grid.",
+            "The user clicks a 'Save' button to commit the changes."
+          ],
+          "alternate_flows": [
+            {
+              "name": "Discard Changes",
+              "description": "The user can click a 'Cancel' or 'Discard' button to exit edit mode without saving any changes."
+            },
+            {
+              "name": "Remove a Widget",
+              "description": "In edit mode, the user clicks a 'Remove' or 'X' icon on a widget to delete it from the dashboard."
+            },
+            {
+              "name": "Configure a Widget",
+              "description": "The user clicks a 'Configure' icon on a widget to open a settings panel where they can change the data source, metrics displayed, chart type, or other properties."
+            }
+          ],
+          "postconditions": [
+            "The dashboard's new layout and widget configuration is saved to the user's profile.",
+            "The next time the user loads this dashboard, it will appear in its customized state."
+          ],
+          "priority": "high",
+          "business_value": "Empowers users to create personalized views that are most relevant to their roles and responsibilities, increasing user adoption, engagement, and the overall utility of the dashboard."
+        },
+        {
+          "id": "UC-003",
+          "title": "Create and Manage User Dashboards",
+          "description": "The user creates new, blank dashboards for specific purposes, and can manage their existing dashboards by renaming them, deleting them, or setting one as the default.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "The user must be logged in."
+          ],
+          "main_flow": [
+            "The user accesses a dashboard management area (e.g., via a 'My Dashboards' menu).",
+            "The user clicks a 'Create New Dashboard' button.",
+            "The system prompts the user to enter a name for the new dashboard.",
+            "The user enters a unique name and confirms.",
+            "The system creates a new, empty dashboard with that name and adds it to the user's list of dashboards."
+          ],
+          "alternate_flows": [
+            {
+              "name": "Rename Dashboard",
+              "description": "From the management list, the user selects a dashboard and chooses a 'Rename' option, enters a new name, and saves the change."
+            },
+            {
+              "name": "Delete Dashboard",
+              "description": "From the management list, the user selects a dashboard and chooses a 'Delete' option. The system asks for confirmation. Upon confirmation, the dashboard is permanently deleted."
+            },
+            {
+              "name": "Set Default Dashboard",
+              "description": "The user selects a dashboard and chooses a 'Set as Default' option. This dashboard will now load automatically upon login."
+            }
+          ],
+          "postconditions": [
+            "A new dashboard is created and available for customization.",
+            "An existing dashboard's name is changed, or it is deleted.",
+            "The user's default dashboard setting is updated."
+          ],
+          "priority": "medium",
+          "business_value": "Allows for better organization of analytics by enabling users to build dedicated dashboards for different projects, departments, or business questions, improving clarity and focus."
+        },
+        {
+          "id": "UC-004",
+          "title": "Export Dashboard Data",
+          "description": "The user exports the data or visualizations from a dashboard for use in external reports, presentations, or for further offline analysis.",
+          "actors": [
+            "User"
+          ],
+          "preconditions": [
+            "The user must be logged in and viewing a dashboard.",
+            "The user must have the necessary permissions to export data."
+          ],
+          "main_flow": [
+            "The user clicks an 'Export' button on the dashboard.",
+            "The system presents a modal dialog with export options (e.g., 'Export as PDF', 'Export as CSV', 'Export as Image').",
+            "The user selects the desired export format.",
+            "The user clicks an 'Export' or 'Download' button in the dialog.",
+            "The system generates the file in the selected format.",
+            "The file is downloaded to the user's local machine via the browser."
+          ],
+          "alternate_flows": [
+            {
+              "name": "Export Single Widget",
+              "description": "Instead of exporting the whole dashboard, the user clicks an export icon within a specific widget to export only that widget's data or image."
+            },
+            {
+              "name": "Export Fails",
+              "description": "If the export process fails (e.g., due to a server error or too much data), the system displays an error message to the user explaining the issue."
+            }
+          ],
+          "postconditions": [
+            "The user has a file containing the dashboard's data or visualizations in their chosen format."
+          ],
+          "priority": "medium",
+          "business_value": "Facilitates the sharing of insights with stakeholders who may not have direct access to the dashboard and enables integration of real-time data into static reporting and archival processes."
+        }
+      ],
+      "business_requirements": {
+        "overview": "The Real-time Analytics Dashboard project aims to develop a centralized, web-based platform for displaying live business metrics, Key Performance Indicators (KPIs), and data visualizations. The system will aggregate data from multiple sources and present it through customizable, user-specific dashboards that update in real-time, empowering stakeholders to make informed, data-driven decisions.",
+        "business_goals": [
+          "To provide immediate, at-a-glance visibility into key business performance indicators.",
+          "To reduce the time and effort spent on manual data collection and report generation.",
+          "To enable users to create personalized views of data relevant to their specific roles and objectives.",
+          "To facilitate proactive identification of trends, opportunities, and operational issues through real-time monitoring."
+        ],
+        "success_criteria": [
+          "Data latency is less than 5 seconds from source generation to dashboard display.",
+          "Achieve an 80% adoption rate among target user groups within the first three months of launch.",
+          "Maintain a user satisfaction score of 4.0 or higher (out of 5) in post-launch surveys.",
+          "Reduce manual reporting hours by at least 25% for teams that adopt the dashboard."
+        ],
+        "constraints": [
+          "The dashboard must be a web-based application accessible via modern browsers (Chrome, Firefox, Safari, Edge).",
+          "The system must integrate with a predefined list of existing company data sources (e.g., SQL databases, SaaS APIs).",
+          "All data handling and access must comply with the company's data security and privacy policies.",
+          "Real-time updates must be implemented using WebSocket technology.",
+          "The solution must be scalable to support a growing number of users and data sources."
+        ],
+        "assumptions": [
+          "Necessary APIs or access credentials for all required data sources will be available.",
+          "The target user base has a basic level of computer literacy and access to a stable internet connection.",
+          "The underlying network infrastructure can support WebSocket connections for the expected user load.",
+          "Key stakeholders will be available to provide feedback on metrics, KPIs, and dashboard designs during the development process."
+        ],
+        "risks": [
+          {
+            "risk": "Poor data quality from source systems leads to inaccurate metrics and a loss of user trust.",
+            "mitigation": "Implement data validation and cleansing rules. Provide data lineage and quality indicators within widgets."
+          },
+          {
+            "risk": "Performance bottlenecks result in slow dashboard loading times or delayed updates.",
+            "mitigation": "Conduct thorough performance and load testing. Optimize database queries and front-end rendering. Use a robust message broker for WebSocket communication."
+          },
+          {
+            "risk": "Low user adoption due to a mismatch between dashboard functionality and user needs.",
+            "mitigation": "Involve end-users in the design process through regular workshops and feedback sessions. Prioritize the development of highly customizable features."
+          },
+          {
+            "risk": "Security vulnerabilities expose sensitive business data.",
+            "mitigation": "Implement Role-Based Access Control (RBAC). Enforce encryption for data in transit (TLS) and at rest. Conduct regular security audits and penetration testing."
+          }
+        ]
+      },
+      "project_name": "Real-time Analytics Dashboard"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "Integration Patterns",
+            "pattern": "Observer Pattern",
+            "description": "Implement for real-time widget updates where widgets observe data streams and react to changes automatically",
+            "priority": "high"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Circuit Breaker Pattern",
+            "description": "Apply to WebSocket connections and data source calls to prevent cascading failures when services are unavailable",
+            "priority": "high"
+          },
+          {
+            "category": "AI Design Patterns",
+            "pattern": "CQRS (Command Query Responsibility Segregation)",
+            "description": "Separate read operations (dashboard queries) from write operations (data updates) to optimize for real-time read performance",
+            "priority": "medium"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "Event-Driven Architecture",
+            "description": "Use event streams for real-time data propagation from sources to dashboard widgets via WebSocket",
+            "priority": "high"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Token-based Authentication with Refresh",
+            "description": "Implement JWT with refresh tokens for WebSocket authentication to maintain secure real-time connections",
+            "priority": "high"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "Performance",
+            "suggestion": "Implement multi-level caching (browser, CDN, application) for dashboard configurations and static widget data",
+            "rationale": "Reduces load on backend services and improves initial dashboard load times"
+          },
+          {
+            "area": "User Experience",
+            "suggestion": "Add progressive loading with skeleton screens for widgets while data is being fetched",
+            "rationale": "Improves perceived performance and user engagement during data loading"
+          },
+          {
+            "area": "Reliability",
+            "suggestion": "Implement exponential backoff for WebSocket reconnection attempts with user notifications",
+            "rationale": "Prevents server overload during outages and keeps users informed of connection status"
+          },
+          {
+            "area": "Scalability",
+            "suggestion": "Use message queuing (Kafka/RabbitMQ) for decoupling data producers from WebSocket broadcasters",
+            "rationale": "Enables horizontal scaling and handles backpressure during high data volume periods"
+          },
+          {
+            "area": "Security",
+            "suggestion": "Implement role-based widget visibility and data filtering based on user permissions",
+            "rationale": "Ensures users only see data they're authorized to access within the same dashboard"
+          },
+          {
+            "area": "Monitoring",
+            "suggestion": "Add real-time performance metrics tracking for widget load times and data freshness",
+            "rationale": "Enables proactive identification of performance issues and data pipeline delays"
+          }
+        ],
+        "compliance_notes": [
+          "Implement data encryption in transit (TLS 1.3) for all WebSocket connections and API calls",
+          "Add audit logging for dashboard access, configuration changes, and data view events for compliance reporting",
+          "Consider GDPR data minimization principles - only display necessary data points in widgets",
+          "Implement data retention policies for historical dashboard data and user activity logs",
+          "Add consent management for data collection and analytics tracking within the dashboard"
+        ],
+        "integration_recommendations": [
+          "Use a time-series database (InfluxDB/TimescaleDB) for efficient storage and querying of metrics data",
+          "Implement an API Gateway for centralized authentication, rate limiting, and request routing to data sources",
+          "Integrate with a message broker (Apache Kafka) for reliable real-time data streaming to WebSocket handlers",
+          "Use Redis for session management and real-time data caching to support WebSocket scaling"
+        ]
+      },
+      "project_name": "Real-time Analytics Dashboard",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "prd": {
+      "prd_markdown": "---\n**AICOE Product Requirements Document**\n\n**Document Classification:** Internal - Confidential\n**Version:** 1.0\n**Date:** October 26, 2023\n**Prepared By:** AICOE Multi-Agent Platform\n**Project:** Real-time Analytics Dashboard\n\n---\n\n# Real-time Analytics Dashboard - Product Requirements Document\n\n## 1. Executive Summary\n\nThe Real-time Analytics Dashboard project is a strategic initiative to develop a centralized, web-based platform that provides immediate visibility into key business performance indicators. This project addresses the critical need for stakeholders to move beyond static, manually-generated reports to a dynamic, real-time view of operational health and business metrics. The dashboard will aggregate data from multiple disparate sources, presenting it through customizable, user-specific interfaces that update live via WebSocket technology. The primary impact will be a significant reduction in decision-making latency, empowering teams to proactively identify trends, address issues, and seize opportunities. Key stakeholders include Business Analysts, Managers, and executive teams who require timely data to drive strategy. The target timeline for the initial launch is within the next six months.\n\n## 2. Goals & Objectives\n\n### Business Goals\n- To provide immediate, at-a-glance visibility into key business performance indicators.\n- To reduce the time and effort spent on manual data collection and report generation by at least 25%.\n- To enable users to create personalized views of data relevant to their specific roles and objectives.\n- To facilitate proactive identification of trends, opportunities, and operational issues through real-time monitoring.\n\n### User Goals\n- To view a consolidated, real-time overview of the metrics most critical to my role.\n- To customize my dashboard layout and widgets to match my workflow and priorities.\n- To easily create and manage multiple dashboards for different projects or business questions.\n- To export dashboard data or visualizations for sharing and inclusion in external reports.\n\n### Technical Goals\n- To achieve data latency of less than 5 seconds from source generation to dashboard display.\n- To build a scalable architecture capable of supporting a growing number of concurrent users and data sources.\n- To ensure seamless real-time updates using a robust WebSocket implementation.\n- To maintain high availability and performance standards across all modern web browsers.\n\n## 3. Problem Statement\n\n### What problem are we solving?\nBusinesses today operate in a fast-paced environment where data is generated continuously. However, accessing and interpreting this data in a timely manner is a significant challenge. Teams rely on siloed data sources and manual processes to compile reports, which are often outdated by the time they are reviewed. This creates a decision-making gap, where leaders are reacting to past events rather than responding to current conditions.\n\n### Who has this problem?\n- **Managers:** Need to monitor team performance and operational health but lack a real-time view.\n- **Business Analysts:** Spend excessive time on data extraction and preparation instead of analysis.\n- **Executives:** Require a high-level, consolidated view of business KPIs to inform strategic decisions.\n- **Operational Teams:** Need immediate alerts and visualizations to maintain system health and efficiency.\n\n### Current pain points and limitations\n- **Data Silos:** Critical information is locked away in different databases and applications, making a holistic view difficult.\n- **Manual Reporting:** The process of gathering data from multiple sources and creating reports is time-consuming, error-prone, and infrequent.\n- **Delayed Insights:** By the time data is compiled and presented, the opportunity to act on it may have passed.\n- **Lack of Personalization:** Standard reports do not cater to the specific needs of different roles, leading to information overload or irrelevant data.\n\n### Opportunity size and market context\nThe demand for real-time business intelligence is growing exponentially. Organizations that can leverage live data gain a competitive advantage through increased agility and improved operational efficiency. This project positions AICOE to meet this market need by providing an intuitive, powerful, and accessible analytics tool.\n\n## 4. User Personas & Stakeholders\n\n### User Personas\n\n#### Persona 1: Alex, the Business Analyst\n- **Role/Title:** Business Analyst\n- **Goals and motivations:** To dive deep into data, uncover insights, and provide data-driven recommendations to the business. Wants to reduce time spent on data wrangling and focus on analysis.\n- **Pain points:** Frustrated with pulling data from multiple systems. Spends hours creating static reports that are quickly outdated.\n- **Technical proficiency:** High. Comfortable with databases, APIs, and complex data tools.\n\n#### Persona 2: Maria, the Marketing Manager\n- **Role/Title:** Marketing Manager\n- **Goals and motivations:** To monitor campaign performance, track lead generation, and manage budget effectively in real-time. Wants to make quick adjustments to optimize results.\n- **Pain points:** Relies on weekly performance reports. Finds it difficult to get a quick overview of all marketing KPIs in one place.\n- **Technical proficiency:** Medium. Comfortable with SaaS tools and dashboards but not with technical details.\n\n#### Persona 3: David, the Operations Lead\n- **Role/Title:** Operations Lead\n- **Goals and motivations:** To ensure system uptime, monitor key operational metrics, and identify and resolve issues before they impact customers.\n- **Pain points:** Lacks a central monitoring screen. Has to check multiple system logs and interfaces to get a full picture of operational health.\n- **Technical proficiency:** Medium to High. Understands technical systems but prefers high-level visualizations.\n\n### Key Stakeholders\n- **Head of Product:** Owns the product roadmap and success metrics.\n- **Engineering Manager:** Responsible for technical delivery, architecture, and team allocation.\n- **IT/Security Department:** Ensures data security, compliance, and infrastructure support.\n- **Department Heads (Marketing, Sales, Operations):** Primary customers and champions of the tool within their teams.\n\n## 5. Features & User Stories\n\n### Must-Have\n- **Real-time Data Visualization**\n  - *User Story:* As a user, I want to see my dashboard metrics update automatically, so that I am always looking at the most current data without refreshing the page.\n- **Customizable Dashboard Layout**\n  - *User Story:* As a user, I want to add, remove, resize, and rearrange widgets on my dashboard, so that I can create a view that is most relevant to my needs.\n- **User-Specific Dashboards**\n  - *User Story:* As a user, I want to create and manage multiple dashboards, so that I can organize my analytics for different projects or roles.\n- **Data Export**\n  - *User Story:* As a manager, I want to export dashboard data as a PDF or CSV, so that I can include it in presentations and share it with stakeholders who do not have access to the tool.\n\n### Should-Have\n- **Multiple Data Source Integration**\n  - *User Story:* As a business analyst, I want to connect widgets to different data sources (e.g., SQL databases, APIs), so that I can create a comprehensive view of the business.\n- **Widget Configuration**\n  - *User Story:* As a user, I want to configure a widget's data source, metrics, and visualization type, so that I can display the data exactly how I need it.\n- **Role-Based Access Control (RBAC)**\n  - *User Story:* As an admin, I want to control which users can view or edit specific dashboards, so that sensitive data is protected.\n- **Connection Status Indicator**\n  - *User Story:* As a user, I want to be notified if the real-time connection is lost, so that I know the data on my screen may be stale.\n\n### Nice-to-Have\n- **Data Drill-Down**\n  - *User Story:* As a business analyst, I want to click on a chart or metric to see the underlying data, so that I can perform a deeper analysis.\n- **Alerting and Notifications**\n  - *User Story:* As an operations lead, I want to set up alerts for when a metric crosses a certain threshold, so that I can be notified of critical issues immediately.\n- **Dashboard Sharing**\n  - *User Story:* As a manager, I want to share a link to a read-only version of my dashboard, so that my team can see the same metrics.\n\n## 6. Use Cases\n\n### UC-001: View Real-Time Dashboard\n- **Actors:** User, Business Analyst, Manager\n- **Preconditions:**\n  - The user must be authenticated and logged into the system.\n  - At least one dashboard must be configured and available to the user.\n  - Backend data sources must be accessible and operational.\n- **Main Flow:**\n  1. The user navigates to the analytics dashboard URL.\n  2. The system authenticates the user and loads their default dashboard view.\n  3. The system fetches the initial data for all widgets on the dashboard from their respective data sources.\n  4. The system renders the widgets, displaying metrics, KPIs, and charts.\n  5. A WebSocket connection is established between the client and the server for real-time updates.\n  6. As new data points are available, the server pushes updates through the WebSocket.\n  7. The client receives the updates and refreshes the corresponding widget's data visualization.\n- **Alternative Flows:**\n  - **Select a Different Dashboard:** If the user has access to multiple dashboards, they can select a different one from a dropdown menu. The system then loads the selected dashboard's configuration and data.\n  - **WebSocket Connection Fails:** If the WebSocket connection cannot be established or is lost, the system displays a notification indicating the real-time connection is down. The system can fall back to polling for updates every 30-60 seconds and will automatically attempt to re-establish the WebSocket connection.\n  - **No Dashboards Available:** If a new user has no dashboards, the system presents them with an option to create their first dashboard.\n- **Postconditions:**\n  - The user is viewing a dashboard with current data.\n  - The system is actively listening for real-time data updates for the displayed widgets.\n- **Priority:** High\n- **Business Value:** Provides immediate visibility into business performance and operational health, enabling faster, data-driven decision-making and proactive issue detection.\n\n### UC-002: Customize Dashboard Layout\n- **Actors:** User\n- **Preconditions:**\n  - The user must be logged in.\n  - The user must be viewing a dashboard for which they have edit permissions.\n- **Main Flow:**\n  1. The user clicks an 'Edit' or 'Customize' button on the dashboard.\n  2. The dashboard enters an editable state, showing resize handles and a palette of available widget types.\n  3. The user drags a new widget from the palette and drops it onto the dashboard grid.\n  4. The user resizes a widget by dragging its corners.\n  5. The user drags a widget to a new position on the grid.\n  6. The user clicks a 'Save' button to commit the changes.\n- **Alternative Flows:**\n  - **Discard Changes:** The user can click a 'Cancel' or 'Discard' button to exit edit mode without saving any changes.\n  - **Remove a Widget:** In edit mode, the user clicks a 'Remove' or 'X' icon on a widget to delete it from the dashboard.\n  - **Configure a Widget:** The user clicks a 'Configure' icon on a widget to open a settings panel where they can change the data source, metrics displayed, chart type, or other properties.\n- **Postconditions:**\n  - The dashboard's new layout and widget configuration is saved to the user's profile.\n  - The next time the user loads this dashboard, it will appear in its customized state.\n- **Priority:** High\n- **Business Value:** Empowers users to create personalized views that are most relevant to their roles and responsibilities, increasing user adoption, engagement, and the overall utility of the dashboard.\n\n### UC-003: Create and Manage User Dashboards\n- **Actors:** User\n- **Preconditions:**\n  - The user must be logged in.\n- **Main Flow:**\n  1. The user accesses a dashboard management area (e.g., via a 'My Dashboards' menu).\n  2. The user clicks a 'Create New Dashboard' button.\n  3. The system prompts the user to enter a name for the new dashboard.\n  4. The user enters a unique name and confirms.\n  5. The system creates a new, empty dashboard with that name and adds it to the user's list of dashboards.\n- **Alternative Flows:**\n  - **Rename Dashboard:** From the management list, the user selects a dashboard and chooses a 'Rename' option, enters a new name, and saves the change.\n  - **Delete Dashboard:** From the management list, the user selects a dashboard and chooses a 'Delete' option. The system asks for confirmation. Upon confirmation, the dashboard is permanently deleted.\n  - **Set Default Dashboard:** The user selects a dashboard and chooses a 'Set as Default' option. This dashboard will now load automatically upon login.\n- **Postconditions:**\n  - A new dashboard is created and available for customization.\n  - An existing dashboard's name is changed, or it is deleted.\n  - The user's default dashboard setting is updated.\n- **Priority:** Medium\n- **Business Value:** Allows for better organization of analytics by enabling users to build dedicated dashboards for different projects, departments, or business questions, improving clarity and focus.\n\n### UC-004: Export Dashboard Data\n- **Actors:** User\n- **Preconditions:**\n  - The user must be logged in and viewing a dashboard.\n  - The user must have the necessary permissions to export data.\n- **Main Flow:**\n  1. The user clicks an 'Export' button on the dashboard.\n  2. The system presents a modal dialog with export options (e.g., 'Export as PDF', 'Export as CSV', 'Export as Image').\n  3. The user selects the desired export format.\n  4. The user clicks an 'Export' or 'Download' button in the dialog.\n  5. The system generates the file in the selected format.\n  6. The file is downloaded to the user's local machine via the browser.\n- **Alternative Flows:**\n  - **Export Single Widget:** Instead of exporting the whole dashboard, the user clicks an export icon within a specific widget to export only that widget's data or image.\n  - **Export Fails:** If the export process fails (e.g., due to a server error or too much data), the system displays an error message to the user explaining the issue.\n- **Postconditions:**\n  - The user has a file containing the dashboard's data or visualizations in their chosen format.\n- **Priority:** Medium\n- **Business Value:** Facilitates the sharing of insights with stakeholders who may not have direct access to the dashboard and enables integration of real-time data into static reporting and archival processes.\n\n## 7. Functional Requirements\n\n### Dashboard Viewing & Interaction\n- **FR-01:** The system shall authenticate users and redirect them to their default dashboard upon successful login.\n- **FR-02:** The system shall display a list of dashboards the user has access to, allowing them to switch between views.\n- **FR-03:** The system shall establish a WebSocket connection upon loading a dashboard to receive real-time data updates.\n- **FR-04:** The system shall render data visualizations (charts, metrics, tables) within widgets on the dashboard.\n- **FR-05:** The system shall display a clear visual indicator (e.g., a green dot) when the WebSocket connection is live and a red indicator with a message when it is disconnected.\n\n### Dashboard Customization\n- **FR-06:** The system shall provide an 'Edit' mode that allows users to modify the dashboard layout.\n- **FR-07:** In Edit mode, the system shall allow users to drag-and-drop widgets to reposition them on a grid.\n- **FR-08:** In Edit mode, the system shall allow users to resize widgets using corner and edge handles.\n- **FR-09:** The system shall provide a palette of available widget types (e.g., KPI, Line Chart, Bar Chart, Table) that can be added to the dashboard.\n- **FR-10:** The system shall provide a 'Save' button to persist layout changes and a 'Cancel' button to discard them.\n- **FR-11:** The system shall allow users to configure a widget's properties, including data source, metrics, and visualization type.\n\n### Dashboard Management\n- **FR-12:** The system shall allow users to create a new, named dashboard.\n- **FR-13:** The system shall ensure that dashboard names are unique per user.\n- **FR-14:**",
+      "project_name": "Real-time Analytics Dashboard",
+      "length": 16515,
+      "sections": [
+        "1. Executive Summary",
+        "2. Goals & Objectives",
+        "3. Problem Statement",
+        "4. User Personas & Stakeholders",
+        "5. Features & User Stories",
+        "6. Use Cases",
+        "7. Functional Requirements"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Real-time Analytics Dashboard - AICOE</title>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n    <style>\n        :root {\n            --aicoe-primary: #0066cc;\n            --aicoe-accent: #00d9ff;\n            --aicoe-dark: #1d1d1f;\n            --aicoe-gray: #6e6e73;\n            --aicoe-light-gray: #f5f5f7;\n            --aicoe-white: #ffffff;\n            --aicoe-success: #34c759;\n            --aicoe-warning: #ff9500;\n        }\n\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n            line-height: 1.6;\n            color: var(--aicoe-dark);\n            background-color: var(--aicoe-white);\n        }\n\n        /* Navigation */\n        nav {\n            position: sticky;\n            top: 0;\n            background: rgba(255, 255, 255, 0.95);\n            backdrop-filter: blur(20px);\n            padding: 1rem 2rem;\n            border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n            z-index: 1000;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n        }\n\n        .nav-container {\n            max-width: 1400px;\n            margin: 0 auto;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .nav-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n        }\n\n        .nav-menu {\n            display: flex;\n            gap: 2rem;\n            list-style: none;\n        }\n\n        .nav-menu a {\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            transition: color 0.3s ease;\n        }\n\n        .nav-menu a:hover {\n            color: var(--aicoe-primary);\n        }\n\n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);\n            padding: 4rem 2rem;\n            text-align: center;\n            color: var(--aicoe-white);\n        }\n\n        .hero-container {\n            max-width: 1000px;\n            margin: 0 auto;\n        }\n\n        .hero h1 {\n            font-size: 3rem;\n            font-weight: 700;\n            margin-bottom: 1rem;\n            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n\n        .hero p {\n            font-size: 1.25rem;\n            opacity: 0.95;\n            margin-bottom: 2rem;\n        }\n\n        .hero-stats {\n            display: flex;\n            justify-content: center;\n            gap: 4rem;\n            margin-top: 3rem;\n        }\n\n        .stat-item {\n            text-align: center;\n        }\n\n        .stat-value {\n            font-size: 2.5rem;\n            font-weight: 700;\n            display: block;\n        }\n\n        .stat-label {\n            font-size: 0.9rem;\n            opacity: 0.9;\n            text-transform: uppercase;\n            letter-spacing: 1px;\n        }\n\n        /* Features Section */\n        .features {\n            padding: 4rem 2rem;\n            background: var(--aicoe-light-gray);\n        }\n\n        .features-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .section-title {\n            text-align: center;\n            font-size: 2.5rem;\n            margin-bottom: 3rem;\n            color: var(--aicoe-dark);\n        }\n\n        .features-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n        }\n\n        .feature-card {\n            background: var(--aicoe-white);\n            padding: 2rem;\n            border-radius: 12px;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n            transition: transform 0.3s ease, box-shadow 0.3s ease;\n        }\n\n        .feature-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n        }\n\n        .feature-icon {\n            width: 48px;\n            height: 48px;\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            border-radius: 12px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            color: var(--aicoe-white);\n            margin-bottom: 1rem;\n        }\n\n        .feature-title {\n            font-size: 1.25rem;\n            margin-bottom: 0.5rem;\n            color: var(--aicoe-dark);\n        }\n\n        .feature-description {\n            color: var(--aicoe-gray);\n        }\n\n        /* Use Cases Section */\n        .use-cases {\n            padding: 4rem 2rem;\n        }\n\n        .use-cases-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .use-case-card {\n            background: var(--aicoe-white);\n            border: 1px solid rgba(0, 0, 0, 0.08);\n            border-radius: 12px;\n            padding: 2rem;\n            margin-bottom: 2rem;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n            transition: box-shadow 0.3s ease;\n        }\n\n        .use-case-card:hover {\n            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);\n        }\n\n        .use-case-header {\n            display: flex;\n            align-items: flex-start;\n            gap: 1rem;\n            margin-bottom: 1.5rem;\n        }\n\n        .use-case-id {\n            background: var(--aicoe-primary);\n            color: var(--aicoe-white);\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.875rem;\n            font-weight: 600;\n        }\n\n        .use-case-title {\n            font-size: 1.5rem;\n            color: var(--aicoe-dark);\n            flex: 1;\n        }\n\n        .priority-badge {\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.75rem;\n            font-weight: 600;\n            text-transform: uppercase;\n        }\n\n        .priority-high {\n            background: rgba(255, 149, 0, 0.1);\n            color: var(--aicoe-warning);\n        }\n\n        .priority-medium {\n            background: rgba(0, 102, 204, 0.1);\n            color: var(--aicoe-primary);\n        }\n\n        .use-case-description {\n            color: var(--aicoe-gray);\n            margin-bottom: 1.5rem;\n        }\n\n        .use-case-meta {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 1.5rem;\n            margin-bottom: 1.5rem;\n        }\n\n        .meta-item {\n            display: flex;\n            align-items: flex-start;\n            gap: 0.5rem;\n        }\n\n        .meta-icon {\n            color: var(--aicoe-primary);\n            flex-shrink: 0;\n            margin-top: 2px;\n        }\n\n        .meta-label {\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.25rem;\n        }\n\n        .meta-value {\n            color: var(--aicoe-gray);\n            font-size: 0.9rem;\n        }\n\n        .business-value {\n            background: linear-gradient(135deg, rgba(0, 102, 204, 0.05), rgba(0, 217, 255, 0.05));\n            padding: 1.5rem;\n            border-radius: 8px;\n            border-left: 4px solid var(--aicoe-primary);\n        }\n\n        .business-value-title {\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.5rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        /* Footer */\n        footer {\n            background: var(--aicoe-dark);\n            color: var(--aicoe-white);\n            padding: 2rem;\n            text-align: center;\n        }\n\n        .footer-content {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .footer-brand {\n            font-size: 1.25rem;\n            font-weight: 600;\n            margin-bottom: 1rem;\n            color: var(--aicoe-accent);\n        }\n\n        .footer-text {\n            color: var(--aicoe-gray);\n            opacity: 0.8;\n        }\n\n        /* Responsive */\n        @media (max-width: 768px) {\n            .nav-menu {\n                display: none;\n            }\n\n            .hero h1 {\n                font-size: 2rem;\n            }\n\n            .hero-stats {\n                flex-direction: column;\n                gap: 2rem;\n            }\n\n            .features-grid {\n                grid-template-columns: 1fr;\n            }\n\n            .use-case-meta {\n                grid-template-columns: 1fr;\n            }\n        }\n\n        /* Print Styles */\n        @media print {\n            nav, .no-print, button { \n                display: none !important; \n            }\n            \n            body { \n                font-size: 12pt; \n                color: #000; \n                background: #fff; \n            }\n            \n            * { \n                box-shadow: none !important; \n                text-shadow: none !important; \n            }\n            \n            .page-break { \n                page-break-before: always; \n            }\n            \n            h1, h2, h3 { \n                page-break-after: avoid; \n            }\n            \n            a[href]:after { \n                content: \" (\" attr(href) \")\"; \n            }\n\n            .hero {\n                background: #f0f0f0 !important;\n                color: #000 !important;\n            }\n\n            .feature-card, .use-case-card {\n                break-inside: avoid;\n            }\n        }\n    </style>\n</head>\n<body>\n    <!-- Navigation -->\n    <nav>\n        <div class=\"nav-container\">\n            <div class=\"nav-brand\">\n                <i data-lucide=\"activity\" style=\"width: 32px; height: 32px;\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <ul class=\"nav-menu\">\n                <li><a href=\"#\"><i data-lucide=\"home\"></i> Home</a></li>\n                <li><a href=\"#features\"><i data-lucide=\"zap\"></i> Features</a></li>\n                <li><a href=\"#use-cases\"><i data-lucide=\"file-text\"></i> Use Cases</a></li>\n                <li><a href=\"#\"><i data-lucide=\"settings\"></i> Settings</a></li>\n            </ul>\n        </div>\n    </nav>\n\n    <!-- Hero Section -->\n    <section class=\"hero\">\n        <div class=\"hero-container\">\n            <h1>Real-time Analytics Dashboard</h1>\n            <p>Experience live metrics, KPIs, and data visualizations that update in real-time</p>\n            <div class=\"hero-stats\">\n                <div class=\"stat-item\">\n                    <span class=\"stat-value\">4</span>\n                    <span class=\"stat-label\">Use Cases</span>\n                </div>\n                <div class=\"stat-item\">\n                    <span class=\"stat-value\">\u221e</span>\n                    <span class=\"stat-label\">Data Sources</span>\n                </div>\n                <div class=\"stat-item\">\n                    <span class=\"stat-value\">100%</span>\n                    <span class=\"stat-label\">Real-time</span>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Features Section -->\n    <section class=\"features\" id=\"features\">\n        <div class=\"features-container\">\n            <h2 class=\"section-title\">Key Features</h2>\n            <div class=\"features-grid\">\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"trending-up\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Real-time Updates</h3>\n                    <p class=\"feature-description\">WebSocket-powered live data streaming ensures your dashboard always shows the latest metrics and KPIs.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"layout\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Customizable Layouts</h3>\n                    <p class=\"feature-description\">Drag-and-drop interface to create personalized dashboards with resizable widgets and flexible grids.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"database\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Multiple Data Sources</h3>\n                    <p class=\"feature-description\">Connect to various data sources and APIs to consolidate all your analytics in one place.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"users\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">User-Specific Dashboards</h3>\n                    <p class=\"feature-description\">Create and manage multiple dashboards tailored to different roles and responsibilities.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"download\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Export Capabilities</h3>\n                    <p class=\"feature-description\">Export dashboard data in various formats including PDF, CSV, and images for reports.</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"shield\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Enterprise Security</h3>\n                    <p class=\"feature-description\">Role-based access control and secure data transmission protect your sensitive information.</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Use Cases Section -->\n    <section class=\"use-cases\" id=\"use-cases\">\n        <div class=\"use-cases-container\">\n            <h2 class=\"section-title\">Use Cases</h2>\n            \n            <!-- Use Case 1 -->\n            <div class=\"use-case-card\">\n                <div class=\"use-case-header\">\n                    <span class=\"use-case-id\">UC-001</span>\n                    <h3 class=\"use-case-title\">View Real-Time Dashboard</h3>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                </div>\n                <p class=\"use-case-description\">\n                    The user logs into the system and views their primary or a selected analytics dashboard. The dashboard displays a collection of widgets showing live metrics, KPIs, and data visualizations that update in real-time as new data becomes available.\n                </p>\n                <div class=\"use-case-meta\">\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"users\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Actors</div>\n                            <div class=\"meta-value\">User, Business Analyst, Manager</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"check-circle\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Preconditions</div>\n                            <div class=\"meta-value\">Authenticated, Dashboard configured, Data sources operational</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"target\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Key Flows</div>\n                            <div class=\"meta-value\">Navigate, Authenticate, Load widgets, WebSocket connection</div>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"business-value\">\n                    <div class=\"business-value-title\">\n                        <i data-lucide=\"trending-up\"></i>\n                        Business Value\n                    </div>\n                    <p>Provides immediate visibility into business performance and operational health, enabling faster, data-driven decision-making and proactive issue detection.</p>\n                </div>\n            </div>\n\n            <!-- Use Case 2 -->\n            <div class=\"use-case-card\">\n                <div class=\"use-case-header\">\n                    <span class=\"use-case-id\">UC-002</span>\n                    <h3 class=\"use-case-title\">Customize Dashboard Layout</h3>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                </div>\n                <p class=\"use-case-description\">\n                    The user modifies the layout and content of their dashboard to suit their specific needs. This includes adding new widgets, removing existing ones, resizing them, and rearranging their position on the grid.\n                </p>\n                <div class=\"use-case-meta\">\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"users\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Actors</div>\n                            <div class=\"meta-value\">User</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"check-circle\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Preconditions</div>\n                            <div class=\"meta-value\">Logged in, Edit permissions</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"target\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Key Flows</div>\n                            <div class=\"meta-value\">Edit mode, Drag widgets, Resize, Save changes</div>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"business-value\">\n                    <div class=\"business-value-title\">\n                        <i data-lucide=\"trending-up\"></i>\n                        Business Value\n                    </div>\n                    <p>Empowers users to create personalized views that are most relevant to their roles and responsibilities, increasing user adoption, engagement, and the overall utility of the dashboard.</p>\n                </div>\n            </div>\n\n            <!-- Use Case 3 -->\n            <div class=\"use-case-card\">\n                <div class=\"use-case-header\">\n                    <span class=\"use-case-id\">UC-003</span>\n                    <h3 class=\"use-case-title\">Create and Manage User Dashboards</h3>\n                    <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                </div>\n                <p class=\"use-case-description\">\n                    The user creates new, blank dashboards for specific purposes, and can manage their existing dashboards by renaming them, deleting them, or setting one as the default.\n                </p>\n                <div class=\"use-case-meta\">\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"users\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Actors</div>\n                            <div class=\"meta-value\">User</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"check-circle\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Preconditions</div>\n                            <div class=\"meta-value\">Logged in</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"target\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Key Flows</div>\n                            <div class=\"meta-value\">Access management, Create dashboard, Rename, Delete, Set default</div>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"business-value\">\n                    <div class=\"business-value-title\">\n                        <i data-lucide=\"trending-up\"></i>\n                        Business Value\n                    </div>\n                    <p>Allows for better organization of analytics by enabling users to build dedicated dashboards for different projects, departments, or business questions, improving clarity and focus.</p>\n                </div>\n            </div>\n\n            <!-- Use Case 4 -->\n            <div class=\"use-case-card\">\n                <div class=\"use-case-header\">\n                    <span class=\"use-case-id\">UC-004</span>\n                    <h3 class=\"use-case-title\">Export Dashboard Data</h3>\n                    <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                </div>\n                <p class=\"use-case-description\">\n                    The user exports the data or visualizations from a dashboard for use in external reports, presentations, or for further offline analysis.\n                </p>\n                <div class=\"use-case-meta\">\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"users\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Actors</div>\n                            <div class=\"meta-value\">User</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"check-circle\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Preconditions</div>\n                            <div class=\"meta-value\">Logged in, Export permissions</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-item\">\n                        <i data-lucide=\"target\" class=\"meta-icon\"></i>\n                        <div>\n                            <div class=\"meta-label\">Key Flows</div>\n                            <div class=\"meta-value\">Export button, Format selection, Download file</div>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"business-value\">\n                    <div class=\"business-value-title\">\n                        <i data-lucide=\"trending-up\"></i>\n                        Business Value\n                    </div>\n                    <p>Facilitates the sharing of insights with stakeholders who may not have direct access to the dashboard and enables integration of real-time data into static reporting and archival processes.</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Footer -->\n    <footer>\n        <div class=\"footer-content\">\n            <div class=\"footer-brand\">\n                <i data-lucide=\"activity\" style=\"width: 24px; height: 24px; vertical-align: middle;\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <p class=\"footer-text\">Powered by AICOE | Generated by AI Agents</p>\n        </div>\n    </footer>\n\n    <script>\n        // Initialize Lucide icons\n        lucide.createIcons();\n\n        // Smooth scroll for navigation links\n        document.querySelectorAll('a[href^=\"#\"]').forEach(anchor => {\n            anchor.addEventListener('click', function (e) {\n                e.preventDefault();\n                const target = document.querySelector(this.getAttribute('href'));\n                if (target) {\n                    target.scrollIntoView({\n                        behavior: 'smooth',\n                        block: 'start'\n                    });\n                }\n            });\n        });\n\n        // Add scroll effect to navigation\n        let lastScroll = 0;\n        window.addEventListener('scroll', () => {\n            const nav = document.querySelector('nav');\n            const currentScroll = window.pageYOffset;\n            \n            if (currentScroll > 50) {\n                nav.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';\n            } else {\n                nav.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.05)';\n            }\n            \n            lastScroll = currentScroll;\n        });\n\n        // Animate elements on scroll\n        const observerOptions = {\n            threshold: 0.1,\n            rootMargin: '0px 0px -50px 0px'\n        };\n\n        const observer = new IntersectionObserver((entries) => {\n            entries.forEach(entry => {\n                if (entry.isIntersecting) {\n                    entry.target.style.opacity = '1';\n                    entry.target.style.transform = 'translateY(0)';\n                }\n            });\n        }, observerOptions);\n\n        // Observe feature cards and use case cards\n        document.querySelectorAll('.feature-card, .use-case-card').forEach(card => {\n            card.style.opacity = '0';\n            card.style.transform = 'translateY(20px)';\n            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';\n            observer.observe(card);\n        });\n\n        // Add interactive hover effects to stat values\n        document.querySelectorAll('.stat-value').forEach(stat => {\n            stat.addEventListener('mouseenter', function() {\n                this.style.transform = 'scale(1.1)';\n                this.style.transition = 'transform 0.3s ease';\n            });\n            \n            stat.addEventListener('mouseleave', function() {\n                this.style.transform = 'scale(1)';\n            });\n        });\n\n        // Simulate real-time updates for demo purposes\n        function updateRandomStat() {\n            const stats = document.querySelectorAll('.stat-value');\n            const randomStat = stats[Math.floor(Math.random() * stats.length)];\n            \n            if (randomStat.textContent.includes('%')) {\n                const currentValue = parseInt(randomStat.textContent);\n                const newValue = Math.min(100, currentValue + Math.floor(Math.random() * 5));\n                randomStat.textContent = newValue + '%';\n            }\n        }\n\n        // Update stats every 3 seconds for demo\n        setInterval(updateRandomStat, 3000);\n    </script>\n</body>\n</html>",
+      "project_name": "Real-time Analytics Dashboard",
+      "length": 26907,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "raw_response": "{\n    \"data_sets\": [\n        {\n            \"name\": \"Dashboard_Configurations\",\n            \"description\": \"Metadata for different dashboards, including user permissions, layout, and default settings.\",\n            \"use_case_id\": \"UC-001, UC-002, UC-003\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"dashboardId\": \"string (UUID)\",\n                \"name\": \"string\",\n                \"ownerId\": \"string (UUID)\",\n                \"isDefault\": \"boolean\",\n                \"isPublic\": \"boolean\",\n                \"layout\": \"object (grid layout details)\",\n                \"widgets\": \"array of widget IDs\",\n                \"lastModified\": \"string (ISO 8601 datetime)\"\n            },\n            \"sample_data\": [\n                {\n                    \"dashboardId\": \"dsh-8a2b1c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d\",\n                    \"name\": \"Sales Performance Overview\",\n                    \"ownerId\": \"usr-1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d\",\n                    \"isDefault\": true,\n                    \"isPublic\": false,\n                    \"layout\": {\"columns\": 12, \"rowHeight\": 100},\n                    \"widgets\": [\"wgt-9f8e7d6c-5b4a-3c2b-1a0f-9e8d7c6b5a4f\", \"wgt-1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d\"],\n                    \"lastModified\": \"2024-05-20T14:30:00Z\"\n                },\n                {\n                    \"dashboardId\": \"dsh-2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e\",\n                    \"name\": \"Marketing Campaign Metrics\",\n                    \"ownerId\": \"usr-2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f\",\n                    \"isDefault\": false,\n                    \"isPublic\": true,\n                    \"layout\": {\"columns\": 12, \"rowHeight\": 100},\n                    \"widgets\": [\"wgt-2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f\", \"wgt-3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a\"],\n                    \"lastModified\": \"2024-05-19T11:45:00Z\"\n                },\n                {\n                    \"dashboardId\": \"dsh-3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f\",\n                    \"name\": \"System Health Monitor\",\n                    \"ownerId\": \"usr-3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a\",\n                    \"isDefault\": false,\n                    \"isPublic\": false,\n                    \"layout\": {\"columns\": 12, \"rowHeight\": 100},\n                    \"widgets\": [\"wgt-4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b\"],\n                    \"lastModified\": \"2024-05-21T09:15:00Z\"\n                }\n            ]\n        },\n        {\n            \"name\": \"Widget_Definitions\",\n            \"description\": \"Configuration for individual dashboard widgets, including type, data source, and display properties.\",\n            \"use_case_id\": \"UC-001, UC-002\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"widgetId\": \"string (UUID)\",\n                \"type\": \"string (enum: 'kpi', 'line_chart', 'bar_chart', 'pie_chart', 'table')\",\n                \"title\": \"string\",\n                \"dataSource\": \"string (API endpoint or DB query ID)\",\n                \"position\": \"object (x, y, w, h)\",\n                \"config\": \"object (widget-specific settings)\"\n            },\n            \"sample_data\": [\n                {\n                    \"widgetId\": \"wgt-9f8e7d6c-5b4a-3c2b-1a0f-9e8d7c6b5a4f\",\n                    \"type\": \"kpi\",\n                    \"title\": \"Monthly Recurring Revenue\",\n                    \"dataSource\": \"api/v1/kpi/mrr\",\n                    \"position\": {\"x\": 0, \"y\": 0, \"w\": 3, \"h\": 2},\n                    \"config\": {\"unit\": \"currency\", \"format\": \"$0,0.00\", \"trend\": true}\n                },\n                {\n                    \"widgetId\": \"wgt-1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d\",\n                    \"type\": \"line_chart\",\n                    \"title\": \"New Users (Last 30 Days)\",\n                    \"dataSource\": \"api/v1/timeseries/users\",\n                    \"position\": {\"x\": 3, \"y\": 0, \"w\": 6, \"h\": 4},\n                    \"config\": {\"xAxis\": \"date\", \"yAxis\": \"count\", \"smooth\": true}\n                },\n                {\n                    \"widgetId\": \"wgt-2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f\",\n                    \"type\": \"bar_chart\",\n                    \"title\": \"Top Performing Products\",\n                    \"dataSource\": \"api/v1/aggregation/products\",\n                    \"position\": {\"x\": 0, \"y\": 4, \"w\": 4, \"h\": 4},\n                    \"config\": {\"category\": \"productName\", \"value\": \"salesCount\"}\n                },\n                {\n                    \"widgetId\": \"wgt-3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a\",\n                    \"type\": \"pie_chart\",\n                    \"title\": \"Traffic Sources\",\n                    \"dataSource\": \"api/v1/aggregation/traffic\",\n                    \"position\": {\"x\": 9, \"y\": 0, \"w\": 3, \"h\": 3},\n                    \"config\": {\"label\": \"source\", \"value\": \"percentage\"}\n                }\n            ]\n        },\n        {\n            \"name\": \"Real_Time_WebSocket_Updates\",\n            \"description\": \"Simulated data payloads sent over WebSocket for real-time widget updates.\",\n            \"use_case_id\": \"UC-001\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"type\": \"string (enum: 'data_update', 'connection_status')\",\n                \"timestamp\": \"string (ISO 8601 datetime)\",\n                \"widgetId\": \"string (UUID)\",\n                \"payload\": \"object (the new data for the widget)\"\n            },\n            \"sample_data\": [\n                {\n                    \"type\": \"data_update\",\n                    \"timestamp\": \"2024-05-21T15:05:01.123Z\",\n                    \"widgetId\": \"wgt-9f8e7d6c-5b4a-3c2b-1a0f-9e8d7c6b5a4f\",\n                    \"payload\": {\"value\": 1254500, \"trend\": \"up\", \"change\": \"+2.5%\"}\n                },\n                {\n                    \"type\": \"data_update\",\n                    \"timestamp\": \"2024-05-21T15:05:05.456Z\",\n                    \"widgetId\": \"wgt-4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b\",\n                    \"payload\": {\"cpu\": 55.2, \"memory\": 62.8, \"disk\": 78.1}\n                },\n                {\n                    \"type\": \"connection_status\",\n                    \"timestamp\": \"2024-05-21T15:05:10.789Z\",\n                    \"widgetId\": null,\n                    \"payload\": {\"status\": \"connected\", \"latency\": \"45ms\"}\n                }\n            ]\n        },\n        {\n            \"name\": \"User_Profiles\",\n            \"description\": \"User account information and preferences for the dashboard system.\",\n            \"use_case_id\": \"UC-001, UC-003\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"userId\": \"string (UUID)\",\n                \"username\": \"string\",\n                \"email\": \"string\",\n                \"role\": \"string (enum: 'user', 'business_analyst', 'manager', 'admin')\",\n                \"defaultDashboardId\": \"string (UUID, nullable)\",\n                \"preferences\": \"object (theme, timezone, etc.)\",\n                \"lastLogin\": \"string (ISO 8601 datetime)\"\n            },\n            \"sample_data\": [\n                {\n                    \"userId\": \"usr-1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d\",\n                    \"username\": \"jane.doe\",\n                    \"email\": \"jane.doe@examplecorp.com\",\n                    \"role\": \"manager\",\n                    \"defaultDashboardId\": \"dsh-8a2b1c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d\",\n                    \"preferences\": {\"theme\": \"light\", \"timezone\": \"America/New_York\"},\n                    \"lastLogin\": \"2024-05-21T14:50:00Z\"\n                },\n                {\n                    \"userId\": \"usr-2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f\",\n                    \"username\": \"john.smith\",\n                    \"email\": \"john.smith@examplecorp.com\",\n                    \"role\": \"business_analyst\",\n                    \"defaultDashboardId\": \"dsh-2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e\",\n                    \"preferences\": {\"theme\": \"dark\", \"timezone\": \"UTC\"},\n                    \"lastLogin\": \"2024-05-21T13:22:00Z\"\n                },\n                {\n                    \"userId\": \"usr-3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a\",\n                    \"username\": \"sara.connor\",\n                    \"email\": \"sara.connor@examplecorp.com\",\n                    \"role\": \"user\",\n                    \"defaultDashboardId\": null,\n                    \"preferences\": {\"theme\": \"light\", \"timezone\": \"Europe/London\"},\n                    \"lastLogin\": \"2024-05-21T15:01:00Z\"\n                }\n            ]\n        },\n        {\n            \"name\": \"Sales_Data_CSV\",\n            \"description\": \"Sample sales data that could be exported from a dashboard widget.\",\n            \"use_case_id\": \"UC-004\",\n            \"format\": \"csv\",\n            \"schema\": {\n                \"order_id\": \"string\",\n                \"date\": \"date (YYYY-MM-DD)\",\n                \"product_category\": \"string\",\n                \"product_name\": \"string\",\n                \"quantity\": \"integer\",\n                \"unit_price\": \"float\",\n                \"total_revenue\": \"float\",\n                \"region\": \"string\"\n            },\n            \"sample_data\": \"order_id,date,product_category,product_name,quantity,unit_price,total_revenue,region\\nORD-001,2024-05-20,Electronics,Quantum Laptop Pro,1,1299.99,1299.99,North America\\nORD-002,2024-05-20,Software,CloudSync Subscription,12,25.50,306.00,Europe\\nORD-003,2024-05-21,Electronics,WirelessMouse X5,5,49.95,249.75,Asia\\nORD-004,2024-05-21,Software,DesignSuite License,2,450.00,900.00,North America\\nORD-005,2024-05-21,Electronics,Mechanical Keyboard K8,3,120.00,360.00,Europe\"\n        },\n        {\n            \"name\": \"System_Health_Metrics\",\n            \"description\": \"Time-series data for system health monitoring widgets.\",\n            \"use_case_id\": \"UC-001\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"timestamp\": \"string (ISO 8601 datetime)\",\n                \"metrics\": {\n                    \"cpu_usage_percent\": \"float\",\n                    \"memory_usage_percent\": \"float\",\n                    \"disk_usage_percent\": \"float\",\n                    \"active_connections\": \"integer\",\n                    \"api_response_time_ms\": \"integer\",\n                    \"error_rate_percent\": \"float\"\n                }\n            },\n            \"sample_data\": [\n                {\n                    \"timestamp\": \"2024-05-21T15:00:00Z\",\n                    \"metrics\": {\n                        \"cpu_usage_percent\": 45.2,\n                        \"memory_usage_percent\": 62.1,\n                        \"disk_usage_percent\": 78.5,\n                        \"active_connections\": 1523,\n                        \"api_response_time_ms\": 120,\n                        \"error_rate_percent\": 0.1\n                    }\n                },\n                {\n                    \"timestamp\": \"2024-05-21T15:01:00Z\",\n                    \"metrics\": {\n                        \"cpu_usage_percent\": 48.9,\n                        \"memory_usage_percent\": 63.5,\n                        \"disk_usage_percent\": 78.6,\n                        \"active_connections\": 1611,\n                        \"api_response_time_ms\": 135,\n                        \"error_rate_percent\": 0.15\n                    }\n                },\n                {\n                    \"timestamp\": \"2024-05-21T15:02:00Z\",\n                    \"metrics\": {\n                        \"cpu_usage_percent\": 52.3,\n                        \"memory_usage_percent\": 64.0,\n                        \"disk_usage_percent\": 78.6,\n                        \"active_connections\": 1587,\n                        \"api_response_time_ms\": 115,\n                        \"error_rate_percent\": 0.08\n                    }\n                }\n            ]\n        },\n        {\n            \"name\": \"Dashboard_Management_Actions\",\n            \"description\": \"Log of user actions related to creating, renaming, and deleting dashboards.\",\n            \"use_case_id\": \"UC-003\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"actionId\": \"string (UUID)\",\n                \"userId\": \"string (UUID)\",\n                \"action\": \"string (enum: 'create', 'rename', 'delete', 'set_default')\",\n                \"dashboardId\": \"string (UUID)\",\n                \"details\": \"object (e.g., oldName, newName)\",\n                \"timestamp\": \"string (ISO 8601 datetime)\"\n            },\n            \"sample_data\": [\n                {\n                    \"actionId\": \"act-4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b\",\n                    \"userId\": \"usr-3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a\",\n                    \"action\": \"create\",\n                    \"dashboardId\": \"dsh-4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b\",\n                    \"details\": {\"name\": \"My First Dashboard\"},\n                    \"timestamp\": \"2024-05-21T15:10:00Z\"\n                },\n                {\n                    \"actionId\": \"act-5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c\",\n                    \"userId\": \"usr-3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a\",\n                    \"action\": \"rename\",\n                    \"dashboardId\": \"dsh-4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b\",\n                    \"details\": {\"oldName\": \"My First Dashboard\", \"newName\": \"Project Alpha Metrics\"},\n                    \"timestamp\": \"2024-05-21T15:12:00Z\"\n                },\n                {\n                    \"actionId\": \"act-6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d\",\n                    \"userId\": \"usr-2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f\",\n                    \"action\": \"set_default\",\n                    \"dashboardId\": \"dsh-2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e\",\n                    \"details\": {},\n                    \"timestamp\": \"2024-05-21T15:15:00Z\"\n                }\n            ]\n        }\n    ],\n    \"summary\": \"Generated 7 diverse synthetic data sets to cover all specified use cases for the Real-time Analytics Dashboard. The data includes: dashboard and widget configurations, real-time WebSocket update payloads, user profiles, exportable CSV data, system health metrics, and dashboard management logs. This provides a comprehensive foundation for demonstrating the"
+      },
+      "project_name": "Real-time Analytics Dashboard",
+      "warning": "Could not parse as JSON"
+    },
+    "reviewer": {
+      "review_cycle_id": "Real-time Analytics Dashboard_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-29T08:15:33.345766"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.00468
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 29.976881
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 106.98512
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 18.104323
+    },
+    {
+      "name": "prd",
+      "status": "completed",
+      "duration": 164.314423
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 130.903578
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 71.595916
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.000352
+    }
+  ]
+}

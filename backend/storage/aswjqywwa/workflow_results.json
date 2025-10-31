@@ -1,0 +1,1152 @@
+{
+  "project_name": "Manufacturing process automation with AI",
+  "workflow_id": "workflow_20251029_114533",
+  "status": "success",
+  "context": {
+    "project_name": "Manufacturing process automation with AI",
+    "workflow_id": "workflow_20251029_114533",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T11:45:33.940112",
+    "end_time": "2025-10-29T11:51:37.755784",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Manufacturing process automation with AI",
+      "project_root": "projects/Manufacturing process automation with AI",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T11:45:33.945127",
+        "action": "project_created",
+        "project_name": "Manufacturing process automation with AI",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": "A Tier 1 automotive parts manufacturing facility producing 500K+ transmission components annually, operating 24/7 with 3 shifts and 450 employees.",
+        "attendees": [
+          "Robert Martinez (Operations Director)",
+          "Emily Watson (Data Scientist)",
+          "Tom Anderson (Manufacturing Engineer)",
+          "Karen Lee (Quality Assurance Manager)",
+          "James Wilson (IT Infrastructure Lead)",
+          "Maria Rodriguez (Production Manager)",
+          "David Chen (Maintenance Supervisor)",
+          "Sarah Kim (Financial Analyst)",
+          "Dr. Michael Brown (Industry Consultant)"
+        ],
+        "meeting_date": "October 28, 2025",
+        "meeting_objective": "Comprehensive evaluation and planning for AI-driven manufacturing optimization solutions. Focus on predictive maintenance, quality inspection automation, and production process optimization.",
+        "key_discussion_points": [
+          "Production Challenges (Equipment Reliability, Quality Control, Operational Inefficiencies, Visibility Gaps)",
+          "AI Solution Opportunities (Predictive Maintenance, Computer Vision, Production Optimization, Digital Twin)",
+          "Technical Architecture Requirements (Hardware, Software, Data, Security)",
+          "Implementation Strategy (Phased Approach over 24 months)",
+          "Risk Assessment & Mitigation Strategy (Technical, Operational, Business Risks)",
+          "Budget Breakdown & ROI Analysis (Capital & Operating Expenditure, Expected ROI)",
+          "Success Criteria & KPIs (Operational, Technical, Business)"
+        ],
+        "pain_points": [
+          "Unplanned Downtime: 2,400 hours annually costing $2.8M",
+          "Low OEE: 68% (industry average: 75%)",
+          "High Defect Rate: 8.2% of finished products require rework or scrap",
+          "Inspection Bottleneck: Manual inspection takes 45 minutes per batch",
+          "Resource Allocation: Production lines running at 60-80% capacity utilization",
+          "Visibility Gaps: Only 40% of production floor has sensor coverage",
+          "Data Silos: Production data separated from quality and maintenance systems"
+        ],
+        "requirements": [
+          "Hardware: 25 Edge Computing Nodes, 500+ IoT sensors, 15 industrial cameras",
+          "Software: Modern SCADA, IoT Platform (Azure/AWS), AI/ML Platform, Time Series DB",
+          "Data Architecture: Data Lake, Real-time Streaming (Apache Kafka), Batch Processing (Apache Spark)",
+          "Security: Network Segmentation, Data Encryption, Role-based Access Control, Audit Logging",
+          "System Availability: 99.5% uptime for production-critical systems",
+          "Data Latency: <5 seconds for real-time analytics",
+          "Prediction Accuracy: >90% for equipment failure prediction",
+          "Inspection Accuracy: >95% for defect detection"
+        ],
+        "decisions_made": [
+          "Proceed with Azure IoT and AI platform as primary technology stack",
+          "Implement predictive maintenance as Phase 1 focus area",
+          "Require 99.5% system availability for production-critical systems",
+          "Include digital twin from project inception"
+        ],
+        "action_items": [
+          "Robert Martinez: Secure executive approval for Phase 1 budget and timeline",
+          "Emily Watson: Complete detailed AI vendor evaluation and recommendation",
+          "Tom Anderson: Create equipment priority matrix for sensor installation",
+          "Karen Lee: Define quality inspection requirements and success criteria",
+          "James Wilson: Assess current infrastructure and gap analysis",
+          "Maria Rodriguez: Develop change management plan for production staff",
+          "David Chen: Create maintenance procedure updates for AI-assisted maintenance",
+          "Sarah Kim: Build detailed financial model with sensitivity analysis",
+          "Dr. Michael Brown: Provide industry benchmark data and best practices",
+          "Cross-functional Team: Select pilot equipment and production lines"
+        ],
+        "technical_constraints": [
+          "Legacy SCADA system from 2012",
+          "Partial IoT implementation since 2020",
+          "Integration complexity with legacy equipment without modern interfaces",
+          "Sensor reliability and data quality issues",
+          "Scalability challenges for multi-site deployment"
+        ],
+        "stakeholders": [
+          "Operations Director",
+          "Data Scientist",
+          "Manufacturing Engineer",
+          "Quality Assurance Manager",
+          "IT Infrastructure Lead",
+          "Production Manager",
+          "Maintenance Supervisor",
+          "Financial Analyst",
+          "Industry Consultant",
+          "Executive Leadership (for approval)"
+        ]
+      },
+      "project_name": "Manufacturing process automation with AI",
+      "transcript_length": 15808
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "Predictive Maintenance for Critical Equipment",
+          "description": "The system shall continuously monitor equipment health using IoT sensor data and machine learning models to predict potential failures before they occur, enabling proactive maintenance scheduling and reducing unplanned downtime.",
+          "actors": [
+            "Maintenance Supervisor",
+            "Maintenance Technician",
+            "Production Manager",
+            "AI System"
+          ],
+          "preconditions": [
+            "IoT sensors are installed on critical equipment",
+            "Data pipeline is operational and streaming sensor data",
+            "ML models are trained and deployed",
+            "Maintenance team has access to the system dashboard"
+          ],
+          "main_flow": [
+            "System continuously collects real-time sensor data from equipment",
+            "Data is processed through ML models to detect anomaly patterns",
+            "When a potential failure is predicted, system generates an alert",
+            "Alert is sent to Maintenance Supervisor with equipment details and urgency level",
+            "Supervisor reviews alert and creates maintenance work order",
+            "Maintenance Technician is assigned and receives equipment health report",
+            "Technician performs proactive maintenance based on predictions",
+            "Maintenance actions are logged in the system",
+            "System updates equipment health status and continues monitoring"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "False positive prediction",
+              "steps": [
+                "Technician inspects equipment and finds no issues",
+                "Technician logs false positive in system",
+                "System uses feedback to retrain ML model"
+              ]
+            },
+            {
+              "condition": "Critical imminent failure detected",
+              "steps": [
+                "System sends immediate critical alert to all relevant personnel",
+                "Production line is automatically scheduled for shutdown",
+                "Emergency maintenance team is dispatched"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Equipment health status is updated",
+            "Maintenance actions are recorded",
+            "ML model performance is tracked"
+          ],
+          "priority": "high",
+          "business_value": "Reduces unplanned downtime from 2,400 hours annually, saving $2.8M in lost production costs. Increases Overall Equipment Effectiveness (OEE) from 68% to industry-leading levels."
+        },
+        {
+          "id": "UC-002",
+          "title": "Automated Quality Inspection with Computer Vision",
+          "description": "The system shall use industrial cameras and computer vision algorithms to automatically inspect transmission components for defects, reducing manual inspection time and improving defect detection accuracy.",
+          "actors": [
+            "Quality Assurance Manager",
+            "Quality Inspector",
+            "Production Manager",
+            "AI System"
+          ],
+          "preconditions": [
+            "Industrial cameras are installed at inspection points",
+            "Computer vision models are trained on defect patterns",
+            "Lighting and positioning systems are calibrated",
+            "Integration with production line control system is established"
+          ],
+          "main_flow": [
+            "Component arrives at inspection station on production line",
+            "System triggers image capture from multiple angles",
+            "Images are processed by computer vision models in real-time",
+            "System analyzes images for known defect patterns",
+            "If no defects detected, component passes to next station",
+            "If defects detected, system classifies defect type and severity",
+            "Defective component is automatically routed to rework/scrap area",
+            "Inspection results are logged with timestamp and images",
+            "Quality dashboard updates with real-time defect statistics",
+            "Periodic reports are generated for quality analysis"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Uncertain defect detection",
+              "steps": [
+                "System flags component for manual review",
+                "Quality Inspector receives alert with images",
+                "Inspector makes final determination",
+                "Inspector's decision is fed back to improve model accuracy"
+              ]
+            },
+            {
+              "condition": "Camera or lighting malfunction",
+              "steps": [
+                "System detects equipment failure",
+                "Production line is paused",
+                "Maintenance team is notified",
+                "System switches to manual inspection mode"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Inspection results are recorded",
+            "Defective components are properly routed",
+            "Quality metrics are updated"
+          ],
+          "priority": "high",
+          "business_value": "Reduces inspection time from 45 minutes to under 5 minutes per batch. Improves defect detection accuracy from current levels to >95%, reducing rework and scrap costs."
+        },
+        {
+          "id": "UC-003",
+          "title": "Production Process Optimization",
+          "description": "The system shall analyze production parameters and outcomes to recommend optimal machine settings, production schedules, and resource allocations to maximize throughput and minimize waste.",
+          "actors": [
+            "Production Manager",
+            "Manufacturing Engineer",
+            "Operations Director",
+            "AI System"
+          ],
+          "preconditions": [
+            "Production data is being collected from all equipment",
+            "Quality data is integrated with production data",
+            "Optimization models are trained on historical data",
+            "Production staff has access to recommendation dashboard"
+          ],
+          "main_flow": [
+            "System continuously collects production parameters (speed, temperature, pressure, etc.)",
+            "System correlates parameters with quality outcomes and throughput",
+            "AI models identify optimal parameter combinations for different products",
+            "System generates real-time recommendations for machine settings",
+            "Production Manager reviews and approves recommendations",
+            "Approved settings are automatically applied to equipment",
+            "System monitors results and adjusts recommendations based on outcomes",
+            "Production schedules are optimized based on equipment availability and demand",
+            "Resource allocation recommendations are generated for shift planning",
+            "Performance reports are generated showing optimization impact"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Recommended settings conflict with safety limits",
+              "steps": [
+                "System flags safety constraint violation",
+                "Recommendation is blocked",
+                "Production Manager is notified with explanation",
+                "Alternative safe recommendations are provided"
+              ]
+            },
+            {
+              "condition": "Multiple optimization goals conflict",
+              "steps": [
+                "System presents trade-off analysis",
+                "Manufacturing Engineer selects preferred optimization strategy",
+                "System adjusts recommendations accordingly"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Optimal production settings are applied",
+            "Production schedule is updated",
+            "Performance metrics are tracked"
+          ],
+          "priority": "medium",
+          "business_value": "Increases production capacity utilization from 60-80% to >90%, improves OEE from 68% to >75%, and reduces energy consumption through optimized operations."
+        },
+        {
+          "id": "UC-004",
+          "title": "Digital Twin Simulation and Analysis",
+          "description": "The system shall maintain a real-time digital twin of the manufacturing facility, enabling simulation of production scenarios, what-if analysis, and virtual commissioning of new processes.",
+          "actors": [
+            "Manufacturing Engineer",
+            "Operations Director",
+            "Production Manager",
+            "Data Scientist"
+          ],
+          "preconditions": [
+            "Digital twin model is created for all production lines",
+            "Real-time data synchronization is established",
+            "Simulation engine is configured and validated",
+            "User interface for scenario planning is available"
+          ],
+          "main_flow": [
+            "Digital twin continuously updates with real-time production data",
+            "Manufacturing Engineer defines simulation scenario (e.g., new product introduction)",
+            "System runs simulation using current and historical data",
+            "Simulation predicts bottlenecks, resource needs, and potential issues",
+            "Results are visualized with performance metrics and recommendations",
+            "Engineer adjusts parameters and re-runs simulation as needed",
+            "Validated scenarios are saved for future reference",
+            "Digital twin is used to train AI models with simulated data",
+            "What-if analysis is performed for equipment upgrades or layout changes",
+            "Simulation results support investment decisions"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Digital twin synchronization fails",
+              "steps": [
+                "System detects data synchronization issues",
+                "Alert is sent to IT Infrastructure team",
+                "System operates in last-known-good state",
+                "Simulation accuracy warnings are displayed"
+              ]
+            },
+            {
+              "condition": "Simulation results are inconclusive",
+              "steps": [
+                "System identifies insufficient data or model limitations",
+                "Data Scientist is notified to improve models",
+                "Alternative simplified simulations are offered"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Simulation results are documented",
+            "Digital twin state is saved",
+            "Decision support data is generated"
+          ],
+          "priority": "medium",
+          "business_value": "Enables risk-free testing of process changes, reduces new product introduction time by 30%, and supports data-driven capital investment decisions with quantified ROI predictions."
+        },
+        {
+          "id": "UC-005",
+          "title": "Real-time Production Monitoring and Alerting",
+          "description": "The system shall provide a comprehensive dashboard for real-time monitoring of production metrics, OEE, quality rates, and equipment status with intelligent alerting for anomalies and performance deviations.",
+          "actors": [
+            "Operations Director",
+            "Production Manager",
+            "Quality Assurance Manager",
+            "Maintenance Supervisor"
+          ],
+          "preconditions": [
+            "Data integration from all production systems is complete",
+            "Dashboard is configured with relevant KPIs and thresholds",
+            "Alert notification system is set up",
+            "User roles and permissions are defined"
+          ],
+          "main_flow": [
+            "System aggregates data from SCADA, quality, and maintenance systems",
+            "Real-time dashboard displays current production status and metrics",
+            "KPIs are calculated and displayed (OEE, defect rate, throughput, etc.)",
+            "System monitors for deviations from normal operating parameters",
+            "When anomalies detected, intelligent alerts are generated",
+            "Alerts are routed to appropriate roles based on type and severity",
+            "Users can drill down into detailed data for root cause analysis",
+            "Historical trend analysis is available for performance tracking",
+            "Automated reports are generated for shift handovers and management reviews",
+            "System provides recommendations for addressing performance issues"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Data source becomes unavailable",
+              "steps": [
+                "System detects data loss",
+                "Dashboard shows data quality indicators",
+                "IT team is automatically alerted",
+                "System continues with available data sources"
+              ]
+            },
+            {
+              "condition": "Alert fatigue from too many notifications",
+              "steps": [
+                "System analyzes alert patterns",
+                "Alert thresholds are automatically adjusted",
+                "Users can customize alert preferences",
+                "Summary digests are provided for low-priority events"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Production status is visible to all stakeholders",
+            "Performance issues are identified and addressed",
+            "Historical data is preserved for analysis"
+          ],
+          "priority": "high",
+          "business_value": "Improves visibility from 40% to 100% of production floor, enables faster response to issues, and provides data-driven insights for continuous improvement initiatives."
+        },
+        {
+          "id": "UC-006",
+          "title": "AI Model Management and Continuous Improvement",
+          "description": "The system shall provide capabilities for managing AI/ML models including version control, performance monitoring, retraining schedules, and A/B testing to ensure continuous improvement of prediction accuracy.",
+          "actors": [
+            "Data Scientist",
+            "IT Infrastructure Lead",
+            "Operations Director"
+          ],
+          "preconditions": [
+            "MLOps platform is deployed and configured",
+            "Initial models are trained and in production",
+            "Data pipeline for model training is established",
+            "Model performance metrics are defined"
+          ],
+          "main_flow": [
+            "System monitors performance of all production AI models",
+            "Model accuracy, precision, and recall are tracked continuously",
+            "When performance degrades below thresholds, retraining is triggered",
+            "New model versions are trained with latest data",
+            "Models undergo validation and testing before deployment",
+            "A/B testing framework compares new model performance with current",
+            "Successful models are promoted to production with version control",
+            "Model drift is detected and addressed automatically",
+            "Explainability reports are generated for model decisions",
+            "Model governance and audit logs are maintained"
+          ],
+          "alternate_flows": [
+            {
+              "condition": "Model retraining fails",
+              "steps": [
+                "System logs failure details",
+                "Data Scientist is notified with error information",
+                "Previous model version remains in production",
+                "Root cause analysis is initiated"
+              ]
+            },
+            {
+              "condition": "New model performs worse in A/B test",
+              "steps": [
+                "System automatically rolls back to previous version",
+                "Performance analysis is conducted",
+                "Model architecture is adjusted for next iteration"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Model performance is optimized",
+            "Model versions are tracked",
+            "Governance requirements are met"
+          ],
+          "priority": "medium",
+          "business_value": "Ensures AI models maintain >90% accuracy for predictions, enables continuous improvement of system performance, and provides auditability for regulatory compliance."
+        }
+      ],
+      "business_requirements": {
+        "overview": "Implementation of an AI-driven manufacturing optimization system for a Tier 1 automotive parts facility producing 500K+ transmission components annually. The solution will integrate predictive maintenance, automated quality inspection, production optimization, and digital twin technologies to improve operational efficiency, reduce costs, and increase competitiveness.",
+        "business_goals": [
+          "Reduce unplanned downtime by 50% (from 2,400 to 1,200 hours annually)",
+          "Increase Overall Equipment Effectiveness (OEE) from 68% to 75%+",
+          "Reduce defect rate from 8.2% to below 3%",
+          "Decrease inspection time by 90% (from 45 to under 5 minutes per batch)",
+          "Increase production capacity utilization to 90%+",
+          "Achieve 100% production floor visibility through sensor coverage",
+          "Integrate production, quality, and maintenance data systems",
+          "Achieve ROI within 24 months of implementation"
+        ],
+        "success_criteria": [
+          "System availability of 99.5% for production-critical functions",
+          "Data latency under 5 seconds for real-time analytics",
+          "Predictive maintenance accuracy >90% for equipment failures",
+          "Quality inspection accuracy >95% for defect detection",
+          "User adoption rate >85% among production staff",
+          "Reduction in maintenance costs by 25%",
+          "Energy consumption reduction by 15% through optimization",
+          "Successful implementation within 24-month timeline",
+          "Budget adherence within 10% of approved allocation"
+        ],
+        "constraints": [
+          "Must integrate with legacy SCADA system from 2012",
+          "Limited existing IoT infrastructure from 2020 deployment",
+          "Must operate 24/7 with minimal production disruption",
+          "Integration complexity with equipment lacking modern interfaces",
+          "Must comply with automotive industry quality standards (IATF 16949)",
+          "Change management required for 450 employees across 3 shifts",
+          "Scalability considerations for future multi-site deployment",
+          "Data residency and security requirements for manufacturing data"
+        ],
+        "assumptions": [
+          "Executive approval will be secured for Phase 1 budget",
+          "Required hardware (sensors, cameras, edge nodes) can be procured on schedule",
+          "Existing IT infrastructure can support required data processing",
+          "Production staff will be trainable on new AI-assisted processes",
+          "Data quality from sensors will be sufficient for ML model training",
+          "Vendor partnerships will provide necessary technical expertise",
+          "Regulatory environment will remain stable during implementation",
+          "Market demand will support increased production capacity"
+        ],
+        "risks": [
+          {
+            "risk": "Technical integration failures with legacy systems",
+            "mitigation": "Phased implementation with thorough testing, middleware solutions, and vendor support contracts"
+          },
+          {
+            "risk": "Insufficient data quality for accurate predictions",
+            "mitigation": "Data quality monitoring, sensor calibration protocols, and data cleansing pipelines"
+          },
+          {
+            "risk": "Employee resistance to AI-driven changes",
+            "mitigation": "Comprehensive change management program, staff training, and involvement in design process"
+          },
+          {
+            "risk": "Budget overruns due to unexpected technical challenges",
+            "mitigation": "15% contingency budget, regular milestone reviews, and phased funding approach"
+          },
+          {
+            "risk": "Cybersecurity vulnerabilities in connected systems",
+            "mitigation": "Network segmentation, encryption, regular security audits, and employee security training"
+          },
+          {
+            "risk": "AI model accuracy\u8fbe\u4e0d\u5230\u9884\u671f\u6c34\u5e73",
+            "mitigation": "Pilot testing, fallback procedures, continuous model improvement, and expert oversight"
+          },
+          {
+            "risk": "Production disruption during implementation",
+            "mitigation": "Off-hours installation, parallel run periods, and rollback procedures"
+          },
+          {
+            "risk": "Vendor dependency and lock-in",
+            "mitigation": "Open standards adoption, multi-vendor strategy, and internal capability development"
+          }
+        ]
+      },
+      "project_name": "Manufacturing process automation with AI"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Online Learning Pattern",
+            "description": "Implement continuous model retraining using real-time sensor data and technician feedback to improve prediction accuracy over time",
+            "priority": "high"
+          },
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Explainable AI (XAI) Pattern",
+            "description": "Add model interpretability features to help technicians understand why a failure was predicted, increasing trust and adoption",
+            "priority": "high"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "Event-Driven Architecture",
+            "description": "Use event streaming for real-time sensor data processing and alert propagation to ensure low-latency response to critical failures",
+            "priority": "high"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Circuit Breaker Pattern",
+            "description": "Implement failure handling for ML model predictions to prevent system cascades when models become unavailable or produce unreliable outputs",
+            "priority": "medium"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Observer Pattern",
+            "description": "Use for alert notifications to allow multiple stakeholders to subscribe to different types of equipment alerts based on their roles",
+            "priority": "medium"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "Model Performance Monitoring",
+            "suggestion": "Implement drift detection and model performance dashboards to track prediction accuracy and trigger retraining when performance degrades",
+            "rationale": "ML models can degrade over time due to changing equipment conditions or sensor characteristics"
+          },
+          {
+            "area": "Alert Prioritization",
+            "suggestion": "Add a multi-level alert classification system (Info, Warning, Critical) with automated escalation paths based on failure probability and business impact",
+            "rationale": "Prevents alert fatigue and ensures critical issues get immediate attention"
+          },
+          {
+            "area": "Data Quality Assurance",
+            "suggestion": "Implement sensor data validation and anomaly detection at the ingestion layer to filter out bad data before ML processing",
+            "rationale": "Poor quality sensor data can lead to inaccurate predictions and false alerts"
+          },
+          {
+            "area": "Maintenance Scheduling Integration",
+            "suggestion": "Integrate with existing CMMS (Computerized Maintenance Management System) for seamless work order creation and resource allocation",
+            "rationale": "Reduces manual data entry and ensures maintenance activities are properly tracked"
+          },
+          {
+            "area": "Root Cause Analysis",
+            "suggestion": "Add capability to correlate multiple equipment failures and identify systemic issues or common failure patterns across the production line",
+            "rationale": "Helps identify broader operational issues beyond individual equipment failures"
+          }
+        ],
+        "compliance_notes": [
+          "Ensure GDPR/CCPA compliance for any personal data collected from maintenance personnel interactions",
+          "Implement proper data retention policies for sensor data and maintenance logs per industry regulations",
+          "Consider ISO 55000 (Asset Management) compliance requirements for maintenance documentation and procedures",
+          "Validate that AI model decisions can be explained for audit purposes under emerging AI regulations",
+          "Ensure system meets IEC 61508 (Functional Safety) standards if equipment failures pose safety risks"
+        ],
+        "integration_recommendations": [
+          "Implement MQTT or Apache Kafka for high-throughput IoT sensor data ingestion",
+          "Use RESTful APIs with OAuth 2.0 for integration with existing enterprise systems (CMMS, ERP)",
+          "Consider OPC-UA protocol for industrial equipment communication where applicable",
+          "Implement a data lake (e.g., AWS S3, Azure Data Lake) for historical sensor data storage and analysis",
+          "Use container orchestration (Kubernetes) for scalable ML model deployment and management",
+          "Integrate with existing identity providers (Active Directory, LDAP) for user authentication and authorization"
+        ]
+      },
+      "project_name": "Manufacturing process automation with AI",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "prd": {
+      "prd_markdown": "---\n**AICOE Product Requirements Document**\n\n**Document Classification:** Internal - Confidential\n**Version:** 1.0\n**Date:** October 29, 2025\n**Prepared By:** AICOE Multi-Agent Platform\n**Project:** Manufacturing process automation with AI\n\n---\n\n# Manufacturing process automation with AI - Product Requirements Document\n\n## 1. Executive Summary\nThis document outlines the product requirements for an AI-driven manufacturing optimization system for a Tier 1 automotive parts manufacturer. The facility, producing over 500,000 transmission components annually, faces significant operational challenges including unplanned downtime, low Overall Equipment Effectiveness (OEE), and high defect rates. This project aims to implement a comprehensive AI solution integrating predictive maintenance, automated quality inspection, production process optimization, and a digital twin. The expected business impact is substantial, including a 50% reduction in unplanned downtime, an increase in OEE to industry-leading levels, and a significant ROI within 24 months. Key stakeholders include Operations, Quality, Maintenance, IT, and Executive leadership, with a phased implementation over 24 months.\n\n## 2. Goals & Objectives\n### Business Goals\n- Reduce unplanned downtime by 50% (from 2,400 to 1,200 hours annually), saving $1.4M in lost production.\n- Increase Overall Equipment Effectiveness (OEE) from 68% to 75% or higher.\n- Reduce the product defect rate from 8.2% to below 3%.\n- Decrease manual quality inspection time by 90% (from 45 to under 5 minutes per batch).\n- Increase production capacity utilization from 60-80% to 90%+.\n- Achieve a positive Return on Investment (ROI) within 24 months of full implementation.\n\n### User Goals\n- **Maintenance Supervisor:** Proactively schedule maintenance to prevent equipment failure and minimize production disruption.\n- **Quality Assurance Manager:** Automate defect detection to improve accuracy and free up inspectors for value-added tasks.\n- **Production Manager:** Optimize production schedules and machine settings in real-time to maximize throughput.\n- **Manufacturing Engineer:** Simulate process changes in a digital twin to validate improvements before physical implementation.\n- **Operations Director:** Gain complete, real-time visibility into all aspects of the production floor for data-driven decision-making.\n\n### Technical Goals\n- Achieve 99.5% system uptime for production-critical functions.\n- Ensure data latency is under 5 seconds for real-time analytics and alerts.\n- Attain >90% prediction accuracy for equipment failures.\n- Attain >95% accuracy for automated defect detection.\n- Integrate disparate data systems (production, quality, maintenance) into a unified data lake.\n- Successfully integrate with the legacy SCADA system from 2012.\n\n## 3. Problem Statement\n### What problem are we solving?\nThe manufacturing facility is operating below its potential due to reactive maintenance practices, manual quality control processes, and a lack of real-time data visibility. This leads to significant financial losses from unplanned downtime, high scrap and rework costs, and operational inefficiencies.\n\n### Who has this problem?\nThe problem impacts the entire organization, most critically the Operations Director, Production Managers, Maintenance Supervisors, and Quality Assurance Managers who are responsible for meeting production targets, managing costs, and ensuring product quality.\n\n### Current pain points and limitations\n- **Unplanned Downtime:** 2,400 hours annually, costing $2.8M in lost production.\n- **Low OEE:** At 68%, it is significantly below the 75% industry average.\n- **High Defect Rate:** 8.2% of finished products require costly rework or are scrapped.\n- **Inspection Bottleneck:** Manual inspection is slow (45 mins/batch), creating production delays.\n- **Resource Allocation:** Production lines are underutilized, running at only 60-80% capacity.\n- **Visibility Gaps:** Only 40% of the production floor is covered by sensors, leading to blind spots.\n- **Data Silos:** Critical production, quality, and maintenance data are stored in separate, unintegrated systems.\n\n### Opportunity size and market context\nBy addressing these inefficiencies with AI, the facility can save millions annually, improve its competitive position in the automotive supply chain, and create a scalable model for future digital transformation initiatives across multiple sites.\n\n## 4. User Personas & Stakeholders\n### User Personas\n\n**Persona 1: David Chen, Maintenance Supervisor**\n- **Role/Title:** Maintenance Supervisor\n- **Goals and Motivations:** To maximize equipment uptime and minimize emergency repairs. Wants to move from a reactive \"fix-it-when-it-breaks\" model to a proactive, scheduled maintenance approach.\n- **Pain Points:** Constantly firefighting unexpected equipment failures. Lack of data to predict which machines need attention. Pressure from production to get lines running again quickly.\n- **Technical Proficiency:** Comfortable with CMMS systems and diagnostic tools. New to AI-driven dashboards but eager to learn.\n\n**Persona 2: Karen Lee, Quality Assurance Manager**\n- **Role/Title:** Quality Assurance Manager\n- **Goals and Motivatives:** To reduce the defect rate and ensure 100% compliance with automotive quality standards (IATF 16949). Wants to improve the speed and accuracy of inspections.\n- **Pain Points:** Manual inspection is a bottleneck and prone to human error. High rework and scrap costs impact the department's budget. Difficulty in tracing the root cause of defects quickly.\n- **Technical Proficiency:** Proficient with statistical process control (SPC) software. Understands the potential of computer vision but needs a user-friendly implementation.\n\n**Persona 3: Maria Rodriguez, Production Manager**\n- **Role/Title:** Production Manager\n- **Goals and Motivations:** To meet daily and weekly production targets. To optimize resource allocation and machine settings for maximum throughput.\n- **Pain Points:** Production lines stop unexpectedly. Lack of real-time insight into which processes are underperforming. Difficulty balancing speed with quality.\n- **Technical Proficiency:** Expert in production planning and floor management. Familiar with basic reporting dashboards.\n\n### Key Stakeholders\n- **Robert Martinez (Operations Director):** Project sponsor. Interested in overall ROI, OEE improvement, and strategic alignment.\n- **Emily Watson (Data Scientist):** Responsible for model development, accuracy, and the MLOps pipeline.\n- **Tom Anderson (Manufacturing Engineer):** Focused on process optimization, digital twin validation, and ensuring technical feasibility on the floor.\n- **James Wilson (IT Infrastructure Lead):** Accountable for network security, data architecture, and system integration.\n- **Sarah Kim (Financial Analyst):** Tracks project budget, measures financial impact, and validates ROI.\n- **Executive Leadership:** Final approvers of budget and strategic direction.\n\n## 5. Features & User Stories\n### Must-Have\n- **Predictive Maintenance System**\n  - User Story: As a Maintenance Supervisor, I want to receive automated alerts for potential equipment failures so that I can schedule proactive maintenance and avoid unplanned downtime.\n  - User Story: As a Maintenance Technician, I want to access a real-time equipment health dashboard so that I can quickly diagnose issues and order necessary parts.\n- **Automated Quality Inspection**\n  - User Story: As a Quality Inspector, I want the system to automatically flag defective components so that I can focus my attention on complex or uncertain cases.\n  - User Story: As a Production Manager, I want to see real-time defect rates so that I can immediately address process deviations.\n- **Real-time Production Monitoring Dashboard**\n  - User Story: As an Operations Director, I want a single dashboard showing OEE, throughput, and equipment status across all lines so that I can make informed strategic decisions.\n  - User Story: As a Production Manager, I want to receive intelligent alerts for production anomalies so that I can intervene before they escalate.\n\n### Should-Have\n- **Production Process Optimization**\n  - User Story: As a Manufacturing Engineer, I want to receive recommendations for optimal machine settings so that I can maximize throughput and minimize energy consumption.\n  - User Story: As a Production Manager, I want an optimized production schedule that accounts for predicted maintenance and equipment availability.\n- **Digital Twin Simulation**\n  - User Story: As a Manufacturing Engineer, I want to simulate the impact of a new product introduction in a digital twin so that I can identify and mitigate bottlenecks before physical implementation.\n- **AI Model Management**\n  - User Story: As a Data Scientist, I want an automated system to monitor model drift and trigger retraining so that prediction accuracy remains consistently high.\n\n### Nice-to-Have\n- **Advanced Analytics and Reporting**\n  - User Story: As a Financial Analyst, I want automated reports on the cost savings generated by the AI system so that I can track ROI against projections.\n- **Mobile Access for Floor Staff**\n  - User Story: As a Maintenance Technician, I want to receive and acknowledge maintenance alerts on a mobile device so that I can respond faster, even when away from a terminal.\n\n## 6. Use Cases\n\n### UC-001: Predictive Maintenance for Critical Equipment\n- **Actors:** Maintenance Supervisor, Maintenance Technician, Production Manager, AI System\n- **Preconditions:** IoT sensors are installed on critical equipment; Data pipeline is operational; ML models are trained and deployed; Maintenance team has access to the dashboard.\n- **Main Flow:**\n  1. System continuously collects real-time sensor data from equipment.\n  2. Data is processed through ML models to detect anomaly patterns.\n  3. When a potential failure is predicted, system generates an alert.\n  4. Alert is sent to Maintenance Supervisor with equipment details and urgency level.\n  5. Supervisor reviews alert and creates maintenance work order.\n  6. Maintenance Technician is assigned and receives equipment health report.\n  7. Technician performs proactive maintenance based on predictions.\n  8. Maintenance actions are logged in the system.\n  9. System updates equipment health status and continues monitoring.\n- **Alternate Flows:**\n  - **False positive prediction:** Technician inspects, finds no issues, logs false positive, system uses feedback to retrain model.\n  - **Critical imminent failure detected:** System sends immediate critical alert, production line is scheduled for shutdown, emergency team is dispatched.\n- **Postconditions:** Equipment health status is updated; Maintenance actions are recorded; ML model performance is tracked.\n- **Success Criteria:** >90% prediction accuracy; Alerts generated at least 24 hours before failure.\n\n### UC-002: Automated Quality Inspection with Computer Vision\n- **Actors:** Quality Assurance Manager, Quality Inspector, Production Manager, AI System\n- **Preconditions:** Industrial cameras are installed; CV models are trained; Lighting is calibrated; Integration with line control system is established.\n- **Main Flow:**\n  1. Component arrives at inspection station.\n  2. System triggers image capture from multiple angles.\n  3. Images are processed by CV models in real-time.\n  4. System analyzes images for known defect patterns.\n  5. If no defects, component passes to next station.\n  6. If defects detected, system classifies type and severity.\n  7. Defective component is automatically routed to rework/scrap.\n  8. Inspection results are logged with timestamp and images.\n  9. Quality dashboard updates with real-time statistics.\n- **Alternate Flows:**\n  - **Uncertain defect detection:** System flags for manual review; Inspector makes final determination; decision is fed back to improve model.\n  - **Camera/lighting malfunction:** System detects failure, line is paused, maintenance is notified, system switches to manual mode.\n- **Postconditions:** Inspection results are recorded; Defective components are routed; Quality metrics are updated.\n- **Success Criteria:** >95% inspection accuracy; Inspection time reduced to under 5 minutes per batch.\n\n### UC-003: Production Process Optimization\n- **Actors:** Production Manager, Manufacturing Engineer, Operations Director, AI System\n- **Preconditions:** Production data is collected; Quality data is integrated; Optimization models are trained; Dashboard is available.\n- **Main Flow:**\n  1. System collects production parameters (speed, temp, pressure).\n  2. System correlates parameters with quality outcomes and throughput.\n  3. AI models identify optimal parameter combinations.\n  4. System generates real-time recommendations for machine settings.\n  5. Production Manager reviews and approves recommendations.\n  6. Approved settings are automatically applied to equipment.\n  7. System monitors results and adjusts recommendations.\n  8. Production schedules are optimized based on availability.\n  9. Resource allocation recommendations are generated.\n- **Alternate Flows:**\n  - **Settings conflict with safety limits:** System flags violation, blocks recommendation, notifies manager, provides alternatives.\n  - **Multiple optimization goals conflict:** System presents trade-off analysis, engineer selects strategy, system adjusts.\n- **Postconditions:** Optimal settings are applied; Schedule is updated; Performance is tracked.\n- **Success Criteria:** Production capacity utilization increased to >90%; OEE increased to >75%.\n\n### UC-004: Digital Twin Simulation and Analysis\n- **Actors:** Manufacturing Engineer, Operations Director, Production Manager, Data Scientist\n- **Preconditions:** Digital twin model is created; Real-time sync is established; Simulation engine is configured; UI is available.\n- **Main Flow:**\n  1. Digital twin updates with real-time production data.\n  2. Engineer defines simulation scenario (e.g., new product).\n  3. System runs simulation using current and historical data.\n  4. Simulation predicts bottlenecks, resource needs, issues.\n  5. Results are visualized with metrics and recommendations.\n  6. Engineer adjusts parameters and re-runs simulation.\n  7. Validated scenarios are saved for future reference.\n  8. Digital twin is used to train AI models.\n  9. What-if analysis is performed for equipment upgrades.\n- **Alternate Flows:**\n  - **Synchronization fails:** System detects issues, alerts IT, operates in last-known-good state, shows warnings.\n  - **Results are inconclusive:** System identifies insufficient data, notifies Data Scientist, offers simplified simulations.\n- **Postconditions:** Simulation results are documented; Twin state is saved; Decision support data is generated.\n- **Success Criteria:** Enables risk-free testing; Reduces new product intro time by 30%.\n\n### UC-005: Real-time Production Monitoring and Alerting\n- **Actors:** Operations Director, Production Manager, Quality Assurance Manager, Maintenance Supervisor\n- **Preconditions:** Data integration is complete; Dashboard is configured; Alert system is set up; Roles are defined.\n- **Main Flow:**\n  1. System aggregates data from SCADA, quality, and maintenance.\n  2. Real-time dashboard displays status and metrics.\n  3. KPIs are calculated (OEE, defect rate, throughput).\n  4. System monitors for deviations from normal parameters.\n  5. When anomalies are detected, intelligent alerts are generated.\n  6. Alerts are routed to appropriate roles based on severity.\n  7. Users can drill down for root cause analysis.\n  8. Historical trend analysis is available.\n  9. Automated reports are generated for handovers.\n- **Alternate Flows:**\n  - **Data source unavailable:** System detects loss, shows indicators, alerts IT, continues with available data.\n  - **Alert fatigue:** System analyzes patterns, adjusts thresholds, allows customization, provides digests.\n- **Postconditions:** Production status is visible; Issues are addressed; Data is preserved.\n- **Success Criteria:** Visibility increased to 100% of floor; Faster response to issues.\n\n### UC-006: AI Model Management and Continuous Improvement\n- **Actors:** Data Scientist, IT Infrastructure Lead, Operations Director\n- **Preconditions:** MLOps platform is deployed; Initial models are in production; Training pipeline is established; Metrics are defined.\n- **Main Flow:**\n  1. System monitors performance of all production AI models.\n  2. Model accuracy, precision, and recall are tracked.\n  3. When performance degrades, retraining is triggered.\n  4. New model versions are trained with latest data.\n  5. Models undergo validation and testing before deployment.\n  6. A/B testing compares new model with current.\n  7. Successful models are promoted with version control.\n  8. Model drift is detected and addressed automatically.\n  9. Explainability reports are generated.\n  10. Governance and audit logs are maintained.\n- **Alternate Flows:**\n  - **Retraining fails:** System logs failure, notifies Data Scientist, previous model remains, analysis is initiated.\n  - **New model performs worse:** System automatically rolls back, analysis is conducted, architecture is adjusted.\n- **Postconditions:** Model performance is optimized; Versions are tracked; Governance is met.\n- **Success Criteria:** Models maintain >90% accuracy; Continuous improvement is enabled.\n\n## 7. Functional Requirements\n### Predictive Maintenance\n- FR-01: The system shall continuously ingest real-time data streams from at least 500 IoT sensors.\n- FR-02: The system shall apply machine learning models to sensor data to predict equipment failures at least 24 hours in advance.\n- FR-03: The system shall generate automated alerts and work orders in the CMMS upon predicting a failure.\n- FR-04: The system shall provide a dashboard visualizing the real-time health status of all monitored equipment.\n- FR-05: The system shall log all maintenance activities and use them as feedback for model retraining.\n\n### Automated Quality Inspection\n- FR-06: The system shall trigger image capture from industrial cameras as components enter the inspection station.\n- FR-07: The system shall analyze captured images using computer vision models to identify defects with >95% accuracy.\n- FR-08: The system shall automatically route components flagged as defective to the designated rework or scrap area.\n- FR-09: The system shall log all inspection results, including images and defect classifications, to a time-series database.\n- FR-10: The system shall flag components with uncertain defect detection for manual review.\n\n### Production Process Optimization\n- FR-11: The system shall collect real-time production parameters (e.g., speed, temperature, pressure).\n- FR-12: The system shall correlate production parameters with quality outcomes and throughput data.\n- FR-13: The system shall generate recommendations for optimal machine settings to maximize OEE.\n- FR-14: The system shall allow a Production Manager to approve or reject recommended settings before they are applied.\n- FR-15: The system shall generate optimized production schedules based on equipment availability and demand forecasts.\n\n### Digital Twin\n- FR-16: The system shall maintain a digital twin model that synchronizes with the physical production floor state in near real-time.\n- FR-17: The system shall allow users to define and run \"what-if\" simulation scenarios.\n- FR-18: The system shall provide visualizations of simulation results, including predicted bottlenecks and resource utilization.\n- FR-19: The system shall use the digital twin to generate synthetic data for training AI models.\n\n### Monitoring and Alerting\n- FR-20: The system shall provide a unified dashboard displaying KPIs for OEE, defect rate, throughput, and equipment status.\n- FR-21: The system shall allow users to define custom thresholds for KPIs and performance metrics.\n- FR-22: The system shall generate and route intelligent alerts to the appropriate stakeholders based on pre-defined rules.\n- FR-23: The system shall provide historical trend analysis and drill-down capabilities for root cause analysis.\n\n### Platform and Data\n- FR-24: The system shall integrate with the existing legacy SCADA system via a middleware solution.\n- FR-25: The system shall store all raw and processed data in a centralized data lake.\n- FR-26: The system shall support real-time data streaming with a latency of less than 5 seconds.\n- FR-27: The system shall enforce role-based access control for all users and functions.\n- FR-28: The system shall log all user actions and system events for audit purposes.\n\n## 8. Non-Functional Requirements\n### Performance\n- **Response Time:** The system shall render dashboard visualizations in under 3 seconds.\n- **Throughput:** The system shall process data from 500+ sensors and 15 cameras concurrently without data loss.\n- **Scalability:** The architecture must support scaling to accommodate data from a 50% increase in production equipment and future multi-site deployment.\n- **Data Latency:** Real-time analytics and alerts must be generated within 5 seconds of event occurrence.\n\n### Security\n- **Authentication:** Users shall authenticate via the company's existing Active Directory/LDAP service.\n- **Authorization:** Access to data and functions shall be governed by Role-Based Access Control (RBAC).\n- **Data Protection:** All data, both in transit and at rest, shall be encrypted using AES-256 standards.\n- **Compliance:** The system must comply with IATF 16949 and relevant data protection regulations.\n- **Network Security:** The production network shall be segmented from the corporate network, with strict firewall rules between them.\n\n### Usability\n- **User Experience:** The interface must be intuitive for plant floor staff with varying levels of technical proficiency, minimizing training time.\n- **Accessibility:** The web-based interface shall conform to WCAG 2.1 AA accessibility standards.\n- **Customization:** Users shall be able to personalize their dashboard layouts and alert preferences.\n\n### Reliability\n- **Uptime:** Production-critical components of the system shall achieve 99.5% uptime.\n- **Error Handling:** The system shall gracefully handle data quality issues and sensor failures without crashing.\n- **Disaster Recovery:** A disaster recovery plan shall be in place, with a Recovery Time Objective (RTO) of 4 hours and a Recovery Point Objective (RPO) of 1 hour.\n\n### Maintainability\n- **Code Quality:** All custom-developed code must follow industry best practices and pass automated quality gates.\n- **Documentation:** All system components, APIs, and data models must be thoroughly documented.\n- **APIs:** The system shall expose well-documented RESTful APIs for integration with other enterprise systems.\n\n## 9. Technical Architecture\n### System Components\n- **Edge Layer:** 25 Edge Computing Nodes for local data ingestion, preprocessing, and low-latency inference. 500+ IoT sensors (vibration, temperature, pressure) and 15 industrial cameras.\n- **Data Ingestion & Streaming:** Apache Kafka for handling high-volume real-time data streams from the edge to the cloud.\n- **Cloud Platform:** Microsoft Azure will serve as the primary cloud platform.\n- **Data Storage:** Azure Data Lake Storage for raw data, Azure SQL Database for structured data, and Azure Time Series Insights for time-series data.\n- **Data Processing:** Azure Databricks (Apache Spark) for large-scale batch processing and feature engineering.\n- **AI/ML Platform:** Azure Machine Learning for model training, deployment, versioning, and monitoring (MLOps).\n- **Application & Visualization:** A web-based dashboard built with modern frameworks (e.g., React) and hosted on Azure App Service.\n- **Integration Layer:** Azure API Management for exposing APIs and an on-premises data gateway for integrating with the legacy SCADA system.\n\n### Technology Stack\n- **Cloud:** Azure\n- **IoT:** Azure IoT Hub, Azure IoT Edge\n- **Data:** Azure Data Lake, Azure SQL DB, Apache Kafka, Apache Spark\n- **AI/ML:** Azure ML, TensorFlow/PyTorch\n- **Web App:** React, .NET Core\n- **Database:** Azure SQL, Time Series DB\n\n### Integration Points\n- **Legacy SCADA (2012):** Integration via an on-premises data gateway and custom middleware/OPC-UA adapters.\n- **CMMS:** API-based integration for automated work order creation.\n- **ERP (for scheduling):** API-based integration for pulling production orders and pushing schedules.\n\n### Data Flow\n1. Sensors/Cameras -> Edge Nodes (pre-processing) -> Azure IoT Hub -> Kafka Topic.\n2. Kafka -> Azure Stream Analytics (real-time analytics) -> Power BI / Dashboard (alerts).\n3. Kafka -> Data Lake (raw storage) -> Databricks/Spark (batch processing) -> Azure ML (model training).\n4. Azure ML -> Deployed models as web services -> Called by Stream Analytics/App Service for inference.\n5. App Service -> SQL DB (storing results, user data) -> Power BI / Dashboard.\n\n### Deployment Architecture\nA hybrid cloud model. Edge nodes and cameras on-premises. Data processing, storage, AI/ML, and dashboards hosted on Azure. The system will be deployed across multiple availability zones to ensure high availability.\n\n## 10. Acceptance Criteria\n- **AC-01:** A Maintenance Supervisor can view a list of equipment predicted to fail within the next 7 days, sorted by urgency.\n- **AC-02:** The system correctly identifies and routes at least 95% of defective components during a 24-hour production run.\n- **AC-03:** The end-to-end latency from a sensor event to a corresponding alert on a dashboard is under 5 seconds.\n- **AC-04:** A Manufacturing Engineer can successfully run a simulation of a new product introduction and receive a report on predicted bottlenecks.\n- **AC-05:** The Operations Director can view a real-time OEE metric for any production line, accurate within 2%.\n- **AC-06:** The system maintains 99.5% uptime over a 30-day continuous period.\n- **AC-07:** The predictive maintenance model demonstrates a prediction accuracy of >90% on a hold-out test dataset.\n- **AC-08:** The system successfully ingests and stores data from the legacy SCADA system without data loss.\n- **AC-09:** A user with \"Production Manager\" role cannot access maintenance scheduling functions.\n- **AC-10:** The system generates a weekly performance report that quantifies cost savings from reduced downtime and scrap.\n\n## 11. Success Metrics\n### User Adoption Metrics\n- **Daily Active Users (DAU):** Target >85% of target user base (Production, Quality, Maintenance staff) within 3 months of full rollout.\n- **Feature Adoption Rate:** Track usage of key features (e.g., alert acknowledgment, simulation runs). Target >70% adoption for core features.\n\n### Business Impact Metrics\n- **Unplanned Downtime:** Reduction from 2,400 hours to <1,200 hours annually.\n- **Overall Equipment Effectiveness (OEE):** Increase from 68% to >75%.\n- **Defect Rate:** Reduction from 8.2% to <3%.\n- **Inspection Time:** Reduction from 45 minutes to <5 minutes per batch.\n- **Cost Savings:** Track $ saved from reduced maintenance, scrap, and energy costs. Target >$3M annually.\n- **ROI:** Achieve a positive return on investment within 24 months.\n\n### Technical Performance Metrics\n- **System Uptime:** Maintain 99.5% uptime for critical components.\n- **Data Latency:** Maintain <5 second latency for real-time analytics.\n- **Model Accuracy:** Maintain >90% accuracy for predictive maintenance and >95% for quality inspection.\n- **Data Integration:** 100% of identified data sources successfully integrated.\n\n### User Satisfaction Metrics\n- **Net Promoter Score (NPS):** Conduct quarterly surveys. Target NPS >+40.\n- **User Support Tickets:** Monitor volume and type of support tickets. Target a reduction in \"how-to\" tickets over time.\n\n## 12. Timeline & Milestones\n### Phase 1: Foundation & Predictive Maintenance (Months 1-6)\n- **Scope:** Infrastructure setup (Azure, networking), sensor installation on pilot equipment, data pipeline development, initial predictive maintenance model for top 5 critical machines, basic monitoring dashboard.\n- **Milestones:**\n  - M1: Cloud environment and data lake provisioned (Month 1).\n  - M2: Sensors installed on pilot line and data streaming confirmed (Month 2).\n  - M3: Initial predictive maintenance model deployed for testing (Month 3).\n  - M4: Basic dashboard for OEE and equipment health live (Month 4).\n  - M5: Pilot validation and model tuning complete (Month 5).\n  - M6: Phase 1 go-live for pilot line (Month 6).\n\n### Phase 2: Quality & Optimization (Months 7-18)\n- **Scope:** Scale predictive maintenance to all critical equipment, implement automated quality inspection, develop production optimization models, enhance dashboard capabilities.\n- **Milestones:**\n  - M9: Automated quality inspection system deployed on one major line (Month 9).\n  - M12: Predictive maintenance scaled to 80%",
+      "project_name": "Manufacturing process automation with AI",
+      "length": 28928,
+      "sections": [
+        "1. Executive Summary",
+        "2. Goals & Objectives",
+        "3. Problem Statement",
+        "4. User Personas & Stakeholders",
+        "5. Features & User Stories",
+        "6. Use Cases",
+        "7. Functional Requirements",
+        "8. Non-Functional Requirements",
+        "9. Technical Architecture",
+        "10. Acceptance Criteria",
+        "11. Success Metrics",
+        "12. Timeline & Milestones"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>AICOE - Manufacturing Process Automation with AI</title>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n    <style>\n        :root {\n            --aicoe-primary: #0066cc;\n            --aicoe-accent: #00d9ff;\n            --aicoe-dark: #1d1d1f;\n            --aicoe-gray: #6e6e73;\n            --aicoe-light-gray: #f5f5f7;\n            --aicoe-white: #ffffff;\n            --aicoe-success: #34c759;\n            --aicoe-warning: #ff9500;\n        }\n\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n            line-height: 1.6;\n            color: var(--aicoe-dark);\n            background: var(--aicoe-white);\n        }\n\n        /* Navigation */\n        nav {\n            position: sticky;\n            top: 0;\n            background: rgba(255, 255, 255, 0.95);\n            backdrop-filter: blur(20px);\n            box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n            z-index: 1000;\n            padding: 1rem 0;\n        }\n\n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 0 2rem;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .nav-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n        }\n\n        .nav-brand i {\n            width: 32px;\n            height: 32px;\n        }\n\n        .nav-links {\n            display: flex;\n            gap: 2rem;\n            align-items: center;\n        }\n\n        .nav-link {\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            transition: color 0.3s ease;\n        }\n\n        .nav-link:hover {\n            color: var(--aicoe-primary);\n        }\n\n        .nav-link i {\n            width: 20px;\n            height: 20px;\n        }\n\n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);\n            color: white;\n            padding: 5rem 2rem;\n            text-align: center;\n        }\n\n        .hero-container {\n            max-width: 900px;\n            margin: 0 auto;\n        }\n\n        .hero h1 {\n            font-size: 3rem;\n            font-weight: 700;\n            margin-bottom: 1rem;\n            line-height: 1.2;\n        }\n\n        .hero-subtitle {\n            font-size: 1.25rem;\n            opacity: 0.9;\n            margin-bottom: 2rem;\n        }\n\n        .hero-stats {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 2rem;\n            margin-top: 3rem;\n        }\n\n        .stat-card {\n            background: rgba(255, 255, 255, 0.1);\n            backdrop-filter: blur(10px);\n            padding: 1.5rem;\n            border-radius: 12px;\n            border: 1px solid rgba(255, 255, 255, 0.2);\n        }\n\n        .stat-value {\n            font-size: 2rem;\n            font-weight: 700;\n            margin-bottom: 0.5rem;\n        }\n\n        .stat-label {\n            font-size: 0.9rem;\n            opacity: 0.9;\n        }\n\n        /* Main Content */\n        .container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 0 2rem;\n        }\n\n        .section {\n            padding: 4rem 0;\n        }\n\n        .section-header {\n            text-align: center;\n            margin-bottom: 3rem;\n        }\n\n        .section-title {\n            font-size: 2.5rem;\n            font-weight: 700;\n            color: var(--aicoe-dark);\n            margin-bottom: 1rem;\n        }\n\n        .section-subtitle {\n            font-size: 1.1rem;\n            color: var(--aicoe-gray);\n        }\n\n        /* Use Cases Grid */\n        .use-cases-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));\n            gap: 2rem;\n            margin-bottom: 3rem;\n        }\n\n        .use-case-card {\n            background: var(--aicoe-white);\n            border-radius: 12px;\n            padding: 2rem;\n            box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n            transition: transform 0.3s ease, box-shadow 0.3s ease;\n            border: 1px solid rgba(0,0,0,0.05);\n        }\n\n        .use-case-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 24px rgba(0,0,0,0.15);\n        }\n\n        .use-case-header {\n            display: flex;\n            align-items: start;\n            gap: 1rem;\n            margin-bottom: 1.5rem;\n        }\n\n        .use-case-icon {\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            color: white;\n            padding: 0.75rem;\n            border-radius: 10px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n        }\n\n        .use-case-icon i {\n            width: 24px;\n            height: 24px;\n        }\n\n        .use-case-title-group {\n            flex: 1;\n        }\n\n        .use-case-id {\n            font-size: 0.85rem;\n            color: var(--aicoe-primary);\n            font-weight: 600;\n            margin-bottom: 0.25rem;\n        }\n\n        .use-case-title {\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-dark);\n            margin-bottom: 0.5rem;\n        }\n\n        .use-case-description {\n            color: var(--aicoe-gray);\n            margin-bottom: 1.5rem;\n            line-height: 1.5;\n        }\n\n        .use-case-meta {\n            display: flex;\n            gap: 2rem;\n            margin-bottom: 1rem;\n        }\n\n        .meta-item {\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            font-size: 0.9rem;\n            color: var(--aicoe-gray);\n        }\n\n        .meta-item i {\n            width: 16px;\n            height: 16px;\n        }\n\n        .priority-badge {\n            display: inline-block;\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.85rem;\n            font-weight: 600;\n            text-transform: uppercase;\n        }\n\n        .priority-high {\n            background: rgba(255, 149, 0, 0.1);\n            color: var(--aicoe-warning);\n        }\n\n        .priority-medium {\n            background: rgba(0, 102, 204, 0.1);\n            color: var(--aicoe-primary);\n        }\n\n        .business-value {\n            background: var(--aicoe-light-gray);\n            border-radius: 8px;\n            padding: 1rem;\n            margin-top: 1rem;\n        }\n\n        .business-value-title {\n            font-size: 0.9rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n            margin-bottom: 0.5rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n\n        .business-value-title i {\n            width: 16px;\n            height: 16px;\n        }\n\n        .business-value-text {\n            font-size: 0.9rem;\n            color: var(--aicoe-dark);\n            line-height: 1.4;\n        }\n\n        /* Features Section */\n        .features-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n            margin-bottom: 3rem;\n        }\n\n        .feature-card {\n            text-align: center;\n            padding: 2rem;\n            background: var(--aicoe-white);\n            border-radius: 12px;\n            box-shadow: 0 2px 8px rgba(0,0,0,0.05);\n            transition: transform 0.3s ease;\n        }\n\n        .feature-card:hover {\n            transform: translateY(-4px);\n        }\n\n        .feature-icon {\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            color: white;\n            width: 64px;\n            height: 64px;\n            border-radius: 50%;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            margin: 0 auto 1.5rem;\n        }\n\n        .feature-icon i {\n            width: 32px;\n            height: 32px;\n        }\n\n        .feature-title {\n            font-size: 1.25rem;\n            font-weight: 600;\n            margin-bottom: 0.75rem;\n            color: var(--aicoe-dark);\n        }\n\n        .feature-description {\n            color: var(--aicoe-gray);\n            font-size: 0.95rem;\n        }\n\n        /* Footer */\n        footer {\n            background: var(--aicoe-light-gray);\n            padding: 3rem 0 2rem;\n            margin-top: 4rem;\n        }\n\n        .footer-content {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 0 2rem;\n            text-align: center;\n        }\n\n        .footer-brand {\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n            margin-bottom: 1rem;\n        }\n\n        .footer-text {\n            color: var(--aicoe-gray);\n            font-size: 0.9rem;\n        }\n\n        /* Responsive Design */\n        @media (max-width: 768px) {\n            .nav-links {\n                display: none;\n            }\n\n            .hero h1 {\n                font-size: 2rem;\n            }\n\n            .hero-subtitle {\n                font-size: 1rem;\n            }\n\n            .section-title {\n                font-size: 2rem;\n            }\n\n            .use-cases-grid {\n                grid-template-columns: 1fr;\n            }\n\n            .use-case-meta {\n                flex-direction: column;\n                gap: 1rem;\n            }\n        }\n\n        /* Print Styles */\n        @media print {\n            nav, .no-print, button { \n                display: none !important; \n            }\n            \n            body { \n                font-size: 12pt; \n                color: #000; \n                background: #fff; \n            }\n            \n            * { \n                box-shadow: none !important; \n                text-shadow: none !important; \n            }\n            \n            .page-break { \n                page-break-before: always; \n            }\n            \n            h1, h2, h3 { \n                page-break-after: avoid; \n            }\n            \n            a[href]:after { \n                content: \" (\" attr(href) \")\"; \n            }\n            \n            .hero {\n                background: #f5f5f7;\n                color: #000;\n            }\n            \n            .use-case-card {\n                break-inside: avoid;\n                margin-bottom: 1rem;\n            }\n        }\n    </style>\n</head>\n<body>\n    <!-- Navigation -->\n    <nav>\n        <div class=\"nav-container\">\n            <div class=\"nav-brand\">\n                <i data-lucide=\"layers\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <div class=\"nav-links\">\n                <a href=\"#overview\" class=\"nav-link\">\n                    <i data-lucide=\"home\"></i>\n                    Overview\n                </a>\n                <a href=\"#use-cases\" class=\"nav-link\">\n                    <i data-lucide=\"file-text\"></i>\n                    Use Cases\n                </a>\n                <a href=\"#features\" class=\"nav-link\">\n                    <i data-lucide=\"zap\"></i>\n                    Features\n                </a>\n                <a href=\"#implementation\" class=\"nav-link\">\n                    <i data-lucide=\"settings\"></i>\n                    Implementation\n                </a>\n            </div>\n        </div>\n    </nav>\n\n    <!-- Hero Section -->\n    <section class=\"hero\">\n        <div class=\"hero-container\">\n            <h1>Manufacturing Process Automation with AI</h1>\n            <p class=\"hero-subtitle\">Transforming automotive parts manufacturing through intelligent automation, predictive maintenance, and real-time optimization</p>\n            \n            <div class=\"hero-stats\">\n                <div class=\"stat-card\">\n                    <div class=\"stat-value\">500K+</div>\n                    <div class=\"stat-label\">Annual Production Volume</div>\n                </div>\n                <div class=\"stat-card\">\n                    <div class=\"stat-value\">$2.8M</div>\n                    <div class=\"stat-label\">Potential Annual Savings</div>\n                </div>\n                <div class=\"stat-card\">\n                    <div class=\"stat-value\">68%</div>\n                    <div class=\"stat-label\">Current OEE</div>\n                </div>\n                <div class=\"stat-card\">\n                    <div class=\"stat-value\">75%+</div>\n                    <div class=\"stat-label\">Target OEE</div>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Overview Section -->\n    <section id=\"overview\" class=\"section\">\n        <div class=\"container\">\n            <div class=\"section-header\">\n                <h2 class=\"section-title\">Project Overview</h2>\n                <p class=\"section-subtitle\">Comprehensive AI-driven optimization for Tier 1 automotive parts manufacturing</p>\n            </div>\n\n            <div class=\"features-grid\">\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"shield\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Predictive Maintenance</h3>\n                    <p class=\"feature-description\">AI-powered monitoring to predict equipment failures before they occur, reducing unplanned downtime by 80%</p>\n                </div>\n\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"eye\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Computer Vision</h3>\n                    <p class=\"feature-description\">Automated quality inspection with 95%+ accuracy, reducing inspection time from 45 to 5 minutes per batch</p>\n                </div>\n\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"trending-up\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Process Optimization</h3>\n                    <p class=\"feature-description\">Real-time recommendations for optimal machine settings, increasing capacity utilization to 90%+</p>\n                </div>\n\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"cpu\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Digital Twin</h3>\n                    <p class=\"feature-description\">Virtual simulation environment for testing process changes and training AI models risk-free</p>\n                </div>\n\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"activity\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Real-time Monitoring</h3>\n                    <p class=\"feature-description\">Comprehensive dashboard providing 100% visibility into production metrics and performance</p>\n                </div>\n\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"database\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">AI Model Management</h3>\n                    <p class=\"feature-description\">Continuous improvement framework with A/B testing and automated retraining for optimal performance</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Use Cases Section -->\n    <section id=\"use-cases\" class=\"section\">\n        <div class=\"container\">\n            <div class=\"section-header\">\n                <h2 class=\"section-title\">Use Cases</h2>\n                <p class=\"section-subtitle\">Six key automation scenarios driving manufacturing excellence</p>\n            </div>\n\n            <div class=\"use-cases-grid\">\n                <!-- UC-001 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div class=\"use-case-icon\">\n                            <i data-lucide=\"wrench\"></i>\n                        </div>\n                        <div class=\"use-case-title-group\">\n                            <div class=\"use-case-id\">UC-001</div>\n                            <h3 class=\"use-case-title\">Predictive Maintenance for Critical Equipment</h3>\n                        </div>\n                    </div>\n                    <p class=\"use-case-description\">Continuous monitoring using IoT sensors and ML models to predict failures before they occur, enabling proactive maintenance.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>4 Actors</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"target\"></i>\n                            <span>High Priority</span>\n                        </div>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                    <div class=\"business-value\">\n                        <div class=\"business-value-title\">\n                            <i data-lucide=\"dollar-sign\"></i>\n                            Business Value\n                        </div>\n                        <p class=\"business-value-text\">Reduces unplanned downtime from 2,400 hours annually, saving $2.8M. Increases OEE from 68% to industry-leading levels.</p>\n                    </div>\n                </div>\n\n                <!-- UC-002 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div class=\"use-case-icon\">\n                            <i data-lucide=\"camera\"></i>\n                        </div>\n                        <div class=\"use-case-title-group\">\n                            <div class=\"use-case-id\">UC-002</div>\n                            <h3 class=\"use-case-title\">Automated Quality Inspection with Computer Vision</h3>\n                        </div>\n                    </div>\n                    <p class=\"use-case-description\">Industrial cameras and computer vision algorithms to automatically inspect transmission components for defects.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>4 Actors</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"target\"></i>\n                            <span>High Priority</span>\n                        </div>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                    <div class=\"business-value\">\n                        <div class=\"business-value-title\">\n                            <i data-lucide=\"dollar-sign\"></i>\n                            Business Value\n                        </div>\n                        <p class=\"business-value-text\">Reduces inspection time from 45 minutes to under 5 minutes per batch. Improves defect detection accuracy to >95%.</p>\n                    </div>\n                </div>\n\n                <!-- UC-003 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div class=\"use-case-icon\">\n                            <i data-lucide=\"sliders\"></i>\n                        </div>\n                        <div class=\"use-case-title-group\">\n                            <div class=\"use-case-id\">UC-003</div>\n                            <h3 class=\"use-case-title\">Production Process Optimization</h3>\n                        </div>\n                    </div>\n                    <p class=\"use-case-description\">Analyzes production parameters to recommend optimal machine settings, schedules, and resource allocations.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>4 Actors</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"target\"></i>\n                            <span>Medium Priority</span>\n                        </div>\n                    </div>\n                    <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                    <div class=\"business-value\">\n                        <div class=\"business-value-title\">\n                            <i data-lucide=\"dollar-sign\"></i>\n                            Business Value\n                        </div>\n                        <p class=\"business-value-text\">Increases capacity utilization from 60-80% to >90%, improves OEE from 68% to >75%, reduces energy consumption.</p>\n                    </div>\n                </div>\n\n                <!-- UC-004 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div class=\"use-case-icon\">\n                            <i data-lucide=\"box\"></i>\n                        </div>\n                        <div class=\"use-case-title-group\">\n                            <div class=\"use-case-id\">UC-004</div>\n                            <h3 class=\"use-case-title\">Digital Twin Simulation and Analysis</h3>\n                        </div>\n                    </div>\n                    <p class=\"use-case-description\">Real-time digital twin enabling simulation of production scenarios, what-if analysis, and virtual commissioning.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>4 Actors</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"target\"></i>\n                            <span>Medium Priority</span>\n                        </div>\n                    </div>\n                    <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                    <div class=\"business-value\">\n                        <div class=\"business-value-title\">\n                            <i data-lucide=\"dollar-sign\"></i>\n                            Business Value\n                        </div>\n                        <p class=\"business-value-text\">Enables risk-free testing, reduces new product introduction time by 30%, supports data-driven investment decisions.</p>\n                    </div>\n                </div>\n\n                <!-- UC-005 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div class=\"use-case-icon\">\n                            <i data-lucide=\"monitor\"></i>\n                        </div>\n                        <div class=\"use-case-title-group\">\n                            <div class=\"use-case-id\">UC-005</div>\n                            <h3 class=\"use-case-title\">Real-time Production Monitoring and Alerting</h3>\n                        </div>\n                    </div>\n                    <p class=\"use-case-description\">Comprehensive dashboard for monitoring production metrics, OEE, quality rates with intelligent alerting.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>4 Actors</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"target\"></i>\n                            <span>High Priority</span>\n                        </div>\n                    </div>\n                    <span class=\"priority-badge priority-high\">High Priority</span>\n                    <div class=\"business-value\">\n                        <div class=\"business-value-title\">\n                            <i data-lucide=\"dollar-sign\"></i>\n                            Business Value\n                        </div>\n                        <p class=\"business-value-text\">Improves visibility from 40% to 100%, enables faster response to issues, provides data-driven insights for improvement.</p>\n                    </div>\n                </div>\n\n                <!-- UC-006 -->\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <div class=\"use-case-icon\">\n                            <i data-lucide=\"git-branch\"></i>\n                        </div>\n                        <div class=\"use-case-title-group\">\n                            <div class=\"use-case-id\">UC-006</div>\n                            <h3 class=\"use-case-title\">AI Model Management and Continuous Improvement</h3>\n                        </div>\n                    </div>\n                    <p class=\"use-case-description\">Managing AI/ML models with version control, performance monitoring, retraining schedules, and A/B testing.</p>\n                    <div class=\"use-case-meta\">\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"users\"></i>\n                            <span>3 Actors</span>\n                        </div>\n                        <div class=\"meta-item\">\n                            <i data-lucide=\"target\"></i>\n                            <span>Medium Priority</span>\n                        </div>\n                    </div>\n                    <span class=\"priority-badge priority-medium\">Medium Priority</span>\n                    <div class=\"business-value\">\n                        <div class=\"business-value-title\">\n                            <i data-lucide=\"dollar-sign\"></i>\n                            Business Value\n                        </div>\n                        <p class=\"business-value-text\">Ensures AI models maintain >90% accuracy, enables continuous improvement, provides auditability for compliance.</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Implementation Section -->\n    <section id=\"implementation\" class=\"section\">\n        <div class=\"container\">\n            <div class=\"section-header\">\n                <h2 class=\"section-title\">Implementation Strategy</h2>\n                <p class=\"section-subtitle\">Phased approach over 24 months with clear milestones and deliverables</p>\n            </div>\n\n            <div class=\"features-grid\">\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"calendar\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Phase 1: Foundation (Months 1-6)</h3>\n                    <p class=\"feature-description\">Infrastructure setup, IoT sensor deployment, and predictive maintenance pilot on critical equipment</p>\n                </div>\n\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"layers\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Phase 2: Expansion (Months 7-12)</h3>\n                    <p class=\"feature-description\">Computer vision implementation, digital twin development, and process optimization rollout</p>\n                </div>\n\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"rocket\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Phase 3: Optimization (Months 13-24)</h3>\n                    <p class=\"feature-description\">Full-scale deployment, advanced analytics, continuous improvement, and multi-site expansion</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Footer -->\n    <footer>\n        <div class=\"footer-content\">\n            <div class=\"footer-brand\">\n                <i data-lucide=\"layers\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <p class=\"footer-text\">Powered by AICOE | Generated by AI Agents</p>\n            <p class=\"footer-text\">Manufacturing Process Automation with AI - October 28, 2025</p>\n        </div>\n    </footer>\n\n    <script>\n        // Initialize Lucide icons\n        lucide.createIcons();\n\n        // Smooth scrolling for navigation links\n        document.querySelectorAll('a[href^=\"#\"]').forEach(anchor => {\n            anchor.addEventListener('click', function (e) {\n                e.preventDefault();\n                const target = document.querySelector(this.getAttribute('href'));\n                if (target) {\n                    target.scrollIntoView({\n                        behavior: 'smooth',\n                        block: 'start'\n                    });\n                }\n            });\n        });\n\n        // Add scroll effect to navigation\n        window.addEventListener('scroll', function() {\n            const nav = document.querySelector('nav');\n            if (window.scrollY > 50) {\n                nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';\n            } else {\n                nav.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';\n            }\n        });\n\n        // Add animation on scroll for cards\n        const observerOptions = {\n            threshold: 0.1,\n            rootMargin: '0px 0px -50px 0px'\n        };\n\n        const observer = new IntersectionObserver((entries) => {\n            entries.forEach(entry => {\n                if (entry.isIntersecting) {\n                    entry.target.style.opacity = '1';\n                    entry.target.style.transform = 'translateY(0)';\n                }\n            });\n        }, observerOptions);\n\n        // Apply observer to cards\n        document.querySelectorAll('.use-case-card, .feature-card').forEach(card => {\n            card.style.opacity = '0';\n            card.style.transform = 'translateY(20px)';\n            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';\n            observer.observe(card);\n        });\n    </script>\n</body>\n</html>",
+      "project_name": "Manufacturing process automation with AI",
+      "length": 30920,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "data_sets": [
+          {
+            "name": "Predictive Maintenance Alerts",
+            "description": "AI-generated equipment failure predictions and maintenance recommendations",
+            "use_case_id": "UC-001",
+            "format": "json",
+            "schema": {
+              "alert_id": "string",
+              "timestamp": "datetime",
+              "equipment_id": "string",
+              "equipment_name": "string",
+              "failure_probability": "number",
+              "predicted_failure_type": "string",
+              "urgency_level": "string",
+              "confidence_score": "number",
+              "recommended_actions": "array",
+              "estimated_time_to_failure": "number",
+              "sensor_readings": "object"
+            },
+            "sample_data": [
+              {
+                "alert_id": "PM-2024-001234",
+                "timestamp": "2024-01-15T08:45:32Z",
+                "equipment_id": "EQ-CNC-001",
+                "equipment_name": "CNC Milling Station 1",
+                "failure_probability": 0.87,
+                "predicted_failure_type": "Bearing Wear",
+                "urgency_level": "HIGH",
+                "confidence_score": 0.92,
+                "recommended_actions": [
+                  "Inspect spindle bearings",
+                  "Check lubrication system",
+                  "Schedule replacement within 72 hours"
+                ],
+                "estimated_time_to_failure": 168,
+                "sensor_readings": {
+                  "vibration": 12.4,
+                  "temperature": 85.2,
+                  "acoustic": 45.8
+                }
+              },
+              {
+                "alert_id": "PM-2024-001235",
+                "timestamp": "2024-01-15T09:12:18Z",
+                "equipment_id": "EQ-HYG-003",
+                "equipment_name": "Hydraulic Press Unit 3",
+                "failure_probability": 0.65,
+                "predicted_failure_type": "Hydraulic Leak",
+                "urgency_level": "MEDIUM",
+                "confidence_score": 0.78,
+                "recommended_actions": [
+                  "Check hydraulic lines",
+                  "Inspect seals",
+                  "Monitor fluid levels"
+                ],
+                "estimated_time_to_failure": 240,
+                "sensor_readings": {
+                  "pressure": 2150,
+                  "flow_rate": 18.5,
+                  "temperature": 62.1
+                }
+              },
+              {
+                "alert_id": "PM-2024-001236",
+                "timestamp": "2024-01-15T09:23:45Z",
+                "equipment_id": "EQ-MOT-007",
+                "equipment_name": "Conveyor Motor 7",
+                "failure_probability": 0.94,
+                "predicted_failure_type": "Motor Overheating",
+                "urgency_level": "CRITICAL",
+                "confidence_score": 0.96,
+                "recommended_actions": [
+                  "Immediate inspection required",
+                  "Check cooling system",
+                  "Prepare backup motor"
+                ],
+                "estimated_time_to_failure": 12,
+                "sensor_readings": {
+                  "temperature": 105.8,
+                  "current_draw": 28.4,
+                  "rpm": 1450
+                }
+              }
+            ]
+          },
+          {
+            "name": "Quality Inspection Results",
+            "description": "Computer vision-based defect detection for transmission components",
+            "use_case_id": "UC-002",
+            "format": "json",
+            "schema": {
+              "inspection_id": "string",
+              "timestamp": "datetime",
+              "component_id": "string",
+              "component_type": "string",
+              "production_batch": "string",
+              "inspection_station": "string",
+              "defect_detected": "boolean",
+              "defect_types": "array",
+              "severity_level": "string",
+              "confidence_score": "number",
+              "images_captured": "number",
+              "processing_time_ms": "number",
+              "action_taken": "string"
+            },
+            "sample_data": [
+              {
+                "inspection_id": "QI-2024-005678",
+                "timestamp": "2024-01-15T10:15:23Z",
+                "component_id": "TC-4501-A",
+                "component_type": "Transmission Gear A",
+                "production_batch": "B-2024-0147",
+                "inspection_station": "CV-STATION-02",
+                "defect_detected": true,
+                "defect_types": [
+                  "Surface Scratch",
+                  "Dimensional Deviation"
+                ],
+                "severity_level": "MAJOR",
+                "confidence_score": 0.94,
+                "images_captured": 8,
+                "processing_time_ms": 342,
+                "action_taken": "REROUTE_TO_REWORK"
+              },
+              {
+                "inspection_id": "QI-2024-005679",
+                "timestamp": "2024-01-15T10:16:01Z",
+                "component_id": "TC-4502-B",
+                "component_type": "Transmission Shaft B",
+                "production_batch": "B-2024-0147",
+                "inspection_station": "CV-STATION-02",
+                "defect_detected": false,
+                "defect_types": [],
+                "severity_level": "NONE",
+                "confidence_score": 0.98,
+                "images_captured": 6,
+                "processing_time_ms": 287,
+                "action_taken": "PASS_TO_NEXT_STATION"
+              },
+              {
+                "inspection_id": "QI-2024-005680",
+                "timestamp": "2024-01-15T10:16:38Z",
+                "component_id": "TC-4503-C",
+                "component_type": "Transmission Housing C",
+                "production_batch": "B-2024-0148",
+                "inspection_station": "CV-STATION-03",
+                "defect_detected": true,
+                "defect_types": [
+                  "Crack"
+                ],
+                "severity_level": "CRITICAL",
+                "confidence_score": 0.99,
+                "images_captured": 10,
+                "processing_time_ms": 415,
+                "action_taken": "ROUTE_TO_SCRAP"
+              }
+            ]
+          },
+          {
+            "name": "Production Optimization Recommendations",
+            "description": "AI-generated optimal settings and process parameters for manufacturing equipment",
+            "use_case_id": "UC-003",
+            "format": "json",
+            "schema": {
+              "recommendation_id": "string",
+              "timestamp": "datetime",
+              "equipment_id": "string",
+              "product_type": "string",
+              "current_settings": "object",
+              "recommended_settings": "object",
+              "expected_improvement": "object",
+              "confidence_level": "string",
+              "implementation_priority": "string",
+              "safety_check_passed": "boolean"
+            },
+            "sample_data": [
+              {
+                "recommendation_id": "PO-2024-000891",
+                "timestamp": "2024-01-15T11:30:45Z",
+                "equipment_id": "EQ-FRM-004",
+                "product_type": "Transmission Gear Set A",
+                "current_settings": {
+                  "speed": 1200,
+                  "temperature": 180,
+                  "pressure": 2500,
+                  "feed_rate": 45
+                },
+                "recommended_settings": {
+                  "speed": 1350,
+                  "temperature": 175,
+                  "pressure": 2400,
+                  "feed_rate": 48
+                },
+                "expected_improvement": {
+                  "throughput_increase": "12%",
+                  "quality_improvement": "5%",
+                  "energy_savings": "8%"
+                },
+                "confidence_level": "HIGH",
+                "implementation_priority": "MEDIUM",
+                "safety_check_passed": true
+              },
+              {
+                "recommendation_id": "PO-2024-000892",
+                "timestamp": "2024-01-15T11:31:22Z",
+                "equipment_id": "EQ-ASM-006",
+                "product_type": "Transmission Assembly B",
+                "current_settings": {
+                  "torque": 85,
+                  "cycle_time": 45,
+                  "pressure": 1500
+                },
+                "recommended_settings": {
+                  "torque": 82,
+                  "cycle_time": 42,
+                  "pressure": 1450
+                },
+                "expected_improvement": {
+                  "throughput_increase": "7%",
+                  "defect_reduction": "15%",
+                  "tool_life_extension": "20%"
+                },
+                "confidence_level": "MEDIUM",
+                "implementation_priority": "HIGH",
+                "safety_check_passed": true
+              }
+            ]
+          },
+          {
+            "name": "Digital Twin Simulation Scenarios",
+            "description": "Simulation results for production process testing and what-if analysis",
+            "use_case_id": "UC-004",
+            "format": "json",
+            "schema": {
+              "simulation_id": "string",
+              "scenario_name": "string",
+              "timestamp": "datetime",
+              "simulation_type": "string",
+              "baseline_metrics": "object",
+              "simulated_metrics": "object",
+              "bottlenecks_identified": "array",
+              "resource_requirements": "object",
+              "recommendations": "array",
+              "confidence_score": "number"
+            },
+            "sample_data": [
+              {
+                "simulation_id": "DT-SIM-2024-0142",
+                "scenario_name": "New Product X Introduction",
+                "timestamp": "2024-01-15T13:20:15Z",
+                "simulation_type": "NEW_PRODUCT",
+                "baseline_metrics": {
+                  "throughput": 500,
+                  "cycle_time": 45,
+                  "oee": 0.68
+                },
+                "simulated_metrics": {
+                  "throughput": 420,
+                  "cycle_time": 52,
+                  "oee": 0.62
+                },
+                "bottlenecks_identified": [
+                  "Station 3 - Assembly",
+                  "Quality Inspection"
+                ],
+                "resource_requirements": {
+                  "additional_operators": 2,
+                  "equipment_upgrade": "EQ-ASM-003",
+                  "training_hours": 40
+                },
+                "recommendations": [
+                  "Add parallel assembly line",
+                  "Upgrade inspection cameras",
+                  "Cross-train operators"
+                ],
+                "confidence_score": 0.85
+              },
+              {
+                "simulation_id": "DT-SIM-2024-0143",
+                "scenario_name": "Equipment Layout Optimization",
+                "timestamp": "2024-01-15T13:45:30Z",
+                "simulation_type": "LAYOUT_CHANGE",
+                "baseline_metrics": {
+                  "material_flow_distance": 850,
+                  "handling_time": 12,
+                  "space_utilization": 0.72
+                },
+                "simulated_metrics": {
+                  "material_flow_distance": 620,
+                  "handling_time": 8,
+                  "space_utilization": 0.81
+                },
+                "bottlenecks_identified": [
+                  "Material transport between stations"
+                ],
+                "resource_requirements": {
+                  "relocation_cost": 125000,
+                  "downtime_hours": 48
+                },
+                "recommendations": [
+                  "Implement U-shaped layout",
+                  "Add automated guided vehicles",
+                  "Consolidate similar processes"
+                ],
+                "confidence_score": 0.91
+              }
+            ]
+          },
+          {
+            "name": "Real-time Production Dashboard Metrics",
+            "description": "Live production KPIs and performance indicators for monitoring",
+            "use_case_id": "UC-005",
+            "format": "json",
+            "schema": {
+              "timestamp": "datetime",
+              "shift_id": "string",
+              "line_id": "string",
+              "oee": "number",
+              "availability": "number",
+              "performance": "number",
+              "quality": "number",
+              "throughput_actual": "number",
+              "throughput_target": "number",
+              "defect_rate": "number",
+              "scrap_rate": "number",
+              "downtime_minutes": "number",
+              "active_alerts": "number",
+              "efficiency_trend": "string"
+            },
+            "sample_data": [
+              {
+                "timestamp": "2024-01-15T14:00:00Z",
+                "shift_id": "SHIFT-2",
+                "line_id": "LINE-A",
+                "oee": 0.74,
+                "availability": 0.88,
+                "performance": 0.85,
+                "quality": 0.98,
+                "throughput_actual": 148,
+                "throughput_target": 200,
+                "defect_rate": 0.02,
+                "scrap_rate": 0.008,
+                "downtime_minutes": 25,
+                "active_alerts": 3,
+                "efficiency_trend": "IMPROVING"
+              },
+              {
+                "timestamp": "2024-01-15T14:00:00Z",
+                "shift_id": "SHIFT-2",
+                "line_id": "LINE-B",
+                "oee": 0.69,
+                "availability": 0.82,
+                "performance": 0.9,
+                "quality": 0.93,
+                "throughput_actual": 132,
+                "throughput_target": 190,
+                "defect_rate": 0.07,
+                "scrap_rate": 0.015,
+                "downtime_minutes": 42,
+                "active_alerts": 7,
+                "efficiency_trend": "DECLINING"
+              },
+              {
+                "timestamp": "2024-01-15T14:00:00Z",
+                "shift_id": "SHIFT-2",
+                "line_id": "LINE-C",
+                "oee": 0.81,
+                "availability": 0.95,
+                "performance": 0.92,
+                "quality": 0.93,
+                "throughput_actual": 178,
+                "throughput_target": 220,
+                "defect_rate": 0.07,
+                "scrap_rate": 0.012,
+                "downtime_minutes": 8,
+                "active_alerts": 1,
+                "efficiency_trend": "STABLE"
+              }
+            ]
+          },
+          {
+            "name": "AI Model Performance Metrics",
+            "description": "Performance tracking and version management for AI/ML models",
+            "use_case_id": "UC-006",
+            "format": "json",
+            "schema": {
+              "model_id": "string",
+              "model_name": "string",
+              "version": "string",
+              "timestamp": "datetime",
+              "accuracy": "number",
+              "precision": "number",
+              "recall": "number",
+              "f1_score": "number",
+              "drift_detected": "boolean",
+              "performance_trend": "string",
+              "last_retrained": "datetime",
+              "prediction_volume": "number",
+              "status": "string"
+            },
+            "sample_data": [
+              {
+                "model_id": "ML-PM-001",
+                "model_name": "Predictive Maintenance - Bearing Failure",
+                "version": "v2.3.1",
+                "timestamp": "2024-01-15T15:00:00Z",
+                "accuracy": 0.92,
+                "precision": 0.89,
+                "recall": 0.94,
+                "f1_score": 0.91,
+                "drift_detected": false,
+                "performance_trend": "STABLE",
+                "last_retrained": "2024-01-10T02:30:00Z",
+                "prediction_volume": 15420,
+                "status": "ACTIVE"
+              },
+              {
+                "model_id": "ML-QI-002",
+                "model_name": "Quality Inspection - Surface Defect Detection",
+                "version": "v3.1.0",
+                "timestamp": "2024-01-15T15:00:00Z",
+                "accuracy": 0.96,
+                "precision": 0.95,
+                "recall": 0.97,
+                "f1_score": 0.96,
+                "drift_detected": false,
+                "performance_trend": "IMPROVING",
+                "last_retrained": "2024-01-12T23:45:00Z",
+                "prediction_volume": 89340,
+                "status": "ACTIVE"
+              },
+              {
+                "model_id": "ML-PO-003",
+                "model_name": "Production Optimization - Parameter Tuning",
+                "version": "v1.8.2",
+                "timestamp": "2024-01-15T15:00:00Z",
+                "accuracy": 0.84,
+                "precision": 0.82,
+                "recall": 0.86,
+                "f1_score": 0.84,
+                "drift_detected": true,
+                "performance_trend": "DECLINING",
+                "last_retrained": "2024-01-05T14:20:00Z",
+                "prediction_volume": 3250,
+                "status": "RETRAINING_REQUIRED"
+              }
+            ]
+          }
+        ],
+        "summary": "Generated comprehensive synthetic datasets for AI-driven manufacturing automation system including predictive maintenance alerts, quality inspection results, production optimization recommendations, digital twin simulations, real-time production metrics, and AI model performance tracking. Data covers all six use cases with realistic manufacturing scenarios, equipment IDs, defect types, and performance metrics suitable for software demos and mockups."
+      },
+      "project_name": "Manufacturing process automation with AI",
+      "num_datasets": 6
+    },
+    "reviewer": {
+      "review_cycle_id": "Manufacturing process automation with AI_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-29T11:51:37.755309"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.005642
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 10.159917
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 45.117823
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 17.96873
+    },
+    {
+      "name": "prd",
+      "status": "completed",
+      "duration": 171.028843
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 72.948159
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 46.564582
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.000381
+    }
+  ]
+}

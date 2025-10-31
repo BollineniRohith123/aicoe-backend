@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-003: Mark a Task as Complete | AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066CC;
+            --primary-dark: #0052A3;
+            --primary-light: #E6F2FF;
+            --secondary: #2563EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            background: white;
+            color: var(--gray-700);
+            text-decoration: none;
+            border-radius: 10px;
+            border: 1px solid var(--gray-200);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-link.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .nav-link.primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        main {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .use-case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .use-case-title {
+            flex: 1;
+        }
+
+        .use-case-id {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.375rem 1rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-description {
+            color: var(--gray-600);
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        .metadata {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge.priority {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+
+        .badge.page {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--gray-100);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab:hover {
+            color: var(--gray-800);
+            background: var(--gray-50);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .flow-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .flow-list li {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1rem;
+            counter-increment: step-counter;
+        }
+
+        .flow-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .actor-list, .condition-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .actor-item, .condition-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .alternate-flow {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .alternate-flow-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .alternate-flow-title {
+            font-weight: 600;
+            color: var(--gray-800);
+            font-size: 1.1rem;
+        }
+
+        .accordion {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            padding: 1rem 1.5rem;
+            background: var(--gray-50);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+
+        .accordion-header:hover {
+            background: var(--gray-100);
+        }
+
+        .accordion-header.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-content.active {
+            max-height: 1000px;
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+        }
+
+        .value-proposition {
+            background: linear-gradient(135deg, var(--primary-light), white);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--gray-100);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header, main {
+                padding: 1.5rem;
+            }
+
+            .use-case-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .metadata {
+                flex-direction: column;
+                align-items: start;
+            }
+
+            .tabs {
+                gap: 0.25rem;
+            }
+
+            .tab {
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .background-pattern {
+                display: none;
+            }
+
+            header, main {
+                box-shadow: none;
+                border: 1px solid var(--gray-300);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .tabs {
+                display: none;
+            }
+
+            .tab-content {
+                display: block !important;
+            }
+
+            .accordion-header {
+                background: var(--gray-50) !important;
+                color: var(--gray-800) !important;
+            }
+
+            .accordion-content {
+                max-height: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i data-lucide="cpu"></i>
+                    <span>AICOE</span>
+                </div>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+                        Back to Home
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="use-case-header">
+                <div class="use-case-title">
+                    <div class="use-case-id">
+                        <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+                        UC-003
+                    </div>
+                    <h1>Mark a Task as Complete</h1>
+                    <p class="use-case-description">
+                        The user changes the status of a task from 'active' to 'completed'. This action provides immediate visual feedback and updates the task's status in the persistent data store, aligning with user expectations for clear visual hierarchy and data persistence.
+                    </p>
+                </div>
+                <div class="metadata">
+                    <div class="badge priority">
+                        <i data-lucide="alert-circle" style="width: 16px; height: 16px;"></i>
+                        High Priority
+                    </div>
+                    <div class="badge page">
+                        <i data-lucide="file" style="width: 16px; height: 16px;"></i>
+                        Page 3 of 5
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('overview')">
+                    <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+                    Overview
+                </button>
+                <button class="tab" onclick="switchTab('flow')">
+                    <i data-lucide="git-branch" style="width: 16px; height: 16px;"></i>
+                    Flow Details
+                </button>
+                <button class="tab" onclick="switchTab('technical')">
+                    <i data-lucide="code" style="width: 16px; height: 16px;"></i>
+                    Technical
+                </button>
+                <button class="tab" onclick="switchTab('value')">
+                    <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+                    Business Value
+                </button>
+            </div>
+
+            <div id="overview" class="tab-content active">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="users" style="width: 20px; height: 20px;"></i>
+                        Actors
+                    </h2>
+                    <div class="card">
+                        <div class="actor-list">
+                            <div class="actor-item">
+                                <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+                                User
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
+                        Preconditions
+                    </h2>
+                    <div class="card">
+                        <div class="condition-list">
+                            <div class="condition-item">
+                                <i data-lucide="list" style="width: 16px; height: 16px;"></i>
+                                User is viewing the task list (UC-001)
+                            </div>
+                            <div class="condition-item">
+                                <i data-lucide="check-square" style="width: 16px; height: 16px;"></i>
+                                At least one active task exists
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="flag" style="width: 20px; height: 20px;"></i>
+                        Postconditions
+                    </h2>
+                    <div class="card">
+                        <ul class="flow-list">
+                            <li>The task's status is successfully updated in the database.</li>
+                            <li>The task list visually reflects the new status of the task.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="flow" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
+                        Main Flow
+                    </h2>
+                    <div class="card">
+                        <ol class="flow-list">
+                            <li>The user locates an active task in the list.</li>
+                            <li>The user clicks the checkbox associated with that task.</li>
+                            <li>The system immediately updates the UI: the task text receives a strikethrough style, its opacity is reduced, and the checkbox becomes checked.</li>
+                            <li>The system sends an asynchronous PUT or PATCH request to the backend API endpoint for that specific task (e.g., /api/tasks/:id) with the updated status (e.g., { 'completed': true }).</li>
+                            <li>The backend updates the task's status in the database and returns a success response.</li>
+                            <li>The system confirms the update was successful. The UI remains in its updated state.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="git-branch" style="width: 20px; height: 20px;"></i>
+                        Alternate Flows
+                    </h2>
+                    
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="alternate-flow-title">
+                                <i data-lucide="rotate-ccw" style="width: 18px; height: 18px;"></i>
+                                Un-mark a Task as Complete
+                            </span>
+                            <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <ol class="flow-list">
+                                    <li>The user locates a completed task in the list.</li>
+                                    <li>The user clicks the checkbox again to uncheck it.</li>
+                                    <li>The system immediately updates the UI: the strikethrough and opacity changes are removed, and the checkbox becomes unchecked.</li>
+                                    <li>The system sends an asynchronous request to the backend to update the status to 'completed': false.</li>
+                                    <li>The backend updates the task and returns a success response.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="alternate-flow-title">
+                                <i data-lucide="alert-triangle" style="width: 18px; height: 18px;"></i>
+                                Backend Update Failure
+                            </span>
+                            <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <ol class="flow-list">
+                                    <li>The backend fails to update the task status.</li>
+                                    <li>The backend returns an error response.</li>
+                                    <li>The system reverts the UI change (e.g., unchecks the box) and displays a non-intrusive error message: 'Failed to update task status.'</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="technical" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="server" style="width: 20px; height: 20px;"></i>
+                        API Endpoints
+                    </h2>
+                    <div class="card">
+                        <div style="font-family: 'Monaco', 'Menlo', monospace; background: var(--gray-900); color: #10B981; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <div style="color: #60A5FA; margin-bottom: 0.5rem;">PUT /api/tasks/:id</div>
+                            <div style="color: #F472B6;">{ "completed": true }</div>
+                        </div>
+                        <div style="font-family: 'Monaco', 'Menlo', monospace; background: var(--gray-900); color: #10B981; padding: 1rem; border-radius: 8px;">
+                            <div style="color: #60A5FA; margin-bottom: 0.5rem;">PATCH /api/tasks/:id</div>
+                            <div style="color: #F472B6;">{ "completed": false }</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="palette" style="width: 20px; height: 20px;"></i>
+                        UI Changes
+                    </h2>
+                    <div class="card">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">
+                                <strong>Checkbox:</strong> State changes from unchecked to checked
+                            </li>
+                            <li style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">
+                                <strong>Text:</strong> Applies strikethrough decoration
+                            </li>
+                            <li style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">
+                                <strong>Opacity:</strong> Reduced to indicate completed status
+                            </li>
+                            <li style="padding: 0.75rem;">
+                                <strong>Animation:</strong> Smooth transition for visual feedback
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="database" style="width: 20px; height: 20px;"></i>
+                        Data Persistence
+                    </h2>
+                    <div class="card">
+                        <p style="margin-bottom: 1rem;">The task status update is immediately persisted to ensure data integrity across sessions and devices.</p>
+                        <div style="background: var(--gray-100); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--success);">
+                            <strong>Success Response:</strong> 200 OK with updated task object
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="value" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="target" style="width: 20px; height: 20px;"></i>
+                        Business Value
+                    </h2>
+                    <div class="value-proposition">
+                        <p style="font-size: 1.1rem; line-height: 1.8;">
+                            This feature is essential for tracking progress and managing workflow. It provides a sense of accomplishment for the user and is a fundamental interaction pattern in any task management tool.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="zap" style="width: 20px; height: 20px;"></i>
+                        Key Benefits
+                    </h2>
+                    <div class="card">
+                        <div style="display: grid; gap: 1rem;">
+                            <div style="display: flex; align-items: start; gap: 1rem;">
+                                <i data-lucide="check-circle-2" style="width: 24px; height: 24px; color: var(--success); flex-shrink: 0;"></i>
+                                <div>
+                                    <strong>Immediate Feedback:</strong> Users see their action reflected instantly
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: start; gap: 1rem;">
+                                <i data-lucide="shield-check" style="width: 24px; height: 24px; color: var(--success); flex-shrink: 0;"></i>
+                                <div>
+                                    <strong>Data Persistence:</strong> Progress is saved and不会丢失
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: start; gap: 1rem;">
+                                <i data-lucide="smile" style="width: 24px; height: 24px; color: var(--success); flex-shrink: 0;"></i>
+                                <div>
+                                    <strong>User Satisfaction:</strong> Provides sense of accomplishment
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: start; gap: 1rem;">
+                                <i data-lucide="layout-dashboard" style="width: 24px; height: 24px; color: var(--success); flex-shrink: 0;"></i>
+                                <div>
+                                    <strong>Workflow Management:</strong> Essential for task organization
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        <i data-lucide="bar-chart" style="width: 20px; height: 20px;"></i>
+                        Success Metrics
+                    </h2>
+                    <div class="card">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.75rem; display: flex; justify-content: space-between; border-bottom: 1px solid var(--gray-200);">
+                                <span>Task Completion Rate</span>
+                                <strong style="color: var(--success);">↑ 25%</strong>
+                            </li>
+                            <li style="padding: 0.75rem; display: flex; justify-content: space-between; border-bottom: 1px solid var(--gray-200);">
+                                <span>User Engagement</span>
+                                <strong style="color: var(--success);">↑ 30%</strong>
+                            </li>
+                            <li style="padding: 0.75rem; display: flex; justify-content: space-between;">
+                                <span>Error Rate</span>
+                                <strong style="color: var(--danger);">↓ 5%</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-nav">
+                <a href="use-case-2.html" class="nav-link">
+                    <i data-lucide="chevron-left" style="width: 16px; height: 16px;"></i>
+                    Previous
+                </a>
+                <a href="use-case-4.html" class="nav-link primary">
+                    Next
+                    <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab and content
+            event.target.closest('.tab').classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            // Reinitialize icons for newly shown content
+            lucide.createIcons();
+        }
+
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('i:last-child');
+            
+            header.classList.toggle('active');
+            content.classList.toggle('active');
+            
+            // Rotate chevron icon
+            if (header.classList.contains('active')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Add smooth transitions
+        document.querySelectorAll('.accordion-header i:last-child').forEach(icon => {
+            icon.style.transition = 'transform 0.3s ease';
+        });
+    </script>
+</body>
+</html>

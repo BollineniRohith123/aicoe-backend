@@ -1,0 +1,569 @@
+{
+  "project_name": "Real-Time Analytics Dashboard",
+  "workflow_id": "workflow_20251029_063412",
+  "status": "success",
+  "context": {
+    "project_name": "Real-Time Analytics Dashboard",
+    "workflow_id": "workflow_20251029_063412",
+    "workflow_type": "full",
+    "start_time": "2025-10-29T06:34:12.902823",
+    "end_time": "2025-10-29T06:42:20.067580",
+    "status": "completed"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Real-Time Analytics Dashboard",
+      "project_root": "projects/Real-Time Analytics Dashboard",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "use_cases",
+        "synthetic_data",
+        "html",
+        "html_v1",
+        "mockups",
+        "prd",
+        "architecture",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-10-29T06:34:12.905908",
+        "action": "project_created",
+        "project_name": "Real-Time Analytics Dashboard",
+        "user": "system"
+      }
+    },
+    "transcript": {
+      "structured_notes": {
+        "company_overview": null,
+        "attendees": [
+          "Sarah Chen",
+          "David Kim",
+          "Maria Rodriguez",
+          "James Wilson"
+        ],
+        "meeting_date": "Not specified",
+        "meeting_objective": "Design and develop a real-time analytics dashboard for monitoring business metrics",
+        "key_discussion_points": [
+          "Dashboard requirements including real-time data visualization and customizable widgets.",
+          "Technical stack selection: React, Node.js, WebSocket, PostgreSQL, Redis, D3.js, Chart.js.",
+          "Key features like user authentication, dashboard templates, and export functionality.",
+          "Project timeline broken down into four phases with a launch at the end of Q1 2024.",
+          "Support for multiple data sources (SQL, MongoDB, APIs).",
+          "Implementation of a drag-and-drop interface for widget arrangement.",
+          "Mobile-responsive design considerations."
+        ],
+        "pain_points": [],
+        "requirements": [
+          "Real-time data visualization with auto-refresh every 30 seconds",
+          "Customizable widgets (charts, graphs, KPIs)",
+          "Drag-and-drop interface for widget arrangement",
+          "Support for multiple data sources (SQL, MongoDB, APIs)",
+          "Mobile-responsive design",
+          "User authentication and role-based access",
+          "Custom dashboard templates",
+          "Export functionality (PDF, CSV, Excel)",
+          "Alert system for threshold breaches",
+          "Historical data comparison"
+        ],
+        "decisions_made": [
+          "Use microservices architecture for scalability",
+          "Implement progressive web app (PWA) for mobile access",
+          "Start with 10 pre-built widget types",
+          "Target 500ms response time for data queries"
+        ],
+        "action_items": [],
+        "technical_constraints": [
+          "Target 500ms response time for data queries",
+          "Initial launch will include 10 pre-built widget types"
+        ],
+        "stakeholders": [
+          "Sarah Chen (Product Manager)",
+          "David Kim (Lead Developer)",
+          "Maria Rodriguez (UX Designer)",
+          "James Wilson (Data Analyst)"
+        ]
+      },
+      "project_name": "Real-Time Analytics Dashboard",
+      "transcript_length": 1459
+    },
+    "requirements": {
+      "use_cases": [
+        {
+          "id": "UC-001",
+          "title": "Create and Customize Dashboard",
+          "description": "Users can create new dashboards from scratch or templates, customize them with various widgets, and arrange them using a drag-and-drop interface.",
+          "actors": [
+            "Business User",
+            "Data Analyst",
+            "Administrator"
+          ],
+          "preconditions": [
+            "User is authenticated and logged in",
+            "User has appropriate permissions to create dashboards"
+          ],
+          "main_flow": [
+            "User navigates to dashboard management section",
+            "User clicks 'Create New Dashboard' button",
+            "System presents dashboard creation options (blank or template)",
+            "User selects dashboard type and provides a name",
+            "System displays empty dashboard canvas with widget palette",
+            "User drags and drops widgets onto the canvas",
+            "User configures each widget's data source and display properties",
+            "User saves the dashboard configuration",
+            "System confirms successful creation and displays the new dashboard"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Using Template",
+              "steps": [
+                "User selects a pre-built template",
+                "System populates dashboard with template widgets",
+                "User modifies existing widgets or adds new ones",
+                "User saves the customized dashboard"
+              ]
+            }
+          ],
+          "postconditions": [
+            "New dashboard is created and saved",
+            "Dashboard is accessible to the user and authorized viewers"
+          ],
+          "priority": "high",
+          "business_value": "Enables users to create personalized views of business metrics, improving decision-making efficiency and user adoption"
+        },
+        {
+          "id": "UC-002",
+          "title": "Configure Real-Time Data Visualization",
+          "description": "Users can configure widgets to display real-time data from multiple sources with automatic refresh capabilities.",
+          "actors": [
+            "Data Analyst",
+            "Business User"
+          ],
+          "preconditions": [
+            "User has created or is editing a dashboard",
+            "Data sources are properly configured and accessible"
+          ],
+          "main_flow": [
+            "User selects a widget on the dashboard",
+            "User clicks 'Configure Data' option",
+            "System displays data source selection interface",
+            "User selects data source type (SQL, MongoDB, API)",
+            "User provides connection details or selects from saved connections",
+            "User configures data query or API endpoint",
+            "User sets refresh interval (default 30 seconds)",
+            "System validates data connection and returns sample data",
+            "User confirms configuration",
+            "Widget displays live data with automatic refresh"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Connection Failure",
+              "steps": [
+                "System displays error message for failed connection",
+                "User reviews and corrects connection details",
+                "System retries connection upon user confirmation"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Widget is configured to display real-time data",
+            "Data refreshes automatically at specified intervals"
+          ],
+          "priority": "high",
+          "business_value": "Provides up-to-date insights for timely decision-making and immediate response to business changes"
+        },
+        {
+          "id": "UC-003",
+          "title": "Export Dashboard Data",
+          "description": "Users can export dashboard data and visualizations in various formats for reporting and sharing purposes.",
+          "actors": [
+            "Business User",
+            "Data Analyst",
+            "Manager"
+          ],
+          "preconditions": [
+            "User is viewing a dashboard",
+            "User has export permissions"
+          ],
+          "main_flow": [
+            "User clicks 'Export' button on dashboard",
+            "System displays export format options (PDF, CSV, Excel)",
+            "User selects desired export format",
+            "User configures export options (date range, widgets to include)",
+            "User initiates export process",
+            "System generates export file in background",
+            "System provides download link or sends file via email",
+            "User receives and accesses exported file"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Large Data Export",
+              "steps": [
+                "System detects large data volume",
+                "System notifies user of processing time",
+                "System sends export via email when complete"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Export file is generated with requested data",
+            "File is delivered to user via specified method"
+          ],
+          "priority": "medium",
+          "business_value": "Facilitates reporting and data sharing with stakeholders who may not have direct dashboard access"
+        },
+        {
+          "id": "UC-004",
+          "title": "Manage User Access and Permissions",
+          "description": "Administrators can manage user authentication and role-based access control for dashboards and features.",
+          "actors": [
+            "Administrator",
+            "System"
+          ],
+          "preconditions": [
+            "Administrator is authenticated",
+            "User management module is accessible"
+          ],
+          "main_flow": [
+            "Administrator navigates to user management section",
+            "Administrator selects 'Add New User' or searches existing user",
+            "For new user: Administrator enters user details and credentials",
+            "Administrator assigns roles and permissions",
+            "Administrator configures dashboard access rights",
+            "System saves user configuration",
+            "System sends welcome email with login credentials to new user",
+            "Administrator receives confirmation of successful setup"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Modify Existing User",
+              "steps": [
+                "Administrator searches and selects existing user",
+                "Administrator modifies user roles or permissions",
+                "System updates user configuration",
+                "User receives notification of changes"
+              ]
+            }
+          ],
+          "postconditions": [
+            "User account is created or updated",
+            "Appropriate permissions are assigned",
+            "User can access authorized dashboards"
+          ],
+          "priority": "high",
+          "business_value": "Ensures data security and proper access control while enabling collaboration across teams"
+        },
+        {
+          "id": "UC-005",
+          "title": "Configure and Monitor Alerts",
+          "description": "Users can set up threshold-based alerts that trigger notifications when business metrics exceed predefined limits.",
+          "actors": [
+            "Business User",
+            "Data Analyst",
+            "System"
+          ],
+          "preconditions": [
+            "User has dashboard editing permissions",
+            "Widget is configured with data source"
+          ],
+          "main_flow": [
+            "User selects a widget to monitor",
+            "User clicks 'Set Alert' option",
+            "User defines alert conditions (threshold values, operators)",
+            "User configures notification preferences (email, SMS, in-app)",
+            "User sets alert frequency and quiet hours",
+            "User saves alert configuration",
+            "System continuously monitors widget data against thresholds",
+            "When threshold is breached, System triggers alert",
+            "System sends notification through configured channels"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Alert Acknowledgment",
+              "steps": [
+                "User receives alert notification",
+                "User acknowledges alert in dashboard",
+                "System logs acknowledgment and stops repeat notifications",
+                "User can view alert history"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Alert rules are configured and active",
+            "Notifications are sent when conditions are met",
+            "Alert history is maintained"
+          ],
+          "priority": "medium",
+          "business_value": "Enables proactive monitoring and immediate response to critical business events or anomalies"
+        },
+        {
+          "id": "UC-006",
+          "title": "Access Dashboard on Mobile Devices",
+          "description": "Users can access and interact with dashboards on mobile devices through a responsive web interface or PWA.",
+          "actors": [
+            "Mobile User",
+            "Business User"
+          ],
+          "preconditions": [
+            "User has valid account credentials",
+            "Mobile device has internet connection"
+          ],
+          "main_flow": [
+            "User opens browser or PWA on mobile device",
+            "User navigates to dashboard URL",
+            "System detects mobile device and loads responsive layout",
+            "User enters login credentials",
+            "System authenticates user and displays dashboard list",
+            "User selects desired dashboard",
+            "System renders mobile-optimized dashboard view",
+            "User can scroll, zoom, and interact with widgets",
+            "User can filter data and view details in mobile-friendly format"
+          ],
+          "alternate_flows": [
+            {
+              "name": "Offline Mode",
+              "steps": [
+                "PWA detects offline status",
+                "System displays cached dashboard data",
+                "User can view previously loaded information",
+                "System syncs when connection is restored"
+              ]
+            }
+          ],
+          "postconditions": [
+            "Dashboard is accessible on mobile device",
+            "User can view and interact with data",
+            "Changes are synchronized when online"
+          ],
+          "priority": "medium",
+          "business_value": "Provides continuous access to critical business metrics for on-the-go decision making"
+        }
+      ],
+      "business_requirements": {
+        "overview": "The Real-Time Analytics Dashboard project aims to develop a comprehensive, scalable platform for monitoring business metrics through customizable, real-time data visualizations. The system will support multiple data sources, provide mobile accessibility, and enable users to create personalized dashboards with drag-and-drop functionality.",
+        "business_goals": [
+          "Improve decision-making speed through real-time data visibility",
+          "Increase operational efficiency with automated monitoring and alerts",
+          "Enhance data accessibility across the organization",
+          "Reduce manual reporting efforts by 40%",
+          "Achieve 90% user adoption within 6 months of launch",
+          "Support data-driven culture across all business units"
+        ],
+        "success_criteria": [
+          "Dashboard query response time under 500ms for 95% of requests",
+          "System uptime of 99.5% during business hours",
+          "Support for 10+ pre-built widget types at launch",
+          "Mobile-responsive design compatible with 95% of modern devices",
+          "Successful integration with at least 3 different data source types",
+          "User satisfaction score of 4.5/5.0 in post-launch survey"
+        ],
+        "constraints": [
+          "Must launch by end of Q1 2024",
+          "Initial implementation limited to 10 pre-built widget types",
+          "Data query response time must not exceed 500ms",
+          "Must use approved technology stack (React, Node.js, WebSocket, PostgreSQL, Redis, D3.js, Chart.js)",
+          "Must comply with company data security and privacy policies",
+          "Must support microservices architecture for future scalability"
+        ],
+        "assumptions": [
+          "All required data sources will be accessible and properly maintained",
+          "Users have basic technical literacy for dashboard configuration",
+          "Network infrastructure can support real-time data streaming",
+          "Stakeholders will provide timely feedback during development phases",
+          "Sufficient budget and resources are allocated for all project phases",
+          "Third-party APIs will remain stable and available"
+        ],
+        "risks": [
+          {
+            "risk": "Performance degradation with high data volume",
+            "mitigation": "Implement data caching with Redis, use pagination, and optimize database queries"
+          },
+          {
+            "risk": "Integration challenges with diverse data sources",
+            "mitigation": "Develop standardized connectors, conduct thorough testing, and create fallback mechanisms"
+          },
+          {
+            "risk": "User adoption resistance due to complexity",
+            "mitigation": "Provide comprehensive training, create intuitive UX design, and offer ongoing support"
+          },
+          {
+            "risk": "Security vulnerabilities in real-time data transmission",
+            "mitigation": "Implement end-to-end encryption, regular security audits, and role-based access controls"
+          },
+          {
+            "risk": "Timeline delays due to technical challenges",
+            "mitigation": "Use agile methodology, maintain buffer time in schedule, and prioritize core features"
+          }
+        ]
+      },
+      "project_name": "Real-Time Analytics Dashboard"
+    },
+    "knowledge_base": {
+      "enrichment": {
+        "relevant_patterns": [
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Observer Pattern",
+            "description": "Essential for real-time data updates where widgets observe data sources and automatically refresh when new data arrives",
+            "priority": "high"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "Component-Based Architecture",
+            "description": "Implement widgets as reusable components with standardized interfaces for data binding and configuration",
+            "priority": "high"
+          },
+          {
+            "category": "Integration Patterns",
+            "pattern": "API Gateway Pattern",
+            "description": "Centralize access to multiple data sources through a gateway that handles authentication, rate limiting, and data transformation",
+            "priority": "medium"
+          },
+          {
+            "category": "Best Practices",
+            "pattern": "CQRS (Command Query Responsibility Segregation)",
+            "description": "Separate read operations (dashboard display) from write operations (dashboard configuration) for better scalability",
+            "priority": "medium"
+          },
+          {
+            "category": "AI Design Patterns",
+            "pattern": "Strategy Pattern",
+            "description": "Use for different visualization strategies and data processing algorithms within widgets",
+            "priority": "low"
+          }
+        ],
+        "suggestions": [
+          {
+            "area": "User Experience",
+            "suggestion": "Implement progressive loading for dashboards with many widgets to improve perceived performance",
+            "rationale": "Large dashboards can have slow initial load times; progressive loading maintains user engagement"
+          },
+          {
+            "area": "Data Management",
+            "suggestion": "Add data source connection validation and health monitoring",
+            "rationale": "Proactive monitoring prevents dashboard failures and provides better user experience"
+          },
+          {
+            "area": "Security",
+            "suggestion": "Implement row-level security for data access based on user roles and permissions",
+            "rationale": "Ensures users only see data they're authorized to view, preventing data leaks"
+          },
+          {
+            "area": "Performance",
+            "suggestion": "Implement intelligent caching strategies for frequently accessed data with configurable TTL",
+            "rationale": "Reduces load on data sources and improves dashboard responsiveness"
+          },
+          {
+            "area": "Collaboration",
+            "suggestion": "Add dashboard sharing and collaboration features with version control",
+            "rationale": "Enables teams to work together on dashboards and track changes over time"
+          }
+        ],
+        "compliance_notes": [
+          "Implement GDPR compliance for data handling, especially for personal data visualization",
+          "Ensure audit logging for dashboard access and configuration changes for SOX compliance",
+          "Consider accessibility requirements (WCAG 2.1) for dashboard widgets and navigation",
+          "Data retention policies should be configurable for compliance with industry regulations"
+        ],
+        "integration_recommendations": [
+          "Use WebSocket or Server-Sent Events for real-time data streaming instead of polling",
+          "Implement a message queue (Kafka/RabbitMQ) for handling high-volume real-time data updates",
+          "Consider GraphQL for flexible data fetching from multiple sources with single requests",
+          "Integrate with identity providers (OAuth 2.0/OpenID Connect) for single sign-on capabilities"
+        ]
+      },
+      "project_name": "Real-Time Analytics Dashboard",
+      "document_type": "requirements",
+      "knowledge_base_categories": [
+        "ai_design_patterns",
+        "compliance_rules",
+        "best_practices",
+        "integration_patterns"
+      ]
+    },
+    "prd": {
+      "prd_markdown": "---\n**AICOE Product Requirements Document**\n\n**Document Classification:** Internal - Confidential\n**Version:** 1.0\n**Date:** October 26, 2023\n**Prepared By:** AICOE Multi-Agent Platform\n**Project:** Real-Time Analytics Dashboard\n\n---\n\n# Real-Time Analytics Dashboard - Product Requirements Document\n\n## 1. Executive Summary\nThe Real-Time Analytics Dashboard project aims to develop a comprehensive, scalable platform for monitoring business metrics through customizable, real-time data visualizations. This initiative will empower users across the organization to create personalized dashboards, connect to multiple data sources, and receive proactive alerts, thereby improving decision-making speed and operational efficiency. The project leverages a modern technology stack (React, Node.js, WebSocket, PostgreSQL, Redis) and is targeted for launch by the end of Q1 2024. Key stakeholders include Sarah Chen (Product Manager), David Kim (Lead Developer), Maria Rodriguez (UX Designer), and James Wilson (Data Analyst). The expected business impact includes a 40% reduction in manual reporting efforts and fostering a data-driven culture across all business units.\n\n## 2. Goals & Objectives\n### Business Goals\n- Improve decision-making speed through real-time data visibility\n- Increase operational efficiency with automated monitoring and alerts\n- Enhance data accessibility across the organization\n- Reduce manual reporting efforts by 40%\n- Achieve 90% user adoption within 6 months of launch\n- Support data-driven culture across all business units\n\n### User Goals\n- Create personalized views of business metrics quickly and intuitively\n- Access up-to-date insights from multiple data sources in one place\n- Receive timely notifications about critical business events\n- Share data and reports with stakeholders efficiently\n- Monitor performance on-the-go via mobile devices\n\n### Technical Goals\n- Achieve dashboard query response time under 500ms for 95% of requests\n- Ensure system uptime of 99.5% during business hours\n- Build a scalable microservices architecture to support future growth\n- Implement a secure, role-based access control system\n- Deliver a mobile-responsive Progressive Web App (PWA) experience\n\n## 3. Problem Statement\n### What problem are we solving?\nBusiness users and data analysts currently lack a centralized, real-time platform to monitor key performance indicators (KPIs) and business metrics. Data is siloed across multiple systems, requiring manual effort to consolidate, leading to delayed insights and reactive decision-making.\n\n### Who has this problem?\n- Business Users who need to track daily operational metrics\n- Data Analysts who spend excessive time on manual report generation\n- Managers who require timely, consolidated views for strategic decisions\n- Administrators who need to manage data access and security\n\n### Current pain points and limitations\n- Time-consuming manual data aggregation from disparate sources\n- Lack of real-time visibility into business performance\n- Inconsistent reporting formats across teams\n- Difficulty in sharing insights with stakeholders\n- No proactive alerting system for anomalies or threshold breaches\n- Poor mobile accessibility for on-the-go monitoring\n\n### Opportunity size and market context\nThe demand for real-time business intelligence tools is growing rapidly as organizations seek to become more data-driven. By providing an intuitive, customizable dashboard solution, we can significantly improve organizational agility and create a competitive advantage through faster, more informed decision-making.\n\n## 4. User Personas & Stakeholders\n### User Personas\n\n**Business User**\n- **Role/Title:** Operations Manager, Sales Representative, Marketing Specialist\n- **Goals and motivations:** Monitor daily performance metrics, track progress against targets, make quick operational decisions.\n- **Pain points:** Waiting for reports, difficulty accessing data from multiple systems, inability to spot trends in real-time.\n- **Technical proficiency:** Moderate - comfortable with web applications and basic data concepts.\n\n**Data Analyst**\n- **Role/Title:** Business Analyst, Data Scientist\n- **Goals and motivations:** Analyze trends, create insightful visualizations, ensure data accuracy, build complex queries.\n- **Pain points:** Manual data extraction, repetitive reporting tasks, limited tools for real-time analysis.\n- **Technical proficiency:** High - experienced with SQL, APIs, and data visualization tools.\n\n**Administrator**\n- **Role/Title:** IT Administrator, System Manager\n- **Goals and motivations:** Ensure system security, manage user access, maintain system performance and uptime.\n- **Pain points:** Managing permissions across multiple systems, ensuring data compliance, handling security threats.\n- **Technical proficiency:** High - knowledgeable in system administration and security protocols.\n\n**Mobile User**\n- **Role/Title:** Executive, Field Sales Manager\n- **Goals and motivations:** Stay informed about business metrics while traveling, respond quickly to alerts.\n- **Pain points:** Poor mobile experience on existing tools, inability to access critical data offline.\n- **Technical proficiency:** Low to Moderate - primarily uses mobile apps for essential tasks.\n\n### Key Stakeholders\n- **Sarah Chen (Product Manager):** Responsible for product vision, feature prioritization, and stakeholder alignment.\n- **David Kim (Lead Developer):** Oversees technical architecture, development process, and code quality.\n- **Maria Rodriguez (UX Designer):** Ensures intuitive user experience, consistent design language, and usability.\n- **James Wilson (Data Analyst):** Represents end-user needs, validates data accuracy, and provides feedback on analytical features.\n\n## 5. Features & User Stories\n### Must-Have Features\n**Dashboard Creation and Customization**\n- As a Business User, I want to create a new dashboard from a template so that I can quickly get started with a pre-configured layout.\n- As a Data Analyst, I want to build a dashboard from scratch so that I can create a highly customized view of my data.\n- As a User, I want to arrange widgets using drag-and-drop so that I can personalize my dashboard layout.\n\n**Real-Time Data Visualization**\n- As a Data Analyst, I want to connect widgets to multiple data sources so that I can visualize consolidated information.\n- As a Business User, I want my dashboard data to refresh automatically every 30 seconds so that I am always viewing the latest information.\n- As a User, I want to choose from at least 10 pre-built widget types so that I can display my data in various formats.\n\n**User Authentication and Access Control**\n- As an Administrator, I want to manage user accounts and roles so that I can ensure secure access to the system.\n- As a User, I want to log in securely with my credentials so that my data and dashboards are protected.\n\n**Export Functionality**\n- As a Manager, I want to export dashboard data to PDF so that I can include it in executive reports.\n- As a Data Analyst, I want to export widget data to CSV or Excel so that I can perform further analysis.\n\n### Should-Have Features\n**Alert System**\n- As a Business User, I want to set up threshold-based alerts on my widgets so that I am notified of critical changes immediately.\n- As a User, I want to receive alert notifications via email and in-app so that I can respond promptly to issues.\n\n**Mobile Responsiveness**\n- As a Mobile User, I want to access dashboards on my mobile device so that I can monitor metrics while away from my desk.\n\n**Historical Data Comparison**\n- As a Data Analyst, I want to compare current data with historical periods so that I can identify trends and patterns.\n\n### Nice-to-Have Features\n**Advanced Collaboration**\n- As a User, I want to share my dashboard with specific colleagues so that we can collaborate on metrics.\n- As a User, I want to subscribe to dashboards created by others so that I can stay updated on key areas.\n\n**Advanced Analytics**\n- As a Data Analyst, I want to apply predictive analytics to my data so that I can forecast future trends.\n- As a User, I want to annotate specific data points on a chart so that I can provide context for events.\n\n## 6. Use Cases\n\n### UC-001: Create and Customize Dashboard\n- **Actors:** Business User, Data Analyst, Administrator\n- **Preconditions:** User is authenticated and logged in; User has appropriate permissions to create dashboards.\n- **Main Flow:**\n  1. User navigates to dashboard management section\n  2. User clicks 'Create New Dashboard' button\n  3. System presents dashboard creation options (blank or template)\n  4. User selects dashboard type and provides a name\n  5. System displays empty dashboard canvas with widget palette\n  6. User drags and drops widgets onto the canvas\n  7. User configures each widget's data source and display properties\n  8. User saves the dashboard configuration\n  9. System confirms successful creation and displays the new dashboard\n- **Alternative Flows:**\n  - **Using Template:** User selects a pre-built template; System populates dashboard with template widgets; User modifies existing widgets or adds new ones; User saves the customized dashboard.\n- **Postconditions:** New dashboard is created and saved; Dashboard is accessible to the user and authorized viewers.\n- **Priority:** High\n- **Business Value:** Enables users to create personalized views of business metrics, improving decision-making efficiency and user adoption.\n\n### UC-002: Configure Real-Time Data Visualization\n- **Actors:** Data Analyst, Business User\n- **Preconditions:** User has created or is editing a dashboard; Data sources are properly configured and accessible.\n- **Main Flow:**\n  1. User selects a widget on the dashboard\n  2. User clicks 'Configure Data' option\n  3. System displays data source selection interface\n  4. User selects data source type (SQL, MongoDB, API)\n  5. User provides connection details or selects from saved connections\n  6. User configures data query or API endpoint\n  7. User sets refresh interval (default 30 seconds)\n  8. System validates data connection and returns sample data\n  9. User confirms configuration\n  10. Widget displays live data with automatic refresh\n- **Alternative Flows:**\n  - **Connection Failure:** System displays error message for failed connection; User reviews and corrects connection details; System retries connection upon user confirmation.\n- **Postconditions:** Widget is configured to display real-time data; Data refreshes automatically at specified intervals.\n- **Priority:** High\n- **Business Value:** Provides up-to-date insights for timely decision-making and immediate response to business changes.\n\n### UC-003: Export Dashboard Data\n- **Actors:** Business User, Data Analyst, Manager\n- **Preconditions:** User is viewing a dashboard; User has export permissions.\n- **Main Flow:**\n  1. User clicks 'Export' button on dashboard\n  2. System displays export format options (PDF, CSV, Excel)\n  3. User selects desired export format\n  4. User configures export options (date range, widgets to include)\n  5. User initiates export process\n  6. System generates export file in background\n  7. System provides download link or sends file via email\n  8. User receives and accesses exported file\n- **Alternative Flows:**\n  - **Large Data Export:** System detects large data volume; System notifies user of processing time; System sends export via email when complete.\n- **Postconditions:** Export file is generated with requested data; File is delivered to user via specified method.\n- **Priority:** Medium\n- **Business Value:** Facilitates reporting and data sharing with stakeholders who may not have direct dashboard access.\n\n### UC-004: Manage User Access and Permissions\n- **Actors:** Administrator, System\n- **Preconditions:** Administrator is authenticated; User management module is accessible.\n- **Main Flow:**\n  1. Administrator navigates to user management section\n  2. Administrator selects 'Add New User' or searches existing user\n  3. For new user: Administrator enters user details and credentials\n  4. Administrator assigns roles and permissions\n  5. Administrator configures dashboard access rights\n  6. System saves user configuration\n  7. System sends welcome email with login credentials to new user\n  8. Administrator receives confirmation of successful setup\n- **Alternative Flows:**\n  - **Modify Existing User:** Administrator searches and selects existing user; Administrator modifies user roles or permissions; System updates user configuration; User receives notification of changes.\n- **Postconditions:** User account is created or updated; Appropriate permissions are assigned; User can access authorized dashboards.\n- **Priority:** High\n- **Business Value:** Ensures data security and proper access control while enabling collaboration across teams.\n\n### UC-005: Configure and Monitor Alerts\n- **Actors:** Business User, Data Analyst, System\n- **Preconditions:** User has dashboard editing permissions; Widget is configured with data source.\n- **Main Flow:**\n  1. User selects a widget to monitor\n  2. User clicks 'Set Alert' option\n  3. User defines alert conditions (threshold values, operators)\n  4. User configures notification preferences (email, SMS, in-app)\n  5. User sets alert frequency and quiet hours\n  6. User saves alert configuration\n  7. System continuously monitors widget data against thresholds\n  8. When threshold is breached, System triggers alert\n  9. System sends notification through configured channels\n- **Alternative Flows:**\n  - **Alert Acknowledgment:** User receives alert notification; User acknowledges alert in dashboard; System logs acknowledgment and stops repeat notifications; User can view alert history.\n- **Postconditions:** Alert rules are configured and active; Notifications are sent when conditions are met; Alert history is maintained.\n- **Priority:** Medium\n- **Business Value:** Enables proactive monitoring and immediate response to critical business events or anomalies.\n\n### UC-006: Access Dashboard on Mobile Devices\n- **Actors:** Mobile User, Business User\n- **Preconditions:** User has valid account credentials; Mobile device has internet connection.\n- **Main Flow:**\n  1. User opens browser or PWA on mobile device\n  2. User navigates to dashboard URL\n  3. System detects mobile device and loads responsive layout\n  4. User enters login credentials\n  5. System authenticates user and displays dashboard list\n  6. User selects desired dashboard\n  7. System renders mobile-optimized dashboard view\n  8. User can scroll, zoom, and interact with widgets\n  9. User can filter data and view details in mobile-friendly format\n- **Alternative Flows:**\n  - **Offline Mode:** PWA detects offline status; System displays cached dashboard data; User can view previously loaded information; System syncs when connection is restored.\n- **Postconditions:** Dashboard is accessible on mobile device; User can view and interact with data; Changes are synchronized when online.\n- **Priority:** Medium\n- **Business Value:** Provides continuous access to critical business metrics for on-the-go decision making.\n\n## 7. Functional Requirements\n### Dashboard Management\n- FR-01: The system shall allow authenticated users to create new dashboards with a unique name.\n- FR-02: The system shall provide a library of at least 10 pre-built dashboard templates at launch.\n- FR-03: The system shall enable users to customize dashboards by adding, removing, and arranging widgets via a drag-and-drop interface.\n- FR-04: The system shall allow users to save, edit, and delete their own dashboards.\n- FR-05: The system shall provide a search and filter functionality to find specific dashboards.\n\n### Widget Configuration\n- FR-06: The system shall offer at least 10 pre-built widget types (e.g., line chart, bar chart, KPI, table, gauge) at launch.\n- FR-07: The system shall allow users to configure a widget's data source from SQL, MongoDB, or API endpoints.\n- FR-08: The system shall enable users to save and reuse data source connections.\n- FR-09: The system shall provide a configuration interface for users to set the data refresh interval for each widget, with a default of 30 seconds.\n- FR-10: The system shall validate data source connections and display sample data upon successful configuration.\n\n### Data Visualization and Refresh\n- FR-11: The system shall automatically refresh widget data at the user-configured interval.\n- FR-12: The system shall display real-time data updates without requiring a full page reload.\n- FR-13: The system shall support historical data comparison within widgets.\n- FR-14: The system shall handle data updates gracefully, displaying loading indicators during refresh.\n\n### User Authentication and Authorization\n- FR-15: The system shall require user authentication via username and password to access the platform.\n- FR-16: The system shall implement role-based access control (RBAC) with roles such as Administrator, Analyst, and Business User.\n- FR-17: The system shall allow administrators to create, modify, and deactivate user accounts.\n- FR-18: The system shall enable administrators to assign specific dashboard viewing and editing permissions to users or roles.\n- FR-19: The system shall automatically log out inactive users after a configurable period.\n\n### Export Functionality\n- FR-20: The system shall allow users to export entire dashboards or individual widgets.\n- FR-21: The system shall support export to PDF, CSV, and Excel formats.\n- FR-22: The system shall provide options for users to select the date range and widgets to include in the export.\n- FR-23: The system shall handle large data exports asynchronously and notify the user upon completion.\n\n### Alert System\n- FR-24: The system shall allow users to configure threshold-based alerts on any widget.\n- FR-25: The system shall support multiple alert conditions (e.g., greater than, less than, equal to).\n- FR-26: The system shall enable users to configure notification channels (email, in-app).\n- FR-27: The system shall allow users to set quiet hours to suppress non-critical alerts.\n- FR-28: The system shall maintain a log of all triggered alerts and user acknowledgments.\n\n### Mobile Access\n- FR-29: The system shall provide a responsive design that adapts to mobile screen sizes.\n- FR-30: The system shall function as a Progressive Web App (PWA), allowing for installation on mobile devices.\n- FR-31: The system shall cache dashboard data for offline viewing in the PWA.\n- FR-32: The system shall synchronize changes made offline once a network connection is restored.\n\n## 8. Non-Functional Requirements\n### Performance\n- Data query response time must be under 500ms for 95% of requests.\n- Dashboard initial load time must not exceed 3 seconds.\n- The system must support concurrent access for at least 500 users without performance degradation.\n- WebSocket connections for real-time updates must be established within 1 second.\n\n### Security\n- All data transmission must be encrypted using TLS 1.2 or higher.\n- Passwords must be hashed and salted using a strong, modern algorithm (e.g., bcrypt).\n- The system must be resilient against common web vulnerabilities (OWASP Top 10).\n- All user actions must be logged for audit purposes.\n- The system must comply with company data security and privacy policies.\n\n### Usability\n- The user interface must comply with WCAG 2.1 AA accessibility standards.\n- The system must be intuitive enough for a user with basic technical literacy to create a dashboard within 10 minutes without training.\n- All interactive elements must have clear visual feedback.\n- The system must provide contextual help and tooltips for complex features.\n\n### Reliability\n- System uptime must be 99.5% during business hours (9 AM - 6 PM, Mon-Fri).\n- The system must have automated data backup and recovery procedures.\n- In case of a service disruption, the system must restore full functionality within 4 hours.\n- The system must handle data source failures gracefully without crashing the entire dashboard.\n\n### Maintainability\n- Code must be thoroughly documented with inline comments and external documentation.\n- The system must be built using a microservices architecture to allow for independent scaling and deployment of components.\n- All components must have automated unit and integration tests with a minimum code coverage of 80%.\n- The system must support CI/CD pipelines for automated testing and deployment.\n\n## 9. Technical Architecture\n### System Components and Interactions\nThe system will be built on a microservices architecture with the following core components:\n- **Frontend Application:** A React-based Single Page Application (SPA) that renders the user interface.\n- **API Gateway:** A Node.js/Express gateway that routes requests to appropriate backend services and handles authentication.\n- **Dashboard Service:** Manages dashboard CRUD operations, metadata, and user permissions.\n- **Data Ingestion Service:** Connects to various data sources (SQL, MongoDB, APIs), fetches data, and normalizes it.\n- **Real-time Engine:** Uses WebSockets to push data updates to connected clients.\n- **Authentication Service:** Handles user login, session management, and JWT token generation.\n- **Alert Service:** Monitors data against thresholds and triggers notifications.\n- **Export Service:** Generates and handles asynchronous export requests.\n\n### Technology Stack\n- **Frontend:** React, D3.js, Chart.js, Redux for state management\n- **Backend:** Node.js, Express.js\n- **Real-time Communication:** WebSocket (Socket.io)\n- **Databases:** PostgreSQL (for relational data), Redis (for caching and session management)\n- **Mobile:** Progressive Web App (PWA) with Service Workers\n\n### Integration Points and APIs\n- **Internal APIs:** RESTful APIs for communication between frontend and backend microservices.\n- **External Data Sources:** Connectors for SQL databases (MySQL, PostgreSQL), NoSQL databases (MongoDB), and REST APIs.\n- **Notification Services:** Integration with company email server (SMTP) for alerts and user management.\n\n### Data Flow and Storage\n1. User actions from the React frontend are sent via HTTPS to the API Gateway.\n2. The API Gateway authenticates the request and routes it to the relevant microservice.\n3. For dashboard data, the Data Ingestion Service queries the source systems (SQL, MongoDB, API).\n4. The Real-time Engine subscribes to data changes and pushes updates to clients via WebSocket.\n5. User data, dashboard metadata, and permissions are stored in PostgreSQL.\n6. Frequently accessed data and session information are cached in Redis for performance.\n\n### Deployment Architecture\n- **Containerization:** All microservices will be containerized using Docker.\n- **Orchestration:** Kubernetes will be used for container orchestration, auto-scaling, and load balancing.\n- **Cloud Infrastructure:** The system will be deployed on a cloud provider (e.g., AWS, Azure) with high availability across multiple availability zones.\n- **CI/CD:** A pipeline will be established for automated testing, building, and deployment using tools like Jenkins or GitLab CI.\n\n## 10. Acceptance Criteria\n### Dashboard Creation and Customization\n- AC-01: Given a logged-in user with create permissions, when they navigate to the dashboard management page and click \"Create New Dashboard,\" they are presented with options for a blank canvas or a template.\n- AC-02: Given a user is on the dashboard canvas, when they drag a widget from the palette and drop it onto the canvas, the widget is added and rendered in the dropped location.\n- AC-03: Given a user has customized a dashboard, when they click \"Save,\" the dashboard configuration is persisted and they are redirected to view the saved dashboard.\n\n### Real-Time Data Visualization\n- AC-04: Given a user has configured a widget with a data source, when the save is successful, the widget displays a sample of the data within 2 seconds.\n- AC-05: Given a widget is configured for real-time updates, when the refresh interval is met, the widget data updates automatically without a full page refresh.\n- AC-06: Given a user configures a data source with invalid credentials, when they test the connection, the system displays a clear error message indicating the failure reason.\n\n### Export Functionality\n- AC-07: Given a user is viewing a dashboard, when they click \"Export\" and select PDF format, a downloadable PDF file of the dashboard is generated.\n- AC-08: Given a user initiates an export for a large dataset, when the process is complete, they receive an email with a secure download link.\n\n### User Authentication and Access Control\n- AC-09: Given a new user is created by an administrator, when the account is saved, the user receives a welcome email with their login credentials.\n- AC-10: Given a user without edit permissions attempts to modify a dashboard, when they try to enter edit mode, they receive an \"Access Denied\" message.\n\n### Alert System\n- AC-11: Given a user has configured an alert for a KPI widget with a threshold of >1000, when the KPI value exceeds 1000, an email notification is sent to the user.\n- AC-12: Given an alert has been triggered, when the user views the alert history, the alert event is logged with a timestamp and the value that triggered it.\n\n### Mobile Access\n- AC-13: Given a user accesses the dashboard URL on a mobile device, when the page loads, the layout is optimized for the smaller screen size.\n- AC-14: Given a user is using the PWA offline, when they open a previously loaded dashboard, the cached data is displayed.\n\n## 11. Success Metrics\n### User Adoption Metrics\n- Number of active users per week/month (Target: 90% of target users within 6 months)\n- Number of dashboards created (Target: Average of 3 dashboards per active user)\n- Feature usage rate (e.g., alerts, exports) (Target: 60% of users using at least one advanced feature)\n\n### Business Impact Metrics\n- Reduction in time spent on manual reporting (Target: 40% reduction measured via user surveys)\n- Number of data-driven decisions attributed to dashboard insights (Target: Qualitative feedback from management)\n- User satisfaction score (Target: 4.5/5.0 or higher in post-launch surveys)\n\n### Technical Performance Metrics\n- Average dashboard query response time (Target: <500ms for 95% of queries)\n- System uptime (Target: 99.5% during business hours)\n- Error rate (Target: <0.1% of total requests)\n\n### User Satisfaction Metrics\n- Net Promoter Score (NPS) (Target: +50)\n- User retention rate (Target: 85% of initial users remain active after 3 months)\n- Support ticket volume related to usability issues (Target: <5% of total tickets)\n\n## 12. Timeline & Milestones\nThe project will be executed in four phases, with a planned launch at the end of Q1 2024.\n\n### Phase 1: Foundation and Core Features (8 weeks)\n- **Scope:**\n  - Project setup, architecture design, and CI/CD pipeline\n  - User authentication service\n  - Basic dashboard creation and management\n  - 5 core widget types (KPI, Line Chart, Bar Chart, Table, Gauge)\n  - Data source connection for SQL databases\n- **Timeline:** Start of Q1 2024 - Mid Q1 2024\n- **Milestone:** Core platform functional with basic dashboarding capabilities.\n\n### Phase 2: Data Visualization and Real-Time Updates (6 weeks)\n- **Scope:**\n  - Implementation of WebSocket for real-time data streaming\n  - Addition of 5 more widget types (Pie Chart, Area Chart, Scatter Plot, Funnel, Heatmap)\n  - Data source connectors for MongoDB and REST APIs\n  - Drag-and-drop interface refinement\n- **Timeline:** Mid Q1 2024 - Late Q1 2024\n- **Milestone:** Full real-time dashboard functionality with all 10 widget types.\n\n### Phase 3: Advanced Features and Mobile (6 weeks)\n- **Scope:**\n  - Alert system development\n  - Export functionality (PDF, CSV, Excel)\n  - Mobile-responsive design and PWA implementation\n  - User role and permission management UI\n- **Timeline:** Late Q1 2024 - End of Q1 2024\n- **Milestone:** Feature-complete product ready for initial launch.\n\n### Phase 4: Post-Launch Optimization and Enhancement (Ongoing)\n- **Scope:**\n  - Performance optimization based on real-world usage\n  - User feedback collection and iterative improvements\n  - Additional widget types and data source connectors\n  - Advanced analytics and collaboration features\n- **Timeline:** Post-launch\n- **Milestone:** Continuous improvement and feature expansion.\n\n## 13. Risks & Mitigation\n| Risk | Impact | Probability | Mitigation Strategy |\n|------|--------|-------------|---------------------|\n| Performance degradation with high data volume |",
+      "project_name": "Real-Time Analytics Dashboard",
+      "length": 28647,
+      "sections": [
+        "1. Executive Summary",
+        "2. Goals & Objectives",
+        "3. Problem Statement",
+        "4. User Personas & Stakeholders",
+        "5. Features & User Stories",
+        "6. Use Cases",
+        "7. Functional Requirements",
+        "8. Non-Functional Requirements",
+        "9. Technical Architecture",
+        "10. Acceptance Criteria",
+        "11. Success Metrics",
+        "12. Timeline & Milestones",
+        "13. Risks & Mitigation"
+      ]
+    },
+    "mockup": {
+      "mockup_html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Real-Time Analytics Dashboard - AICOE Platform</title>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n    <style>\n        :root {\n            --aicoe-primary: #0066cc;\n            --aicoe-accent: #00d9ff;\n            --aicoe-dark: #1d1d1f;\n            --aicoe-gray: #6e6e73;\n            --aicoe-light-gray: #f5f5f7;\n            --aicoe-white: #ffffff;\n            --aicoe-success: #34c759;\n            --aicoe-warning: #ff9500;\n        }\n\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n            color: var(--aicoe-dark);\n            background-color: var(--aicoe-white);\n            line-height: 1.6;\n        }\n\n        /* Navigation */\n        nav {\n            position: sticky;\n            top: 0;\n            background: rgba(255, 255, 255, 0.95);\n            backdrop-filter: blur(20px);\n            border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n            z-index: 1000;\n            padding: 1rem 2rem;\n        }\n\n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n\n        .nav-brand {\n            display: flex;\n            align-items: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            font-weight: 600;\n            color: var(--aicoe-primary);\n        }\n\n        .nav-menu {\n            display: flex;\n            gap: 2rem;\n            list-style: none;\n        }\n\n        .nav-menu a {\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n            transition: color 0.3s ease;\n        }\n\n        .nav-menu a:hover {\n            color: var(--aicoe-primary);\n        }\n\n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);\n            color: white;\n            padding: 5rem 2rem;\n            text-align: center;\n        }\n\n        .hero-container {\n            max-width: 800px;\n            margin: 0 auto;\n        }\n\n        .hero h1 {\n            font-size: 3rem;\n            margin-bottom: 1.5rem;\n            font-weight: 700;\n        }\n\n        .hero p {\n            font-size: 1.25rem;\n            opacity: 0.9;\n            margin-bottom: 2rem;\n        }\n\n        .hero-stats {\n            display: flex;\n            justify-content: center;\n            gap: 3rem;\n            margin-top: 3rem;\n        }\n\n        .stat-item {\n            text-align: center;\n        }\n\n        .stat-number {\n            font-size: 2.5rem;\n            font-weight: 700;\n            display: block;\n        }\n\n        .stat-label {\n            font-size: 0.875rem;\n            opacity: 0.8;\n        }\n\n        /* Features Section */\n        .features {\n            padding: 5rem 2rem;\n            background: var(--aicoe-light-gray);\n        }\n\n        .features-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .section-title {\n            text-align: center;\n            font-size: 2.5rem;\n            margin-bottom: 3rem;\n            color: var(--aicoe-dark);\n        }\n\n        .features-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n        }\n\n        .feature-card {\n            background: var(--aicoe-white);\n            padding: 2rem;\n            border-radius: 12px;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n            transition: transform 0.3s ease, box-shadow 0.3s ease;\n        }\n\n        .feature-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);\n        }\n\n        .feature-icon {\n            width: 48px;\n            height: 48px;\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            border-radius: 12px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            margin-bottom: 1rem;\n            color: white;\n        }\n\n        .feature-title {\n            font-size: 1.25rem;\n            margin-bottom: 0.75rem;\n            color: var(--aicoe-dark);\n        }\n\n        .feature-description {\n            color: var(--aicoe-gray);\n            line-height: 1.6;\n        }\n\n        /* Use Cases Section */\n        .use-cases {\n            padding: 5rem 2rem;\n        }\n\n        .use-cases-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .use-case-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));\n            gap: 2rem;\n        }\n\n        .use-case-card {\n            background: var(--aicoe-white);\n            border: 1px solid rgba(0, 0, 0, 0.1);\n            border-radius: 12px;\n            padding: 2rem;\n            transition: all 0.3s ease;\n        }\n\n        .use-case-card:hover {\n            border-color: var(--aicoe-primary);\n            box-shadow: 0 4px 16px rgba(0, 102, 204, 0.1);\n        }\n\n        .use-case-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: start;\n            margin-bottom: 1rem;\n        }\n\n        .use-case-id {\n            background: var(--aicoe-light-gray);\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.875rem;\n            font-weight: 500;\n            color: var(--aicoe-primary);\n        }\n\n        .priority {\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.75rem;\n            font-weight: 600;\n            text-transform: uppercase;\n        }\n\n        .priority.high {\n            background: rgba(255, 149, 0, 0.1);\n            color: var(--aicoe-warning);\n        }\n\n        .priority.medium {\n            background: rgba(52, 199, 89, 0.1);\n            color: var(--aicoe-success);\n        }\n\n        .use-case-title {\n            font-size: 1.25rem;\n            margin-bottom: 1rem;\n            color: var(--aicoe-dark);\n        }\n\n        .use-case-description {\n            color: var(--aicoe-gray);\n            margin-bottom: 1.5rem;\n            line-height: 1.6;\n        }\n\n        .actors {\n            display: flex;\n            flex-wrap: wrap;\n            gap: 0.5rem;\n            margin-bottom: 1rem;\n        }\n\n        .actor {\n            background: var(--aicoe-light-gray);\n            padding: 0.25rem 0.75rem;\n            border-radius: 6px;\n            font-size: 0.875rem;\n            color: var(--aicoe-gray);\n        }\n\n        .business-value {\n            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));\n            color: white;\n            padding: 1rem;\n            border-radius: 8px;\n            font-size: 0.875rem;\n            line-height: 1.5;\n        }\n\n        /* Technical Stack */\n        .tech-stack {\n            padding: 5rem 2rem;\n            background: var(--aicoe-light-gray);\n        }\n\n        .tech-stack-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            text-align: center;\n        }\n\n        .tech-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n            gap: 2rem;\n            margin-top: 3rem;\n        }\n\n        .tech-item {\n            background: var(--aicoe-white);\n            padding: 2rem 1rem;\n            border-radius: 12px;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            gap: 1rem;\n            transition: transform 0.3s ease;\n        }\n\n        .tech-item:hover {\n            transform: scale(1.05);\n        }\n\n        .tech-icon {\n            width: 48px;\n            height: 48px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            color: var(--aicoe-primary);\n        }\n\n        /* Footer */\n        footer {\n            background: var(--aicoe-dark);\n            color: white;\n            padding: 3rem 2rem;\n            text-align: center;\n        }\n\n        .footer-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n\n        .footer-brand {\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            gap: 0.75rem;\n            font-size: 1.25rem;\n            margin-bottom: 1rem;\n        }\n\n        .footer-text {\n            color: var(--aicoe-gray);\n            margin-bottom: 2rem;\n        }\n\n        .footer-links {\n            display: flex;\n            justify-content: center;\n            gap: 2rem;\n            margin-bottom: 2rem;\n        }\n\n        .footer-links a {\n            color: var(--aicoe-gray);\n            text-decoration: none;\n            transition: color 0.3s ease;\n        }\n\n        .footer-links a:hover {\n            color: var(--aicoe-accent);\n        }\n\n        /* Responsive Design */\n        @media (max-width: 768px) {\n            .nav-menu {\n                display: none;\n            }\n\n            .hero h1 {\n                font-size: 2rem;\n            }\n\n            .hero p {\n                font-size: 1rem;\n            }\n\n            .hero-stats {\n                flex-direction: column;\n                gap: 1.5rem;\n            }\n\n            .features-grid,\n            .use-case-grid {\n                grid-template-columns: 1fr;\n            }\n\n            .tech-grid {\n                grid-template-columns: repeat(2, 1fr);\n            }\n        }\n\n        @media (max-width: 1024px) {\n            .nav-container {\n                padding: 0 1rem;\n            }\n\n            .hero,\n            .features,\n            .use-cases,\n            .tech-stack {\n                padding: 3rem 1rem;\n            }\n        }\n\n        /* Print Styles */\n        @media print {\n            nav, .no-print, button { \n                display: none !important; \n            }\n            \n            body { \n                font-size: 12pt; \n                color: #000; \n                background: #fff; \n            }\n            \n            * { \n                box-shadow: none !important; \n                text-shadow: none !important; \n            }\n            \n            .page-break { \n                page-break-before: always; \n            }\n            \n            h1, h2, h3 { \n                page-break-after: avoid; \n            }\n            \n            a[href]:after { \n                content: \" (\" attr(href) \")\"; \n            }\n\n            .hero {\n                background: #f0f0f0 !important;\n                color: #000 !important;\n            }\n\n            .feature-card,\n            .use-case-card {\n                break-inside: avoid;\n                border: 1px solid #ccc;\n            }\n        }\n    </style>\n</head>\n<body>\n    <!-- Navigation -->\n    <nav>\n        <div class=\"nav-container\">\n            <div class=\"nav-brand\">\n                <i data-lucide=\"layers\" style=\"width: 32px; height: 32px;\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <ul class=\"nav-menu\">\n                <li><a href=\"#overview\"><i data-lucide=\"home\"></i> Overview</a></li>\n                <li><a href=\"#features\"><i data-lucide=\"zap\"></i> Features</a></li>\n                <li><a href=\"#use-cases\"><i data-lucide=\"file-text\"></i> Use Cases</a></li>\n                <li><a href=\"#tech-stack\"><i data-lucide=\"database\"></i> Tech Stack</a></li>\n                <li><a href=\"#contact\"><i data-lucide=\"settings\"></i> Settings</a></li>\n            </ul>\n        </div>\n    </nav>\n\n    <!-- Hero Section -->\n    <section class=\"hero\">\n        <div class=\"hero-container\">\n            <h1>Real-Time Analytics Dashboard</h1>\n            <p>Monitor business metrics with customizable widgets, real-time data visualization, and intelligent alerts</p>\n            <div class=\"hero-stats\">\n                <div class=\"stat-item\">\n                    <span class=\"stat-number\">6</span>\n                    <span class=\"stat-label\">Use Cases</span>\n                </div>\n                <div class=\"stat-item\">\n                    <span class=\"stat-number\">10+</span>\n                    <span class=\"stat-label\">Widget Types</span>\n                </div>\n                <div class=\"stat-item\">\n                    <span class=\"stat-number\">500ms</span>\n                    <span class=\"stat-label\">Response Time</span>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Features Section -->\n    <section class=\"features\" id=\"features\">\n        <div class=\"features-container\">\n            <h2 class=\"section-title\">Key Features</h2>\n            <div class=\"features-grid\">\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"trending-up\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Real-Time Visualization</h3>\n                    <p class=\"feature-description\">Live data updates every 30 seconds with smooth animations and interactive charts powered by D3.js and Chart.js</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"layout-dashboard\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Drag & Drop Interface</h3>\n                    <p class=\"feature-description\">Intuitive widget arrangement with customizable layouts and responsive grid system for perfect dashboard composition</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"database\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Multiple Data Sources</h3>\n                    <p class=\"feature-description\">Connect to SQL databases, MongoDB collections, and REST APIs with flexible configuration options</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"shield\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Role-Based Access</h3>\n                    <p class=\"feature-description\">Enterprise-grade security with user authentication, permissions management, and dashboard access controls</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"bell\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Smart Alerts</h3>\n                    <p class=\"feature-description\">Threshold-based notifications via email, SMS, or in-app alerts with customizable quiet hours</p>\n                </div>\n                <div class=\"feature-card\">\n                    <div class=\"feature-icon\">\n                        <i data-lucide=\"smartphone\"></i>\n                    </div>\n                    <h3 class=\"feature-title\">Mobile Responsive</h3>\n                    <p class=\"feature-description\">Progressive Web App with offline support and touch-optimized interface for mobile devices</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Use Cases Section -->\n    <section class=\"use-cases\" id=\"use-cases\">\n        <div class=\"use-cases-container\">\n            <h2 class=\"section-title\">Use Cases</h2>\n            <div class=\"use-case-grid\">\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-001</span>\n                        <span class=\"priority high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Create and Customize Dashboard</h3>\n                    <p class=\"use-case-description\">Users can create new dashboards from scratch or templates, customize them with various widgets, and arrange them using a drag-and-drop interface.</p>\n                    <div class=\"actors\">\n                        <span class=\"actor\">Business User</span>\n                        <span class=\"actor\">Data Analyst</span>\n                        <span class=\"actor\">Administrator</span>\n                    </div>\n                    <div class=\"business-value\">\n                        <strong>Business Value:</strong> Enables users to create personalized views of business metrics, improving decision-making efficiency and user adoption\n                    </div>\n                </div>\n\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-002</span>\n                        <span class=\"priority high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Configure Real-Time Data Visualization</h3>\n                    <p class=\"use-case-description\">Users can configure widgets to display real-time data from multiple sources with automatic refresh capabilities.</p>\n                    <div class=\"actors\">\n                        <span class=\"actor\">Data Analyst</span>\n                        <span class=\"actor\">Business User</span>\n                    </div>\n                    <div class=\"business-value\">\n                        <strong>Business Value:</strong> Provides up-to-date insights for timely decision-making and immediate response to business changes\n                    </div>\n                </div>\n\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-003</span>\n                        <span class=\"priority medium\">Medium Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Export Dashboard Data</h3>\n                    <p class=\"use-case-description\">Users can export dashboard data and visualizations in various formats for reporting and sharing purposes.</p>\n                    <div class=\"actors\">\n                        <span class=\"actor\">Business User</span>\n                        <span class=\"actor\">Data Analyst</span>\n                        <span class=\"actor\">Manager</span>\n                    </div>\n                    <div class=\"business-value\">\n                        <strong>Business Value:</strong> Facilitates reporting and data sharing with stakeholders who may not have direct dashboard access\n                    </div>\n                </div>\n\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-004</span>\n                        <span class=\"priority high\">High Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Manage User Access and Permissions</h3>\n                    <p class=\"use-case-description\">Administrators can manage user authentication and role-based access control for dashboards and features.</p>\n                    <div class=\"actors\">\n                        <span class=\"actor\">Administrator</span>\n                        <span class=\"actor\">System</span>\n                    </div>\n                    <div class=\"business-value\">\n                        <strong>Business Value:</strong> Ensures data security and proper access control while enabling collaboration across teams\n                    </div>\n                </div>\n\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-005</span>\n                        <span class=\"priority medium\">Medium Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Configure and Monitor Alerts</h3>\n                    <p class=\"use-case-description\">Users can set up threshold-based alerts that trigger notifications when business metrics exceed predefined limits.</p>\n                    <div class=\"actors\">\n                        <span class=\"actor\">Business User</span>\n                        <span class=\"actor\">Data Analyst</span>\n                        <span class=\"actor\">System</span>\n                    </div>\n                    <div class=\"business-value\">\n                        <strong>Business Value:</strong> Enables proactive monitoring and immediate response to critical business events or anomalies\n                    </div>\n                </div>\n\n                <div class=\"use-case-card\">\n                    <div class=\"use-case-header\">\n                        <span class=\"use-case-id\">UC-006</span>\n                        <span class=\"priority medium\">Medium Priority</span>\n                    </div>\n                    <h3 class=\"use-case-title\">Access Dashboard on Mobile Devices</h3>\n                    <p class=\"use-case-description\">Users can access and interact with dashboards on mobile devices through a responsive web interface or PWA.</p>\n                    <div class=\"actors\">\n                        <span class=\"actor\">Mobile User</span>\n                        <span class=\"actor\">Business User</span>\n                    </div>\n                    <div class=\"business-value\">\n                        <strong>Business Value:</strong> Provides continuous access to critical business metrics for on-the-go decision making\n                    </div>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Technical Stack Section -->\n    <section class=\"tech-stack\" id=\"tech-stack\">\n        <div class=\"tech-stack-container\">\n            <h2 class=\"section-title\">Technical Stack</h2>\n            <div class=\"tech-grid\">\n                <div class=\"tech-item\">\n                    <div class=\"tech-icon\">\n                        <i data-lucide=\"code\" style=\"width: 48px; height: 48px;\"></i>\n                    </div>\n                    <h4>React</h4>\n                    <p style=\"color: var(--aicoe-gray); font-size: 0.875rem;\">Frontend Framework</p>\n                </div>\n                <div class=\"tech-item\">\n                    <div class=\"tech-icon\">\n                        <i data-lucide=\"server\" style=\"width: 48px; height: 48px;\"></i>\n                    </div>\n                    <h4>Node.js</h4>\n                    <p style=\"color: var(--aicoe-gray); font-size: 0.875rem;\">Backend Runtime</p>\n                </div>\n                <div class=\"tech-item\">\n                    <div class=\"tech-icon\">\n                        <i data-lucide=\"activity\" style=\"width: 48px; height: 48px;\"></i>\n                    </div>\n                    <h4>WebSocket</h4>\n                    <p style=\"color: var(--aicoe-gray); font-size: 0.875rem;\">Real-time Communication</p>\n                </div>\n                <div class=\"tech-item\">\n                    <div class=\"tech-icon\">\n                        <i data-lucide=\"database\" style=\"width: 48px; height: 48px;\"></i>\n                    </div>\n                    <h4>PostgreSQL</h4>\n                    <p style=\"color: var(--aicoe-gray); font-size: 0.875rem;\">Primary Database</p>\n                </div>\n                <div class=\"tech-item\">\n                    <div class=\"tech-icon\">\n                        <i data-lucide=\"zap\" style=\"width: 48px; height: 48px;\"></i>\n                    </div>\n                    <h4>Redis</h4>\n                    <p style=\"color: var(--aicoe-gray); font-size: 0.875rem;\">Caching Layer</p>\n                </div>\n                <div class=\"tech-item\">\n                    <div class=\"tech-icon\">\n                        <i data-lucide=\"bar-chart-3\" style=\"width: 48px; height: 48px;\"></i>\n                    </div>\n                    <h4>D3.js</h4>\n                    <p style=\"color: var(--aicoe-gray); font-size: 0.875rem;\">Data Visualization</p>\n                </div>\n                <div class=\"tech-item\">\n                    <div class=\"tech-icon\">\n                        <i data-lucide=\"pie-chart\" style=\"width: 48px; height: 48px;\"></i>\n                    </div>\n                    <h4>Chart.js</h4>\n                    <p style=\"color: var(--aicoe-gray); font-size: 0.875rem;\">Chart Library</p>\n                </div>\n                <div class=\"tech-item\">\n                    <div class=\"tech-icon\">\n                        <i data-lucide=\"layers\" style=\"width: 48px; height: 48px;\"></i>\n                    </div>\n                    <h4>Microservices</h4>\n                    <p style=\"color: var(--aicoe-gray); font-size: 0.875rem;\">Architecture</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Footer -->\n    <footer>\n        <div class=\"footer-container\">\n            <div class=\"footer-brand\">\n                <i data-lucide=\"layers\" style=\"width: 32px; height: 32px;\"></i>\n                AICOE Multi-Agent Platform\n            </div>\n            <p class=\"footer-text\">Real-Time Analytics Dashboard - Monitoring business metrics with intelligent insights</p>\n            <div class=\"footer-links\">\n                <a href=\"#overview\">Overview</a>\n                <a href=\"#features\">Features</a>\n                <a href=\"#use-cases\">Use Cases</a>\n                <a href=\"#tech-stack\">Technology</a>\n            </div>\n            <p style=\"color: var(--aicoe-gray); font-size: 0.875rem; margin-top: 2rem;\">\n                Powered by AICOE | Generated by AI Agents | \u00a9 2024 All Rights Reserved\n            </p>\n        </div>\n    </footer>\n\n    <script>\n        // Initialize Lucide icons\n        lucide.createIcons();\n\n        // Smooth scrolling for navigation links\n        document.querySelectorAll('a[href^=\"#\"]').forEach(anchor => {\n            anchor.addEventListener('click', function (e) {\n                e.preventDefault();\n                const target = document.querySelector(this.getAttribute('href'));\n                if (target) {\n                    target.scrollIntoView({\n                        behavior: 'smooth',\n                        block: 'start'\n                    });\n                }\n            });\n        });\n\n        // Add scroll effect to navigation\n        window.addEventListener('scroll', function() {\n            const nav = document.querySelector('nav');\n            if (window.scrollY > 50) {\n                nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';\n            } else {\n                nav.style.boxShadow = 'none';\n            }\n        });\n\n        // Animate",
+      "project_name": "Real-Time Analytics Dashboard",
+      "length": 26918,
+      "has_doctype": true
+    },
+    "synthetic_data": {
+      "synthetic_data": {
+        "raw_response": "{\n    \"data_sets\": [\n        {\n            \"name\": \"dashboard_configurations\",\n            \"description\": \"Sample dashboard configurations with various widgets and layouts\",\n            \"use_case_id\": \"UC-001\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"dashboard_id\": \"string\",\n                \"name\": \"string\",\n                \"owner\": \"string\",\n                \"created_date\": \"datetime\",\n                \"last_modified\": \"datetime\",\n                \"is_template\": \"boolean\",\n                \"layout\": \"string\",\n                \"widgets\": \"array\",\n                \"sharing_settings\": {\n                    \"is_public\": \"boolean\",\n                    \"shared_users\": \"array\",\n                    \"permissions\": \"array\"\n                }\n            },\n            \"sample_data\": [\n                {\n                    \"dashboard_id\": \"DASH-001\",\n                    \"name\": \"Sales Performance Overview\",\n                    \"owner\": \"john.smith@company.com\",\n                    \"created_date\": \"2024-01-15T09:30:00Z\",\n                    \"last_modified\": \"2024-01-20T14:22:00Z\",\n                    \"is_template\": false,\n                    \"layout\": \"grid-3x3\",\n                    \"widgets\": [\n                        {\n                            \"widget_id\": \"WGT-001\",\n                            \"type\": \"line_chart\",\n                            \"title\": \"Monthly Revenue Trend\",\n                            \"position\": {\"x\": 0, \"y\": 0, \"w\": 2, \"h\": 1},\n                            \"data_source\": \"sales_db\",\n                            \"refresh_interval\": 60\n                        },\n                        {\n                            \"widget_id\": \"WGT-002\",\n                            \"type\": \"kpi_card\",\n                            \"title\": \"Total Sales Today\",\n                            \"position\": {\"x\": 2, \"y\": 0, \"w\": 1, \"h\": 1},\n                            \"data_source\": \"sales_api\",\n                            \"refresh_interval\": 30\n                        },\n                        {\n                            \"widget_id\": \"WGT-003\",\n                            \"type\": \"bar_chart\",\n                            \"title\": \"Top Products\",\n                            \"position\": {\"x\": 0, \"y\": 1, \"w\": 2, \"h\": 1},\n                            \"data_source\": \"inventory_mongo\",\n                            \"refresh_interval\": 120\n                        }\n                    ],\n                    \"sharing_settings\": {\n                        \"is_public\": false,\n                        \"shared_users\": [\"sarah.jones@company.com\", \"mike.wilson@company.com\"],\n                        \"permissions\": [\"view\", \"comment\"]\n                    }\n                },\n                {\n                    \"dashboard_id\": \"DASH-002\",\n                    \"name\": \"Customer Support Metrics\",\n                    \"owner\": \"sarah.jones@company.com\",\n                    \"created_date\": \"2024-01-18T11:15:00Z\",\n                    \"last_modified\": \"2024-01-22T16:45:00Z\",\n                    \"is_template\": true,\n                    \"layout\": \"flex\",\n                    \"widgets\": [\n                        {\n                            \"widget_id\": \"WGT-004\",\n                            \"type\": \"pie_chart\",\n                            \"title\": \"Ticket Categories\",\n                            \"position\": {\"x\": 0, \"y\": 0, \"w\": 1, \"h\": 1},\n                            \"data_source\": \"support_sql\",\n                            \"refresh_interval\": 180\n                        },\n                        {\n                            \"widget_id\": \"WGT-005\",\n                            \"type\": \"metric_gauge\",\n                            \"title\": \"Response Time\",\n                            \"position\": {\"x\": 1, \"y\": 0, \"w\": 1, \"h\": 1},\n                            \"data_source\": \"support_api\",\n                            \"refresh_interval\": 60\n                        }\n                    ],\n                    \"sharing_settings\": {\n                        \"is_public\": true,\n                        \"shared_users\": [],\n                        \"permissions\": [\"view\"]\n                    }\n                }\n            ]\n        },\n        {\n            \"name\": \"data_source_configurations\",\n            \"description\": \"Real-time data source configurations for dashboard widgets\",\n            \"use_case_id\": \"UC-002\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"source_id\": \"string\",\n                \"name\": \"string\",\n                \"type\": \"string\",\n                \"connection_details\": \"object\",\n                \"query_config\": \"object\",\n                \"refresh_settings\": {\n                    \"interval\": \"integer\",\n                    \"enabled\": \"boolean\"\n                },\n                \"status\": \"string\",\n                \"last_tested\": \"datetime\"\n            },\n            \"sample_data\": [\n                {\n                    \"source_id\": \"SRC-001\",\n                    \"name\": \"Production Sales Database\",\n                    \"type\": \"SQL\",\n                    \"connection_details\": {\n                        \"host\": \"prod-db.company.com\",\n                        \"port\": 5432,\n                        \"database\": \"sales_prod\",\n                        \"username\": \"dashboard_user\",\n                        \"encrypted\": true\n                    },\n                    \"query_config\": {\n                        \"query\": \"SELECT date, SUM(amount) as total_sales FROM transactions WHERE date >= CURRENT_DATE - INTERVAL '30 days' GROUP BY date ORDER BY date\",\n                        \"parameters\": []\n                    },\n                    \"refresh_settings\": {\n                        \"interval\": 60,\n                        \"enabled\": true\n                    },\n                    \"status\": \"active\",\n                    \"last_tested\": \"2024-01-22T10:30:00Z\"\n                },\n                {\n                    \"source_id\": \"SRC-002\",\n                    \"name\": \"MongoDB Inventory Collection\",\n                    \"type\": \"MongoDB\",\n                    \"connection_details\": {\n                        \"uri\": \"mongodb://inventory-cluster.company.com:27017\",\n                        \"database\": \"inventory\",\n                        \"collection\": \"products\",\n                        \"auth_mechanism\": \"SCRAM-SHA-256\"\n                    },\n                    \"query_config\": {\n                        \"pipeline\": [\n                            {\"$match\": {\"status\": \"active\"}},\n                            {\"$group\": {\"_id\": \"$category\", \"count\": {\"$sum\": 1}}},\n                            {\"$sort\": {\"count\": -1}},\n                            {\"$limit\": 10}\n                        ]\n                    },\n                    \"refresh_settings\": {\n                        \"interval\": 120,\n                        \"enabled\": true\n                    },\n                    \"status\": \"active\",\n                    \"last_tested\": \"2024-01-22T09:15:00Z\"\n                },\n                {\n                    \"source_id\": \"SRC-003\",\n                    \"name\": \"External CRM API\",\n                    \"type\": \"API\",\n                    \"connection_details\": {\n                        \"endpoint\": \"https://api.crm.company.com/v1/analytics\",\n                        \"auth_type\": \"Bearer\",\n                        \"timeout\": 30\n                    },\n                    \"query_config\": {\n                        \"method\": \"GET\",\n                        \"headers\": {\"Content-Type\": \"application/json\"},\n                        \"params\": {\n                            \"metrics\": \"leads,conversions,conversion_rate\",\n                            \"period\": \"7d\"\n                        }\n                    },\n                    \"refresh_settings\": {\n                        \"interval\": 300,\n                        \"enabled\": true\n                    },\n                    \"status\": \"error\",\n                    \"last_tested\": \"2024-01-22T08:45:00Z\"\n                }\n            ]\n        },\n        {\n            \"name\": \"export_jobs\",\n            \"description\": \"Dashboard export job records and configurations\",\n            \"use_case_id\": \"UC-003\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"export_id\": \"string\",\n                \"dashboard_id\": \"string\",\n                \"requested_by\": \"string\",\n                \"format\": \"string\",\n                \"options\": \"object\",\n                \"status\": \"string\",\n                \"created_at\": \"datetime\",\n                \"completed_at\": \"datetime\",\n                \"file_size\": \"integer\",\n                \"download_url\": \"string\",\n                \"email_sent_to\": \"string\"\n            },\n            \"sample_data\": [\n                {\n                    \"export_id\": \"EXP-001\",\n                    \"dashboard_id\": \"DASH-001\",\n                    \"requested_by\": \"john.smith@company.com\",\n                    \"format\": \"PDF\",\n                    \"options\": {\n                        \"date_range\": {\"start\": \"2024-01-01\", \"end\": \"2024-01-31\"},\n                        \"include_widgets\": [\"WGT-001\", \"WGT-002\"],\n                        \"layout\": \"portrait\",\n                        \"include_raw_data\": false\n                    },\n                    \"status\": \"completed\",\n                    \"created_at\": \"2024-01-22T14:30:00Z\",\n                    \"completed_at\": \"2024-01-22T14:32:15Z\",\n                    \"file_size\": 2048576,\n                    \"download_url\": \"https://exports.company.com/EXP-001.pdf\",\n                    \"email_sent_to\": \"john.smith@company.com\"\n                },\n                {\n                    \"export_id\": \"EXP-002\",\n                    \"dashboard_id\": \"DASH-002\",\n                    \"requested_by\": \"sarah.jones@company.com\",\n                    \"format\": \"CSV\",\n                    \"options\": {\n                        \"date_range\": {\"start\": \"2024-01-15\", \"end\": \"2024-01-22\"},\n                        \"include_widgets\": [\"WGT-004\", \"WGT-005\"],\n                        \"include_raw_data\": true,\n                        \"compress\": true\n                    },\n                    \"status\": \"processing\",\n                    \"created_at\": \"2024-01-22T15:45:00Z\",\n                    \"completed_at\": null,\n                    \"file_size\": null,\n                    \"download_url\": null,\n                    \"email_sent_to\": null\n                },\n                {\n                    \"export_id\": \"EXP-003\",\n                    \"dashboard_id\": \"DASH-001\",\n                    \"requested_by\": \"mike.wilson@company.com\",\n                    \"format\": \"Excel\",\n                    \"options\": {\n                        \"date_range\": {\"start\": \"2024-01-01\", \"end\": \"2024-01-31\"},\n                        \"include_widgets\": [\"all\"],\n                        \"include_charts\": true,\n                        \"multiple_sheets\": true\n                    },\n                    \"status\": \"failed\",\n                    \"created_at\": \"2024-01-22T11:20:00Z\",\n                    \"completed_at\": \"2024-01-22T11:25:00Z\",\n                    \"file_size\": null,\n                    \"download_url\": null,\n                    \"email_sent_to\": null\n                }\n            ]\n        },\n        {\n            \"name\": \"user_permissions\",\n            \"description\": \"User roles and permission configurations for dashboard access\",\n            \"use_case_id\": \"UC-004\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"user_id\": \"string\",\n                \"username\": \"string\",\n                \"email\": \"string\",\n                \"role\": \"string\",\n                \"permissions\": \"array\",\n                \"dashboard_access\": \"array\",\n                \"created_date\": \"datetime\",\n                \"last_login\": \"datetime\",\n                \"status\": \"string\"\n            },\n            \"sample_data\": [\n                {\n                    \"user_id\": \"USR-001\",\n                    \"username\": \"john.smith\",\n                    \"email\": \"john.smith@company.com\",\n                    \"role\": \"Administrator\",\n                    \"permissions\": [\"create_dashboard\", \"edit_dashboard\", \"delete_dashboard\", \"manage_users\", \"export_data\", \"configure_alerts\"],\n                    \"dashboard_access\": [\"all\"],\n                    \"created_date\": \"2023-06-15T10:00:00Z\",\n                    \"last_login\": \"2024-01-22T09:15:00Z\",\n                    \"status\": \"active\"\n                },\n                {\n                    \"user_id\": \"USR-002\",\n                    \"username\": \"sarah.jones\",\n                    \"email\": \"sarah.jones@company.com\",\n                    \"role\": \"Data Analyst\",\n                    \"permissions\": [\"create_dashboard\", \"edit_dashboard\", \"export_data\", \"configure_alerts\"],\n                    \"dashboard_access\": [\"DASH-001\", \"DASH-002\", \"DASH-003\"],\n                    \"created_date\": \"2023-08-20T14:30:00Z\",\n                    \"last_login\": \"2024-01-22T11:45:00Z\",\n                    \"status\": \"active\"\n                },\n                {\n                    \"user_id\": \"USR-003\",\n                    \"username\": \"mike.wilson\",\n                    \"email\": \"mike.wilson@company.com\",\n                    \"role\": \"Business User\",\n                    \"permissions\": [\"view_dashboard\", \"export_data\"],\n                    \"dashboard_access\": [\"DASH-001\"],\n                    \"created_date\": \"2023-10-05T16:00:00Z\",\n                    \"last_login\": \"2024-01-21T16:30:00Z\",\n                    \"status\": \"active\"\n                },\n                {\n                    \"user_id\": \"USR-004\",\n                    \"username\": \"lisa.chen\",\n                    \"email\": \"lisa.chen@company.com\",\n                    \"role\": \"Viewer\",\n                    \"permissions\": [\"view_dashboard\"],\n                    \"dashboard_access\": [\"DASH-002\"],\n                    \"created_date\": \"2024-01-10T09:00:00Z\",\n                    \"last_login\": \"2024-01-22T08:00:00Z\",\n                    \"status\": \"pending\"\n                }\n            ]\n        },\n        {\n            \"name\": \"alert_configurations\",\n            \"description\": \"Threshold-based alert configurations and notification settings\",\n            \"use_case_id\": \"UC-005\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"alert_id\": \"string\",\n                \"name\": \"string\",\n                \"dashboard_id\": \"string\",\n                \"widget_id\": \"string\",\n                \"conditions\": \"array\",\n                \"notification_settings\": \"object\",\n                \"frequency\": \"string\",\n                \"quiet_hours\": \"object\",\n                \"created_by\": \"string\",\n                \"created_date\": \"datetime\",\n                \"status\": \"string\",\n                \"last_triggered\": \"datetime\"\n            },\n            \"sample_data\": [\n                {\n                    \"alert_id\": \"ALT-001\",\n                    \"name\": \"Low Sales Alert\",\n                    \"dashboard_id\": \"DASH-001\",\n                    \"widget_id\": \"WGT-002\",\n                    \"conditions\": [\n                        {\n                            \"metric\": \"total_sales\",\n                            \"operator\": \"less_than\",\n                            \"threshold\": 10000,\n                            \"timeframe\": \"1h\"\n                        }\n                    ],\n                    \"notification_settings\": {\n                        \"channels\": [\"email\", \"sms\"],\n                        \"recipients\": [\"john.smith@company.com\", \"+1234567890\"],\n                        \"message_template\": \"Sales have dropped below threshold: {value}\"\n                    },\n                    \"frequency\": \"immediate\",\n                    \"quiet_hours\": {\"start\": \"22:00\", \"end\": \"07:00\", \"timezone\": \"UTC\"},\n                    \"created_by\": \"john.smith@company.com\",\n                    \"created_date\": \"2024-01-15T10:00:00Z\",\n                    \"status\": \"active\",\n                    \"last_triggered\": \"2024-01-21T23:30:00Z\"\n                },\n                {\n                    \"alert_id\": \"ALT-002\",\n                    \"name\": \"High Response Time Warning\",\n                    \"dashboard_id\": \"DASH-002\",\n                    \"widget_id\": \"WGT-005\",\n                    \"conditions\": [\n                        {\n                            \"metric\": \"response_time\",\n                            \"operator\": \"greater_than\",\n                            \"threshold\": 300,\n                            \"timeframe\": \"5m\"\n                        }\n                    ],\n                    \"notification_settings\": {\n                        \"channels\": [\"email\", \"in_app\"],\n                        \"recipients\": [\"sarah.jones@company.com\"],\n                        \"message_template\": \"Support response time exceeded: {value}ms\"\n                    },\n                    \"frequency\": \"every_15_minutes\",\n                    \"quiet_hours\": null,\n                    \"created_by\": \"sarah.jones@company.com\",\n                    \"created_date\": \"2024-01-18T13:00:00Z\",\n                    \"status\": \"active\",\n                    \"last_triggered\": \"2024-01-22T10:45:00Z\"\n                },\n                {\n                    \"alert_id\": \"ALT-003\",\n                    \"name\": \"Revenue Growth Target\",\n                    \"dashboard_id\": \"DASH-001\",\n                    \"widget_id\": \"WGT-001\",\n                    \"conditions\": [\n                        {\n                            \"metric\": \"revenue_growth\",\n                            \"operator\": \"less_than\",\n                            \"threshold\": 5,\n                            \"timeframe\": \"7d\"\n                        }\n                    ],\n                    \"notification_settings\": {\n                        \"channels\": [\"email\"],\n                        \"recipients\": [\"management@company.com\"],\n                        \"message_template\": \"Weekly revenue growth below target: {value}%\"\n                    },\n                    \"frequency\": \"daily\",\n                    \"quiet_hours\": {\"start\": \"18:00\", \"end\": \"09:00\", \"timezone\": \"UTC\"},\n                    \"created_by\": \"john.smith@company.com\",\n                    \"created_date\": \"2024-01-10T11:00:00Z\",\n                    \"status\": \"paused\",\n                    \"last_triggered\": null\n                }\n            ]\n        },\n        {\n            \"name\": \"mobile_usage_analytics\",\n            \"description\": \"Mobile device usage statistics and session data\",\n            \"use_case_id\": \"UC-006\",\n            \"format\": \"json\",\n            \"schema\": {\n                \"session_id\": \"string\",\n                \"user_id\": \"string\",\n                \"device_info\": \"object\",\n                \"app_version\": \"string\",\n                \"session_start\": \"datetime\",\n                \"session_duration\": \"integer\",\n                \"dashboards_viewed\": \"array\",\n                \"interactions\": \"array\",\n                \"network_info\": \"object\",\n                \"offline_sync\": \"boolean\"\n            },\n            \"sample_data\": [\n                {\n                    \"session_id\": \"MOB-001\",\n                    \"user_id\": \"USR-003\",\n                    \"device_info\": {\n                        \"type\": \"mobile\",\n                        \"os\": \"iOS\",\n                        \"version\": \"17.2\",\n                        \"model\": \"iPhone 14 Pro\",\n                        \"screen_resolution\": \"1179x2556\"\n                    },\n                    \"app_version\": \"2.1.0\",\n                    \"session_start\": \"2024-01-22T08:30:00Z\",\n                    \"session_duration\": 1800,\n                    \"dashboards_viewed\": [\"DASH-001\"],\n                    \"interactions\": [\n                        {\n                            \"action\": \"view_dashboard\",\n                            \"timestamp\": \"2024-01-22T08:31:00Z\",\n                            \"details\": {\"dashboard_id\": \"DASH-001\"}\n                        },\n                        {\n                            \"action\": \"scroll\",\n                            \"timestamp\": \"2024-01-22T08:35:00Z\",\n                            \"details\": {\"widget\": \"WGT-001\", \"scroll"
+      },
+      "project_name": "Real-Time Analytics Dashboard",
+      "warning": "Could not parse as JSON"
+    },
+    "reviewer": {
+      "review_cycle_id": "Real-Time Analytics Dashboard_prd_v1",
+      "status": "pending",
+      "version": 1,
+      "reviewer": "system",
+      "created_at": "2025-10-29T06:42:20.065478"
+    }
+  },
+  "stages": [
+    {
+      "name": "storage",
+      "status": "completed",
+      "duration": 0.003892
+    },
+    {
+      "name": "transcript",
+      "status": "completed",
+      "duration": 142.418783
+    },
+    {
+      "name": "requirements",
+      "status": "completed",
+      "duration": 36.884373
+    },
+    {
+      "name": "knowledge_base",
+      "status": "completed",
+      "duration": 18.854658
+    },
+    {
+      "name": "prd",
+      "status": "completed",
+      "duration": 102.587152
+    },
+    {
+      "name": "mockup",
+      "status": "completed",
+      "duration": 123.231492
+    },
+    {
+      "name": "synthetic_data",
+      "status": "completed",
+      "duration": 63.161368
+    },
+    {
+      "name": "reviewer",
+      "status": "completed",
+      "duration": 0.000975
+    }
+  ]
+}

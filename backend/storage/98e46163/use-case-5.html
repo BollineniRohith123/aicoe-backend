@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-005 - User Manages Subscription and Premium Features | AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0056CC;
+            --secondary: #5856D6;
+            --success: #34C759;
+            --warning: #FF9500;
+            --danger: #FF3B30;
+            --background: #FFFFFF;
+            --surface: #F2F2F7;
+            --surface-secondary: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --text-tertiary: #C7C7CC;
+            --border: #C6C6C8;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --radius-small: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--surface);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-small);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Navigation */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-tertiary);
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0 4rem;
+        }
+
+        .use-case-header {
+            background: var(--background);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .use-case-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .use-case-id {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            background: var(--surface);
+            border-radius: var(--radius-small);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .use-case-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: var(--background);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 2px 10px var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-button:hover {
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            background: var(--background);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            padding: 2rem;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .info-card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--background);
+            border-radius: var(--radius-small);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .info-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .info-card-content {
+            color: var(--text-secondary);
+        }
+
+        /* Accordion */
+        .accordion {
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            padding: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background: var(--surface);
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: var(--surface);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 1000px;
+        }
+
+        .accordion-body {
+            padding: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        /* Flow Steps */
+        .flow-steps {
+            counter-reset: step;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .flow-step::before {
+            counter-increment: step;
+            content: counter(step);
+            min-width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .flow-step-content {
+            padding-top: 4px;
+            flex: 1;
+        }
+
+        /* Tags */
+        .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            background: var(--surface);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tag.priority-medium {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--warning);
+        }
+
+        /* Navigation Footer */
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--background);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-button:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3);
+        }
+
+        .nav-button.next {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .nav-button.next:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .use-case-title {
+                font-size: 1.5rem;
+            }
+
+            .tabs-header {
+                overflow-x: auto;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-footer {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            header, .nav-footer {
+                position: static;
+                box-shadow: none;
+            }
+
+            .tabs-header {
+                display: none;
+            }
+
+            .tab-content {
+                display: block !important;
+                page-break-inside: avoid;
+            }
+
+            .accordion-content {
+                max-height: none !important;
+            }
+
+            .accordion-item {
+                page-break-inside: avoid;
+            }
+
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i data-lucide="layers"></i>
+                    </div>
+                    AICOE
+                </a>
+                <div class="tags">
+                    <span class="tag">
+                        <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+                        Page 5 of 6
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="index.html">Fitness Tracking App - E2E Test</a>
+            <span class="breadcrumb-separator">›</span>
+            <span>UC-005</span>
+        </nav>
+
+        <main>
+            <div class="use-case-header">
+                <h1 class="use-case-title">
+                    <span class="use-case-id">UC-005</span>
+                    User Manages Subscription and Premium Features
+                </h1>
+                <p class="use-case-description">
+                    A free-tier user decides to upgrade to a premium subscription to access advanced features. This use case covers the entire flow from discovering premium benefits to managing the subscription.
+                </p>
+            </div>
+
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" onclick="switchTab('overview')">
+                        <i data-lucide="eye" style="width: 16px; height: 16px;"></i>
+                        Overview
+                    </button>
+                    <button class="tab-button" onclick="switchTab('flows')">
+                        <i data-lucide="git-branch" style="width: 16px; height: 16px;"></i>
+                        Flows
+                    </button>
+                    <button class="tab-button" onclick="switchTab('details')">
+                        <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+                        Details
+                    </button>
+                </div>
+
+                <div id="overview" class="tab-content active">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="users"></i>
+                                </div>
+                                <h3 class="info-card-title">Actors</h3>
+                            </div>
+                            <div class="info-card-content">
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 8px 0; display: flex; align-items: center; gap: 8px;">
+                                        <i data-lucide="user" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                                        Free-tier User
+                                    </li>
+                                    <li style="padding: 8px 0; display: flex; align-items: center; gap: 8px;">
+                                        <i data-lucide="user-check" style="width: 16px; height: 16px; color: var(--success);"></i>
+                                        Premium-tier User
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="flag"></i>
+                                </div>
+                                <h3 class="info-card-title">Priority</h3>
+                            </div>
+                            <div class="info-card-content">
+                                <span class="tag priority-medium">
+                                    <i data-lucide="alert-circle" style="width: 14px; height: 14px;"></i>
+                                    Medium Priority
+                                </span>
+                                <p style="margin-top: 12px;">Essential for monetization strategy and revenue generation</p>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="trending-up"></i>
+                                </div>
+                                <h3 class="info-card-title">Business Value</h3>
+                            </div>
+                            <div class="info-card-content">
+                                <p>Fundamental to the business's monetization strategy. A clear, value-driven upgrade flow is essential for converting free users to paying customers, directly impacting revenue.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon">
+                                <i data-lucide="check-circle"></i>
+                            </div>
+                            <h3 class="info-card-title">Preconditions</h3>
+                        </div>
+                        <div class="info-card-content">
+                            <ul style="padding-left: 20px;">
+                                <li>User is on the free tier of the app.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="info-card" style="margin-top: 1.5rem;">
+                        <div class="info-card-header">
+                            <div class="info-card-icon">
+                                <i data-lucide="target"></i>
+                            </div>
+                            <h3 class="info-card-title">Postconditions</h3>
+                        </div>
+                        <div class="info-card-content">
+                            <ul style="padding-left: 20px;">
+                                <li>User's subscription status is successfully updated in the app's database.</li>
+                                <li>The app's UI reflects the user's current tier (free or premium), enabling or disabling features accordingly.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="flows" class="tab-content">
+                    <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Flow Scenarios</h2>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item active">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <div class="accordion-title">
+                                    <i data-lucide="play-circle" style="width: 20px; height: 20px; color: var(--primary);"></i>
+                                    Main Flow - Upgrade to Premium
+                                </div>
+                                <i data-lucide="chevron-down" class="accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <div class="flow-steps">
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                User navigates to a screen featuring a premium-only feature (e.g., an advanced workout plan or detailed analytics).
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                App displays a lock icon and a message explaining this is a 'Premium Feature'.
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                User taps the 'Upgrade to Premium' call-to-action.
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                App presents the Premium subscription screen, highlighting the benefits (e.g., 'Exclusive Workout Plans', 'Advanced Progress Insights', 'Customizable Notifications').
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                App displays the pricing: '$9.99/month, billed monthly.'
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                User taps the 'Start Free Trial' or 'Subscribe' button.
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                App uses the device's native payment flow (e.g., Apple In-App Purchase, Google Play Billing) to process the subscription.
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                User confirms the purchase.
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                The user's account is updated to Premium status.
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                App unlocks all premium features and confirms the upgrade to the user.
+                                            </div>
+                                        </div>
+                                        <div class="flow-step">
+                                            <div class="flow-step-content">
+                                                User can now access premium content.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <div class="accordion-title">
+                                    <i data-lucide="settings" style="width: 20px; height: 20px; color: var(--secondary);"></i>
+                                    Alternate Flow - Manage Subscription
+                                </div>
+                                <i data-lucide="chevron-down" class="accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p><strong>Condition:</strong> A premium user wants to manage or cancel their subscription.</p>
+                                    <div style="margin-top: 1rem;">
+                                        <p><strong>Flow:</strong></p>
+                                        <ul style="padding-left: 20px; margin-top: 0.5rem;">
+                                            <li>The user navigates to the 'Settings' tab, then to 'Subscription'.</li>
+                                            <li>The app provides a link to manage the subscription through their respective app store (Apple App Store / Google Play Store), as per platform policy.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <div class="accordion-title">
+                                    <i data-lucide="x-circle" style="width: 20px; height: 20px; color: var(--danger);"></i>
+                                    Alternate Flow - Decline Subscription
+                                </div>
+                                <i data-lucide="chevron-down" class="accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p><strong>Condition:</strong> User declines the subscription offer.</p>
+                                    <div style="margin-top: 1rem;">
+                                        <p><strong>Flow:</strong></p>
+                                        <ul style="padding-left: 20px; margin-top: 0.5rem;">
+                                            <li>The app returns the user to the previous screen.</li>
+                                            <li>They may be shown a non-intrusive banner later reminding them of premium benefits.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="details" class="tab-content">
+                    <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Technical Details</h2>
+                    
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="credit-card"></i>
+                                </div>
+                                <h3 class="info-card-title">Payment Integration</h3>
+                            </div>
+                            <div class="info-card-content">
+                                <p>Integration with platform-specific payment systems:</p>
+                                <ul style="padding-left: 20px; margin-top: 0.5rem;">
+                                    <li>Apple In-App Purchase (iOS)</li>
+                                    <li>Google Play Billing (Android)</li>
+                                    <li>Web payment gateways (if applicable)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="database"></i>
+                                </div>
+                                <h3 class="info-card-title">Data Management</h3>
+                            </div>
+                            <div class="info-card-content">
+                                <p>Key data points to track:</p>
+                                <ul style="padding-left: 20px; margin-top: 0.5rem;">
+                                    <li>Subscription status</li>
+                                    <li>Billing cycle</li>
+                                    <li>Feature access levels</li>
+                                    <li>Trial period tracking</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="shield-check"></i>
+                                </div>
+                                <h3 class="info-card-title">Security Considerations</h3>
+                            </div>
+                            <div class="info-card-content">
+                                <ul style="padding-left: 20px;">
+                                    <li>Secure payment processing</li>
+                                    <li>Receipt validation</li>
+                                    <li>Subscription verification</li>
+                                    <li>GDPR compliance for user data</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card" style="margin-top: 1.5rem;">
+                        <div class="info-card-header">
+                            <div class="info-card-icon">
+                                <i data-lucide="star"></i>
+                            </div>
+                            <h3 class="info-card-title">Premium Features</h3>
+                        </div>
+                        <div class="info-card-content">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                <div style="padding: 1rem; background: var(--surface); border-radius: var(--radius-small);">
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--primary);">🏃‍♂️ Advanced Workouts</h4>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Exclusive workout plans and personalized training programs</p>
+                                </div>
+                                <div style="padding: 1rem; background: var(--surface); border-radius: var(--radius-small);">
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--primary);">📊 Detailed Analytics</h4>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">In-depth progress insights and performance metrics</p>
+                                </div>
+                                <div style="padding: 1rem; background: var(--surface); border-radius: var(--radius-small);">
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--primary);">🔔 Smart Notifications</h4>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Customizable reminders and motivational alerts</p>
+                                </div>
+                                <div style="padding: 1rem; background: var(--surface); border-radius: var(--radius-small);">
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--primary);">🎯 Goal Setting</h4>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Advanced goal tracking and milestone celebrations</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-footer">
+                <a href="use-case-4.html" class="nav-button">
+                    <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+                    Previous
+                </a>
+                <a href="use-case-6.html" class="nav-button next">
+                    Next
+                    <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.closest('.tab-button').classList.add('active');
+            
+            // Reinitialize icons for new content
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        // Accordion toggle
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const wasActive = item.classList.contains('active');
+            
+            // Close all accordion items
+            document.querySelectorAll('.accordion-item').forEach(accItem => {
+                accItem.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add print button functionality
+        window.addEventListener('beforeprint', () => {
+            document.querySelectorAll('.accordion-item').forEach(item => {
+                item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICOE - Manufacturing Process Automation with AI</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --aicoe-primary: #0066cc;
+            --aicoe-accent: #00d9ff;
+            --aicoe-dark: #1d1d1f;
+            --aicoe-gray: #6e6e73;
+            --aicoe-light-gray: #f5f5f7;
+            --aicoe-white: #ffffff;
+            --aicoe-success: #34c759;
+            --aicoe-warning: #ff9500;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--aicoe-dark);
+            background: var(--aicoe-white);
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--aicoe-primary);
+        }
+
+        .nav-brand i {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--aicoe-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--aicoe-primary);
+        }
+
+        .nav-link i {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--aicoe-primary) 0%, var(--aicoe-accent) 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--aicoe-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--aicoe-gray);
+        }
+
+        /* Use Cases Grid */
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .use-case-card {
+            background: var(--aicoe-white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .use-case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .use-case-header {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .use-case-icon {
+            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));
+            color: white;
+            padding: 0.75rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .use-case-icon i {
+            width: 24px;
+            height: 24px;
+        }
+
+        .use-case-title-group {
+            flex: 1;
+        }
+
+        .use-case-id {
+            font-size: 0.85rem;
+            color: var(--aicoe-primary);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .use-case-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--aicoe-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-description {
+            color: var(--aicoe-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .use-case-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--aicoe-gray);
+        }
+
+        .meta-item i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--aicoe-warning);
+        }
+
+        .priority-medium {
+            background: rgba(0, 102, 204, 0.1);
+            color: var(--aicoe-primary);
+        }
+
+        .business-value {
+            background: var(--aicoe-light-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .business-value-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--aicoe-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .business-value-title i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .business-value-text {
+            font-size: 0.9rem;
+            color: var(--aicoe-dark);
+            line-height: 1.4;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--aicoe-white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            background: linear-gradient(135deg, var(--aicoe-primary), var(--aicoe-accent));
+            color: white;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .feature-icon i {
+            width: 32px;
+            height: 32px;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--aicoe-dark);
+        }
+
+        .feature-description {
+            color: var(--aicoe-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--aicoe-light-gray);
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--aicoe-primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--aicoe-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .use-case-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            nav, .no-print, button { 
+                display: none !important; 
+            }
+            
+            body { 
+                font-size: 12pt; 
+                color: #000; 
+                background: #fff; 
+            }
+            
+            * { 
+                box-shadow: none !important; 
+                text-shadow: none !important; 
+            }
+            
+            .page-break { 
+                page-break-before: always; 
+            }
+            
+            h1, h2, h3 { 
+                page-break-after: avoid; 
+            }
+            
+            a[href]:after { 
+                content: " (" attr(href) ")"; 
+            }
+            
+            .hero {
+                background: #f5f5f7;
+                color: #000;
+            }
+            
+            .use-case-card {
+                break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="layers"></i>
+                AICOE Multi-Agent Platform
+            </div>
+            <div class="nav-links">
+                <a href="#overview" class="nav-link">
+                    <i data-lucide="home"></i>
+                    Overview
+                </a>
+                <a href="#use-cases" class="nav-link">
+                    <i data-lucide="file-text"></i>
+                    Use Cases
+                </a>
+                <a href="#features" class="nav-link">
+                    <i data-lucide="zap"></i>
+                    Features
+                </a>
+                <a href="#implementation" class="nav-link">
+                    <i data-lucide="settings"></i>
+                    Implementation
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Manufacturing Process Automation with AI</h1>
+            <p class="hero-subtitle">Transforming automotive parts manufacturing through intelligent automation, predictive maintenance, and real-time optimization</p>
+            
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-value">500K+</div>
+                    <div class="stat-label">Annual Production Volume</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$2.8M</div>
+                    <div class="stat-label">Potential Annual Savings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">68%</div>
+                    <div class="stat-label">Current OEE</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">75%+</div>
+                    <div class="stat-label">Target OEE</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Project Overview</h2>
+                <p class="section-subtitle">Comprehensive AI-driven optimization for Tier 1 automotive parts manufacturing</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="shield"></i>
+                    </div>
+                    <h3 class="feature-title">Predictive Maintenance</h3>
+                    <p class="feature-description">AI-powered monitoring to predict equipment failures before they occur, reducing unplanned downtime by 80%</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="eye"></i>
+                    </div>
+                    <h3 class="feature-title">Computer Vision</h3>
+                    <p class="feature-description">Automated quality inspection with 95%+ accuracy, reducing inspection time from 45 to 5 minutes per batch</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <h3 class="feature-title">Process Optimization</h3>
+                    <p class="feature-description">Real-time recommendations for optimal machine settings, increasing capacity utilization to 90%+</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="cpu"></i>
+                    </div>
+                    <h3 class="feature-title">Digital Twin</h3>
+                    <p class="feature-description">Virtual simulation environment for testing process changes and training AI models risk-free</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="activity"></i>
+                    </div>
+                    <h3 class="feature-title">Real-time Monitoring</h3>
+                    <p class="feature-description">Comprehensive dashboard providing 100% visibility into production metrics and performance</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="database"></i>
+                    </div>
+                    <h3 class="feature-title">AI Model Management</h3>
+                    <p class="feature-description">Continuous improvement framework with A/B testing and automated retraining for optimal performance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section id="use-cases" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Use Cases</h2>
+                <p class="section-subtitle">Six key automation scenarios driving manufacturing excellence</p>
+            </div>
+
+            <div class="use-cases-grid">
+                <!-- UC-001 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <div class="use-case-icon">
+                            <i data-lucide="wrench"></i>
+                        </div>
+                        <div class="use-case-title-group">
+                            <div class="use-case-id">UC-001</div>
+                            <h3 class="use-case-title">Predictive Maintenance for Critical Equipment</h3>
+                        </div>
+                    </div>
+                    <p class="use-case-description">Continuous monitoring using IoT sensors and ML models to predict failures before they occur, enabling proactive maintenance.</p>
+                    <div class="use-case-meta">
+                        <div class="meta-item">
+                            <i data-lucide="users"></i>
+                            <span>4 Actors</span>
+                        </div>
+                        <div class="meta-item">
+                            <i data-lucide="target"></i>
+                            <span>High Priority</span>
+                        </div>
+                    </div>
+                    <span class="priority-badge priority-high">High Priority</span>
+                    <div class="business-value">
+                        <div class="business-value-title">
+                            <i data-lucide="dollar-sign"></i>
+                            Business Value
+                        </div>
+                        <p class="business-value-text">Reduces unplanned downtime from 2,400 hours annually, saving $2.8M. Increases OEE from 68% to industry-leading levels.</p>
+                    </div>
+                </div>
+
+                <!-- UC-002 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <div class="use-case-icon">
+                            <i data-lucide="camera"></i>
+                        </div>
+                        <div class="use-case-title-group">
+                            <div class="use-case-id">UC-002</div>
+                            <h3 class="use-case-title">Automated Quality Inspection with Computer Vision</h3>
+                        </div>
+                    </div>
+                    <p class="use-case-description">Industrial cameras and computer vision algorithms to automatically inspect transmission components for defects.</p>
+                    <div class="use-case-meta">
+                        <div class="meta-item">
+                            <i data-lucide="users"></i>
+                            <span>4 Actors</span>
+                        </div>
+                        <div class="meta-item">
+                            <i data-lucide="target"></i>
+                            <span>High Priority</span>
+                        </div>
+                    </div>
+                    <span class="priority-badge priority-high">High Priority</span>
+                    <div class="business-value">
+                        <div class="business-value-title">
+                            <i data-lucide="dollar-sign"></i>
+                            Business Value
+                        </div>
+                        <p class="business-value-text">Reduces inspection time from 45 minutes to under 5 minutes per batch. Improves defect detection accuracy to >95%.</p>
+                    </div>
+                </div>
+
+                <!-- UC-003 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <div class="use-case-icon">
+                            <i data-lucide="sliders"></i>
+                        </div>
+                        <div class="use-case-title-group">
+                            <div class="use-case-id">UC-003</div>
+                            <h3 class="use-case-title">Production Process Optimization</h3>
+                        </div>
+                    </div>
+                    <p class="use-case-description">Analyzes production parameters to recommend optimal machine settings, schedules, and resource allocations.</p>
+                    <div class="use-case-meta">
+                        <div class="meta-item">
+                            <i data-lucide="users"></i>
+                            <span>4 Actors</span>
+                        </div>
+                        <div class="meta-item">
+                            <i data-lucide="target"></i>
+                            <span>Medium Priority</span>
+                        </div>
+                    </div>
+                    <span class="priority-badge priority-medium">Medium Priority</span>
+                    <div class="business-value">
+                        <div class="business-value-title">
+                            <i data-lucide="dollar-sign"></i>
+                            Business Value
+                        </div>
+                        <p class="business-value-text">Increases capacity utilization from 60-80% to >90%, improves OEE from 68% to >75%, reduces energy consumption.</p>
+                    </div>
+                </div>
+
+                <!-- UC-004 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <div class="use-case-icon">
+                            <i data-lucide="box"></i>
+                        </div>
+                        <div class="use-case-title-group">
+                            <div class="use-case-id">UC-004</div>
+                            <h3 class="use-case-title">Digital Twin Simulation and Analysis</h3>
+                        </div>
+                    </div>
+                    <p class="use-case-description">Real-time digital twin enabling simulation of production scenarios, what-if analysis, and virtual commissioning.</p>
+                    <div class="use-case-meta">
+                        <div class="meta-item">
+                            <i data-lucide="users"></i>
+                            <span>4 Actors</span>
+                        </div>
+                        <div class="meta-item">
+                            <i data-lucide="target"></i>
+                            <span>Medium Priority</span>
+                        </div>
+                    </div>
+                    <span class="priority-badge priority-medium">Medium Priority</span>
+                    <div class="business-value">
+                        <div class="business-value-title">
+                            <i data-lucide="dollar-sign"></i>
+                            Business Value
+                        </div>
+                        <p class="business-value-text">Enables risk-free testing, reduces new product introduction time by 30%, supports data-driven investment decisions.</p>
+                    </div>
+                </div>
+
+                <!-- UC-005 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <div class="use-case-icon">
+                            <i data-lucide="monitor"></i>
+                        </div>
+                        <div class="use-case-title-group">
+                            <div class="use-case-id">UC-005</div>
+                            <h3 class="use-case-title">Real-time Production Monitoring and Alerting</h3>
+                        </div>
+                    </div>
+                    <p class="use-case-description">Comprehensive dashboard for monitoring production metrics, OEE, quality rates with intelligent alerting.</p>
+                    <div class="use-case-meta">
+                        <div class="meta-item">
+                            <i data-lucide="users"></i>
+                            <span>4 Actors</span>
+                        </div>
+                        <div class="meta-item">
+                            <i data-lucide="target"></i>
+                            <span>High Priority</span>
+                        </div>
+                    </div>
+                    <span class="priority-badge priority-high">High Priority</span>
+                    <div class="business-value">
+                        <div class="business-value-title">
+                            <i data-lucide="dollar-sign"></i>
+                            Business Value
+                        </div>
+                        <p class="business-value-text">Improves visibility from 40% to 100%, enables faster response to issues, provides data-driven insights for improvement.</p>
+                    </div>
+                </div>
+
+                <!-- UC-006 -->
+                <div class="use-case-card">
+                    <div class="use-case-header">
+                        <div class="use-case-icon">
+                            <i data-lucide="git-branch"></i>
+                        </div>
+                        <div class="use-case-title-group">
+                            <div class="use-case-id">UC-006</div>
+                            <h3 class="use-case-title">AI Model Management and Continuous Improvement</h3>
+                        </div>
+                    </div>
+                    <p class="use-case-description">Managing AI/ML models with version control, performance monitoring, retraining schedules, and A/B testing.</p>
+                    <div class="use-case-meta">
+                        <div class="meta-item">
+                            <i data-lucide="users"></i>
+                            <span>3 Actors</span>
+                        </div>
+                        <div class="meta-item">
+                            <i data-lucide="target"></i>
+                            <span>Medium Priority</span>
+                        </div>
+                    </div>
+                    <span class="priority-badge priority-medium">Medium Priority</span>
+                    <div class="business-value">
+                        <div class="business-value-title">
+                            <i data-lucide="dollar-sign"></i>
+                            Business Value
+                        </div>
+                        <p class="business-value-text">Ensures AI models maintain >90% accuracy, enables continuous improvement, provides auditability for compliance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Section -->
+    <section id="implementation" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Implementation Strategy</h2>
+                <p class="section-subtitle">Phased approach over 24 months with clear milestones and deliverables</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="calendar"></i>
+                    </div>
+                    <h3 class="feature-title">Phase 1: Foundation (Months 1-6)</h3>
+                    <p class="feature-description">Infrastructure setup, IoT sensor deployment, and predictive maintenance pilot on critical equipment</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="layers"></i>
+                    </div>
+                    <h3 class="feature-title">Phase 2: Expansion (Months 7-12)</h3>
+                    <p class="feature-description">Computer vision implementation, digital twin development, and process optimization rollout</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="rocket"></i>
+                    </div>
+                    <h3 class="feature-title">Phase 3: Optimization (Months 13-24)</h3>
+                    <p class="feature-description">Full-scale deployment, advanced analytics, continuous improvement, and multi-site expansion</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i data-lucide="layers"></i>
+                AICOE Multi-Agent Platform
+            </div>
+            <p class="footer-text">Powered by AICOE | Generated by AI Agents</p>
+            <p class="footer-text">Manufacturing Process Automation with AI - October 28, 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Add animation on scroll for cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply observer to cards
+        document.querySelectorAll('.use-case-card, .feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

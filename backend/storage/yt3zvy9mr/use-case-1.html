@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-001: Conduct Market Research - Test V3 | AICOE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0051D5;
+            --primary-light: #E6F3FF;
+            --secondary: #5856D6;
+            --success: #34C759;
+            --warning: #FF9500;
+            --danger: #FF3B30;
+            --dark: #1C1C1E;
+            --gray-900: #2C2C2E;
+            --gray-800: #3A3A3C;
+            --gray-700: #48484A;
+            --gray-600: #636366;
+            --gray-500: #8E8E93;
+            --gray-400: #C7C7CC;
+            --gray-300: #E5E5EA;
+            --gray-200: #F2F2F7;
+            --gray-100: #FFFFFF;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E9ECEF 100%);
+            color: var(--gray-900);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--gray-100);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-300);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0 4rem;
+        }
+
+        .use-case-header {
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-300);
+        }
+
+        .use-case-title-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .use-case-id {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .use-case-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-description {
+            color: var(--gray-700);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .priority-high {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(255, 59, 48, 0.2);
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-300);
+        }
+
+        .tabs-header {
+            display: flex;
+            background: var(--gray-200);
+            border-bottom: 1px solid var(--gray-300);
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: var(--gray-300);
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            background: var(--gray-100);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .tabs-content {
+            padding: 2rem;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 2rem;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .list-group {
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid var(--gray-300);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-300);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item-icon {
+            color: var(--primary);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .list-item-content {
+            flex: 1;
+        }
+
+        .list-item-title {
+            font-weight: 500;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .list-item-description {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+
+        /* Flow Steps */
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-300);
+            transition: var(--transition);
+        }
+
+        .flow-step:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow);
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 4px;
+        }
+
+        /* Accordion */
+        .accordion {
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--gray-300);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--gray-200);
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: var(--gray-900);
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background: var(--gray-300);
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: var(--gray-100);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 500px;
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+        }
+
+        /* Navigation */
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-300);
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            header, .page-navigation, .tabs-header {
+                display: none;
+            }
+
+            .tabs-container {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+
+            .tab-panel {
+                display: block !important;
+            }
+
+            .accordion-content {
+                max-height: none !important;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .use-case-title {
+                font-size: 1.5rem;
+            }
+
+            .tabs-header {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                justify-content: start;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-buttons {
+                display: flex;
+                gap: 1rem;
+                width: 100%;
+            }
+
+            .nav-button {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i data-lucide="cpu" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <span>AICOE</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home" style="width: 18px; height: 18px;"></i>
+                        Home
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i data-lucide="file-text" style="width: 18px; height: 18px;"></i>
+                        Documentation
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i data-lucide="help-circle" style="width: 18px; height: 18px;"></i>
+                        Help
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+            <span>Test V3</span>
+            <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+            <span>Use Cases</span>
+            <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+            <span>UC-001</span>
+        </div>
+
+        <main>
+            <div class="use-case-header">
+                <div class="use-case-title-wrapper">
+                    <div>
+                        <div class="use-case-id">
+                            <i data-lucide="tag" style="width: 16px; height: 16px;"></i>
+                            UC-001
+                        </div>
+                        <h1 class="use-case-title">Conduct Market Research</h1>
+                        <p class="use-case-description">
+                            Systematically gather and analyze market data to inform product development decisions for Test V3
+                        </p>
+                    </div>
+                    <div class="meta-info">
+                        <div class="meta-item priority-high">
+                            <i data-lucide="alert-circle" style="width: 18px; height: 18px;"></i>
+                            High Priority
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" onclick="switchTab('overview')">
+                        <i data-lucide="info" style="width: 18px; height: 18px;"></i>
+                        Overview
+                    </button>
+                    <button class="tab-button" onclick="switchTab('actors')">
+                        <i data-lucide="users" style="width: 18px; height: 18px;"></i>
+                        Actors
+                    </button>
+                    <button class="tab-button" onclick="switchTab('flows')">
+                        <i data-lucide="git-branch" style="width: 18px; height: 18px;"></i>
+                        Flows
+                    </button>
+                    <button class="tab-button" onclick="switchTab('conditions')">
+                        <i data-lucide="check-square" style="width: 18px; height: 18px;"></i>
+                        Conditions
+                    </button>
+                    <button class="tab-button" onclick="switchTab('value')">
+                        <i data-lucide="trending-up" style="width: 18px; height: 18px;"></i>
+                        Business Value
+                    </button>
+                </div>
+
+                <div class="tabs-content">
+                    <!-- Overview Tab -->
+                    <div id="overview" class="tab-panel active">
+                        <div class="content-section">
+                            <h2 class="section-title">
+                                <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+                                Use Case Summary
+                            </h2>
+                            <div class="list-group">
+                                <div class="list-item">
+                                    <i data-lucide="hash" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Use Case ID</div>
+                                        <div class="list-item-description">UC-001</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="type" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Title</div>
+                                        <div class="list-item-description">Conduct Market Research</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="align-left" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Description</div>
+                                        <div class="list-item-description">Systematically gather and analyze market data to inform product development decisions for Test V3</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="flag" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Priority</div>
+                                        <div class="list-item-description">High</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actors Tab -->
+                    <div id="actors" class="tab-panel">
+                        <div class="content-section">
+                            <h2 class="section-title">
+                                <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+                                Involved Actors
+                            </h2>
+                            <div class="list-group">
+                                <div class="list-item">
+                                    <i data-lucide="user" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Product Manager</div>
+                                        <div class="list-item-description">Responsible for defining research objectives and making product decisions based on findings</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="user" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Market Research Analyst</div>
+                                        <div class="list-item-description">Conducts primary and secondary research, analyzes data, and generates insights</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="user" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Business Analyst</div>
+                                        <div class="list-item-description">Supports data analysis and helps translate findings into actionable recommendations</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flows Tab -->
+                    <div id="flows" class="tab-panel">
+                        <div class="content-section">
+                            <h2 class="section-title">
+                                <i data-lucide="play-circle" style="width: 24px; height: 24px;"></i>
+                                Main Flow
+                            </h2>
+                            <div class="flow-steps">
+                                <div class="flow-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">Define research scope and objectives</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">Identify target market segments</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-content">Select appropriate research methodologies</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-content">Execute primary and secondary research</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">5</div>
+                                    <div class="step-content">Collect and analyze data</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">6</div>
+                                    <div class="step-content">Generate insights report</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">7</div>
+                                    <div class="step-content">Present findings to stakeholders</div>
+                                </div>
+                                <div class="flow-step">
+                                    <div class="step-number">8</div>
+                                    <div class="step-content">Document actionable recommendations</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h2 class="section-title">
+                                <i data-lucide="git-branch" style="width: 24px; height: 24px;"></i>
+                                Alternate Flows
+                            </h2>
+                            <div class="accordion">
+                                <div class="accordion-item">
+                                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                                        <span>Limited Data Availability</span>
+                                        <i data-lucide="chevron-down" class="accordion-icon" style="width: 20px; height: 20px;"></i>
+                                    </button>
+                                    <div class="accordion-content">
+                                        <div class="accordion-body">
+                                            <div class="flow-steps">
+                                                <div class="flow-step">
+                                                    <div class="step-number">A1</div>
+                                                    <div class="step-content">Identify data gaps</div>
+                                                </div>
+                                                <div class="flow-step">
+                                                    <div class="step-number">A2</div>
+                                                    <div class="step-content">Adjust research methodology</div>
+                                                </div>
+                                                <div class="flow-step">
+                                                    <div class="step-number">A3</div>
+                                                    <div class="step-content">Seek alternative data sources</div>
+                                                </div>
+                                                <div class="flow-step">
+                                                    <div class="step-number">A4</div>
+                                                    <div class="step-content">Document limitations in findings</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conditions Tab -->
+                    <div id="conditions" class="tab-panel">
+                        <div class="content-section">
+                            <h2 class="section-title">
+                                <i data-lucide="check-circle" style="width: 24px; height: 24px;"></i>
+                                Preconditions
+                            </h2>
+                            <div class="list-group">
+                                <div class="list-item">
+                                    <i data-lucide="check" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-description">Research objectives are defined</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="check" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-description">Budget for research tools is allocated</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="check" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-description">Research team is available</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h2 class="section-title">
+                                <i data-lucide="flag" style="width: 24px; height: 24px;"></i>
+                                Postconditions
+                            </h2>
+                            <div class="list-group">
+                                <div class="list-item">
+                                    <i data-lucide="check-square" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-description">Market research report is completed</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="check-square" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-description">Stakeholders are aligned on market insights</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="check-square" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-description">Product decisions are informed by data</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Business Value Tab -->
+                    <div id="value" class="tab-panel">
+                        <div class="content-section">
+                            <h2 class="section-title">
+                                <i data-lucide="trending-up" style="width: 24px; height: 24px;"></i>
+                                Business Value
+                            </h2>
+                            <div class="list-group">
+                                <div class="list-item">
+                                    <i data-lucide="target" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Risk Reduction</div>
+                                        <div class="list-item-description">Reduces the risk of building unwanted features by validating market needs early</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="users" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Market Alignment</div>
+                                        <div class="list-item-description">Ensures product development aligns with actual market needs and customer expectations</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="bar-chart-2" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Data-Driven Decisions</div>
+                                        <div class="list-item-description">Provides quantitative and qualitative data to support strategic product decisions</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <i data-lucide="dollar-sign" class="list-item-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Cost Efficiency</div>
+                                        <div class="list-item-description">Optimizes resource allocation by focusing development efforts on validated opportunities</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-navigation">
+                <a href="#" class="nav-button" disabled>
+                    <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+                    Previous
+                </a>
+                <div class="page-indicator">Page 1 of 6</div>
+                <a href="use-case-2.html" class="nav-button">
+                    Next
+                    <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Remove active class from all tabs and panels
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            // Add active class to clicked tab and corresponding panel
+            event.target.closest('.tab-button').classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+
+            // Reinitialize icons in the newly shown panel
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 100);
+        }
+
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const wasActive = item.classList.contains('active');
+            
+            // Close all accordion items
+            document.querySelectorAll('.accordion-item').forEach(accordionItem => {
+                accordionItem.classList.remove('active');
+            });
+
+            // Open clicked item if it wasn't active
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+
+            // Reinitialize icons
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 100);
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add print button functionality
+        window.addEventListener('beforeprint', () => {
+            // Expand all accordions before printing
+            document.querySelectorAll('.accordion-item').forEach(item => {
+                item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

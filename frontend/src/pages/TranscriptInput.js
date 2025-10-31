@@ -5,8 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Loader2, Upload, ArrowRight } from "lucide-react";
-import axios from "axios";
-import { API_BASE_URL } from "@/const";
 
 export default function TranscriptInput() {
   const navigate = useNavigate();
@@ -29,21 +27,13 @@ export default function TranscriptInput() {
       return;
     }
 
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post(`${API_BASE_URL}/api/process-transcript`, {
-        project_name: projectName.trim(),
-        transcript: transcript.trim(),
-      });
-
-      // Store result and navigate
-      sessionStorage.setItem("lastResult", JSON.stringify(response.data));
-      navigate("/results");
-    } catch (err) {
-      setError(err.response?.data?.detail || err.message || "Failed to process transcript");
-      setIsLoading(false);
-    }
+    // Navigate to processing view with project data
+    navigate("/processing", {
+      state: {
+        projectName: projectName.trim(),
+        transcript: transcript.trim()
+      }
+    });
   };
 
   return (

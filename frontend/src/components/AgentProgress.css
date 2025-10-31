@@ -1,0 +1,270 @@
+/* AICOE Color Palette */
+:root {
+  --aicoe-primary: #0066cc;
+  --aicoe-accent: #00d9ff;
+  --aicoe-dark: #1d1d1f;
+  --aicoe-gray: #6e6e73;
+  --aicoe-light-gray: #f5f5f7;
+  --aicoe-white: #ffffff;
+  --aicoe-success: #34c759;
+  --aicoe-warning: #ff9500;
+}
+
+.agent-progress-container {
+  background: var(--aicoe-white);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  margin: 24px 0;
+}
+
+.agent-progress-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--aicoe-dark);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-icon {
+  font-size: 32px;
+}
+
+.agent-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.agent-card {
+  background: var(--aicoe-light-gray);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.agent-card.agent-completed {
+  background: #e8f5e9;
+  border-color: var(--aicoe-success);
+}
+
+.agent-card.agent-processing {
+  background: #e3f2fd;
+  border-color: var(--aicoe-primary);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.agent-card.agent-pending {
+  background: var(--aicoe-light-gray);
+  opacity: 0.7;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 102, 204, 0.4);
+  }
+}
+
+.agent-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.agent-icon-wrapper {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--aicoe-white);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.agent-icon {
+  font-size: 28px;
+}
+
+.status-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  border: 2px solid var(--aicoe-white);
+}
+
+.status-badge.status-completed {
+  background: var(--aicoe-success);
+  color: var(--aicoe-white);
+}
+
+.status-badge.status-processing {
+  background: var(--aicoe-primary);
+  color: var(--aicoe-white);
+}
+
+.spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--aicoe-white);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.agent-info {
+  flex: 1;
+}
+
+.agent-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--aicoe-dark);
+  margin-bottom: 4px;
+}
+
+.agent-description {
+  font-size: 14px;
+  color: var(--aicoe-gray);
+  margin: 0;
+}
+
+.agent-message {
+  font-size: 13px;
+  color: var(--aicoe-primary);
+  margin: 8px 0 0 0;
+  font-style: italic;
+}
+
+.agent-status-indicator {
+  flex-shrink: 0;
+}
+
+.status-text {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.status-text.status-completed {
+  background: var(--aicoe-success);
+  color: var(--aicoe-white);
+}
+
+.status-text.status-processing {
+  background: var(--aicoe-primary);
+  color: var(--aicoe-white);
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+.status-text.status-pending {
+  background: #e0e0e0;
+  color: var(--aicoe-gray);
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.progress-bar {
+  margin-top: 12px;
+  height: 4px;
+  background: rgba(0, 102, 204, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--aicoe-primary);
+  border-radius: 2px;
+  animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.agent-connector {
+  position: absolute;
+  left: 48px;
+  top: 100%;
+  width: 2px;
+  height: 16px;
+  background: #d0d0d0;
+  transition: background 0.3s ease;
+}
+
+.agent-connector.connector-completed {
+  background: var(--aicoe-success);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .agent-progress-container {
+    padding: 20px;
+  }
+
+  .agent-progress-title {
+    font-size: 24px;
+  }
+
+  .agent-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .agent-status-indicator {
+    align-self: flex-start;
+  }
+
+  .agent-icon-wrapper {
+    width: 48px;
+    height: 48px;
+  }
+
+  .agent-icon {
+    font-size: 24px;
+  }
+}
+

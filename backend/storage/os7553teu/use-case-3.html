@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Progress Visualization - UC-003 | AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary-50: #eff6ff;
+            --primary-100: #dbeafe;
+            --primary-200: #bfdbfe;
+            --primary-300: #93c5fd;
+            --primary-400: #60a5fa;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --primary-800: #1e40af;
+            --primary-900: #1e3a8a;
+            
+            --secondary-50: #f0fdf4;
+            --secondary-100: #dcfce7;
+            --secondary-200: #bbf7d0;
+            --secondary-300: #86efac;
+            --secondary-400: #4ade80;
+            --secondary-500: #22c55e;
+            --secondary-600: #16a34a;
+            --secondary-700: #15803d;
+            --secondary-800: #166534;
+            --secondary-900: #14532d;
+            
+            --accent-50: #fffbeb;
+            --accent-100: #fef3c7;
+            --accent-200: #fde68a;
+            --accent-300: #fcd34d;
+            --accent-400: #fbbf24;
+            --accent-500: #f59e0b;
+            --accent-600: #d97706;
+            --accent-700: #b45309;
+            --accent-800: #92400e;
+            --accent-900: #78350f;
+            
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--primary-50) 0%, var(--secondary-50) 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-700);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .logo:hover {
+            transform: translateY(-1px);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--gray-600);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-100);
+            color: var(--primary-600);
+            transform: translateY(-1px);
+        }
+
+        .nav-link.primary {
+            background: var(--primary-500);
+            color: white;
+        }
+
+        .nav-link.primary:hover {
+            background: var(--primary-600);
+            color: white;
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        .use-case-header {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-600);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-700);
+        }
+
+        .use-case-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-id {
+            background: var(--primary-100);
+            color: var(--primary-700);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .use-case-title h1 {
+            font-size: 2rem;
+            color: var(--gray-900);
+            font-weight: 700;
+        }
+
+        .use-case-description {
+            color: var(--gray-600);
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        .tabs-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .tabs-header {
+            display: flex;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: var(--gray-100);
+            color: var(--primary-600);
+        }
+
+        .tab-button.active {
+            color: var(--primary-600);
+            background: white;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-500);
+        }
+
+        .tab-content {
+            padding: 2rem;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.2s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-card-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-500);
+        }
+
+        .info-card-title {
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .info-card-content {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+
+        .flow-list {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .flow-list h3 {
+            color: var(--gray-800);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .flow-steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .flow-step {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1rem;
+            counter-increment: step-counter;
+        }
+
+        .flow-step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--primary-500);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .flow-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: var(--accent-100);
+            color: var(--accent-700);
+        }
+
+        .value-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--secondary-100);
+            color: var(--secondary-700);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            margin: 0.25rem;
+        }
+
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--gray-700);
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            background: var(--primary-500);
+            color: white;
+            border-color: var(--primary-500);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-button.next {
+            flex-direction: row-reverse;
+        }
+
+        .page-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-500);
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            transition: all 0.2s;
+        }
+
+        .page-dot.active {
+            width: 24px;
+            border-radius: 4px;
+            background: var(--primary-500);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .tabs-header {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .use-case-title h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            header, .page-navigation {
+                display: none;
+            }
+
+            .tabs-container {
+                box-shadow: none;
+                border: 1px solid var(--gray-300);
+            }
+
+            .tab-button.active::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i data-lucide="activity" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <span>AICOE</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i data-lucide="home" style="width: 18px; height: 18px;"></i>
+                        Back to Home
+                    </a>
+                    <a href="#" class="nav-link primary">
+                        <i data-lucide="file-text" style="width: 18px; height: 18px;"></i>
+                        Use Cases
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="use-case-header">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                    <a href="index.html">Use Cases</a>
+                    <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                    <span>View Progress Visualization</span>
+                </div>
+                <div class="use-case-title">
+                    <span class="use-case-id">UC-003</span>
+                    <h1>View Progress Visualization</h1>
+                </div>
+                <p class="use-case-description">
+                    User views their fitness journey through beautiful, intuitive charts and visualizations that celebrate progress without overwhelming with complex data.
+                </p>
+            </div>
+
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" onclick="switchTab('overview')">
+                        <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+                        Overview
+                    </button>
+                    <button class="tab-button" onclick="switchTab('flow')">
+                        <i data-lucide="git-branch" style="width: 18px; height: 18px;"></i>
+                        User Flow
+                    </button>
+                    <button class="tab-button" onclick="switchTab('details')">
+                        <i data-lucide="info" style="width: 18px; height: 18px;"></i>
+                        Details
+                    </button>
+                    <button class="tab-button" onclick="switchTab('value')">
+                        <i data-lucide="trending-up" style="width: 18px; height: 18px;"></i>
+                        Business Value
+                    </button>
+                </div>
+
+                <div id="overview" class="tab-content active">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="user" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                <div class="info-card-title">Primary Actor</div>
+                            </div>
+                            <div class="info-card-content">
+                                Beginner User - New to fitness tracking who needs motivation and clear visual feedback
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="flag" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                <div class="info-card-title">Priority</div>
+                            </div>
+                            <div class="info-card-content">
+                                <span class="priority-badge">
+                                    <i data-lucide="alert-circle" style="width: 16px; height: 16px;"></i>
+                                    High Priority
+                                </span>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                <div class="info-card-title">Preconditions</div>
+                            </div>
+                            <div class="info-card-content">
+                                User has logged at least one workout or meal in the app
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="target" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                <div class="info-card-title">Postconditions</div>
+                            </div>
+                            <div class="info-card-content">
+                                User feels motivated, understands their journey, and encouraged to continue
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flow-list">
+                        <h3>
+                            <i data-lucide="lightbulb" style="width: 20px; height: 20px;"></i>
+                            Key Features
+                        </h3>
+                        <ul class="flow-steps">
+                            <li class="flow-step">Beautiful, intuitive charts and visualizations</li>
+                            <li class="flow-step">Time period selection (week, month, 3 months, year)</li>
+                            <li class="flow-step">Workout consistency and strength progress tracking</li>
+                            <li class="flow-step">Before/after photo comparisons</li>
+                            <li class="flow-step">Milestone achievements and badges system</li>
+                            <li class="flow-step">Private sharing with friends</li>
+                            <li class="flow-step">Motivational insights and celebrations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="flow" class="tab-content">
+                    <div class="flow-list">
+                        <h3>
+                            <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
+                            Main Flow
+                        </h3>
+                        <ul class="flow-steps">
+                            <li class="flow-step">User navigates to the Progress tab</li>
+                            <li class="flow-step">App displays a dashboard with key metrics (workout streak, weight change, etc.)</li>
+                            <li class="flow-step">User can select different time periods (week, month, 3 months, year)</li>
+                            <li class="flow-step">App shows visually appealing charts for workout consistency, strength progress, and nutrition trends</li>
+                            <li class="flow-step">User can view before/after photo comparisons if photos have been uploaded</li>
+                            <li class="flow-step">App displays milestone achievements and badges earned</li>
+                            <li class="flow-step">User can share progress privately with friends</li>
+                            <li class="flow-step">App provides motivational insights and celebrates achievements</li>
+                        </ul>
+                    </div>
+
+                    <div class="flow-list">
+                        <h3>
+                            <i data-lucide="git-branch" style="width: 20px; height: 20px;"></i>
+                            Alternate Flows
+                        </h3>
+                        <ul class="flow-steps">
+                            <li class="flow-step">User can focus on specific metrics (e.g., only weight, only workouts)</li>
+                            <li class="flow-step">If data is insufficient, app shows encouraging messages to log more</li>
+                            <li class="flow-step">User can export progress data as PDF for personal records</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="details" class="tab-content">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="hash" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                <div class="info-card-title">Use Case ID</div>
+                            </div>
+                            <div class="info-card-content">
+                                UC-003
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="layers" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                <div class="info-card-title">Project</div>
+                            </div>
+                            <div class="info-card-content">
+                                Fitness Tracking App - Chrome MCP Test
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <div class="info-card-icon">
+                                    <i data-lucide="file-text" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                <div class="info-card-title">Page</div>
+                            </div>
+                            <div class="info-card-content">
+                                3 of 6
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flow-list">
+                        <h3>
+                            <i data-lucide="clipboard-list" style="width: 20px; height: 20px;"></i>
+                            Full Description
+                        </h3>
+                        <p style="color: var(--gray-600); line-height: 1.7;">
+                            This use case focuses on providing users with a comprehensive yet intuitive visualization of their fitness progress. 
+                            The system presents data in a visually appealing manner that motivates users rather than overwhelming them with complex metrics. 
+                            By offering multiple visualization types, time period selections, and achievement celebrations, the app creates an emotional connection 
+                            to the user's fitness journey, encouraging continued engagement and long-term adherence to fitness goals.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="value" class="tab-content">
+                    <div class="flow-list">
+                        <h3>
+                            <i data-lucide="dollar-sign" style="width: 20px; height: 20px;"></i>
+                            Business Value
+                        </h3>
+                        <p style="color: var(--gray-600); line-height: 1.7; margin-bottom: 1.5rem;">
+                            This feature addresses user expectations for beautiful visualizations, creates emotional connection to progress, 
+                            and drives long-term retention through positive reinforcement.
+                        </p>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <span class="value-tag">User Retention</span>
+                            <span class="value-tag">Engagement</span>
+                            <span class="value-tag">Motivation</span>
+                            <span class="value-tag">Visual Appeal</span>
+                            <span class="value-tag">Positive Reinforcement</span>
+                            <span class="value-tag">Data Insights</span>
+                            <span class="value-tag">Social Sharing</span>
+                            <span class="value-tag">Achievement Recognition</span>
+                        </div>
+                    </div>
+
+                    <div class="flow-list">
+                        <h3>
+                            <i data-lucide="target" style="width: 20px; height: 20px;"></i>
+                            Success Metrics
+                        </h3>
+                        <ul class="flow-steps">
+                            <li class="flow-step">Increased daily active users returning to view progress</li>
+                            <li class="flow-step">Higher user engagement time in the Progress section</li>
+                            <li class="flow-step">Improved long-term retention rates</li>
+                            <li class="flow-step">Increased sharing of progress achievements</li>
+                            <li class="flow-step">Positive user feedback on visualization clarity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-navigation">
+                <a href="use-case-2.html" class="nav-button">
+                    <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i>
+                    Previous
+                </a>
+                <div class="page-indicator">
+                    <div class="page-dot"></div>
+                    <div class="page-dot"></div>
+                    <div class="page-dot active"></div>
+                    <div class="page-dot"></div>
+                    <div class="page-dot"></div>
+                    <div class="page-dot"></div>
+                </div>
+                <a href="use-case-4.html" class="nav-button next">
+                    Next
+                    <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(tabName) {
+            // Remove active class from all tabs and buttons
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Add active class to selected tab and button
+            document.getElementById(tabName).classList.add('active');
+            event.target.closest('.tab-button').classList.add('active');
+
+            // Reinitialize icons for dynamically shown content
+            lucide.createIcons();
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add print functionality
+        window.addEventListener('beforeprint', () => {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'block';
+            });
+        });
+
+        window.addEventListener('afterprint', () => {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                if (!tab.classList.contains('active')) {
+                    tab.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Case UC-004: Select and Start a Pre-made Workout Plan - AICOE</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateX(2px);
+        }
+
+        .logo i {
+            width: 32px;
+            height: 32px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+        }
+
+        main {
+            margin-top: 2rem;
+        }
+
+        .use-case-header {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+        }
+
+        .use-case-id {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .use-case-description {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            line-height: 1.8;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .metadata-item i {
+            width: 20px;
+            height: 20px;
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .metadata-content h3 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .metadata-content p {
+            color: var(--gray-700);
+            font-size: 0.95rem;
+        }
+
+        .tabs-container {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .tabs-nav {
+            display: flex;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: var(--gray-100);
+            color: var(--gray-800);
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            background: var(--white);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-button i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .tab-content {
+            padding: 2rem;
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .flow-list {
+            list-style: none;
+            counter-reset: flow-counter;
+        }
+
+        .flow-list li {
+            counter-increment: flow-counter;
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .flow-list li::before {
+            content: counter(flow-counter);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .flow-content {
+            flex: 1;
+            padding-top: 2px;
+        }
+
+        .actor-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .actor-tag i {
+            width: 14px;
+            height: 14px;
+        }
+
+        .alternate-flow {
+            background: var(--gray-50);
+            border-left: 3px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+        }
+
+        .alternate-flow h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--warning);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .alternate-flow h4 i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: var(--danger);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .priority-badge i {
+            width: 14px;
+            height: 14px;
+        }
+
+        .business-value {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            margin-top: 2rem;
+        }
+
+        .business-value h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .business-value h3 i {
+            width: 24px;
+            height: 24px;
+        }
+
+        .business-value p {
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-link.next {
+            flex-direction: row-reverse;
+        }
+
+        .nav-link i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .page-indicator {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .use-case-title {
+                font-size: 1.5rem;
+            }
+
+            .tabs-nav {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .metadata-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: var(--white);
+            }
+
+            header, .navigation {
+                display: none;
+            }
+
+            .use-case-header, .tabs-container {
+                box-shadow: none;
+                border: 1px solid var(--gray-300);
+            }
+
+            .tab-content {
+                display: block !important;
+            }
+
+            .tabs-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <i data-lucide="cpu"></i>
+                AICOE
+            </a>
+            <nav class="breadcrumb">
+                <a href="index.html">
+                    <i data-lucide="home"></i>
+                    Home
+                </a>
+                <span>/</span>
+                <span>Use Cases</span>
+                <span>/</span>
+                <span>UC-004</span>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <section class="use-case-header">
+                <span class="use-case-id">UC-004</span>
+                <h1 class="use-case-title">Select and Start a Pre-made Workout Plan</h1>
+                <p class="use-case-description">
+                    A new user browses a library of beginner-friendly workout plans, selects one that fits their goals (e.g., 'Get Started', 'Build a Habit'), and begins it. This reduces the cognitive load for beginners who don't know what to do.
+                </p>
+
+                <div class="metadata-grid">
+                    <div class="metadata-item">
+                        <i data-lucide="user"></i>
+                        <div class="metadata-content">
+                            <h3>Actors</h3>
+                            <p>User (Fitness Beginner)</p>
+                        </div>
+                    </div>
+                    <div class="metadata-item">
+                        <i data-lucide="check-circle"></i>
+                        <div class="metadata-content">
+                            <h3>Priority</h3>
+                            <div class="priority-badge">
+                                <i data-lucide="alert-triangle"></i>
+                                High
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metadata-item">
+                        <i data-lucide="shield-check"></i>
+                        <div class="metadata-content">
+                            <h3>Preconditions</h3>
+                            <p>User is logged into the application.</p>
+                        </div>
+                    </div>
+                    <div class="metadata-item">
+                        <i data-lucide="flag"></i>
+                        <div class="metadata-content">
+                            <h3>Postconditions</h3>
+                            <p>A workout plan is activated for the user.<br>The user's home/log workout screen is updated to reflect the scheduled workouts from the new plan.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="tabs-container">
+                <div class="tabs-nav">
+                    <button class="tab-button active" onclick="switchTab('main-flow')">
+                        <i data-lucide="play-circle"></i>
+                        Main Flow
+                    </button>
+                    <button class="tab-button" onclick="switchTab('alternate-flows')">
+                        <i data-lucide="git-branch"></i>
+                        Alternate Flows
+                    </button>
+                    <button class="tab-button" onclick="switchTab('business-value')">
+                        <i data-lucide="trending-up"></i>
+                        Business Value
+                    </button>
+                </div>
+
+                <div id="main-flow" class="tab-content active">
+                    <h2 style="margin-bottom: 1.5rem; color: var(--gray-900); display: flex; align-items: center; gap: 0.5rem;">
+                        <i data-lucide="list-ordered" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                        Main Success Scenario
+                    </h2>
+                    <ul class="flow-list">
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="user"></i>
+                                    User
+                                </span>
+                                <p>navigates to the 'Plans' tab.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="server"></i>
+                                    System
+                                </span>
+                                <p>displays a curated list of workout plans for beginners, each with a title, duration (e.g., '4 weeks'), and goal (e.g., 'Full Body Strength').</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="user"></i>
+                                    User
+                                </span>
+                                <p>scrolls through the plans. Some plans are marked 'Premium'.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="user"></i>
+                                    User
+                                </span>
+                                <p>taps on a free plan, for example, '2-Week Intro to Fitness'.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="server"></i>
+                                    System
+                                </span>
+                                <p>displays a detailed overview of the plan: description, weekly schedule, list of exercises, and required equipment.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="user"></i>
+                                    User
+                                </span>
+                                <p>taps the 'Start Plan' button.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="server"></i>
+                                    System
+                                </span>
+                                <p>presents a confirmation modal: 'Starting this plan will set your workout schedule. Are you ready?'</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="user"></i>
+                                    User
+                                </span>
+                                <p>taps 'Confirm'.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="server"></i>
+                                    System
+                                </span>
+                                <p>activates the plan. The 'Log Workout' screen now shows today's scheduled workout from the plan.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flow-content">
+                                <span class="actor-tag">
+                                    <i data-lucide="server"></i>
+                                    System
+                                </span>
+                                <p>navigates the user to the newly activated plan's main screen, showing Day 1 of Week 1.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="alternate-flows" class="tab-content">
+                    <h2 style="margin-bottom: 1.5rem; color: var(--gray-900); display: flex; align-items: center; gap: 0.5rem;">
+                        <i data-lucide="git-branch" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                        Alternate Flows
+                    </h2>
+                    
+                    <div class="alternate-flow">
+                        <h4>
+                            <i data-lucide="crown"></i>
+                            Select a Premium Plan
+                        </h4>
+                        <p>If the user taps on a 'Premium' plan and then 'Start Plan', the system displays the subscription upgrade screen, highlighting the benefits of premium, including personalized plans.</p>
+                    </div>
+
+                    <div class="alternate-flow">
+                        <h4>
+                            <i data-lucide="pause-circle"></i>
+                            Pause or Switch Plan
+                        </h4>
+                        <p>From the active plan screen, the user can choose to 'Pause Plan' or 'Switch Plan', allowing for flexibility in their fitness journey.</p>
+                    </div>
+                </div>
+
+                <div id="business-value" class="tab-content">
+                    <div class="business-value">
+                        <h3>
+                            <i data-lucide="dollar-sign"></i>
+                            Business Value
+                        </h3>
+                        <p>
+                            This feature is essential for the target audience of beginners who feel intimidated. It provides immediate structure and guidance, lowering the barrier to entry and preventing user churn. It also serves as a key hook for the freemium model by showcasing more advanced, personalized plans behind the paywall.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <a href="use-case-3.html" class="nav-link">
+                    <i data-lucide="chevron-left"></i>
+                    Previous
+                </a>
+                <span class="page-indicator">Page 4 of 6</span>
+                <a href="use-case-5.html" class="nav-link next">
+                    Next
+                    <i data-lucide="chevron-right"></i>
+                </a>
+            </nav>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(tabId) {
+            // Remove active class from all tabs and buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Add active class to selected tab and button
+            event.target.closest('.tab-button').classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            // Reinitialize icons in the newly shown content
+            lucide.createIcons();
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add print-friendly navigation
+        window.addEventListener('beforeprint', () => {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,784 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness application - Product Requirements Document</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* AICOE Primary Colors */
+            --primary-navy: #1a1a2e;
+            --midnight-blue: #2a2a3e;
+            --deep-purple: #3a2a4e;
+
+            /* AICOE Accent Colors */
+            --accent-pink: #ff69b4;
+            --accent-cyan: #00ffcc;
+            --accent-turquoise: #00e5b3;
+            --accent-mint: #00cc99;
+
+            /* Supporting Colors */
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --bg-white: #ffffff;
+            --bg-gray: #f5f5f7;
+            --border-gray: #d2d2d7;
+
+            /* Shadows */
+            --shadow: 0 2px 16px rgba(26, 26, 46, 0.08);
+            --shadow-hover: 0 4px 24px rgba(26, 26, 46, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', sans-serif;
+            background: var(--bg-gray);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: var(--bg-white);
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--deep-purple) 50%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 21px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-gray);
+        }
+
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .metadata-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .metadata-value {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .prd-document {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .content h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 40px 0 20px 0;
+            color: var(--primary-navy);
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--bg-gray);
+        }
+
+        .content h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 32px 0 16px 0;
+            color: var(--text-primary);
+        }
+
+        .content h4 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 24px 0 12px 0;
+            color: var(--text-primary);
+        }
+
+        .content p {
+            margin-bottom: 16px;
+            line-height: 1.7;
+            color: var(--text-primary);
+        }
+
+        .content ul, .content ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        .content li {
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--bg-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .content th {
+            background: var(--primary-navy);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .content td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .content tr:hover {
+            background: var(--bg-gray);
+        }
+
+        .content code {
+            background: var(--bg-gray);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--accent-pink);
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 15px;
+        }
+
+        .content pre {
+            background: var(--bg-gray);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-cyan);
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .content pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .content blockquote {
+            border-left: 4px solid var(--accent-cyan);
+            padding-left: 20px;
+            margin: 20px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .content strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .content em {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 19px;
+            }
+
+            .prd-document {
+                padding: 32px 24px;
+            }
+
+            .metadata {
+                gap: 20px;
+            }
+        }
+
+        @media print {
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                background: white;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            header {
+                margin-bottom: 30px;
+                page-break-after: avoid;
+            }
+
+            h1 {
+                font-size: 36px;
+                color: var(--text-primary) !important;
+                -webkit-text-fill-color: var(--text-primary) !important;
+            }
+
+            .prd-document {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid var(--border-gray);
+                margin-bottom: 20px;
+                padding: 32px;
+            }
+
+            footer {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>📋 Product Requirements Document</h1>
+                <p class="subtitle">Fitness application</p>
+                <div class="metadata">
+                    <div class="metadata-item">
+                        <span class="metadata-label">Project</span>
+                        <span class="metadata-value">Fitness application</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Version</span>
+                        <span class="metadata-value">1.0</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Generated by</span>
+                        <span class="metadata-value">AICOE Platform</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Classification</span>
+                        <span class="metadata-value">Internal - Confidential</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="prd-document">
+            <div class="content">
+                <hr />
+<p><strong>AICOE Product Requirements Document</strong></p>
+<p><strong>Document Classification:</strong> Internal - Confidential
+<strong>Version:</strong> 1.0
+<strong>Date:</strong> January 15, 2025
+<strong>Prepared By:</strong> AICOE Multi-Agent Platform
+<strong>Project:</strong> Fitness application</p>
+<hr />
+<h1 id="fitness-application-product-requirements-document">Fitness application - Product Requirements Document</h1>
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<p>This document outlines the requirements for a new mobile-first fitness application, designed specifically for fitness beginners aged 25-45 who find existing market solutions intimidating and overly complex. The project's core purpose is to lower the barrier to entry for personal fitness by providing a simple, guided, and encouraging user experience. The application will differentiate itself through AI-powered meal photo logging, beautifully simple progress visualization, and a focus on private social accountability.</p>
+<p>The expected business impact is significant, targeting the underserved beginner segment to achieve rapid user acquisition and high retention rates. Key stakeholders include Sarah (PM), Mike (Tech Lead), Jessica (Designer), and Tom (Marketing). The project is targeted for launch within a 6-8 month timeframe, with a Minimum Viable Product (MVP) focused on delivering core value to establish a strong foundation for growth.</p>
+<h2 id="2-goals-objectives">2. Goals &amp; Objectives</h2>
+<h3 id="business-goals">Business Goals</h3>
+<ul>
+<li><strong>Achieve 10,000 Monthly Active Users (MAU)</strong> within the first 6 months post-launch.</li>
+<li><strong>Attain a 7-day user retention rate of over 40%</strong> to demonstrate sustainable engagement.</li>
+<li><strong>Secure a 4.0+ star rating</strong> on both the Apple App Store and Google Play Store within the first year.</li>
+<li><strong>Convert at least 5% of the active free user base to paid Premium subscribers</strong> within the first year to validate the freemium model.</li>
+<li><strong>Establish the app as a top-rated solution</strong> for 'beginner fitness' in app store search results.</li>
+</ul>
+<h3 id="user-goals">User Goals</h3>
+<ul>
+<li><strong>Achieve personal fitness goals</strong> (e.g., get stronger, lose weight, feel healthier) without feeling overwhelmed or intimidated.</li>
+<li><strong>Easily track workouts and nutrition</strong> with minimal friction and cognitive load.</li>
+<li><strong>Receive clear guidance and structure</strong> through pre-made workout plans, removing the anxiety of creating routines.</li>
+<li><strong>Visualize progress</strong> in a motivating and easy-to-understand format.</li>
+<li><strong>Stay motivated</strong> through gamification and private social accountability.</li>
+</ul>
+<h3 id="technical-goals">Technical Goals</h3>
+<ul>
+<li><strong>Successfully launch a cross-platform MVP</strong> for iOS and Android within the 6-8 month timeline using React Native.</li>
+<li><strong>Ensure seamless integration</strong> with Apple HealthKit and Google Fit for a unified user experience.</li>
+<li><strong>Implement a scalable and secure backend architecture</strong> on AWS to support user growth.</li>
+<li><strong>Leverage third-party APIs effectively</strong> for AI food recognition, balancing cost and functionality.</li>
+</ul>
+<h2 id="3-problem-statement">3. Problem Statement</h2>
+<h3 id="what-problem-are-we-solving">What problem are we solving?</h3>
+<p>The modern fitness app market is saturated with complex, data-heavy platforms designed for hardcore athletes. This creates a significant barrier for fitness beginners who are often intimidated by feature clutter, confusing interfaces, and the pressure of social competition. These beginners are left without a tool that caters to their specific need for simple guidance, low-effort tracking, and encouragement.</p>
+<h3 id="who-has-this-problem">Who has this problem?</h3>
+<p>Our target user is a fitness beginner, typically between the ages of 25-45. This individual is motivated to improve their health but lacks the knowledge and confidence to navigate the existing fitness landscape. They are digitally savvy but seek simplicity and a supportive environment, not a complex data analytics dashboard.</p>
+<h3 id="current-pain-points-and-limitations">Current pain points and limitations</h3>
+<ul>
+<li><strong>User Overwhelm:</strong> Existing apps like MyFitnessPal or Jefit present too many features, metrics, and options, leading to decision fatigue and early churn.</li>
+<li><strong>Tedious Logging:</strong> Manual calorie and workout logging is time-consuming and discouraging for new users.</li>
+<li><strong>Lack of Guidance:</strong> Beginners often don't know where to start, leading to ineffective or unsafe workouts.</li>
+<li><strong>Intimidating Social Features:</strong> Public leaderboards and feeds can be demotivating and raise privacy concerns for those just starting their journey.</li>
+<li><strong>High-Cost Competition:</strong> Competing with tech giants like Apple on features like high-quality video content is financially infeasible for a new entrant.</li>
+</ul>
+<h3 id="opportunity-size-and-market-context">Opportunity size and market context</h3>
+<p>The opportunity lies in capturing the underserved beginner market. Industry trends indicate a growing demand for AI-driven, low-friction health tracking and a clear gap for simplified applications. By focusing exclusively on this segment with a superior user experience, we can build a loyal user base and establish a strong brand identity before expanding. The freemium model allows us to demonstrate value upfront, lowering the barrier to entry and encouraging widespread adoption.</p>
+<h2 id="4-market-research-competitive-analysis">4. Market Research &amp; Competitive Analysis</h2>
+<h3 id="industry-trends">Industry Trends</h3>
+<p>Key trends shaping the fitness app market directly inform our product strategy:
+- <strong>AI-Driven Health Tracking:</strong> The use of visual AI for tasks like food recognition is becoming a standard user expectation. Our app will leverage this by implementing AI-powered meal photo logging to reduce user friction.
+- <strong>Gamification for Engagement:</strong> The strategic use of badges, achievements, and streaks is a proven method for increasing user retention. We will incorporate these elements to motivate users and foster habit formation.
+- <strong>Niche Targeting:</strong> A significant market opportunity exists for applications targeting specific demographics, such as fitness beginners who are intimidated by complex platforms. Our entire product is built around this insight.
+- <strong>Freemium Dominance:</strong> The freemium subscription model is the industry-standard monetization strategy, allowing users to experience core value before committing to a premium plan.
+- <strong>Ecosystem Integration:</strong> Integration with broader health ecosystems (Apple Health, Google Fit) is essential for seamless data synchronization and user retention. This will be a core feature of our V1.</p>
+<h3 id="competitive-landscape">Competitive Landscape</h3>
+<p>The market is dominated by several types of competitors, each revealing a gap we can fill:
+- <strong>Tech Giants (e.g., Apple Fitness+):</strong> These players have deep ecosystem integrations and high production value content, making direct competition on platform-level features difficult. Their weakness is a one-size-fits-all approach that can still be complex for absolute beginners.
+- <strong>Data-Heavy Apps (e.g., MyFitnessPal, Jefit):</strong> These platforms are feature-rich but overwhelming for new users. Their complexity is our primary opportunity; we will win on simplicity.
+- <strong>Community Platforms (e.g., Strava):</strong> Strava excels at community-driven motivation but its public, competitive nature can be intimidating. Our approach to social features will be private and controlled, mitigating this pain point.</p>
+<h3 id="market-opportunities">Market Opportunities</h3>
+<p>The primary market opportunity is to become the leading fitness application for beginners. We will differentiate by:
+- <strong>Simplicity as a Feature:</strong> A clean, intuitive UI/UX that prioritizes guidance over data.
+- <strong>Low-Friction Logging:</strong> AI photo logging for nutrition, a key differentiator against manual-entry competitors.
+- <strong>Safe Social Motivation:</strong> Private sharing features that provide accountability without the risks of public social feeds.</p>
+<h3 id="best-practices">Best Practices</h3>
+<p>Our development will be guided by industry best practices:
+- <strong>UI/UX First:</strong> Prioritize a simple, intuitive design to cater to beginners and reduce user overwhelm.
+- <strong>Cross-Platform Efficiency:</strong> Utilize React Native to accelerate time-to-market and reduce development costs.
+- <strong>API Leverage:</strong> Leverage third-party APIs for complex functionalities like AI food recognition instead of building proprietary models.
+- <strong>Ecosystem Integration:</strong> Integrate with native health platforms (Apple HealthKit, Google Fit) to provide a seamless user experience.
+- <strong>MVP Focus:</strong> Focus on a Minimum Viable Product by deferring non-essential features (like Strava integration or extensive video hosting) to later versions.</p>
+<h3 id="technical-standards">Technical Standards</h3>
+<p>Our technical approach will adhere to modern industry standards:
+- <strong>Modern Stack:</strong> Employ a scalable tech stack of React Native for mobile, Node.js for the backend, and AWS for cloud hosting.
+- <strong>API-Based Integrations:</strong> Utilize API-based integrations for third-party services to ensure maintainability and security.
+- <strong>Mobile-First Strategy:</strong> Adopt a mobile-first development strategy, as the primary user interaction will be on a smartphone.
+- <strong>Cost-Effective Media:</strong> For the MVP, use cost-effective media solutions like images, GIFs, or embedding external video links to avoid high video hosting costs.</p>
+<h3 id="user-expectations">User Expectations</h3>
+<p>Market analysis reveals clear user expectations we must meet:
+- <strong>Simple Onboarding:</strong> Users expect a simple and unintimidating onboarding experience, especially if they are fitness beginners.
+- <strong>Visual Demonstrations:</strong> Clear, visual exercise demonstrations (images or short videos) are expected to ensure proper form and safety.
+- <strong>Low-Effort Logging:</strong> Users prefer low-effort logging methods, such as taking a photo for meal tracking, over tedious manual data entry.
+- <strong>Aesthetic Progress Visualization:</strong> Users want to see their progress visualized in an aesthetically pleasing and easy-to-understand manner.
+- <strong>Valuable Free Tier:</strong> A functional and useful free version is expected, with premium features providing clear, added value.</p>
+<h3 id="regulatory-landscape">Regulatory Landscape</h3>
+<p>Compliance is non-negotiable:
+- <strong>Data Privacy:</strong> Adherence to data privacy regulations like GDPR and CCPA is mandatory due to the collection of personal health and nutrition information.
+- <strong>Transparency:</strong> A clear and transparent privacy policy is required, detailing how user data, especially photos and health metrics, are handled.
+- <strong>App Store Compliance:</strong> Compliance with Apple App Store and Google Play Store guidelines, particularly for health-related apps, is necessary for approval.</p>
+<h2 id="5-user-personas-stakeholders">5. User Personas &amp; Stakeholders</h2>
+<h3 id="user-persona">User Persona</h3>
+<p><strong>Name:</strong> Alex, The Intimidated Beginner
+- <strong>Role/Title:</strong> Office Professional, Age 34
+- <strong>Goals and Motivations:</strong>
+    - Wants to improve overall health and energy levels.
+    - Aims to build a consistent fitness habit but doesn't know where to start.
+    - Seeks guidance and structure to feel confident at the gym or at home.
+    - Motivated by feeling better and seeing tangible, but simple, progress.
+- <strong>Pain Points:</strong>
+    - Feels overwhelmed by apps like MyFitnessPal that require extensive data entry.
+    - Intimidated by gym culture and complex workout plans.
+    - Lacks the knowledge to create a balanced and effective routine.
+    - Finds public social features on apps like Strava demotivating and privacy-invasive.
+- <strong>Technical Proficiency:</strong>
+    - Comfortable using a smartphone for daily tasks (social media, banking).
+    - Expects apps to be intuitive and easy to navigate without a tutorial.
+    - Values speed and efficiency; will abandon an app that feels clunky.</p>
+<h3 id="key-stakeholders">Key Stakeholders</h3>
+<table>
+<thead>
+<tr>
+<th>Stakeholder</th>
+<th>Role</th>
+<th>Interest</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sarah (PM)</td>
+<td>Product Manager</td>
+<td>Overall product success, alignment with business goals, user satisfaction.</td>
+</tr>
+<tr>
+<td>Mike (Tech Lead)</td>
+<td>Tech Lead</td>
+<td>Technical feasibility, scalable architecture, on-time delivery.</td>
+</tr>
+<tr>
+<td>Jessica (Designer)</td>
+<td>Designer</td>
+<td>Intuitive and beautiful user experience, brand consistency.</td>
+</tr>
+<tr>
+<td>Tom (Marketing)</td>
+<td>Marketing</td>
+<td>User acquisition, market positioning, successful launch.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-features-user-stories">6. Features &amp; User Stories</h2>
+<h3 id="must-have-v1-mvp">Must-Have (V1 MVP)</h3>
+<ul>
+<li><strong>User Authentication &amp; Profiles</strong><ul>
+<li><em>User Story:</em> As a new user, I want to create an account quickly using my Apple or Google credentials so that I can start using the app without hassle.</li>
+</ul>
+</li>
+<li><strong>Simple Onboarding</strong><ul>
+<li><em>User Story:</em> As a new user, I want a guided onboarding process that asks for my basic goals and activity level so that the app can recommend a suitable starter plan.</li>
+</ul>
+</li>
+<li><strong>Workout Logging</strong><ul>
+<li><em>User Story:</em> As a user, I want to log my workouts (exercises, sets, reps) so that I can track my activity over time.</li>
+</ul>
+</li>
+<li><strong>Pre-made Workout Plans</strong><ul>
+<li><em>User Story:</em> As a beginner, I want to access a library of pre-made workout plans for beginners so that I have a structured routine to follow.</li>
+</ul>
+</li>
+<li><strong>Exercise Demonstrations</strong><ul>
+<li><em>User Story:</em> As a user, I want to see a clear image or GIF for each exercise so that I can perform it with correct form and stay safe.</li>
+</ul>
+</li>
+<li><strong>AI Meal Photo Logging</strong><ul>
+<li><em>User Story:</em> As a user, I want to log my meals by taking a photo so that I can track my nutrition without tedious manual entry.</li>
+</ul>
+</li>
+<li><strong>Progress Visualization</strong><ul>
+<li><em>User Story:</em> As a user, I want to see my progress displayed in simple, beautiful charts so that I stay motivated by seeing my improvements.</li>
+</ul>
+</li>
+<li><strong>Health Platform Integration</strong><ul>
+<li><em>User Story:</em> As a user, I want the app to integrate with Apple Health or Google Fit so that my data is synchronized automatically.</li>
+</ul>
+</li>
+</ul>
+<h3 id="should-have-v1">Should-Have (V1)</h3>
+<ul>
+<li><strong>Gamification (Badges &amp; Achievements)</strong><ul>
+<li><em>User Story:</em> As a user, I want to earn badges and achievements for reaching milestones so that I feel a sense of accomplishment and stay engaged.</li>
+</ul>
+</li>
+<li><strong>Private Progress Sharing</strong><ul>
+<li><em>User Story:</em> As a user, I want to share my workout summary with a friend via a private link so that I can get encouragement without posting publicly.</li>
+</ul>
+</li>
+<li><strong>Customizable Push Notifications</strong><ul>
+<li><em>User Story:</em> As a user, I want to receive customizable reminders to work out so that I can stay consistent with my fitness routine.</li>
+</ul>
+</li>
+</ul>
+<h3 id="nice-to-have-post-v1">Nice-to-Have (Post-V1)</h3>
+<ul>
+<li><strong>Advanced Analytics (Premium)</strong><ul>
+<li><em>User Story:</em> As a premium user, I want to see in-depth analytics on my progress so that I can fine-tune my training and nutrition.</li>
+</ul>
+</li>
+<li><strong>Advanced Workout Plans (Premium)</strong><ul>
+<li><em>User Story:</em> As a premium user, I want access to a wider variety of advanced workout plans so that I can continue to challenge myself as I progress.</li>
+</ul>
+</li>
+<li><strong>Strava Integration</strong><ul>
+<li><em>User Story:</em> As a user, I want to connect my Strava account so that all my activity data is in one place.</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-use-cases">7. Use Cases</h2>
+<h3 id="uc-001-onboard-as-a-new-fitness-beginner">UC-001: Onboard as a New Fitness Beginner</h3>
+<ul>
+<li><strong>Actors:</strong> User (Fitness Beginner), System</li>
+<li><strong>Preconditions:</strong> User has downloaded and installed the mobile application. User has a working internet connection.</li>
+<li><strong>Main Flow:</strong><ol>
+<li>User opens the app for the first time.</li>
+<li>System presents a welcome screen emphasizing simplicity.</li>
+<li>User taps 'Get Started'.</li>
+<li>System prompts for account creation, offering 'Sign up with Apple' or 'Sign up with Google'.</li>
+<li>User selects an option and completes authentication.</li>
+<li>System presents a simple, multi-step onboarding wizard.</li>
+<li>System asks for primary fitness goal with simple icons.</li>
+<li>User selects a primary goal.</li>
+<li>System asks for current activity level with beginner-friendly language.</li>
+<li>User selects an activity level.</li>
+<li>System requests permission to integrate with Apple Health or Google Fit.</li>
+<li>User grants permission.</li>
+<li>System confirms profile setup and recommends a starter plan.</li>
+<li>User is taken to the main dashboard with a clear call-to-action.</li>
+</ol>
+</li>
+<li><strong>Alternate Flows:</strong><ul>
+<li><em>User declines health integration:</em> System acknowledges choice and explains they can enable it later.</li>
+<li><em>User skips profile setup:</em> System applies default settings and proceeds to the main dashboard.</li>
+</ul>
+</li>
+<li><strong>Postconditions:</strong> User has a registered account, initial profile is created, a starter plan is suggested, and health integration is enabled if consented.</li>
+<li><strong>Priority:</strong> High</li>
+</ul>
+<h3 id="uc-002-log-a-workout-from-a-pre-made-plan">UC-002: Log a Workout from a Pre-made Plan</h3>
+<ul>
+<li><strong>Actors:</strong> User (Fitness Beginner), System</li>
+<li><strong>Preconditions:</strong> User is logged in. User has selected a pre-made workout plan.</li>
+<li><strong>Main Flow:</strong><ol>
+<li>User navigates to the 'My Plan' section.</li>
+<li>System displays the current workout for the day.</li>
+<li>User taps 'Start Workout'.</li>
+<li>System presents the first exercise with an image/GIF demonstration.</li>
+<li>User performs the exercise and taps 'Log Set'.</li>
+<li>System prompts for the number of reps completed.</li>
+<li>User enters the reps and taps 'Done'.</li>
+<li>System logs the set and displays the next exercise.</li>
+<li>User repeats the process for all exercises.</li>
+<li>System displays a 'Workout Complete!' summary screen.</li>
+<li>User taps 'Finish'.</li>
+<li>System saves the workout and updates progress charts.</li>
+</ol>
+</li>
+<li><strong>Alternate Flows:</strong><ul>
+<li><em>User needs more help:</em> User taps a link to view an embedded external video for the exercise.</li>
+<li><em>User cannot complete an exercise:</em> User taps 'Skip Exercise', and the system presents a simpler alternative or proceeds.</li>
+</ul>
+</li>
+<li><strong>Postconditions:</strong> A workout session is recorded, progress visualizations are updated, and the plan's completion status is updated.</li>
+<li><strong>Priority:</strong> High</li>
+</ul>
+<h3 id="uc-003-track-a-meal-using-ai-photo-recognition">UC-003: Track a Meal Using AI Photo Recognition</h3>
+<ul>
+<li><strong>Actors:</strong> User (Fitness Beginner), System, Third-party AI API</li>
+<li><strong>Preconditions:</strong> User is logged in. User has granted camera permissions.</li>
+<li><strong>Main Flow:</strong><ol>
+<li>User navigates to the 'Nutrition' tab and taps 'Log a Meal'.</li>
+<li>User selects 'Take a Photo'.</li>
+<li>System opens the camera; user takes a photo of their meal.</li>
+<li>System sends the photo to a third-party AI API.</li>
+<li>System displays a loading animation.</li>
+<li>AI API returns identified food items with nutritional info.</li>
+<li>System presents the results in a simple, editable list.</li>
+<li>User reviews the items and taps 'Confirm &amp; Log'.</li>
+<li>System saves the meal entry to the user's daily log.</li>
+</ol>
+</li>
+<li><strong>Alternate Flows:</strong><ul>
+<li><em>AI misidentifies food:</em> User taps an incorrect item, searches for the correct one, and confirms.</li>
+<li><em>AI fails to identify food:</em> System informs the user and presents a simple manual entry form.</li>
+</ul>
+</li>
+<li><strong>Postconditions:</strong> A meal is logged, and daily calorie/macronutrient totals are updated.</li>
+<li><strong>Priority:</strong> High</li>
+</ul>
+<h3 id="uc-004-view-progress-and-unlock-achievements">UC-004: View Progress and Unlock Achievements</h3>
+<ul>
+<li><strong>Actors:</strong> User (Fitness Beginner), System</li>
+<li><strong>Preconditions:</strong> User is logged in. User has logged at least one workout or meal.</li>
+<li><strong>Main Flow:</strong><ol>
+<li>User navigates to the 'Progress' tab.</li>
+<li>System displays a dashboard with key metrics and a primary chart.</li>
+<li>User taps on the chart to see more detail.</li>
+<li>System presents a beautiful chart showing workout frequency over time.</li>
+<li>After completing a workout, System displays an 'Achievement Unlocked!' modal.</li>
+<li>System shows a new badge (e.g., 'First Workout Complete').</li>
+<li>User can tap 'View Badge' to see it in their collection.</li>
+</ol>
+</li>
+<li><strong>Alternate Flows:</strong><ul>
+<li><em>User has no data:</em> System displays a welcoming empty state with a clear call-to-action to log the first workout.</li>
+</ul>
+</li>
+<li><strong>Postconditions:</strong> User has a clear visual understanding of their progress and feels motivated by the achievement system.</li>
+<li><strong>Priority:</strong> High</li>
+</ul>
+<h3 id="uc-005-share-progress-privately-with-a-friend">UC-005: Share Progress Privately with a Friend</h3>
+<ul>
+<li><strong>Actors:</strong> User (Fitness Beginner), System, Friend (Recipient)</li>
+<li><strong>Preconditions:</strong> User is logged in. User has a recent workout or progress milestone.</li>
+<li><strong>Main Flow:</strong><ol>
+<li>User completes a workout and taps 'Share' on the summary screen.</li>
+<li>User selects 'Share with a Friend'.</li>
+<li>System opens the native share sheet with a pre-populated message and a unique, private web link.</li>
+<li>User selects a contact and sends the message.</li>
+<li>Friend receives the message, taps the link, and views the workout summary on a simple webpage.</li>
+</ol>
+</li>
+<li><strong>Alternate Flows:</strong><ul>
+<li><em>User shares from Progress tab:</em> User taps a share icon on a progress chart, and the system generates a shareable image and link.</li>
+</ul>
+</li>
+<li><strong>Postconditions:</strong> A shareable, private link is generated, and the user's progress is communicated to a friend.</li>
+<li><strong>Priority:</strong> Medium</li>
+</ul>
+<h3 id="uc-006-upgrade-to-a-premium-subscription">UC-006: Upgrade to a Premium Subscription</h3>
+<ul>
+<li><strong>Actors:</strong> User (Free Tier), System</li>
+<li><strong>Preconditions:</strong> User is logged in and on the free tier.</li>
+<li><strong>Main Flow:</strong><ol>
+<li>User navigates to the workout plan library and taps a plan marked 'Premium'.</li>
+<li>System displays a lock icon and an 'Upgrade to Premium' button.</li>
+<li>User taps 'Upgrade'.</li>
+<li>System displays the premium offer screen, highlighting benefits and pricing ($9.99/month or $79.99/year).</li>
+<li>User selects the annual plan.</li>
+<li>System initiates the native in-app purchase flow.</li>
+<li>User confirms the purchase.</li>
+<li>System processes the payment, confirms the upgrade, and unlocks premium features.</li>
+</ol>
+</li>
+<li><strong>Alternate Flows:</strong><ul>
+<li><em>User declines the upgrade:</em> System returns the user to the previous screen.</li>
+</ul>
+</li>
+<li><strong>Postconditions:</strong> User is successfully subscribed to the Premium tier, and their account status is updated.</li>
+<li><strong>Priority:</strong> Medium</li>
+</ul>
+<h2 id="8-functional-requirements">8. Functional Requirements</h2>
+<h3 id="user-account-onboarding">User Account &amp; Onboarding</h3>
+<ul>
+<li><strong>FR-01:</strong> The system must allow users to create an account using email/password or social login (Apple, Google).</li>
+<li><strong>FR-02:</strong> The system must guide new users through a multi-step onboarding process to capture fitness goals and activity level.</li>
+<li><strong>FR-03:</strong> The system must request and handle permissions for Apple HealthKit and Google Fit integration.</li>
+</ul>
+<h3 id="workout-tracking">Workout Tracking</h3>
+<ul>
+<li><strong>FR-04:</strong> The system must provide a library of pre-made workout plans tailored for beginners.</li>
+<li><strong>FR-05:</strong> The system must allow users to start, pause, and complete a workout from a plan.</li>
+<li><strong>FR-06:</strong> The system must allow users to log exercises with sets, reps, and weight.</li>
+<li><strong>FR-07:</strong> The system must display a visual demonstration (image or GIF) for each exercise.</li>
+<li><strong>FR-08:</strong> The system must provide a summary screen at the end of each workout.</li>
+</ul>
+<h3 id="nutrition-tracking">Nutrition Tracking</h3>
+<ul>
+<li><strong>FR-09:</strong> The system must allow users to log meals by taking a photo with their device's camera.</li>
+<li><strong>FR-10:</strong> The system must integrate with a third-party AI API to analyze food photos and identify items.</li>
+<li><strong>FR-11:</strong> The system must present AI-identified food items in an editable list for user confirmation.</li>
+<li><strong>FR-12:</strong> The system must provide a fallback to manual food search if AI analysis fails or is inaccurate.</li>
+<li><strong>FR-13:</strong> The system must aggregate daily nutritional data (calories, protein, carbs, fat).</li>
+</ul>
+<h3 id="progress-motivation">Progress &amp; Motivation</h3>
+<ul>
+<li><strong>FR-14:</strong> The system must visualize user progress (e.g., workout frequency, strength gains) in aesthetically pleasing charts.</li>
+<li><strong>FR-15:</strong> The system must award badges and achievements for predefined milestones (e.g., first workout, 7-day streak).</li>
+<li><strong>FR-16:</strong> The system must provide a dedicated screen for users to view their collection of achievements.</li>
+</ul>
+<h3 id="social-integration">Social &amp; Integration</h3>
+<ul>
+<li><strong>FR-17:</strong> The system must generate a unique, private, shareable link for workout summaries or progress charts.</li>
+<li><strong>FR-18:</strong> The system must synchronize workout data with Apple HealthKit and Google Fit upon user consent.</li>
+<li><strong>FR-19:</strong> The system must allow users to customize push notification preferences for workout reminders.</li>
+</ul>
+<h3 id="monetization">Monetization</h3>
+<ul>
+<li><strong>FR-20:</strong> The system must gate certain features (e.g., advanced plans, analytics) behind a Premium subscription.</li>
+<li><strong>FR-21:</strong> The system must handle in-app purchase flows for monthly ($9.99) and annual ($79.99) subscriptions via the App Store and Google Play.</li>
+<li><strong>FR-22:</strong> The system must correctly identify and unlock Premium features for subscribed users.</li>
+</ul>
+<h2 id="9-non-functional-requirements">9. Non-Functional Requirements</h2>
+<h3 id="performance">Performance</h3>
+<ul>
+<li>API response times must be under 500ms for 95% of requests.</li>
+<li>Application launch time must be under 3 seconds.</li>
+<li>The system must support 10,000 MAUs at launch without performance degradation.</li>
+</ul>
+<h3 id="security">Security</h3>
+<ul>
+<li>All user data must be encrypted at rest and in transit using TLS 1.2+.</li>
+<li>Authentication must be handled via OAuth 2.0 for social logins and secure hashing for passwords.</li>
+<li>The system must be compliant with GDPR and CCPA regulations, including data portability and right to be forgotten.</li>
+<li>Access to user data by internal personnel must be strictly controlled and audited.</li>
+</ul>
+<h3 id="usability">Usability</h3>
+<ul>
+<li>The UI must adhere to WCAG 2.1 AA accessibility standards.</li>
+<li>The application must be intuitive enough for a beginner to complete a workout without external instructions.</li>
+<li>All text must be clear, concise, and use beginner-friendly language, avoiding jargon.</li>
+</ul>
+<h3 id="reliability">Reliability</h3>
+<ul>
+<li>The system must maintain 99.9% uptime.</li>
+<li>The system must have a robust error handling mechanism that provides user-friendly error messages.</li>
+<li>Data must be backed up daily to prevent loss.</li>
+</ul>
+<h3 id="maintainability">Maintainability</h3>
+<ul>
+<li>Code must follow industry-standard style guides and be thoroughly documented.</li>
+<li>The architecture must be modular to allow for easy addition of new features.</li>
+<li>The system must use a standardized tech stack (React Native, Node.js) to simplify maintenance.</li>
+</ul>
+<h2 id="10-technical-architecture">10. Technical Architecture</h2>
+<h3 id="system-components">System Components</h3>
+<ul>
+<li><strong>Client (Mobile App):</strong> A React Native application for iOS and Android, responsible for UI, user interaction</li>
+</ul>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-logo">AICOE</div>
+            <p>© 2025 AICOE - AI Center of Excellence</p>
+            <p style="margin-top: 8px;">Transforming Ideas into Intelligent Solutions</p>
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

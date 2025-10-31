@@ -1,0 +1,710 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracking App - System Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-navy: #1a1a2e;
+            --midnight-blue: #2a2a3e;
+            --deep-purple: #3a2a4e;
+            --accent-pink: #ff69b4;
+            --accent-cyan: #00ffcc;
+            --accent-turquoise: #00e5b3;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --bg-white: #ffffff;
+            --bg-gray: #f5f5f7;
+            --border-gray: #d2d2d7;
+            --shadow: 0 2px 16px rgba(26, 26, 46, 0.08);
+            --shadow-hover: 0 4px 24px rgba(26, 26, 46, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: var(--bg-gray);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: var(--bg-white);
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--deep-purple) 50%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 21px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-gray);
+        }
+
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .metadata-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .metadata-value {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .diagram-section {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .diagram-section:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary-navy);
+        }
+
+        .diagram-description {
+            font-size: 17px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .mermaid-container {
+            background: var(--bg-gray);
+            padding: 32px;
+            border-radius: 16px;
+            overflow-x: auto;
+        }
+
+        .components-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .components-table th {
+            background: var(--primary-navy);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .components-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .components-table tr:hover {
+            background: var(--bg-gray);
+        }
+
+        code {
+            background: var(--bg-gray);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--accent-pink);
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .integrations-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .integrations-list li {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: var(--bg-gray);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.03) 0%, rgba(58, 42, 78, 0.05) 100%);
+            padding: 24px;
+            border-radius: 16px;
+            margin: 24px 0;
+            border-left: 4px solid var(--accent-pink);
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 19px;
+            }
+
+            .diagram-section {
+                padding: 32px 24px;
+            }
+
+            .metadata {
+                gap: 20px;
+            }
+        }
+
+        @media print {
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                background: white;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            header {
+                margin-bottom: 30px;
+                page-break-after: avoid;
+            }
+
+            h1 {
+                font-size: 36px;
+                color: var(--text-primary) !important;
+                -webkit-text-fill-color: var(--text-primary) !important;
+            }
+
+            .diagram-section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid var(--border-gray);
+                margin-bottom: 20px;
+                padding: 32px;
+            }
+
+            footer {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>🏗️ System Architecture</h1>
+                <p class="subtitle">Fitness Tracking App</p>
+                <div class="metadata">
+                    <div class="metadata-item">
+                        <span class="metadata-label">Project</span>
+                        <span class="metadata-value">Fitness Tracking App</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Version</span>
+                        <span class="metadata-value">1.0</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Generated by</span>
+                        <span class="metadata-value">AICOE Platform</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Document Type</span>
+                        <span class="metadata-value">Architecture Diagrams</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <div class="diagram-section">
+                <h2>High-Level System Architecture</h2>
+                <p class="diagram-description">Overview of the entire system showing major components and their relationships</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+graph TD
+    subgraph "Client Layer"
+        MA[Mobile App<br/>iOS/Android] --> GA[Gamification Engine]
+        MA --> UI[User Interface]
+        MA --> OS[Offline Storage<br/>SQLite/Realm]
+    end
+    
+    subgraph "API Gateway Layer"
+        AG[API Gateway<br/>Kong/AWS API GW] --> LB[Load Balancer]
+        AG --> AUTH[Authentication Service<br/>OAuth 2.0/JWT]
+        AG --> RATE[Rate Limiting]
+    end
+    
+    subgraph "Microservices Layer"
+        WS[Workout Service] --> DB[(PostgreSQL)]
+        NS[Nutrition Service] --> DB
+        US[User Service] --> DB
+        PS[Plan Service] --> DB
+        AS[Achievement Service] --> REDIS[(Redis Cache)]
+        MS[ML Service] --> S3[(AWS S3)]
+    end
+    
+    subgraph "AI/ML Layer"
+        CV[Computer Vision<br/>Form Analysis] --> MS
+        PA[Progressive Personalization<br/>ML Models] --> MS
+        NLA[Nutrition Log AI<br/>Food Recognition] --> MS
+    end
+    
+    subgraph "External Integrations"
+        HK[Apple HealthKit] --> MA
+        GF[Google Fit] --> MA
+        WD[Wearable Devices<br/>Fitbit/Garmin] --> MA
+        SP[Spotify API] --> MA
+        CAL[Calendar API] --> MA
+    end
+    
+    subgraph "Infrastructure"
+        CDN[CloudFront/Cloudflare] --> MA
+        MQ[Message Queue<br/>SQS/RabbitMQ] --> WS
+        MON[Monitoring<br/>CloudWatch/Datadog] --> AG
+        LOG[Logging Service] --> AG
+    end
+    
+    MA --> AG
+    AG --> WS
+    AG --> NS
+    AG --> US
+    AG --> PS
+    AG --> AS
+    AG --> MS
+    
+    WS --> MQ
+    NS --> MQ
+    AS --> GA
+    MS --> CV
+    MS --> PA
+    MS --> NLA
+                    </pre>
+                </div>
+            </div>
+            
+            <div class="diagram-section">
+                <h2>Component Architecture</h2>
+                <p class="diagram-description">Detailed view of system components and their interactions with specific technologies</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+graph LR
+    subgraph "Frontend Components"
+        UI[React Native UI] --> NAV[Navigation Stack]
+        UI --> STATE[Redux Store]
+        UI --> CACHE[Local Cache<br/>AsyncStorage]
+        UI --> CAM[Camera Module]
+        UI --> NOTIF[Push Notifications]
+    end
+    
+    subgraph "Core Services"
+        AUTH[Auth Service<br/>Node.js] --> JWT[JWT Tokens]
+        WORKOUT[Workout Service<br/>Express.js] --> VALID[Data Validation]
+        NUTRITION[Nutrition Service<br/>Python/FastAPI] --> AI[AI Processing]
+        USER[User Service<br/>Spring Boot] --> PROFILE[Profile Management]
+        PLAN[Plan Service<br/>Node.js] --> SCHED[Scheduler]
+    end
+    
+    subgraph "AI/ML Pipeline"
+        CV[Computer Vision<br/>TensorFlow Lite] --> FORM[Form Analysis]
+        FOOD[Food Recognition<br/>Google Vision API] --> CALORIE[Calorie Estimation]
+        REC[Recommendation Engine<br/>Scikit-learn] --> PERSONAL[Personalization]
+    end
+    
+    subgraph "Data Layer"
+        PG[(PostgreSQL<br/>Primary DB)] --> REPLICA[(Read Replica)]
+        REDIS[(Redis<br/>Cache/Sessions)] --> PUBSUB[Pub/Sub]
+        S3[(AWS S3<br/>Media Storage)] --> CDN[CloudFront CDN]
+        ES[(Elasticsearch<br/>Search)] --> INDEX[Search Index]
+    end
+    
+    subgraph "Integration Layer"
+        OAUTH[OAuth 2.0] --> SOCIAL[Social Login]
+        WEBHOOK[Webhook Handler] --> THIRD[Third-party APIs]
+        SYNC[Data Sync Service] --> HEALTH[Health APIs]
+    end
+    
+    UI --> AUTH
+    UI --> WORKOUT
+    UI --> NUTRITION
+    UI --> USER
+    UI --> PLAN
+    
+    WORKOUT --> PG
+    NUTRITION --> PG
+    USER --> PG
+    PLAN --> PG
+    
+    NUTRITION --> FOOD
+    WORKOUT --> CV
+    USER --> REC
+    
+    AUTH --> REDIS
+    WORKOUT --> REDIS
+    NUTRITION --> REDIS
+    
+    CAM --> CV
+    CAM --> FOOD
+    
+    AUTH --> OAUTH
+    USER --> WEBHOOK
+    WORKOUT --> SYNC
+                    </pre>
+                </div>
+            </div>
+            
+            <div class="diagram-section">
+                <h2>Data Flow Diagram</h2>
+                <p class="diagram-description">How data flows through the system for key use cases</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+graph TD
+    subgraph "User Interaction Flow"
+        USER[User] --> APP[Mobile App]
+        APP --> INPUT[User Input<br/>Workout/Meal Data]
+        INPUT --> VALIDATE[Client Validation]
+        VALIDATE --> OFFLINE[Offline Storage]
+    end
+    
+    subgraph "Workout Logging Flow"
+        OFFLINE --> SYNC1[Sync Service]
+        SYNC1 --> API1[Workout API]
+        API1 --> PROCESS1[Process Workout Data]
+        PROCESS1 --> DB1[(Workout DB)]
+        PROCESS1 --> ANALYTICS[Analytics Service]
+        ANALYTICS --> ACHIEVE[Achievement Engine]
+        ACHIEVE --> BADGE[Badge System]
+        BADGE --> NOTIF1[Push Notification]
+    end
+    
+    subgraph "AI Nutrition Flow"
+        INPUT --> CAMERA[Camera Capture]
+        CAMERA --> AI_SERVICE[AI Vision Service]
+        AI_SERVICE --> FOOD_DETECT[Food Detection]
+        FOOD_DETECT --> NUTRI_CALC[Nutrition Calculation]
+        NUTRI_CALC --> CONFIRM[User Confirmation]
+        CONFIRM --> API2[Nutrition API]
+        API2 --> DB2[(Nutrition DB)]
+        DB2 --> DAILY[Daily Totals]
+        DAILY --> INSIGHTS[AI Insights]
+    end
+    
+    subgraph "Personalization Flow"
+        DB1 --> ML_INPUT[ML Training Data]
+        DB2 --> ML_INPUT
+        ML_INPUT --> MODEL[ML Model Training]
+        MODEL --> RECOMMEND[Recommendation Engine]
+        RECOMMEND --> PERSONAL_PLAN[Personalized Plans]
+        PERSONAL_PLAN --> API3[Plan API]
+        API3 --> APP
+    end
+    
+    subgraph "Health Data Integration Flow"
+        WEARABLE[Wearable Devices] --> HEALTH_API[Health APIs<br/>HealthKit/Google Fit]
+        HEALTH_API --> AGGREGATOR[Data Aggregator]
+        AGGREGATOR --> ENRICH[Data Enrichment]
+        ENRICH --> DB1
+        ENRICH --> DB2
+    end
+    
+    subgraph "Gamification Flow"
+        DB1 --> PROGRESS[Progress Calculator]
+        DB2 --> PROGRESS
+        PROGRESS --> STREAK[Streak Tracker]
+        STREAK --> REWARDS[Reward System]
+        REWARDS --> SOCIAL[Social Sharing]
+        SOCIAL --> ENGAGEMENT[Engagement Metrics]
+    end
+    
+    OFFLINE --> SYNC1
+    NOTIF1 --> APP
+    APP --> USER
+    SOCIAL --> APP
+                    </pre>
+                </div>
+            </div>
+            
+            <div class="diagram-section">
+                <h2>Deployment Architecture</h2>
+                <p class="diagram-description">Infrastructure and deployment topology showing cloud resources</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+graph TB
+    subgraph "CDN & Edge"
+        CF[CloudFront CDN] --> EDGE[Edge Locations]
+        WAF[Web Application Firewall] --> CF
+    end
+    
+    subgraph "Load Balancing"
+        ALB[Application Load Balancer] --> TG1[Target Group: API]
+        ALB --> TG2[Target Group: Web]
+        ALB --> TG3[Target Group: ML]
+    end
+    
+    subgraph "API Gateway Region"
+        APIGW[API Gateway] --> LAMBDA1[Auth Lambda]
+        APIGW --> LAMBDA2[Workout Lambda]
+        APIGW --> LAMBDA3[Nutrition Lambda]
+        APIGW --> LAMBDA4[User Lambda]
+    end
+    
+    subgraph "EKS Cluster - Microservices"
+        EKS[EKS Cluster] --> POD1[Workout Service Pod]
+        EKS --> POD2[Nutrition Service Pod]
+        EKS --> POD3[User Service Pod]
+        EKS --> POD4[Plan Service Pod]
+        EKS --> POD5[Achievement Service Pod]
+    end
+    
+    subgraph "ML Infrastructure"
+        SAGEMAKER[SageMaker] --> MODEL1[Form Analysis Model]
+        SAGEMAKER --> MODEL2[Nutrition Model]
+        SAGEMAKER --> MODEL3[Recommendation Model]
+        EC2_ML[EC2 GPU Instances] --> INFERENCE[Inference Endpoints]
+    end
+    
+    subgraph "Databases"
+        RDS[(RDS PostgreSQL<br/>Multi-AZ)] --> READ_REPLICA[Read Replica]
+        REDIS_ELASTICACHE[(ElastiCache Redis)] --> CLUSTER[Redis Cluster]
+        S3_BUCKET[(S3 Buckets)] --> VERSIONING[Versioning Enabled]
+        DYNAMODB[(DynamoDB)] --> NO_SQL[NoSQL Store]
+    end
+    
+    subgraph "Message Queue & Processing"
+        SQS[SQS Queue] --> DLQ[Dead Letter Queue]
+        KINESIS[Kinesis Data Streams] --> PROCESSOR[Stream Processor]
+        EVENTBRIDGE[EventBridge] --> RULES[Event Rules]
+    end
+    
+    subgraph "Monitoring & Logging"
+        CLOUDWATCH[CloudWatch] --> METRICS[Custom Metrics]
+        XRAY[X-Ray] --> TRACING[Distributed Tracing]
+        S3_LOGS[(S3 Logs)] --> ATHENA[Athena Queries]
+    end
+    
+    subgraph "Security & Compliance"
+        KMS[KMS Key Management] --> ENCRYPTION[Encryption at Rest]
+        IAM[IAM Roles/Policies] --> PERMISSIONS[Least Privilege]
+        SECRETSMANAGER[Secrets Manager] --> CREDENTIALS[Secure Credentials]
+    end
+    
+    CF --> ALB
+    ALB --> APIGW
+    ALB --> EKS
+    APIGW --> LAMBDA1
+    APIGW --> LAMBDA2
+    APIGW --> LAMBDA3
+    APIGW --> LAMBDA4
+    
+    POD1 --> RDS
+    POD2 --> RDS
+    POD3 --> RDS
+    POD4 --> RDS
+    POD5 --> REDIS_ELASTICACHE
+    
+    LAMBDA2 --> RDS
+    LAMBDA3 --> S3_BUCKET
+    LAMBDA4 --> DYNAMODB
+    
+    MODEL1 --> INFERENCE
+    MODEL2 --> INFERENCE
+    MODEL3 --> INFERENCE
+    
+    SQS --> KINESIS
+    EVENTBRIDGE --> SQS
+    
+    EKS --> CLOUDWATCH
+    APIGW --> XRAY
+    
+    RDS --> KMS
+    S3_BUCKET --> KMS
+    SECRETSMANAGER --> POD1
+                    </pre>
+                </div>
+            </div>
+            
+
+        <div class="diagram-section">
+            <h2>System Components</h2>
+            <p class="diagram-description">Detailed breakdown of all system components and their technologies</p>
+            <table class="components-table"><tr><th>Component</th><th>Type</th><th>Technology</th><th>Description</th></tr>
+            <tr>
+                <td><strong>Mobile Application</strong></td>
+                <td>React Native App</td>
+                <td><code>React Native, Redux, SQLite</code></td>
+                <td>Cross-platform mobile app for iOS and Android with offline-first capabilities</td>
+            </tr>
+            
+            <tr>
+                <td><strong>API Gateway</strong></td>
+                <td>Gateway Service</td>
+                <td><code>AWS API Gateway / Kong</code></td>
+                <td>Central entry point for all API requests with authentication and rate limiting</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Workout Service</strong></td>
+                <td>Microservice</td>
+                <td><code>Node.js / Express.js</code></td>
+                <td>Handles workout logging, exercise database, and workout plan management</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Nutrition Service</strong></td>
+                <td>Microservice</td>
+                <td><code>Python / FastAPI</code></td>
+                <td>Manages nutrition logging with AI-powered food recognition</td>
+            </tr>
+            
+            <tr>
+                <td><strong>ML Service</strong></td>
+                <td>AI/ML Service</td>
+                <td><code>TensorFlow, SageMaker, Python</code></td>
+                <td>Machine learning service for personalization and computer vision</td>
+            </tr>
+            
+            <tr>
+                <td><strong>User Service</strong></td>
+                <td>Microservice</td>
+                <td><code>Spring Boot / Java</code></td>
+                <td>Manages user profiles, authentication, and preferences</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Achievement Service</strong></td>
+                <td>Microservice</td>
+                <td><code>Node.js</code></td>
+                <td>Gamification engine for badges, streaks, and achievements</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Plan Service</strong></td>
+                <td>Microservice</td>
+                <td><code>Node.js</code></td>
+                <td>Manages workout plans and scheduling</td>
+            </tr>
+            </table>
+        </div>
+
+        <div class="diagram-section">
+            <h2>External Integrations</h2>
+            <p class="diagram-description">Third-party services and APIs integrated into the system</p>
+            <ul class="integrations-list"><li><strong>Apple HealthKit</strong> (Native SDK Integration): Sync health and workout data from Apple ecosystem</li><li><strong>Google Fit</strong> (REST API Integration): Aggregate health data from Android devices and Google services</li><li><strong>Wearable Devices</strong> (Bluetooth/Web API): Connect with Fitbit, Garmin, and other fitness trackers</li><li><strong>Spotify API</strong> (OAuth 2.0 API): Integrate workout playlists and music control</li><li><strong>Calendar APIs</strong> (REST API): Schedule workouts and send reminders</li><li><strong>Google Vision API</strong> (Cloud AI Service): Food recognition for nutrition logging</li><li><strong>Payment Gateway</strong> (Payment API): Handle premium subscriptions and in-app purchases</li></ul>
+        </div>
+
+        <div class="diagram-section">
+            <h2>Infrastructure Overview</h2>
+            <p class="diagram-description">Hosting and infrastructure details</p>
+            <div class="info-box">
+                <p><strong>Hosting:</strong> AWS (EKS, Lambda, EC2)</p>
+                <p><strong>Database:</strong> PostgreSQL (RDS), Redis (ElastiCache), DynamoDB</p>
+                <p><strong>Caching:</strong> Redis Cluster, CloudFront CDN</p>
+                <p><strong>CDN:</strong> AWS CloudFront with WAF</p>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-logo">AICOE</div>
+            <p>© 2025 AICOE - AI Center of Excellence</p>
+            <p style="margin-top: 8px;">Interactive Architecture Diagrams</p>
+        </footer>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#1a1a2e',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#00ffcc',
+                lineColor: '#ff69b4',
+                secondaryColor: '#3a2a4e',
+                tertiaryColor: '#f5f5f7'
+            }
+        });
+        lucide.createIcons();
+    </script>
+</body>
+</html>

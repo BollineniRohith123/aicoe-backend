@@ -16,7 +16,7 @@ class TranscriptAgent(BaseAgent):
         config = AgentConfig(
             name="TranscriptAgent",
             description="Processes raw meeting transcripts into structured notes",
-            model="gpt-4o",
+            model="z-ai/glm-4.6",  # GLM-4.6 via OpenRouter
             temperature=0.3,  # Lower temperature for factual extraction
             max_tokens=3000
         )
@@ -67,48 +67,32 @@ Please extract and structure the following information in JSON format:
 Return ONLY valid JSON without any markdown formatting or explanations. The JSON should be parseable directly."""
 
             self.log_execution("llm_call", "Extracting structured information")
-            response = await self._call_llm(system_message, user_message)
-            
-            # Parse JSON response
-            try:
-                # Clean response if it has markdown formatting
-                response = response.strip()
-                if response.startswith("```json"):
-                    response = response.split("```json")[1].split("```")[0].strip()
-                elif response.startswith("```"):
-                    response = response.split("```")[1].split("```")[0].strip()
-                
-                structured_notes = json.loads(response)
-                
-                self.log_execution("success", f"Extracted {len(structured_notes)} fields")
-                
-                return AgentResult(
-                    success=True,
-                    data={
-                        "structured_notes": structured_notes,
-                        "project_name": project_name,
-                        "transcript_length": len(transcript)
-                    },
-                    metadata={
-                        "agent": self.config.name,
-                        "fields_extracted": list(structured_notes.keys())
-                    }
-                )
-                
-            except json.JSONDecodeError as e:
-                self.logger.error(f"Failed to parse JSON response: {str(e)}")
-                self.logger.error(f"Response was: {response[:500]}")
-                
-                # Return raw response if JSON parsing fails
-                return AgentResult(
-                    success=True,
-                    data={
-                        "structured_notes": {"raw_response": response},
-                        "project_name": project_name,
-                        "warning": "Could not parse as JSON, returning raw response"
-                    },
-                    metadata={"agent": self.config.name}
-                )
+            response = await self._call_llm(system_message, user_message, max_retries=3)
+
+            # Parse JSON response using robust parser
+            structured_notes = self.parse_json_response(response, fallback_key="raw_response")
+
+            # Check if parsing was successful
+            has_parse_error = "parse_error" in structured_notes
+
+            self.log_execution(
+                "success" if not has_parse_error else "warning",
+                f"Extracted {len(structured_notes)} fields" + (" (with parse warnings)" if has_parse_error else "")
+            )
+
+            return AgentResult(
+                success=True,
+                data={
+                    "structured_notes": structured_notes,
+                    "project_name": project_name,
+                    "transcript_length": len(transcript)
+                },
+                metadata={
+                    "agent": self.config.name,
+                    "fields_extracted": list(structured_notes.keys()),
+                    "parse_warning": has_parse_error
+                }
+            )
                 
         except Exception as e:
             self.logger.error(f"Error in TranscriptAgent: {str(e)}")

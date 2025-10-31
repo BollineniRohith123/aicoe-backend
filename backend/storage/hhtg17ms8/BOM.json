@@ -1,0 +1,5 @@
+{
+  "project_name": "Fitness Tracking App",
+  "error": "Failed to parse LLM response",
+  "raw_response": "\n```json\n{\n    \"project_name\": \"Fitness Tracking App\",\n    \"generated_date\": \"2024-05-21\",\n    \"version\": \"1.0\",\n    \"summary\": {\n        \"total_components\": 26,\n        \"total_one_time_cost\": 525.00,\n        \"total_recurring_cost_monthly\": 44758.33,\n        \"total_recurring_cost_annual\": 475899.96,\n        \"currency\": \"USD\"\n    },\n    \"categories\": [\n        {\n            \"category_name\": \"Infrastructure & Hosting\",\n            \"description\": \"Cloud infrastructure and hosting services for backe"
+}
