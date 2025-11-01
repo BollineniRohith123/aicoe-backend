@@ -1,9 +1,12 @@
 """
-Mock LLM Client for Testing
-This allows testing the full workflow without a valid API key
+OpenRouter LLM Client
+Real implementation using OpenRouter API with OpenAI SDK compatibility
 """
 import os
-from typing import Optional
+from typing import Optional, Dict, Any
+import asyncio
+import aiohttp
+import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -11,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class LLMClient:
     """
-    Mock LLM Client that returns realistic responses for testing
+    OpenRouter LLM Client using direct HTTP requests for maximum compatibility
     """
 
     def __init__(
@@ -20,11 +23,15 @@ class LLMClient:
         provider: str = "openrouter",
         model: str = "x-ai/grok-code-fast-1"
     ):
-        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY", "mock-key")
+        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
+        if not self.api_key:
+            raise ValueError("API key not provided and OPENROUTER_API_KEY not found in environment")
+        
         self.provider = provider
         self.model = model
-        self.logger = logging.getLogger("llm_client_mock")
-        self.logger.info(f"⚠️ MOCK MODE: Using mock LLM client for testing")
+        self.base_url = "https://openrouter.ai/api/v1"
+        self.logger = logging.getLogger("llm_client")
+        self.logger.info(f"🚀 OpenRouter LLM Client initialized | Model: {self.model}")
     
     async def send_message_async(
         self,
