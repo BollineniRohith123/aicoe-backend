@@ -2,160 +2,170 @@
   "use_cases": [
     {
       "id": "UC-001",
-      "title": "Create Task",
-      "description": "A user creates a new task with a title, description, and due date.",
+      "title": "Create New Task",
+      "description": "The user creates a new task, providing task details such as title, description, and due date.",
       "actors": [
         "User"
       ],
       "preconditions": "User is logged in and has permission to create tasks",
       "main_flow": [
         {
-          "step": "User enters task title and description",
-          "description": "User enters the title and description of the task"
+          "step": "The user enters task details (title, description, due date)",
+          "step_description": "The user provides the necessary details for the new task"
         },
         {
-          "step": "User selects due date",
-          "description": "User selects the due date for the task"
+          "step": "The user submits the task",
+          "step_description": "The user clicks the submit button to create the new task"
         },
         {
-          "step": "Task is created",
-          "description": "Task is created and added to the user's task list"
+          "step": "The system validates and creates the task",
+          "step_description": "The system checks for errors and creates the new task if valid"
         }
       ],
-      "alternate_flows": [],
-      "postconditions": "Task is created and added to the user's task list",
+      "alternate_flows": [
+        {
+          "step": "The user cancels the task creation",
+          "step_description": "The user clicks the cancel button to abandon the task creation"
+        }
+      ],
+      "postconditions": "The new task is created and displayed in the task list",
       "priority": "high",
-      "business_value": "Allows users to create new tasks efficiently"
+      "business_value": "Allows users to create and manage tasks efficiently"
     },
     {
       "id": "UC-002",
-      "title": "Assign Task",
-      "description": "A user assigns a task to another user.",
+      "title": "Assign Task to Team Member",
+      "description": "The user assigns a task to a team member, specifying the team member's role and due date.",
       "actors": [
         "User",
-        "Assignee"
+        "Team Member"
       ],
-      "preconditions": "User is logged in and has permission to assign tasks, Assignee is logged in and has permission to accept tasks",
+      "preconditions": "User is logged in, team member is logged in, and task exists",
       "main_flow": [
         {
-          "step": "User selects task to assign",
-          "description": "User selects the task to assign"
+          "step": "The user selects the task to assign",
+          "step_description": "The user selects the task they want to assign to a team member"
         },
         {
-          "step": "User selects assignee",
-          "description": "User selects the assignee"
+          "step": "The user selects the team member",
+          "step_description": "The user selects the team member to assign the task to"
         },
         {
-          "step": "Task is assigned",
-          "description": "Task is assigned to the assignee"
+          "step": "The user sets the due date",
+          "step_description": "The user sets the due date for the task assignment"
+        },
+        {
+          "step": "The system validates and assigns the task",
+          "step_description": "The system checks for errors and assigns the task to the team member if valid"
         }
       ],
-      "alternate_flows": [],
-      "postconditions": "Task is assigned to the assignee",
+      "alternate_flows": [
+        {
+          "step": "The user cancels the task assignment",
+          "step_description": "The user clicks the cancel button to abandon the task assignment"
+        }
+      ],
+      "postconditions": "The task is assigned to the team member and displayed in their task list",
       "priority": "high",
-      "business_value": "Allows for efficient task assignment and delegation"
+      "business_value": "Enables efficient task management and collaboration among team members"
     },
     {
       "id": "UC-003",
-      "title": "Track Task Progress",
-      "description": "A user views the progress of a task.",
+      "title": "View Task Details",
+      "description": "The user views the details of a task, including task history and comments.",
       "actors": [
         "User"
       ],
-      "preconditions": "User is logged in and has permission to view task progress",
+      "preconditions": "User is logged in and has permission to view task details",
       "main_flow": [
         {
-          "step": "User selects task to view progress",
-          "description": "User selects the task to view progress"
+          "step": "The user selects the task to view",
+          "step_description": "The user selects the task they want to view details for"
         },
         {
-          "step": "Task progress is displayed",
-          "description": "Task progress is displayed, including due date, status, and comments"
+          "step": "The system displays task details",
+          "step_description": "The system displays the task details, including task history and comments"
         }
       ],
       "alternate_flows": [],
-      "postconditions": "Task progress is displayed",
+      "postconditions": "The task details are displayed",
       "priority": "medium",
-      "business_value": "Allows users to track task progress and stay informed"
+      "business_value": "Provides users with essential task information"
     },
     {
       "id": "UC-004",
-      "title": "Update Task",
-      "description": "A user updates the status of a task.",
+      "title": "Create Custom Workflow",
+      "description": "The user creates a custom workflow by defining a sequence of tasks and assigning tasks to team members.",
       "actors": [
         "User"
       ],
-      "preconditions": "User is logged in and has permission to update task status",
+      "preconditions": "User is logged in and has permission to create custom workflows",
       "main_flow": [
         {
-          "step": "User selects task to update",
-          "description": "User selects the task to update"
+          "step": "The user defines the workflow sequence",
+          "step_description": "The user defines the sequence of tasks they want to create"
         },
         {
-          "step": "User updates task status",
-          "description": "User updates the status of the task"
+          "step": "The user assigns tasks to team members",
+          "step_description": "The user assigns tasks to team members in the defined sequence"
         },
         {
-          "step": "Task status is updated",
-          "description": "Task status is updated and reflected in the task list"
+          "step": "The system validates and creates the custom workflow",
+          "step_description": "The system checks for errors and creates the custom workflow if valid"
         }
       ],
       "alternate_flows": [],
-      "postconditions": "Task status is updated",
-      "priority": "medium",
-      "business_value": "Allows for efficient task status updates"
+      "postconditions": "The custom workflow is created and displayed",
+      "priority": "high",
+      "business_value": "Allows users to create tailored workflows to meet their specific needs"
     },
     {
       "id": "UC-005",
-      "title": "Delete Task",
-      "description": "A user deletes a task.",
+      "title": "View Reporting and Analytics",
+      "description": "The user views reporting and analytics data, including task completion rates and team performance.",
       "actors": [
         "User"
       ],
-      "preconditions": "User is logged in and has permission to delete tasks",
+      "preconditions": "User is logged in and has permission to view reporting and analytics",
       "main_flow": [
         {
-          "step": "User selects task to delete",
-          "description": "User selects the task to delete"
+          "step": "The user selects the reporting and analytics option",
+          "step_description": "The user selects the reporting and analytics option from the menu"
         },
         {
-          "step": "Task is deleted",
-          "description": "Task is deleted from the task list"
+          "step": "The system displays reporting and analytics data",
+          "step_description": "The system displays the reporting and analytics data, including task completion rates and team performance"
         }
       ],
       "alternate_flows": [],
-      "postconditions": "Task is deleted",
-      "priority": "low",
-      "business_value": "Allows for efficient task deletion"
+      "postconditions": "The reporting and analytics data are displayed",
+      "priority": "medium",
+      "business_value": "Provides users with valuable insights into task completion rates and team performance"
     }
   ],
   "business_requirements": {
-    "overview": "The Complete Test Task Management App will provide a user-friendly interface for creating, assigning, tracking, and updating tasks.",
+    "overview": "The Complete Test Task Management App will provide a comprehensive platform for users to create, assign, view, and manage tasks, with a focus on collaboration and efficiency.",
     "business_goals": [
       "Improve task management efficiency",
-      "Enhance user experience",
-      "Increase productivity"
+      "Enhance collaboration among team members",
+      "Provide users with essential task information"
     ],
     "success_criteria": [
-      "App meets user expectations",
-      "App is easy to use",
-      "App is scalable"
+      "Task creation and assignment functionality",
+      "Custom workflow creation and assignment",
+      "Reporting and analytics data display"
     ],
     "constraints": [
-      "Limited resources",
-      "Technical constraints"
+      "Limited budget for development and maintenance",
+      "Complexity of task management features"
     ],
     "assumptions": [
-      "Users will have basic computer skills",
-      "Users will have permission to create and update tasks"
+      "Users will have basic knowledge of task management concepts",
+      "Users will have permission to create and assign tasks"
     ],
     "risks": [
-      "User adoption",
-      "Technical issues"
-    ],
-    "mitigation_strategies": [
-      "Provide user training",
-      "Implement robust testing and quality assurance"
+      "Insufficient user adoption",
+      "Technical difficulties with custom workflow creation"
     ]
   },
   "project_name": "Complete Test - Task Management App"
