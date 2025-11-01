@@ -1,0 +1,42 @@
+{
+  "project_name": "Complete Test - Task Management App",
+  "workflow_id": "workflow_20251101_200845",
+  "status": "failed",
+  "error": "Critical stage transcript failed: LLM call failed after 3 retries: LLM call failed: Error code: 404 - {'error': {'message': 'No endpoints found matching your data policy (Free model publication). Configure: https://openrouter.ai/settings/privacy', 'code': 404}}",
+  "context": {
+    "project_name": "Complete Test - Task Management App",
+    "workflow_id": "workflow_20251101_200845",
+    "workflow_type": "full",
+    "start_time": "2025-11-01T20:08:45.136275",
+    "end_time": "2025-11-01T20:08:51.619551",
+    "status": "failed",
+    "error": "Critical stage transcript failed: LLM call failed after 3 retries: LLM call failed: Error code: 404 - {'error': {'message': 'No endpoints found matching your data policy (Free model publication). Configure: https://openrouter.ai/settings/privacy', 'code': 404}}"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Complete Test - Task Management App",
+      "project_root": "storage/Complete Test - Task Management App",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "research",
+        "use_cases",
+        "synthetic_data",
+        "case_studies",
+        "prd",
+        "architecture",
+        "commercial_proposals",
+        "bom",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-11-01T20:08:45.136851",
+        "action": "project_created",
+        "project_name": "Complete Test - Task Management App",
+        "user": "system"
+      }
+    }
+  }
+}

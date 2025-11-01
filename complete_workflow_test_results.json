@@ -1,0 +1,85 @@
+{
+  "test_results": [
+    {
+      "test": "API Health Check",
+      "success": true,
+      "details": "Backend API is running",
+      "timestamp": "2025-11-01T20:08:45.081440",
+      "response_data": {
+        "message": "AICOE Automation Platform API",
+        "version": "1.0.0",
+        "status": "running"
+      }
+    },
+    {
+      "test": "Start Workflow",
+      "success": true,
+      "details": "Workflow initiated successfully",
+      "timestamp": "2025-11-01T20:08:45.092178",
+      "response_data": {
+        "project_id": "566dd3a0-5e4b-43ef-94fd-5d4db851d0ca",
+        "workflow_id": "workflow_20251101_200845_566dd3a0",
+        "status": "started"
+      }
+    },
+    {
+      "test": "WebSocket Connection",
+      "success": true,
+      "details": "Connected to WebSocket successfully",
+      "timestamp": "2025-11-01T20:08:45.134107",
+      "response_data": null
+    },
+    {
+      "test": "Complete Workflow Execution",
+      "success": false,
+      "details": "Workflow failed after 6.5s",
+      "timestamp": "2025-11-01T20:08:51.622163",
+      "response_data": {
+        "completed_agents": [
+          "storage"
+        ],
+        "failed_at": 1
+      }
+    },
+    {
+      "test": "Artifact Verification",
+      "success": false,
+      "details": "HTTP 404",
+      "timestamp": "2025-11-01T20:08:51.639075",
+      "response_data": "{\"detail\":\"Project not found\"}"
+    },
+    {
+      "test": "Database Persistence",
+      "success": false,
+      "details": "HTTP 404",
+      "timestamp": "2025-11-01T20:08:51.647310",
+      "response_data": "{\"detail\":\"Project not found\"}"
+    },
+    {
+      "test": "File System Verification",
+      "success": true,
+      "details": "Found 5/5 directories + results file",
+      "timestamp": "2025-11-01T20:08:51.647474",
+      "response_data": {
+        "project_dir": "/app/backend/storage/Complete Test - Task Management App",
+        "found_dirs": [
+          "PRDDocuments",
+          "CaseStudies",
+          "CommercialProposals",
+          "BillOfMaterials",
+          "SystemArchitecture"
+        ],
+        "missing_dirs": [],
+        "has_results_file": true
+      }
+    }
+  ],
+  "agent_progress": {
+    "storage": "completed",
+    "transcript": "failed"
+  },
+  "completed_agents": [
+    "storage"
+  ],
+  "workflow_results": null
+}
