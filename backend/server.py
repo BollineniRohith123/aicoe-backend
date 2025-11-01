@@ -38,7 +38,7 @@ db = client[os.environ['DB_NAME']]
 llm_client = LLMClient(
     api_key=os.getenv("OPENROUTER_API_KEY"),
     provider="openrouter",
-    model="deepseek/deepseek-chat-v3.1:free"  # Free model with fallbacks
+    model="meta-llama/llama-3.2-3b-instruct:free"  # Free model that should work
 )
 orchestrator = OrchestratorAgent(llm_client, db)
 
