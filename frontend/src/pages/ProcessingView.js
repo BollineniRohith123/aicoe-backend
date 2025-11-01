@@ -53,7 +53,7 @@ const ProcessingView = () => {
 
         // Try to restore workflow state from backend
         try {
-          const response = await fetch(`http://localhost:8000/api/workflow/${storedWorkflowId}/status`);
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/workflow/${storedWorkflowId}/status`);
           const workflowStatus = await response.json();
 
           if (workflowStatus.status === 'running' || workflowStatus.status === 'completed') {
