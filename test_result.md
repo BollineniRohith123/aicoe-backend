@@ -154,16 +154,14 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Health Check API"
-    - "Status Check APIs"
-    - "Process Transcript API"
-    - "Workflow Status API"
-    - "Projects Management APIs"
-    - "Database Integration"
-  stuck_tasks: []
-  test_all: true
+    - "LLM Integration"
+  stuck_tasks:
+    - "LLM Integration"
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
   - agent: "testing"
     message: "Starting comprehensive backend API testing for AICOE Automation Platform"
+  - agent: "testing"
+    message: "✅ All basic API endpoints working correctly. ❌ CRITICAL ISSUE: OpenRouter API key invalid (401 error). This prevents workflow completion. All infrastructure (WebSocket, MongoDB, FastAPI) is working properly."
