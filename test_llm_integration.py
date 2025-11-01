@@ -6,9 +6,14 @@ Test LLM Integration with OpenRouter API
 import asyncio
 import sys
 import os
+from dotenv import load_dotenv
+from pathlib import Path
 
 # Add backend directory to path for imports
 sys.path.append('/app/backend')
+
+# Load environment variables
+load_dotenv('/app/backend/.env')
 
 from agents.llm_client import LLMClient
 
