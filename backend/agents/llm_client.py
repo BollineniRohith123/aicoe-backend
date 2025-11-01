@@ -1,6 +1,6 @@
 """
-Hybrid LLM Client
-Attempts real OpenRouter API calls, falls back to intelligent mocking if API fails
+OpenRouter LLM Client
+Production-ready implementation for OpenRouter API
 """
 import os
 from typing import Optional, Dict, Any
@@ -14,29 +14,35 @@ logger = logging.getLogger(__name__)
 
 class LLMClient:
     """
-    Hybrid LLM Client - tries real OpenRouter API, falls back to smart mocking
+    OpenRouter LLM Client - Production implementation with comprehensive error handling
     """
 
     def __init__(
         self,
         api_key: Optional[str] = None,
         provider: str = "openrouter",
-        model: str = "x-ai/grok-code-fast-1"
+        model: str = "deepseek/deepseek-chat-v3.1:free"  # Using free model as default
     ):
         self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
+        if not self.api_key:
+            raise ValueError("❌ OpenRouter API key required. Set OPENROUTER_API_KEY environment variable or pass api_key parameter.")
+        
         self.provider = provider
         self.model = model
         self.base_url = "https://openrouter.ai/api/v1"
         self.logger = logging.getLogger("llm_client")
-        self.use_mock = False
         
-        # Test API key validity on initialization
-        if self.api_key:
-            self.logger.info(f"🚀 Hybrid LLM Client initialized | Model: {self.model}")
-            self.logger.info("🔍 Testing API key validity...")
-        else:
-            self.logger.warning("⚠️ No API key provided, using mock mode")
-            self.use_mock = True
+        # Available free models as fallbacks
+        self.free_models = [
+            "deepseek/deepseek-chat-v3.1:free",
+            "nvidia/nemotron-nano-9b-v2:free", 
+            "minimax/minimax-m2:free",
+            "qwen/qwen3-coder:free"
+        ]
+        
+        self.logger.info(f"🚀 OpenRouter LLM Client initialized")
+        self.logger.info(f"   Model: {self.model}")
+        self.logger.info(f"   API Key: {self.api_key[:15]}...{self.api_key[-10:]}")
     
     async def send_message_async(
         self,
