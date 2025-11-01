@@ -164,5 +164,75 @@
       "size": 5292
     },
     "user": "system"
+  },
+  {
+    "timestamp": "2025-11-01T20:14:55.559396",
+    "action": "file_saved",
+    "details": {
+      "folder": "mockups",
+      "filename": "index.html",
+      "size": 4422
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-01T20:14:55.559818",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "index.html",
+      "size": 3228
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-01T20:14:55.561286",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-001_mockup.html",
+      "size": 94
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-01T20:14:55.562605",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-002_mockup.html",
+      "size": 94
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-01T20:14:55.564903",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-003_mockup.html",
+      "size": 94
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-01T20:14:55.566839",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-004_mockup.html",
+      "size": 94
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-01T20:14:55.568793",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-005_mockup.html",
+      "size": 94
+    },
+    "user": "system"
   }
 ]
