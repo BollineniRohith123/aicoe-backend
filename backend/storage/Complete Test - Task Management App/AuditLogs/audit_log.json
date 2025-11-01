@@ -1,68 +1,8 @@
 [
   {
-    "timestamp": "2025-11-01T20:10:03.354589",
+    "timestamp": "2025-11-01T20:12:09.653966",
     "action": "project_created",
     "project_name": "Complete Test - Task Management App",
-    "user": "system"
-  },
-  {
-    "timestamp": "2025-11-01T20:10:16.438491",
-    "action": "file_saved",
-    "details": {
-      "folder": "notes",
-      "filename": "structured_notes.json",
-      "size": 2589
-    },
-    "user": "system"
-  },
-  {
-    "timestamp": "2025-11-01T20:10:37.576082",
-    "action": "file_saved",
-    "details": {
-      "folder": "research",
-      "filename": "research_insights.json",
-      "size": 981
-    },
-    "user": "system"
-  },
-  {
-    "timestamp": "2025-11-01T20:10:50.009158",
-    "action": "file_saved",
-    "details": {
-      "folder": "use_cases",
-      "filename": "use_cases.json",
-      "size": 5105
-    },
-    "user": "system"
-  },
-  {
-    "timestamp": "2025-11-01T20:10:55.473451",
-    "action": "file_saved",
-    "details": {
-      "folder": "architecture",
-      "filename": "knowledge_enrichment.json",
-      "size": 2102
-    },
-    "user": "system"
-  },
-  {
-    "timestamp": "2025-11-01T20:11:46.125449",
-    "action": "file_saved",
-    "details": {
-      "folder": "prd",
-      "filename": "PRD_v1.xml",
-      "size": 6136
-    },
-    "user": "system"
-  },
-  {
-    "timestamp": "2025-11-01T20:11:46.125789",
-    "action": "file_saved",
-    "details": {
-      "folder": "prd",
-      "filename": "PRD_v1.html",
-      "size": 10431
-    },
     "user": "system"
   }
 ]
