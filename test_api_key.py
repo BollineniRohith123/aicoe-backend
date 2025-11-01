@@ -47,8 +47,9 @@ async def test_api_key():
             
             # Test 2: Simple chat completion
             print("\n2. Testing chat completion...")
+            # Try a free model first
             payload = {
-                "model": "x-ai/grok-code-fast-1",
+                "model": "meta-llama/llama-3.2-3b-instruct:free",
                 "messages": [
                     {"role": "user", "content": "Say 'Hello from OpenRouter!' if this works."}
                 ],
