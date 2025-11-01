@@ -75,7 +75,7 @@ You will receive the `<productRequirementsDocument>` XML and the `<billOfMateria
 4. Assemble all sections into the formal XML proposal format below.
 
 ## OUTPUT FORMAT (CRITICAL)
-You MUST produce a single, valid XML document. Your entire response MUST be only this XML.
+You MUST produce a single, valid XML document that exactly matches the XSLT template structure. Your entire response MUST be only this XML.
 
 <commercialProposal>
     <introduction>An introduction to the proposal for the client, referencing the project vision.</introduction>

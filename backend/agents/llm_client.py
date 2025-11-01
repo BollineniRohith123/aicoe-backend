@@ -58,7 +58,17 @@ class LLMClient:
             LLM response text
         """
         try:
-            self.logger.info(f"Sending message to {self.provider}/{self.model}")
+            # ENHANCED LOGGING: Track every API call with detailed context
+            import traceback
+            import inspect
+
+            # Get caller information for debugging
+            frame = inspect.currentframe()
+            caller_frame = frame.f_back
+            caller_info = f"{caller_frame.f_code.co_filename}:{caller_frame.f_lineno}"
+
+            self.logger.info(f"🔵 API CALL START | Model: {self.provider}/{self.model} | Caller: {caller_info}")
+            self.logger.info(f"   Request: temp={temperature}, max_tokens={max_tokens}, msg_length={len(user_message)}")
 
             # Create messages for OpenRouter API
             messages = [
@@ -81,11 +91,20 @@ class LLMClient:
             # Extract response text
             response_text = response.choices[0].message.content
 
-            self.logger.info(f"Received response from LLM (length: {len(response_text)} chars)")
+            # Calculate token usage if available
+            usage = getattr(response, 'usage', None)
+            if usage:
+                prompt_tokens = getattr(usage, 'prompt_tokens', 0)
+                completion_tokens = getattr(usage, 'completion_tokens', 0)
+                total_tokens = getattr(usage, 'total_tokens', 0)
+                self.logger.info(f"🟢 API CALL SUCCESS | Response: {len(response_text)} chars | Tokens: {prompt_tokens}+{completion_tokens}={total_tokens}")
+            else:
+                self.logger.info(f"🟢 API CALL SUCCESS | Response: {len(response_text)} chars")
+
             return response_text
 
         except Exception as e:
-            self.logger.error(f"Error calling LLM: {str(e)}")
+            self.logger.error(f"🔴 API CALL FAILED | Error: {str(e)}")
             raise Exception(f"LLM call failed: {str(e)}")
     
     def send_message(

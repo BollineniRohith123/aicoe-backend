@@ -30,6 +30,8 @@ class MockupAgent(BaseAgent):
             - use_cases: Use cases to visualize
             - project_name: Name of the project
             - structured_notes: Optional context
+            - prd_content: Optional PRD content for richer context
+            - technical_stack: Optional technical stack information
 
         Output:
             - mockup_pages: Dictionary of HTML pages (index.html and additional pages)
@@ -42,31 +44,96 @@ class MockupAgent(BaseAgent):
             project_name = input_data["project_name"]
             use_cases = input_data.get("use_cases", [])
             structured_notes = input_data.get("structured_notes", {})
-            
-            # Prepare context
-            use_cases_text = json.dumps(use_cases, indent=2) if use_cases else "No specific use cases provided"
-            notes_text = json.dumps(structured_notes, indent=2) if structured_notes else "No additional context"
+            prd_content = input_data.get("prd_content", "")
+            technical_stack = input_data.get("technical_stack", {})
+
+            # Extract additional context for richer mockups
+            case_study_context = self._extract_case_study_context(
+                structured_notes,
+                prd_content,
+                technical_stack
+            )
 
             # Determine if we need multiple pages
+            # CHANGED: Always generate separate pages for each use case (if any exist)
             num_use_cases = len(use_cases) if isinstance(use_cases, list) else 0
-            needs_multiple_pages = num_use_cases > 3  # If more than 3 use cases, create separate pages
+            needs_multiple_pages = num_use_cases >= 1  # Generate separate pages for ALL use cases
 
             # Generate main index.html
-            self.log_execution("llm_call", "Generating index.html")
-            index_html = await self._generate_index_page(project_name, use_cases, structured_notes, needs_multiple_pages)
+            self.log_execution("llm_call", "Generating index.html with enhanced context")
+            index_html = await self._generate_index_page(
+                project_name,
+                use_cases,
+                structured_notes,
+                needs_multiple_pages,
+                case_study_context
+            )
 
             # Store all pages
             mockup_pages = {
                 "index.html": index_html
             }
 
-            # Generate additional pages if needed
+            # Generate MULTIPLE SCREEN MOCKUPS for EACH use case
             if needs_multiple_pages and isinstance(use_cases, list):
-                self.log_execution("llm_call", f"Generating {num_use_cases} additional use case pages")
+                total_screens = 0
+
+                # DEBUG: Log use_cases structure
+                self.logger.info(f"[MockupAgent] DEBUG: use_cases type: {type(use_cases)}")
+                self.logger.info(f"[MockupAgent] DEBUG: use_cases length: {len(use_cases)}")
+                if len(use_cases) > 0:
+                    self.logger.info(f"[MockupAgent] DEBUG: First use_case type: {type(use_cases[0])}")
+                    self.logger.info(f"[MockupAgent] DEBUG: First use_case: {use_cases[0]}")
+
                 for idx, use_case in enumerate(use_cases, 1):
-                    page_name = f"use-case-{idx}.html"
-                    page_html = await self._generate_use_case_page(project_name, use_case, idx, num_use_cases)
-                    mockup_pages[page_name] = page_html
+                    # CRITICAL FIX: Check if use_case is a dict
+                    if not isinstance(use_case, dict):
+                        self.logger.error(f"[MockupAgent] ERROR: use_case {idx} is not a dict, it's a {type(use_case)}: {use_case}")
+                        continue
+
+                    # Extract main flow steps to determine number of screens
+                    main_flow = use_case.get("main_flow", [])
+                    num_screens = len(main_flow) if main_flow else 4  # Default to 4 screens if no main_flow
+
+                    # Ensure at least 3 screens per use case
+                    if num_screens < 3:
+                        num_screens = 4  # Default to 4 screens for better mockup coverage
+
+                    total_screens += num_screens
+
+                self.log_execution("llm_call", f"Generating {total_screens} screen mockups across {num_use_cases} use cases")
+
+                # Generate screens for each use case
+                for uc_idx, use_case in enumerate(use_cases, 1):
+                    # CRITICAL FIX: Skip if use_case is not a dict
+                    if not isinstance(use_case, dict):
+                        self.logger.error(f"[MockupAgent] Skipping use_case {uc_idx} - not a dict: {type(use_case)}")
+                        continue
+
+                    main_flow = use_case.get("main_flow", [])
+                    num_screens = len(main_flow) if main_flow else 4
+                    if num_screens < 3:
+                        num_screens = 4
+
+                    # Generate each screen for this use case
+                    for screen_idx in range(1, num_screens + 1):
+                        page_name = f"use-case-{uc_idx}-screen-{screen_idx}.html"
+
+                        # Determine which flow step this screen represents
+                        flow_step = main_flow[screen_idx - 1] if screen_idx <= len(main_flow) else None
+
+                        page_html = await self._generate_use_case_screen(
+                            project_name,
+                            use_case,
+                            uc_idx,
+                            num_use_cases,
+                            screen_idx,
+                            num_screens,
+                            flow_step,
+                            case_study_context
+                        )
+                        mockup_pages[page_name] = page_html
+                        self.log_execution("progress", f"Generated screen {screen_idx}/{num_screens} for use case {uc_idx}: {page_name}")
 
             total_chars = sum(len(html) for html in mockup_pages.values())
             self.log_execution("success", f"Generated {len(mockup_pages)} HTML pages ({total_chars} total characters)")
@@ -78,12 +145,14 @@ class MockupAgent(BaseAgent):
                     "mockup_html": index_html,  # Backward compatibility
                     "project_name": project_name,
                     "page_count": len(mockup_pages),
-                    "total_size": total_chars
+                    "total_size": total_chars,
+                    "use_case_count": num_use_cases
                 },
                 metadata={
                     "agent": self.config.name,
                     "format": "html",
-                    "multi_page": needs_multiple_pages
+                    "multi_page": needs_multiple_pages,
+                    "pages_generated": list(mockup_pages.keys())
                 }
             )
 
@@ -96,10 +165,52 @@ class MockupAgent(BaseAgent):
                 metadata={"agent": self.config.name}
             )
 
-    async def _generate_index_page(self, project_name: str, use_cases: list, structured_notes: dict, has_subpages: bool) -> str:
-        """Generate the main index.html page"""
+    def _extract_case_study_context(self, structured_notes: dict, prd_content: str, technical_stack: dict) -> dict:
+        """Extract rich context from case study for better mockup generation"""
+        context = {
+            "overview": structured_notes.get("company_overview", ""),
+            "objective": structured_notes.get("meeting_objective", ""),
+            "target_audience": "",
+            "key_features": [],
+            "technical_stack": [],
+            "pain_points": structured_notes.get("pain_points", []),
+            "requirements": structured_notes.get("requirements", []),
+            "decisions": structured_notes.get("decisions_made", [])
+        }
+
+        # Extract target audience from decisions
+        for decision in context["decisions"]:
+            if "target audience" in decision.lower() or "user" in decision.lower():
+                context["target_audience"] = decision
+                break
+
+        # Extract technical stack
+        tech_constraints = structured_notes.get("technical_constraints", [])
+        for constraint in tech_constraints:
+            if any(tech in constraint for tech in ["React", "Node", "Python", "AWS", "PostgreSQL", "MongoDB"]):
+                context["technical_stack"].append(constraint)
+
+        # Extract key features from requirements
+        context["key_features"] = structured_notes.get("requirements", [])[:5]  # Top 5 features
+
+        return context
+
+    async def _generate_index_page(self, project_name: str, use_cases: list, structured_notes: dict, has_subpages: bool, case_study_context: dict = None) -> str:
+        """Generate the main index.html page with enhanced context"""
         use_cases_text = json.dumps(use_cases, indent=2) if use_cases else "No specific use cases provided"
         notes_text = json.dumps(structured_notes, indent=2) if structured_notes else "No additional context"
+
+        # Prepare enhanced context summary
+        context_summary = ""
+        if case_study_context:
+            context_summary = f"""
+CASE STUDY CONTEXT:
+- Overview: {case_study_context.get('overview', 'N/A')}
+- Objective: {case_study_context.get('objective', 'N/A')}
+- Target Audience: {case_study_context.get('target_audience', 'N/A')}
+- Key Features: {', '.join(case_study_context.get('key_features', [])[:3])}
+- Technical Stack: {', '.join(case_study_context.get('technical_stack', []))}
+"""
 
         system_message = """## ROLE AND GOAL
 You are a world-class UI/UX Engineer who specializes in creating pixel-perfect, interactive, multi-page web prototypes. Your design philosophy is inspired by Apple's clean, minimalist, and high-contrast aesthetic. Your goal is to take a set of use cases and produce a fully functional, navigable set of HTML files.
@@ -155,13 +266,27 @@ IMPORTANT: This is a MULTI-PAGE prototype. Create navigation links to use case d
 
 Project Name: {project_name}
 
+{context_summary}
+
 Use Cases:
 {use_cases_text}
 
-Context:
+Additional Context:
 {notes_text}
 
 {navigation_instruction}
+
+MOCKUP GENERATION INSTRUCTIONS:
+- Create a comprehensive dashboard that showcases ALL use cases
+- Each use case should be displayed as an interactive card with:
+  * Use case title and ID
+  * Brief description
+  * Key actors involved
+  * "View Details" button linking to the detailed mockup page
+- Include a hero section with project overview and key metrics
+- Add a features section highlighting the main capabilities
+- Use realistic data and content (not placeholder text)
+- Make it look like a real, production-ready application
 
 MANDATORY UC001 AICOE DESIGN REQUIREMENTS:
 
@@ -281,34 +406,241 @@ NO explanations, NO markdown code blocks, JUST the raw HTML."""
 
         return html_content
 
-    async def _generate_use_case_page(self, project_name: str, use_case: dict, page_num: int, total_pages: int) -> str:
-        """Generate a detailed use case page"""
-        use_case_text = json.dumps(use_case, indent=2)
+    async def _generate_use_case_screen(
+        self,
+        project_name: str,
+        use_case: dict,
+        uc_num: int,
+        total_use_cases: int,
+        screen_num: int,
+        total_screens: int,
+        flow_step: dict = None,
+        case_study_context: dict = None
+    ) -> str:
+        """Generate a single screen mockup for a specific step in the use case flow"""
 
-        system_message = """You are an expert UI/UX designer specializing in Apple-style, minimalist web design with UC001 AICOE branding.
-You create beautiful, modern, responsive HTML mockups with clean aesthetics, Lucide icons, and excellent user experience."""
+        # Extract use case details
+        use_case_id = use_case.get("id", f"UC-{uc_num:03d}")
+        use_case_title = use_case.get("title", "Use Case")
+        use_case_description = use_case.get("description", "")
+        actors = use_case.get("actors", [])
+        main_flow = use_case.get("main_flow", [])
 
-        user_message = f"""Create a detailed use case page (use-case-{page_num}.html) with UC001 AICOE branding:
+        # Determine screen title and description from flow step
+        if flow_step:
+            screen_title = flow_step.get("step", f"Step {screen_num}")
+            screen_description = flow_step.get("description", "")
+        else:
+            # Generate default screen titles if no flow step provided
+            screen_titles = ["Initial Screen", "Main Interface", "Processing", "Confirmation", "Success"]
+            screen_title = screen_titles[screen_num - 1] if screen_num <= len(screen_titles) else f"Screen {screen_num}"
+            screen_description = f"Screen {screen_num} of the {use_case_title} workflow"
 
-Project Name: {project_name}
-Page: {page_num} of {total_pages}
+        # Build navigation info
+        prev_screen = f"use-case-{uc_num}-screen-{screen_num-1}.html" if screen_num > 1 else None
+        next_screen = f"use-case-{uc_num}-screen-{screen_num+1}.html" if screen_num < total_screens else None
 
-Use Case Details:
-{use_case_text}
+        # Build context summary
+        context_summary = ""
+        if case_study_context:
+            context_summary = f"""
+CASE STUDY CONTEXT:
+- Company: {case_study_context.get('overview', 'N/A')}
+- Objective: {case_study_context.get('objective', 'N/A')}
+- Target Audience: {case_study_context.get('target_audience', 'N/A')}
+- Key Features: {', '.join(case_study_context.get('key_features', [])[:5])}
+- Tech Stack: {', '.join(case_study_context.get('technical_stack', [])[:5])}
+"""
 
-REQUIREMENTS:
-1. Use the same UC001 AICOE color palette and design system as index.html (--primary-navy, --accent-pink, --accent-cyan, etc.)
-2. Include navigation: "Back to Home" link to index.html
-3. Include "Previous" and "Next" links to navigate between use case pages (use-case-{page_num-1}.html and use-case-{page_num+1}.html)
-4. Display use case details in a beautiful, readable format with gradient text headings
-5. Include Lucide icons CDN and initialize with lucide.createIcons()
-6. Make it responsive and printer-friendly with @media print rules
-7. Add interactive elements (accordions, tabs, etc.) to organize information
-8. Use UC001 shadows (--shadow and --shadow-hover) and border-radius: 24px for cards
-9. Apply font smoothing and SF Pro Display fonts
+        system_message = """You are a world-class UI/UX designer and frontend developer specializing in creating pixel-perfect,
+interactive screen mockups that look like real production applications. You follow Apple's design philosophy and UC001 AICOE branding.
+
+Your mockups are not just documentation - they are realistic, interactive UI screens that demonstrate exactly how the
+application will look and feel when built. You use realistic data, proper layouts, and interactive elements.
+
+CRITICAL: Generate ACTUAL UI SCREENS, not documentation pages. Show the real user interface for this specific screen/step."""
+
+        user_message = f"""Create a REALISTIC, INTERACTIVE UI screen mockup for this specific step in the use case flow:
+
+PROJECT: {project_name}
+USE CASE: {use_case_id} - {use_case_title}
+SCREEN: {screen_num} of {total_screens}
+SCREEN TITLE: {screen_title}
+
+{context_summary}
+
+USE CASE DESCRIPTION:
+{use_case_description}
+
+ACTORS: {', '.join(actors) if actors else 'End User'}
+
+THIS SCREEN REPRESENTS:
+{screen_description}
+
+FULL USE CASE FLOW (for context):
+{json.dumps(main_flow, indent=2)}
+
+CRITICAL MOCKUP REQUIREMENTS:
+
+1. **Generate the ACTUAL UI SCREEN for this step**:
+   - This is screen {screen_num} out of {total_screens} in the workflow
+   - Show the EXACT user interface that would appear at this step
+   - Include all form fields, buttons, data displays, navigation elements
+   - Use realistic sample data (names, emails, dates, numbers, etc.)
+   - Make it look like a screenshot from a real application
+
+2. **Screen-Specific Content**:
+   - Focus on THIS specific step: "{screen_title}"
+   - Show the UI elements needed for this step (forms, buttons, displays, etc.)
+   - Include appropriate input fields, dropdowns, checkboxes, etc.
+   - Show realistic data and content (not placeholders like "Lorem ipsum")
+   - Add helpful UI hints, tooltips, or validation messages
+
+3. **Navigation & Flow**:
+   - Add "← Back to Dashboard" link to index.html
+   - Add "← Previous Step" button linking to {prev_screen if prev_screen else 'index.html'}
+   - Add "Next Step →" or "Continue" button linking to {next_screen if next_screen else 'index.html'}
+   - Show progress indicator: "Step {screen_num} of {total_screens}"
+   - Include breadcrumb: Dashboard > {use_case_title} > {screen_title}
+
+4. **UC001 AICOE Design System** (MANDATORY):
+   - Color palette: --primary-navy (#1a1a2e), --accent-pink (#ff69b4), --accent-cyan (#00ffcc)
+   - Lucide icons CDN: <script src="https://unpkg.com/lucide@latest"></script>
+   - SF Pro Display fonts with font smoothing
+   - Shadows: --shadow (0 2px 16px rgba(26, 26, 46, 0.08))
+   - Border radius: 24px for cards, 12px for buttons
+   - Smooth transitions (0.3s ease)
+   - Initialize icons: lucide.createIcons();
+
+5. **Interactive Elements**:
+   - Realistic form inputs with labels and placeholders
+   - Buttons with hover effects (transform: translateY(-2px))
+   - Cards with shadow transitions
+   - Loading states, success messages, error states (where appropriate)
+   - Dropdown menus, toggles, sliders (if needed for this step)
+
+6. **Responsive & Print-Friendly**:
+   - Mobile-first responsive design
+   - @media print rules to hide navigation
+   - Breakpoints at 768px and 1024px
+
+7. **Content Structure**:
+   - Header with navigation and breadcrumbs
+   - Progress indicator showing current step
+   - Main content area with the actual UI for this screen
+   - Action buttons (Previous, Next/Continue, Cancel)
+   - Footer with AICOE branding
+
+EXAMPLE SCREEN TYPES (adapt based on the step):
+- If it's a form step: Show the actual form with all fields
+- If it's a display step: Show the data in cards/tables/lists
+- If it's a confirmation step: Show summary with confirm/cancel buttons
+- If it's a success step: Show success message with next actions
 
 Return ONLY the complete HTML code, starting with <!DOCTYPE html>.
-NO explanations, NO markdown code blocks, JUST the raw HTML."""
+NO explanations, NO markdown code blocks, JUST the raw HTML.
+Make it look AMAZING, REALISTIC, and PRODUCTION-READY!"""
+
+        response = await self._call_llm(
+            system_message,
+            user_message,
+            max_tokens=8000
+        )
+
+        # Clean response
+        html_content = response.strip()
+        if html_content.startswith("```html"):
+            html_content = html_content.split("```html")[1].split("```")[0].strip()
+        elif html_content.startswith("```"):
+            html_content = html_content.split("```")[1].split("```")[0].strip()
+
+        return html_content
+
+    async def _generate_use_case_page(self, project_name: str, use_case: dict, page_num: int, total_pages: int, case_study_context: dict = None) -> str:
+        """Generate a detailed, realistic use case mockup page"""
+        use_case_text = json.dumps(use_case, indent=2)
+
+        # Extract use case details for better mockup generation
+        use_case_id = use_case.get("id", f"UC-{page_num:03d}")
+        use_case_title = use_case.get("title", "Use Case")
+        use_case_description = use_case.get("description", "")
+        actors = use_case.get("actors", [])
+        main_flow = use_case.get("main_flow", [])
+        preconditions = use_case.get("preconditions", [])
+        postconditions = use_case.get("postconditions", [])
+
+        system_message = """You are a world-class UI/UX designer and frontend developer specializing in creating pixel-perfect,
+interactive mockups that look like real production applications. You follow Apple's design philosophy and UC001 AICOE branding.
+
+Your mockups are not just documentation - they are realistic, interactive prototypes that demonstrate exactly how the
+application will look and feel when built. You use realistic data, proper layouts, and interactive elements."""
+
+        user_message = f"""Create a REALISTIC, INTERACTIVE mockup page for this use case (use-case-{page_num}.html):
+
+PROJECT: {project_name}
+USE CASE: {use_case_id} - {use_case_title}
+PAGE: {page_num} of {total_pages}
+
+USE CASE DETAILS:
+{use_case_text}
+
+CRITICAL MOCKUP REQUIREMENTS:
+
+1. **Create ACTUAL UI SCREENS, not documentation**:
+   - Design the actual user interface screens that would be used for this use case
+   - Show the main flow as a series of interactive screen states or steps
+   - Include realistic form fields, buttons, navigation, data displays
+   - Use realistic sample data (names, dates, numbers, etc.)
+   - Make it look like a real application, not a specification document
+
+2. **Visual Flow Representation**:
+   - Show the main flow steps as interactive screen mockups or wireframes
+   - Use tabs, accordions, or step indicators to show progression
+   - Include "before" and "after" states where applicable
+   - Show different screen states (empty state, loading, success, error)
+
+3. **Interactive Elements**:
+   - Add realistic buttons, forms, cards, modals
+   - Include hover states and transitions
+   - Show navigation patterns (breadcrumbs, back buttons, menus)
+   - Add interactive components like dropdowns, toggles, sliders
+
+4. **UC001 AICOE Design System**:
+   - Color palette: --primary-navy (#1a1a2e), --accent-pink (#ff69b4), --accent-cyan (#00ffcc)
+   - Lucide icons for all UI elements
+   - SF Pro Display fonts with font smoothing
+   - Shadows: --shadow and --shadow-hover
+   - Border radius: 24px for cards, 12px for buttons
+   - Smooth transitions (0.3s ease)
+
+5. **Navigation**:
+   - "← Back to Dashboard" link to index.html
+   - "← Previous" link to use-case-{page_num-1}.html (if page_num > 1)
+   - "Next →" link to use-case-{page_num+1}.html (if page_num < {total_pages})
+   - Breadcrumb navigation showing current position
+
+6. **Responsive & Print-Friendly**:
+   - Mobile-first responsive design
+   - @media print rules to hide navigation and optimize for printing
+   - Breakpoints at 768px and 1024px
+
+7. **Content Structure**:
+   - Hero section with use case title and description
+   - Actors section showing who uses this feature
+   - Main flow visualization (the actual UI screens/steps)
+   - Preconditions and postconditions (if relevant)
+   - Success metrics or outcomes
+
+EXAMPLE STRUCTURE:
+- Header with navigation and breadcrumbs
+- Hero section with gradient title
+- Actors cards with icons
+- Main content: ACTUAL UI MOCKUP SCREENS showing the flow
+- Footer with AICOE branding
+
+Return ONLY the complete HTML code, starting with <!DOCTYPE html>.
+NO explanations, NO markdown code blocks, JUST the raw HTML.
+Make it look AMAZING and REALISTIC!"""
 
         response = await self._call_llm(
             system_message,

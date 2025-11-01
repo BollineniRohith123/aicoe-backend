@@ -233,8 +233,24 @@ export const useWorkflowWebSocket = () => {
       console.log('WebSocket closed:', event.code, event.reason);
       setIsConnected(false);
 
-      // Attempt to reconnect if workflow is not complete and we haven't exceeded max attempts
-      if (!isComplete && reconnectAttemptsRef.current < maxReconnectAttempts && workflowDataRef.current) {
+      // CRITICAL FIX: Do NOT reconnect if workflow has completed or failed
+      // This prevents duplicate workflows from starting
+      const shouldReconnect = !isComplete &&
+                              workflowStartedRef.current &&
+                              reconnectAttemptsRef.current < maxReconnectAttempts &&
+                              workflowDataRef.current;
+
+      console.log('🔍 WebSocket close - reconnection check:', {
+        isComplete,
+        workflowStarted: workflowStartedRef.current,
+        reconnectAttempts: reconnectAttemptsRef.current,
+        maxAttempts: maxReconnectAttempts,
+        hasWorkflowData: !!workflowDataRef.current,
+        shouldReconnect
+      });
+
+      // Attempt to reconnect ONLY if workflow is still running
+      if (shouldReconnect) {
         reconnectAttemptsRef.current += 1;
         const delay = Math.min(1000 * Math.pow(2, reconnectAttemptsRef.current - 1), 10000); // Exponential backoff, max 10s
 
@@ -243,10 +259,14 @@ export const useWorkflowWebSocket = () => {
 
         reconnectTimeoutRef.current = setTimeout(() => {
           const { workflowId, projectName, transcript } = workflowDataRef.current;
-          connect(workflowId, projectName, transcript);
+          connect(workflowId, projectName, transcript, true); // CRITICAL: Pass true for reconnection
         }, delay);
       } else if (reconnectAttemptsRef.current >= maxReconnectAttempts) {
         setError('Connection lost. Maximum reconnection attempts reached. Workflow may still be running in the background.');
+      } else if (isComplete) {
+        console.log('✅ Workflow complete - NOT reconnecting');
+      } else {
+        console.log('ℹ️ Workflow not started or no data - NOT reconnecting');
       }
     };
   }, []);

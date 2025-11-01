@@ -75,7 +75,7 @@ You will receive the `<productRequirementsDocument>` XML and the `<knowledgeEnri
 6. Format the entire design into the strict XML schema below.
 
 ## OUTPUT FORMAT (CRITICAL)
-You MUST produce a single, valid XML document. Your entire response MUST be only this XML.
+You MUST produce a single, valid XML document that exactly matches the XSLT template structure. Your entire response MUST be only this XML.
 
 <systemArchitecture>
     <description>A high-level overview of the proposed architecture, referencing open-source components and the Decision Support System pattern.</description>

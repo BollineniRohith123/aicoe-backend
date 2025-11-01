@@ -57,16 +57,19 @@
 }
 
 .agent-card.agent-completed {
-  background: #e8f5e9;
+  background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f0 100%);
   border-color: var(--aicoe-success);
-  animation: complete-slide 0.6s ease-out;
+  box-shadow: 0 6px 20px rgba(52, 199, 89, 0.15);
+  animation: complete-bounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform: scale(1.02);
 }
 
 .agent-card.agent-processing {
-  background: #e3f2fd;
+  background: linear-gradient(135deg, #e3f2fd 0%, #f0f8ff 100%);
   border-color: var(--aicoe-primary);
-  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
-  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 6px 20px rgba(0, 102, 204, 0.25);
+  animation: processing-glow 1.5s ease-in-out infinite alternate;
+  transform: scale(1.01);
 }
 
 .agent-card.agent-pending {
@@ -74,25 +77,27 @@
   opacity: 0.7;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+@keyframes processing-glow {
+  0% {
+    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.25);
+    transform: scale(1.01);
   }
-  50% {
-    box-shadow: 0 4px 20px rgba(0, 102, 204, 0.4);
+  100% {
+    box-shadow: 0 8px 30px rgba(0, 102, 204, 0.4);
+    transform: scale(1.02);
   }
 }
 
-@keyframes complete-slide {
+@keyframes complete-bounce {
   0% {
-    transform: translateX(-10px);
+    transform: scale(0.95) translateY(5px);
     opacity: 0.8;
   }
   50% {
-    transform: translateX(5px);
+    transform: scale(1.05) translateY(-2px);
   }
   100% {
-    transform: translateX(0);
+    transform: scale(1.02);
     opacity: 1;
   }
 }
@@ -190,20 +195,38 @@
 .status-text {
   font-size: 14px;
   font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 20px;
-  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.status-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.status-label {
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .status-text.status-completed {
-  background: var(--aicoe-success);
+  background: linear-gradient(135deg, var(--aicoe-success), #28a745);
   color: var(--aicoe-white);
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  animation: success-pulse 0.6s ease-out;
 }
 
 .status-text.status-processing {
-  background: var(--aicoe-primary);
+  background: linear-gradient(135deg, var(--aicoe-primary), #0056b3);
   color: var(--aicoe-white);
-  animation: blink 1.5s ease-in-out infinite;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  animation: processing-shine 1.2s ease-in-out infinite;
 }
 
 .status-text.status-pending {
@@ -211,39 +234,81 @@
   color: var(--aicoe-gray);
 }
 
-@keyframes blink {
-  0%, 100% {
-    opacity: 1;
+@keyframes success-pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
   }
   50% {
-    opacity: 0.6;
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes processing-shine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
 .progress-bar {
-  margin-top: 12px;
-  height: 4px;
-  background: rgba(0, 102, 204, 0.2);
-  border-radius: 2px;
+  margin-top: 16px;
+  height: 6px;
+  background: rgba(0, 102, 204, 0.15);
+  border-radius: 3px;
   overflow: hidden;
+  position: relative;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background: var(--aicoe-primary);
-  border-radius: 2px;
-  animation: progress 2s ease-in-out infinite;
+  background: linear-gradient(90deg, var(--aicoe-primary), var(--aicoe-accent));
+  border-radius: 3px;
+  animation: progress-flow 1.5s ease-in-out infinite;
+  position: relative;
 }
 
-@keyframes progress {
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: progress-shine 1.5s ease-in-out infinite;
+}
+
+@keyframes progress-flow {
   0% {
     width: 0%;
+    transform: translateX(-100%);
   }
   50% {
-    width: 70%;
+    width: 80%;
+    transform: translateX(0%);
   }
   100% {
     width: 100%;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes progress-shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }
 

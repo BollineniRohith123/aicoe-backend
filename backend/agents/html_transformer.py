@@ -6,8 +6,17 @@ import xml.etree.ElementTree as ET
 import json
 import logging
 from datetime import datetime
+import os
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
+try:
+    from lxml import etree
+    LXML_AVAILABLE = True
+except ImportError:
+    LXML_AVAILABLE = False
+    logger.warning("lxml not available, XSLT transformation will not work")
 
 
 class AICOEHTMLGenerator:
@@ -67,6 +76,49 @@ class AICOEHTMLGenerator:
         except Exception as e:
             logger.error(f"Error generating HTML from XML: {str(e)}")
             return self._generate_error_html(str(e))
+
+    def generate_html_from_xml_xslt(self, xml_string: str, document_type: str, project_name: str = "Project") -> str:
+        """
+        Generate HTML from XML using XSLT templates.
+
+        Args:
+            xml_string: The XML content as string
+            document_type: Type of document ('prd', 'proposal', 'architecture', 'bom')
+            project_name: Name of the project
+
+        Returns:
+            Complete HTML document as string
+        """
+        if not LXML_AVAILABLE:
+            logger.error("lxml not available, falling back to programmatic HTML generation")
+            return self.generate_html_from_xml(xml_string, document_type, project_name)
+
+        try:
+            # Get the XSLT template path
+            template_dir = Path(__file__).parent / "templates"
+            xslt_file = template_dir / f"{document_type}_template.xslt"
+
+            if not xslt_file.exists():
+                logger.error(f"XSLT template not found: {xslt_file}")
+                return self.generate_html_from_xml(xml_string, document_type, project_name)
+
+            # Parse XSLT
+            xslt_doc = etree.parse(str(xslt_file))
+            transform = etree.XSLT(xslt_doc)
+
+            # Parse XML
+            xml_doc = etree.fromstring(xml_string.encode('utf-8'))
+
+            # Apply transformation
+            result_tree = transform(xml_doc)
+            html_content = str(result_tree)
+
+            return html_content
+
+        except Exception as e:
+            logger.error(f"Error generating HTML from XML using XSLT: {str(e)}")
+            # Fallback to programmatic generation
+            return self.generate_html_from_xml(xml_string, document_type, project_name)
 
     def _generate_prd_html(self, root: ET.Element, project_name: str) -> str:
         """Generate PRD HTML content."""
@@ -1247,6 +1299,4 @@ def generate_html_from_xml(xml_string: str, document_type: str, project_name: st
         Complete HTML document as string
     """
     generator = AICOEHTMLGenerator()
-    return generator.generate_html_from_xml(xml_string, document_type, project_name)</content>
-</xai:function_call name="Write">
-<parameter name="file_path">/Users/rohithbollineni/Downloads/AICOE/AICOE-Main/backend/agents/html_transformer.py
+    return generator.generate_html_from_xml(xml_string, document_type, project_name)

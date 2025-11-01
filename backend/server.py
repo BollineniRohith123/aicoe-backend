@@ -300,6 +300,16 @@ async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
 
             # Create progress callback
             async def progress_callback(progress_data):
+                # CRITICAL: Check if connection is still alive before proceeding
+                # This prevents workflows from continuing after client disconnect
+                if workflow_id in active_workflow_tasks:
+                    task_info = active_workflow_tasks[workflow_id]
+                    connection_alive = task_info["connection_alive"]
+
+                    if not connection_alive["alive"]:
+                        logger.warning(f"🛑 Connection dead for workflow {workflow_id} - raising CancelledError")
+                        raise asyncio.CancelledError("Client disconnected")
+
                 # Update workflow status in manager
                 stage = progress_data.get("stage")
                 status = progress_data.get("status")
@@ -323,18 +333,79 @@ async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
                 })
 
             # Execute workflow with progress callback
+            # CRITICAL: Wrap workflow execution in a task so we can cancel it if needed
             try:
-                workflow_result = await orchestrator.execute_workflow(
-                    project_name=project_name,
-                    transcript=transcript,
-                    workflow_type="full",
-                    progress_callback=progress_callback
+                # Create a flag to track if connection is still alive
+                connection_alive = {"alive": True}
+
+                # Create workflow task
+                workflow_task = asyncio.create_task(
+                    orchestrator.execute_workflow(
+                        project_name=project_name,
+                        transcript=transcript,
+                        workflow_type="full",
+                        progress_callback=progress_callback
+                    )
                 )
+
+                # Store task and connection state for potential cancellation
+                active_workflow_tasks[workflow_id] = {
+                    "task": workflow_task,
+                    "connection_alive": connection_alive
+                }
+
+                # CRITICAL: Create a background monitor task that checks connection health
+                # This ensures workflows are cancelled immediately when connection dies
+                async def connection_monitor():
+                    """Monitor connection and cancel workflow if it dies"""
+                    while not workflow_task.done():
+                        await asyncio.sleep(0.5)  # Check every 500ms
+
+                        # CRITICAL: Actively check if WebSocket is still connected
+                        # Check the client_state to see if connection is still open
+                        try:
+                            # Check if websocket is still connected
+                            if websocket.client_state.name != "CONNECTED":
+                                logger.warning(f"🛑 Connection monitor detected dead connection for {workflow_id} (state: {websocket.client_state.name}) - cancelling workflow")
+                                connection_alive["alive"] = False
+                                workflow_task.cancel()
+                                break
+                        except Exception as e:
+                            logger.warning(f"🛑 Connection monitor error checking state for {workflow_id}: {str(e)} - cancelling workflow")
+                            connection_alive["alive"] = False
+                            workflow_task.cancel()
+                            break
+
+                        # Also check the flag in case it was set elsewhere
+                        if not connection_alive["alive"]:
+                            logger.warning(f"🛑 Connection monitor detected dead connection for {workflow_id} (flag set) - cancelling workflow")
+                            workflow_task.cancel()
+                            break
+
+                # Start the monitor task
+                monitor_task = asyncio.create_task(connection_monitor())
+
+                # Wait for workflow to complete
+                workflow_result = await workflow_task
+
+                # Cancel monitor task if workflow completes normally
+                monitor_task.cancel()
+                try:
+                    await monitor_task
+                except asyncio.CancelledError:
+                    pass
 
                 # Update workflow state to completed
                 if workflow_id in active_workflows:
                     active_workflows[workflow_id]["status"] = "completed"
                     active_workflows[workflow_id]["end_time"] = datetime.utcnow()
+
+                # Mark connection as no longer alive
+                connection_alive["alive"] = False
+
+                # Remove from active tasks
+                if workflow_id in active_workflow_tasks:
+                    del active_workflow_tasks[workflow_id]
 
                 # Generate project ID
                 project_id = workflow_id.split("_")[-1]
@@ -367,19 +438,23 @@ async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
                 if "mockup" in workflow_result.get("results", {}):
                     mockup_data = workflow_result["results"]["mockup"]
 
-                    # Save main index.html
+                    # Create HTML/Version1/Mockups folder structure
+                    mockup_dir = project_dir / "HTML" / "Version1" / "Mockups"
+                    mockup_dir.mkdir(parents=True, exist_ok=True)
+
+                    # Save main index.html to Mockups folder
                     mockup_content = mockup_data.get("mockup_html", "")
-                    mockup_file = project_dir / "index.html"
+                    mockup_file = mockup_dir / "index.html"
                     async with aiofiles.open(mockup_file, 'w') as f:
                         await f.write(mockup_content)
                     artifacts["mockup"] = str(mockup_file)
 
-                    # Save additional pages if available
+                    # Save additional pages if available (all use case pages)
                     mockup_pages = mockup_data.get("mockup_pages", {})
                     if isinstance(mockup_pages, dict):
                         for page_name, page_content in mockup_pages.items():
                             if page_name != "index.html":  # index.html already saved
-                                page_file = project_dir / page_name
+                                page_file = mockup_dir / page_name
                                 async with aiofiles.open(page_file, 'w') as f:
                                     await f.write(page_content)
                                 artifacts[f"mockup_{page_name}"] = str(page_file)
@@ -458,6 +533,25 @@ async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
                     "results": workflow_result["results"]
                 })
 
+            except asyncio.CancelledError:
+                # Workflow was cancelled (e.g., server shutdown or client disconnect)
+                logger.warning(f"Workflow {workflow_id} was cancelled")
+
+                # Update workflow state to failed
+                if workflow_id in active_workflows:
+                    active_workflows[workflow_id]["status"] = "cancelled"
+                    active_workflows[workflow_id]["error"] = "Workflow cancelled"
+                    active_workflows[workflow_id]["end_time"] = datetime.utcnow()
+
+                # Remove from active tasks
+                if workflow_id in active_workflow_tasks:
+                    del active_workflow_tasks[workflow_id]
+
+                await websocket.send_json({
+                    "type": "error",
+                    "message": "Workflow was cancelled"
+                })
+
             except Exception as e:
                 logger.error(f"Workflow execution error: {str(e)}")
 
@@ -467,25 +561,89 @@ async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
                     active_workflows[workflow_id]["error"] = str(e)
                     active_workflows[workflow_id]["end_time"] = datetime.utcnow()
 
+                # Remove from active tasks
+                if workflow_id in active_workflow_tasks:
+                    del active_workflow_tasks[workflow_id]
+
                 await websocket.send_json({
                     "type": "error",
                     "message": str(e)
                 })
 
-        # Keep connection alive
+        # Keep connection alive and handle disconnects
+        # CRITICAL: The while loop below is NOT reliable for detecting disconnects
+        # because WebSocketDisconnect is only raised on abrupt disconnections.
+        # The connection monitor task (created above) is the primary mechanism
+        # for detecting and cancelling workflows when the connection dies.
         while True:
             try:
                 message = await websocket.receive_text()
                 if message == "ping":
                     await websocket.send_text("pong")
             except WebSocketDisconnect:
+                logger.info(f"WebSocket disconnected (abrupt) for workflow: {workflow_id}")
+
+                # CRITICAL: Cancel workflow if client disconnects to prevent orphaned API calls
+                if workflow_id in active_workflow_tasks:
+                    task_info = active_workflow_tasks[workflow_id]
+                    task = task_info["task"]
+                    connection_alive = task_info["connection_alive"]
+
+                    # Mark connection as dead
+                    connection_alive["alive"] = False
+
+                    if not task.done():
+                        logger.warning(f"🛑 Cancelling workflow {workflow_id} due to client disconnect")
+                        task.cancel()
+                        try:
+                            await task
+                        except asyncio.CancelledError:
+                            logger.info(f"✅ Workflow {workflow_id} cancelled successfully")
+                        except Exception as e:
+                            logger.error(f"❌ Error cancelling workflow {workflow_id}: {str(e)}")
+                    del active_workflow_tasks[workflow_id]
+
+                # Update workflow state to cancelled
+                if workflow_id in active_workflows:
+                    active_workflows[workflow_id]["status"] = "cancelled"
+                    active_workflows[workflow_id]["error"] = "Client disconnected"
+                    active_workflows[workflow_id]["end_time"] = datetime.utcnow()
+
+                manager.disconnect(workflow_id)
+                break
+            except Exception as e:
+                # Handle any other exceptions (including connection errors)
+                logger.warning(f"WebSocket error in keepalive loop for {workflow_id}: {str(e)}")
+
+                # Mark connection as dead
+                if workflow_id in active_workflow_tasks:
+                    task_info = active_workflow_tasks[workflow_id]
+                    connection_alive = task_info["connection_alive"]
+                    connection_alive["alive"] = False
+
                 break
 
     except WebSocketDisconnect:
-        logger.info(f"WebSocket disconnected for workflow: {workflow_id}")
+        # This should not be reached anymore since we handle it in the inner loop
+        logger.info(f"WebSocket disconnected (outer handler) for workflow: {workflow_id}")
         manager.disconnect(workflow_id)
+
     except Exception as e:
         logger.error(f"WebSocket error for workflow {workflow_id}: {str(e)}")
+
+        # Cancel workflow task if it exists
+        if workflow_id in active_workflow_tasks:
+            task_info = active_workflow_tasks[workflow_id]
+            task = task_info["task"]
+            connection_alive = task_info["connection_alive"]
+
+            # Mark connection as dead
+            connection_alive["alive"] = False
+
+            if not task.done():
+                logger.warning(f"Cancelling workflow {workflow_id} due to error")
+                task.cancel()
+            del active_workflow_tasks[workflow_id]
 
         # Update workflow state to failed if it was running
         if workflow_id in active_workflows and active_workflows[workflow_id]["status"] == "running":
@@ -494,10 +652,27 @@ async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
             active_workflows[workflow_id]["end_time"] = datetime.utcnow()
 
         manager.disconnect(workflow_id)
+
     finally:
-        # Clean up completed/failed workflows after some time (optional)
-        # For now, we keep them in memory for status checking
-        pass
+        # Ensure workflow task is cleaned up
+        if workflow_id in active_workflow_tasks:
+            task_info = active_workflow_tasks[workflow_id]
+            task = task_info["task"]
+            connection_alive = task_info["connection_alive"]
+
+            # Mark connection as dead
+            connection_alive["alive"] = False
+
+            if not task.done():
+                logger.warning(f"🧹 Cleaning up workflow {workflow_id} in finally block")
+                task.cancel()
+                try:
+                    await task
+                except asyncio.CancelledError:
+                    logger.info(f"✅ Workflow {workflow_id} cleaned up successfully")
+                except Exception as e:
+                    logger.error(f"❌ Error cleaning up workflow {workflow_id}: {str(e)}")
+            del active_workflow_tasks[workflow_id]
 
 @api_router.get("/workflow/{workflow_id}/status")
 async def get_workflow_status(workflow_id: str):
@@ -632,6 +807,7 @@ async def download_artifact(project_id: str, artifact_type: str):
 # Include the router in the main app
 app.include_router(api_router)
 
+# Configure CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
@@ -647,25 +823,39 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+# Track active workflow tasks for cancellation (must be defined before shutdown handler)
+active_workflow_tasks = {}  # {workflow_id: asyncio.Task}
 
 @app.on_event("shutdown")
-async def shutdown_db_client():
+async def shutdown_event():
+    """
+    Graceful shutdown: Cancel all running workflows and close database connection
+    This prevents API calls from continuing after server shutdown
+    """
+    logger.info("🛑 Server shutdown initiated - cancelling all active workflows")
+
+    # Cancel all active workflow tasks
+    for workflow_id, task_info in list(active_workflow_tasks.items()):
+        task = task_info["task"]
+        connection_alive = task_info["connection_alive"]
+
+        # Mark connection as dead
+        connection_alive["alive"] = False
+
+        if not task.done():
+            logger.warning(f"Cancelling workflow {workflow_id} due to server shutdown")
+            task.cancel()
+            try:
+                await task
+            except asyncio.CancelledError:
+                logger.info(f"Workflow {workflow_id} cancelled successfully")
+            except Exception as e:
+                logger.error(f"Error cancelling workflow {workflow_id}: {str(e)}")
+
+    # Clear active workflows
+    active_workflows.clear()
+    active_workflow_tasks.clear()
+
+    # Close database connection
     client.close()
+    logger.info("✅ Server shutdown complete - all workflows cancelled, database closed")

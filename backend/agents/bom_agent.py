@@ -76,7 +76,7 @@ You will receive the `<systemArchitecture>` XML from the Architecture Agent.
 5. Format the BOM into the strict XML schema below.
 
 ## OUTPUT FORMAT (CRITICAL)
-You MUST produce a single, valid XML document. Your entire response MUST be only this XML.
+You MUST produce a single, valid XML document that exactly matches the XSLT template structure. Your entire response MUST be only this XML.
 
 <billOfMaterials>
     <summary>An estimated monthly cost breakdown for deploying and running the proposed solution.</summary>

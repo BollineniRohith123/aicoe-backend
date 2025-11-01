@@ -130,14 +130,14 @@ export default function Results() {
               </Button>
               <div>
                 <h1 className="text-2xl font-bold text-foreground">
-                  {projectName}
+                  {projectName} - Interactive Use Cases
                 </h1>
                 <p className="text-xs text-muted-foreground">
                   Status: {result.status} | Workflow: {result.workflow_id}
                 </p>
               </div>
             </div>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2">
               <Button
                 size="sm"
                 variant="outline"
@@ -151,132 +151,95 @@ export default function Results() {
                 className="gap-2"
               >
                 <Download className="w-4 h-4" />
-                PRD (MD)
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  if (projectId) {
-                    downloadArtifact(projectId, "prd_pdf", `${projectName}-PRD.pdf`);
-                  } else {
-                    alert("PDF download only available for saved projects");
-                  }
-                }}
-                className="gap-2"
-              >
-                <Download className="w-4 h-4" />
-                PRD (PDF)
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  if (projectId) {
-                    downloadArtifact(projectId, "mockup", `${projectName}-Mockup.html`);
-                  } else {
-                    downloadFile(mockupContent, `${projectName}-Mockup.html`, "text/html");
-                  }
-                }}
-                className="gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Mockup
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  if (projectId) {
-                    downloadArtifact(projectId, "commercial_proposal", `${projectName}-Proposal.md`);
-                  } else {
-                    downloadFile(proposalContent, `${projectName}-Proposal.md`, "text/markdown");
-                  }
-                }}
-                className="gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Proposal (MD)
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  if (projectId) {
-                    downloadArtifact(projectId, "commercial_proposal_pdf", `${projectName}-Proposal.pdf`);
-                  } else {
-                    alert("PDF download only available for saved projects");
-                  }
-                }}
-                className="gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Proposal (PDF)
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  if (projectId) {
-                    downloadArtifact(projectId, "bom_json", `${projectName}-BOM.json`);
-                  } else {
-                    downloadFile(JSON.stringify(bomData, null, 2), `${projectName}-BOM.json`, "application/json");
-                  }
-                }}
-                className="gap-2"
-              >
-                <Download className="w-4 h-4" />
-                BOM (JSON)
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  if (projectId) {
-                    downloadArtifact(projectId, "bom_pdf", `${projectName}-BOM.pdf`);
-                  } else {
-                    alert("PDF download only available for saved projects");
-                  }
-                }}
-                className="gap-2"
-              >
-                <Download className="w-4 h-4" />
-                BOM (PDF)
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  if (projectId) {
-                    downloadArtifact(projectId, "architecture_diagram", `${projectName}-Architecture.html`);
-                  } else {
-                    downloadFile(architectureContent, `${projectName}-Architecture.html`, "text/html");
-                  }
-                }}
-                className="gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Architecture
+                All Downloads
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main Content - Use Cases Focused */}
       <main className="container py-8">
         {/* Success Message */}
         {result.status === "success" && (
           <div className="mb-6 p-4 bg-green-500 bg-opacity-10 border border-green-500 rounded-lg">
             <p className="text-sm text-green-700 dark:text-green-400 font-medium">
-              ✅ All agents completed successfully! Your deliverables are ready.
+              ✅ All agents completed successfully! Your interactive use cases are ready.
             </p>
           </div>
         )}
 
-        {/* Agent Stages Summary */}
+        {/* Use Cases Display - Primary Focus */}
+        <div className="space-y-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Interactive Use Cases</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Explore your project requirements through interactive mockups. Each use case below represents a key workflow in your application.
+            </p>
+          </div>
+
+          {useCases.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {useCases.map((useCase, index) => (
+                <Card key={index} className="p-8 hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20">
+                  <div className="space-y-6">
+                    <div className="text-center">
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl font-bold text-primary">{index + 1}</span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-foreground mb-3">
+                        {useCase.title || `Use Case ${index + 1}`}
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {useCase.description || "No description available"}
+                      </p>
+                    </div>
+
+                    {useCase.primaryActor && (
+                      <div className="flex items-center justify-center gap-2 bg-secondary/50 rounded-lg p-3">
+                        <span className="text-sm font-medium text-foreground">Primary Actor:</span>
+                        <span className="text-sm font-semibold text-primary">{useCase.primaryActor}</span>
+                      </div>
+                    )}
+
+                    <Button
+                      size="lg"
+                      className="w-full gap-3 text-lg py-6 hover:scale-105 transition-transform"
+                      onClick={() => {
+                        // Open the corresponding mockup in a new tab
+                        const mockupUrl = projectId
+                          ? `${API_BASE_URL}/api/download/${projectId}/mockup/use-case-${index + 1}.html`
+                          : "#"; // Fallback for demo
+                        if (mockupUrl !== "#") {
+                          window.open(mockupUrl, '_blank');
+                        } else {
+                          alert("Mockup preview only available for saved projects");
+                        }
+                      }}
+                    >
+                      <Eye className="w-5 h-5" />
+                      View Interactive Mockup
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <Card className="p-12 text-center">
+              <div className="space-y-4">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto">
+                  <FileText className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold text-foreground">No Use Cases Available</h3>
+                <p className="text-muted-foreground">Use cases will appear here once the analysis is complete.</p>
+              </div>
+            </Card>
+          )}
+        </div>
+
+        {/* Agent Stages Summary - Moved to bottom */}
         {result.stages && (
-          <Card className="mb-8 p-6">
+          <Card className="mt-12 p-6">
             <h3 className="text-lg font-semibold text-foreground mb-4">Agent Execution Summary</h3>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {result.stages.map((stage, idx) => (
@@ -300,62 +263,6 @@ export default function Results() {
           </Card>
         )}
 
-        {/* Use Cases Display */}
-        <div className="space-y-6">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-2">Interactive Use Cases</h2>
-            <p className="text-muted-foreground">Explore your project requirements through interactive mockups</p>
-          </div>
-
-          {useCases.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {useCases.map((useCase, index) => (
-                <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-foreground mb-2">
-                        {useCase.title || `Use Case ${index + 1}`}
-                      </h3>
-                      <p className="text-muted-foreground text-sm">
-                        {useCase.description || "No description available"}
-                      </p>
-                    </div>
-
-                    {useCase.primaryActor && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-foreground">Primary Actor:</span>
-                        <span className="text-sm text-muted-foreground">{useCase.primaryActor}</span>
-                      </div>
-                    )}
-
-                    <Button
-                      className="w-full gap-2"
-                      onClick={() => {
-                        // Open the corresponding mockup in a new tab
-                        const mockupUrl = projectId
-                          ? `${API_BASE_URL}/api/download/${projectId}/mockup/use-case-${index + 1}.html`
-                          : "#"; // Fallback for demo
-                        if (mockupUrl !== "#") {
-                          window.open(mockupUrl, '_blank');
-                        } else {
-                          alert("Mockup preview only available for saved projects");
-                        }
-                      }}
-                    >
-                      <Eye className="w-4 h-4" />
-                      View Interactive Mockup
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <Card className="p-8 text-center">
-              <p className="text-muted-foreground">No use cases available</p>
-            </Card>
-          )}
-        </div>
-
         {/* Footer Info */}
         <div className="mt-12 p-6 bg-secondary bg-opacity-50 rounded-lg border border-border">
           <h3 className="font-semibold text-foreground mb-3">Next Steps</h3>
@@ -366,7 +273,7 @@ export default function Results() {
             </li>
             <li className="flex gap-2">
               <span className="text-primary font-bold">•</span>
-              <span>Download all deliverables from the header download buttons</span>
+              <span>Download all deliverables from the header download button</span>
             </li>
             <li className="flex gap-2">
               <span className="text-primary font-bold">•</span>

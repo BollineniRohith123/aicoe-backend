@@ -1,5 +1,0 @@
-{
-  "project_name": "Fitness application",
-  "error": "Failed to parse LLM response",
-  "raw_response": "\n```json\n{\n    \"project_name\": \"Fitness application\",\n    \"generated_date\": \"2024-05-21\",\n    \"version\": \"1.0\",\n    \"summary\": {\n        \"total_components\": 27,\n        \"total_one_time_cost\": 0,\n        \"total_recurring_cost_monthly\": 47514.67,\n        \"total_recurring_cost_annual\": 570176.04,\n        \"currency\": \"USD\"\n    },\n    \"categories\": [\n        {\n            \"category_name\": \"Infrastructure & Hosting\",\n            \"description\": \"Cloud infrastructure and hosting services for the applica"
-}

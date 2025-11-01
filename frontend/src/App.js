@@ -5,6 +5,18 @@ import TranscriptInput from "@/pages/TranscriptInput";
 import ProcessingView from "@/pages/ProcessingView";
 import Results from "@/pages/Results";
 
+// AICOE Logo Component
+const AICOELogo = () => {
+  return (
+    <div className="aicoe-logo">
+      <div className="logo-content">
+        <span className="logo-text">AICOE</span>
+        <span className="logo-subtitle">AI-Powered Solutions</span>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   return (
     <div className="App">
@@ -15,6 +27,7 @@ function App() {
           <Route path="/processing" element={<ProcessingView />} />
           <Route path="/results" element={<Results />} />
         </Routes>
+        <AICOELogo />
       </BrowserRouter>
     </div>
   );

@@ -81,7 +81,7 @@ You will receive the XML outputs from the Intake Agent and the Blueprint Agent.
 6. Assemble all sections into the strict XML format defined below.
 
 ## OUTPUT FORMAT (CRITICAL)
-You MUST produce a single, valid XML document. Your entire response MUST be only this XML.
+You MUST produce a single, valid XML document that exactly matches the XSLT template structure. Your entire response MUST be only this XML.
 
 <productRequirementsDocument>
     <title>PRD for [Project Name]</title>
@@ -94,9 +94,32 @@ You MUST produce a single, valid XML document. Your entire response MUST be only
         <goal>Increase marketing efficiency by 50%.</goal>
         <goal>Reduce compliance violations by 90%.</goal>
     </businessGoals>
-    <!-- The full <useCaseModel> from the Blueprint Agent is embedded here -->
     <useCases>
-        ...
+        <useCaseModel>
+            <!-- The full use case model from input data must be embedded here exactly as provided -->
+            <useCase>
+                <title>Use Case Title</title>
+                <primaryActor>Primary Actor</primaryActor>
+                <secondaryActors>
+                    <actor>Secondary Actor 1</actor>
+                </secondaryActors>
+                <description>Use case description</description>
+                <mainFlow>
+                    <step>Step 1</step>
+                    <step>Step 2</step>
+                </mainFlow>
+                <alternativeFlows>
+                    <flow id="A1" trigger="Alternative condition">
+                        <step>Alternative step 1</step>
+                    </flow>
+                </alternativeFlows>
+                <exceptionFlows>
+                    <flow id="E1" trigger="Exception condition">
+                        <step>Exception step 1</step>
+                    </flow>
+                </exceptionFlows>
+            </useCase>
+        </useCaseModel>
     </useCases>
     <nonFunctionalRequirements>
         <requirement type="Security">All sensitive data must be encrypted at rest and in transit using industry-standard protocols.</requirement>

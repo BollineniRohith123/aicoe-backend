@@ -16,7 +16,8 @@ from .storage_agent import StorageAgent
 from .proposal_agent import ProposalAgent
 from .bom_agent import BOMAgent
 from .architecture_agent import ArchitectureAgent
-from .html_transformer import generate_html_from_xml
+from .gallery_agent import CaseStudyGalleryAgent
+from .html_transformer import AICOEHTMLGenerator
 from .agent_communication import AgentCommunicationHub, Message
 import logging
 import asyncio
@@ -61,7 +62,10 @@ class OrchestratorAgent:
         # Initialize communication hub for inter-agent communication
         self.comm_hub = AgentCommunicationHub()
 
-        # Initialize all 12 agents (including 3 new specialized agents)
+        # Initialize HTML generator for XML to HTML transformation
+        self.html_generator = AICOEHTMLGenerator()
+
+        # Initialize all 13 agents (including 4 new specialized agents)
         self.agents = {
             "intake": IntakeAgent(llm_client),
             "researcher": ResearcherAgent(llm_client),
@@ -71,10 +75,11 @@ class OrchestratorAgent:
             "data": DataAgent(llm_client),
             "knowledge_base": KnowledgeBaseAgent(llm_client),
             "reviewer": ReviewerAgent(llm_client),
-            "storage": StorageAgent(llm_client),
+            "storage": StorageAgent(llm_client, base_storage_path="backend/storage"),
             "proposal": ProposalAgent(llm_client),
             "bom": BOMAgent(llm_client),
-            "architecture": ArchitectureAgent(llm_client)
+            "architecture": ArchitectureAgent(llm_client),
+            "gallery": CaseStudyGalleryAgent(llm_client)
         }
 
         # Register all agents in the communication hub
@@ -305,7 +310,7 @@ class OrchestratorAgent:
         """
         Define workflow stages based on type
 
-        Full workflow (with 12 agents):
+        Full workflow (with 13 agents):
         1. Storage - Create project structure
         2. Transcript - Process raw transcript
         3. Researcher - Perform web research
@@ -314,10 +319,11 @@ class OrchestratorAgent:
         6. PRD - Create comprehensive PRD
         7. Mockup - Generate Apple-style mockups
         8. Synthetic Data - Generate demo data
-        9. Commercial Proposal - Generate business proposal (NEW)
-        10. BOM - Generate Bill of Materials (NEW)
-        11. Architecture Diagram - Generate system architecture diagrams (NEW)
+        9. Commercial Proposal - Generate business proposal
+        10. BOM - Generate Bill of Materials
+        11. Architecture Diagram - Generate system architecture diagrams
         12. Reviewer - Create initial review cycle
+        13. Gallery - Generate/update case study gallery (FINAL STAGE)
         """
         if workflow_type == "full":
             return [
@@ -325,13 +331,13 @@ class OrchestratorAgent:
                 WorkflowStage("storage", self.agents["storage"]),
 
                 # Stage 2: Process transcript
-                WorkflowStage("transcript", self.agents["transcript"], ["storage"]),
+                WorkflowStage("transcript", self.agents["intake"], ["storage"]),
 
                 # Stage 3: Perform web research (AFTER transcript, BEFORE requirements)
                 WorkflowStage("researcher", self.agents["researcher"], ["transcript"]),
 
                 # Stage 4: Generate requirements (enriched with research insights)
-                WorkflowStage("requirements", self.agents["requirements"], ["transcript", "researcher"]),
+                WorkflowStage("requirements", self.agents["blueprint"], ["transcript", "researcher"]),
 
                 # Stage 5: Enrich with knowledge base
                 WorkflowStage("knowledge_base", self.agents["knowledge_base"], ["requirements", "researcher"]),
@@ -341,19 +347,22 @@ class OrchestratorAgent:
 
                 # Stage 7 & 8: Generate mockups and synthetic data (can run in parallel)
                 WorkflowStage("mockup", self.agents["mockup"], ["requirements", "knowledge_base"]),
-                WorkflowStage("synthetic_data", self.agents["synthetic_data"], ["requirements"]),
+                WorkflowStage("synthetic_data", self.agents["data"], ["requirements"]),
 
                 # Stage 9: Generate commercial proposal (depends on PRD)
-                WorkflowStage("commercial_proposal", self.agents["commercial_proposal"], ["prd", "requirements", "researcher"]),
+                WorkflowStage("commercial_proposal", self.agents["proposal"], ["prd", "requirements", "researcher"]),
 
                 # Stage 10: Generate Bill of Materials (depends on requirements and knowledge base)
                 WorkflowStage("bom", self.agents["bom"], ["requirements", "knowledge_base", "researcher"]),
 
                 # Stage 11: Generate architecture diagrams (depends on knowledge base)
-                WorkflowStage("architecture_diagram", self.agents["architecture_diagram"], ["knowledge_base", "requirements", "researcher"]),
+                WorkflowStage("architecture_diagram", self.agents["architecture"], ["knowledge_base", "requirements", "researcher"]),
 
                 # Stage 12: Create review cycle (depends on all deliverables)
-                WorkflowStage("reviewer", self.agents["reviewer"], ["prd", "mockup", "synthetic_data", "commercial_proposal", "bom", "architecture_diagram"])
+                WorkflowStage("reviewer", self.agents["reviewer"], ["prd", "mockup", "synthetic_data", "commercial_proposal", "bom", "architecture_diagram"]),
+
+                # Stage 13: Generate/update case study gallery (FINAL STAGE - runs after everything)
+                WorkflowStage("gallery", self.agents["gallery"], ["reviewer", "mockup"])
             ]
         else:
             # Default to full workflow
@@ -475,6 +484,19 @@ class OrchestratorAgent:
             base_input["use_cases"] = previous_results.get("requirements", {}).get("use_cases", [])
             base_input["structured_notes"] = previous_results.get("transcript", {}).get("structured_notes", {})
             base_input["enrichment"] = previous_results.get("knowledge_base", {}).get("enrichment", {})
+
+            # Include PRD content for richer context
+            prd_data = previous_results.get("prd", {})
+            base_input["prd_content"] = prd_data.get("prd_content", "")
+
+            # Include technical stack information
+            technical_stack = {
+                "constraints": base_input["structured_notes"].get("technical_constraints", []),
+                "decisions": base_input["structured_notes"].get("decisions_made", []),
+                "requirements": base_input["structured_notes"].get("requirements", [])
+            }
+            base_input["technical_stack"] = technical_stack
+
             # Include research insights for UI/UX best practices
             research_insights = previous_results.get("researcher", {}).get("research_insights", {})
             base_input["research_insights"] = research_insights
@@ -482,13 +504,19 @@ class OrchestratorAgent:
             if research_insights and isinstance(research_insights, dict):
                 self.logger.info(f"Passing research insights to mockup agent for UI/UX best practices")
 
+            self.logger.info(f"Passing enhanced context to mockup agent: PRD, technical stack, and {len(base_input['use_cases'])} use cases")
+
             # Communicate with knowledge base
             self.comm_hub.send_message(Message(
                 from_agent="orchestrator",
                 to_agent="mockup",
                 message_type="request",
-                content="Generate Apple-style mockups with AICOE branding and industry best practices",
-                metadata={"has_research_insights": bool(research_insights)}
+                content="Generate comprehensive, realistic mockups for ALL use cases with AICOE branding",
+                metadata={
+                    "has_research_insights": bool(research_insights),
+                    "has_prd": bool(base_input["prd_content"]),
+                    "use_case_count": len(base_input["use_cases"])
+                }
             ))
 
         elif stage_name == "synthetic_data":
@@ -562,12 +590,29 @@ class OrchestratorAgent:
             base_input["project_name"] = project_name
             base_input["project_path"] = os.path.join("backend", "projects", project_name)
 
+            # CRITICAL FIX: Add required fields for ReviewerAgent
+            base_input["document_id"] = project_name  # Use project_name as document_id
+            base_input["document_type"] = "all"  # Validate all document types
+
             # Communicate with all agents
             self.comm_hub.send_message(Message(
                 from_agent="orchestrator",
                 to_agent="reviewer",
                 message_type="request",
                 content="Validate all generated HTML files for UC001 styling compliance and completeness"
+            ))
+
+        elif stage_name == "gallery":
+            # Generate/update case study gallery (FINAL STAGE)
+            base_input["current_project_name"] = project_name
+            base_input["force_regenerate"] = False  # Incremental update
+
+            # Communicate with gallery agent
+            self.comm_hub.send_message(Message(
+                from_agent="orchestrator",
+                to_agent="gallery",
+                message_type="request",
+                content="Generate/update master case study gallery with all projects"
             ))
 
         return base_input
@@ -702,10 +747,11 @@ class OrchestratorAgent:
                 # Transform XML to HTML if required
                 if mapping.get("transform_to_html", False):
                     try:
-                        transformer = HTMLTransformer()
                         xml_content = mapping["content"]
-                        xslt_template = mapping["xslt_template"]
-                        html_content = transformer.transform_xml_to_html(xml_content, xslt_template)
+                        document_type = agent_name  # prd, proposal, bom, architecture
+                        html_content = self.html_generator.generate_html_from_xml_xslt(
+                            xml_content, document_type, project_name
+                        )
 
                         # Save HTML file
                         html_save_input = {

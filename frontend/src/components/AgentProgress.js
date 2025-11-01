@@ -140,16 +140,28 @@ const AgentProgress = ({ currentAgent, agentStatuses = {} }) => {
                 
                 <div className="agent-status-indicator">
                   {status === 'completed' && (
-                    <span className="status-text status-completed">✓ Generation Complete</span>
+                    <span className="status-text status-completed">
+                      <span className="status-icon">✓</span>
+                      <span className="status-label">Complete</span>
+                    </span>
                   )}
                   {status === 'processing' && (
-                    <span className="status-text status-processing">⚡ Processing...</span>
+                    <span className="status-text status-processing">
+                      <span className="status-icon">⚡</span>
+                      <span className="status-label">Processing</span>
+                    </span>
                   )}
                   {status === 'pending' && (
-                    <span className="status-text status-pending">⏳ Waiting</span>
+                    <span className="status-text status-pending">
+                      <span className="status-icon">⏳</span>
+                      <span className="status-label">Waiting</span>
+                    </span>
                   )}
                   {status === 'failed' && (
-                    <span className="status-text status-failed">❌ Failed</span>
+                    <span className="status-text status-failed">
+                      <span className="status-icon">❌</span>
+                      <span className="status-label">Failed</span>
+                    </span>
                   )}
                 </div>
               </div>
