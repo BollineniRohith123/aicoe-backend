@@ -34,11 +34,11 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # Initialize LLM Client and Orchestrator
-# Using OpenRouter API with GLM-4.6 model (NO GPT models)
+# Using OpenRouter API with free model as default, fallback to other free models
 llm_client = LLMClient(
     api_key=os.getenv("OPENROUTER_API_KEY"),
     provider="openrouter",
-    model="x-ai/grok-code-fast-1"
+    model="deepseek/deepseek-chat-v3.1:free"  # Free model with fallbacks
 )
 orchestrator = OrchestratorAgent(llm_client, db)
 
