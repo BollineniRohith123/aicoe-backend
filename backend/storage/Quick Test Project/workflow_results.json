@@ -1,0 +1,42 @@
+{
+  "project_name": "Quick Test Project",
+  "workflow_id": "workflow_20251101_143147",
+  "status": "failed",
+  "error": "Critical stage transcript failed: LLM call failed after 3 retries: LLM call failed: No module named 'jiter'",
+  "context": {
+    "project_name": "Quick Test Project",
+    "workflow_id": "workflow_20251101_143147",
+    "workflow_type": "full",
+    "start_time": "2025-11-01T14:31:47.002704",
+    "end_time": "2025-11-01T14:31:53.051902",
+    "status": "failed",
+    "error": "Critical stage transcript failed: LLM call failed after 3 retries: LLM call failed: No module named 'jiter'"
+  },
+  "results": {
+    "storage": {
+      "project_name": "Quick Test Project",
+      "project_root": "storage/Quick Test Project",
+      "folders_created": [
+        "root",
+        "transcripts",
+        "notes",
+        "research",
+        "use_cases",
+        "synthetic_data",
+        "case_studies",
+        "prd",
+        "architecture",
+        "commercial_proposals",
+        "bom",
+        "feedback",
+        "audit"
+      ],
+      "audit_log": {
+        "timestamp": "2025-11-01T14:31:47.003257",
+        "action": "project_created",
+        "project_name": "Quick Test Project",
+        "user": "system"
+      }
+    }
+  }
+}
