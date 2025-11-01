@@ -58,53 +58,8 @@ class LLMClient:
     
     def _generate_mock_prd(self) -> str:
         """Generate mock PRD content"""
-        return """# Product Requirements Document (PRD)
-
-## Project Overview
-**Project Name:** Task Management Application
-**Version:** 1.0
-**Date:** November 2025
-
-## Executive Summary
-A modern, intuitive task management application designed to help users organize and track their daily tasks efficiently.
-
-## Product Vision
-Create a clean, Apple-inspired task management solution that focuses on simplicity and user experience.
-
-## Core Features
-
-### 1. User Authentication
-- Email and password-based registration
-- Secure login system
-- User profile management
-
-### 2. Task Management
-- Create tasks with title, description, due date
-- Priority levels: Low, Medium, High
-- Status tracking: To Do, In Progress, Done
-- Edit and delete tasks
-
-### 3. Dashboard
-- Overview of all tasks
-- Statistics by status
-- Upcoming tasks view
-- Quick task creation
-
-### 4. Filtering & Sorting
-- Filter by status and priority
-- Sort by due date or creation date
-
-## Technical Requirements
-- Frontend: React.js
-- Backend: Node.js/Express
-- Database: MongoDB
-- Modern, responsive design
-
-## Success Metrics
-- User engagement rate
-- Task completion rate
-- User satisfaction score
-"""
+        # Check if JSON response is expected
+        return self._generate_json_or_text("prd")
     
     def _generate_mock_mockup(self) -> str:
         """Generate mock mockup HTML"""
