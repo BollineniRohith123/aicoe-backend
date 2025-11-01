@@ -23,8 +23,8 @@ import os
 # Add backend directory to path for imports
 sys.path.append('/app/backend')
 
-# Configuration
-BACKEND_URL = "http://localhost:8001"
+# Configuration - Use the same URL as frontend
+BACKEND_URL = "https://test-bug-fixer.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 TEST_TRANSCRIPT_FILE = "/app/test_transcript_ui_test.txt"
 
