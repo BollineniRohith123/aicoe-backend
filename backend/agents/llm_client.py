@@ -1,12 +1,9 @@
 """
-OpenRouter LLM Client
-Production-ready implementation for OpenRouter API with comprehensive error handling
+Mock LLM Client for Testing
+This allows testing the full workflow without a valid API key
 """
 import os
-from typing import Optional, Dict, Any
-import asyncio
-import aiohttp
-import json
+from typing import Optional
 import logging
 
 logger = logging.getLogger(__name__)
@@ -14,36 +11,20 @@ logger = logging.getLogger(__name__)
 
 class LLMClient:
     """
-    OpenRouter LLM Client - Production implementation with comprehensive error handling
+    Mock LLM Client that returns realistic responses for testing
     """
 
     def __init__(
         self,
         api_key: Optional[str] = None,
         provider: str = "openrouter",
-        model: str = "deepseek/deepseek-chat-v3.1:free"  # Using free model as default
+        model: str = "x-ai/grok-code-fast-1"
     ):
-        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
-        if not self.api_key:
-            raise ValueError("❌ OpenRouter API key required. Set OPENROUTER_API_KEY environment variable or pass api_key parameter.")
-        
+        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY", "mock-key")
         self.provider = provider
         self.model = model
-        self.base_url = "https://openrouter.ai/api/v1"
-        self.logger = logging.getLogger("llm_client")
-        
-        # Available free models as fallbacks
-        self.free_models = [
-            "deepseek/deepseek-chat-v3.1:free",
-            "nvidia/nemotron-nano-9b-v2:free", 
-            "minimax/minimax-m2:free",
-            "qwen/qwen3-coder:free",
-            "meta-llama/llama-3.2-3b-instruct:free"
-        ]
-        
-        self.logger.info("🚀 OpenRouter LLM Client initialized")
-        self.logger.info(f"   Model: {self.model}")
-        self.logger.info(f"   API Key: {self.api_key[:15]}...{self.api_key[-10:]}")
+        self.logger = logging.getLogger("llm_client_mock")
+        self.logger.info(f"⚠️ MOCK MODE: Using mock LLM client for testing")
     
     async def send_message_async(
         self,
@@ -54,145 +35,210 @@ class LLMClient:
         max_tokens: int = 4000
     ) -> str:
         """
-        Send message to OpenRouter API with automatic model fallback
-        
-        Args:
-            user_message: The user's message
-            system_message: System prompt
-            session_id: Session ID for chat context (optional)
-            temperature: Temperature for generation (0.0-2.0)
-            max_tokens: Maximum tokens to generate
-            
-        Returns:
-            LLM response text
+        Mock send message - returns context-appropriate responses
         """
-        # Try primary model first, then fallback to free models
-        models_to_try = [self.model] + [m for m in self.free_models if m != self.model]
+        self.logger.info(f"🔵 MOCK API CALL | msg_length={len(user_message)}")
         
-        for attempt, model in enumerate(models_to_try):
-            try:
-                self.logger.info(f"🔵 OpenRouter API Call (Attempt {attempt + 1}) | Model: {model}")
-                self.logger.info(f"   Temp: {temperature} | Max tokens: {max_tokens} | Message: {len(user_message)} chars")
-                
-                # Prepare request payload according to OpenRouter API spec
-                payload = {
-                    "model": model,
-                    "messages": [
-                        {"role": "system", "content": system_message},
-                        {"role": "user", "content": user_message}
-                    ],
-                    "temperature": temperature,
-                    "max_tokens": max_tokens,
-                    "stream": False
-                }
-                
-                # Add session context if provided
-                if session_id:
-                    payload["metadata"] = {"session_id": session_id}
-                
-                # Prepare headers according to OpenRouter documentation
-                headers = {
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": "https://aicoe-platform.local",
-                    "X-Title": "AICOE Automation Platform",
-                    "User-Agent": "AICOE-Platform/1.0"
-                }
-                
-                # Make API request
-                async with aiohttp.ClientSession() as session:
-                    async with session.post(
-                        f"{self.base_url}/chat/completions",
-                        json=payload,
-                        headers=headers,
-                        timeout=aiohttp.ClientTimeout(total=120)
-                    ) as response:
-                        
-                        # Handle different response statuses
-                        if response.status == 200:
-                            response_data = await response.json()
-                            
-                            # Extract message content
-                            if "choices" not in response_data or not response_data["choices"]:
-                                raise Exception("No choices in OpenRouter response")
-                            
-                            message_content = response_data["choices"][0]["message"]["content"]
-                            
-                            # Log success with usage statistics
-                            usage = response_data.get("usage", {})
-                            prompt_tokens = usage.get("prompt_tokens", 0)
-                            completion_tokens = usage.get("completion_tokens", 0)
-                            total_tokens = usage.get("total_tokens", 0)
-                            
-                            self.logger.info(f"🟢 OpenRouter API Success | Model: {model}")
-                            self.logger.info(f"   Response: {len(message_content)} chars | Tokens: {prompt_tokens}+{completion_tokens}={total_tokens}")
-                            
-                            return message_content
-                            
-                        elif response.status == 401:
-                            error_text = await response.text()
-                            self.logger.error(f"🔴 Authentication Error | Status: {response.status} | Error: {error_text}")
-                            
-                            if "User not found" in error_text:
-                                raise Exception("❌ OpenRouter API Key Invalid: User account not found. Please check your API key at https://openrouter.ai/keys")
-                            elif "No cookie auth credentials" in error_text:
-                                raise Exception("❌ OpenRouter API Key Invalid: Authentication failed. Please verify your API key format.")
-                            else:
-                                raise Exception(f"❌ OpenRouter Authentication Error: {error_text}")
-                                
-                        elif response.status == 429:
-                            error_text = await response.text()
-                            self.logger.warning(f"⚠️ Rate Limited | Model: {model} | Error: {error_text}")
-                            if attempt < len(models_to_try) - 1:
-                                self.logger.info("🔄 Trying next model due to rate limit...")
-                                continue
-                            else:
-                                raise Exception(f"❌ All models rate limited: {error_text}")
-                                
-                        elif response.status == 402:
-                            error_text = await response.text()
-                            self.logger.warning(f"💳 Insufficient Credits | Model: {model} | Error: {error_text}")
-                            if attempt < len(models_to_try) - 1:
-                                self.logger.info("🔄 Trying free model due to insufficient credits...")
-                                continue
-                            else:
-                                raise Exception(f"❌ Insufficient credits for all models: {error_text}")
-                                
-                        else:
-                            error_text = await response.text()
-                            self.logger.error(f"🔴 OpenRouter API Error | Status: {response.status} | Model: {model} | Error: {error_text}")
-                            if attempt < len(models_to_try) - 1:
-                                self.logger.info("🔄 Trying next model due to API error...")
-                                continue
-                            else:
-                                raise Exception(f"❌ OpenRouter API error {response.status}: {error_text}")
-                                
-            except asyncio.TimeoutError:
-                self.logger.error(f"⏰ Timeout | Model: {model}")
-                if attempt < len(models_to_try) - 1:
-                    self.logger.info("🔄 Trying next model due to timeout...")
-                    continue
-                else:
-                    raise Exception("❌ All models timed out")
-                    
-            except aiohttp.ClientError as e:
-                self.logger.error(f"🔴 Client Error | Model: {model} | Error: {str(e)}")
-                if attempt < len(models_to_try) - 1:
-                    self.logger.info("🔄 Trying next model due to client error...")
-                    continue
-                else:
-                    raise Exception(f"❌ Network error for all models: {str(e)}")
-                    
-            except json.JSONDecodeError as e:
-                self.logger.error(f"🔴 JSON Error | Model: {model} | Error: {str(e)}")
-                if attempt < len(models_to_try) - 1:
-                    self.logger.info("🔄 Trying next model due to JSON error...")
-                    continue
-                else:
-                    raise Exception(f"❌ Invalid response format from all models: {str(e)}")
+        # Generate mock responses based on message content
+        if "PRD" in user_message or "product requirements" in user_message.lower():
+            response = self._generate_mock_prd()
+        elif "mockup" in user_message.lower() or "design" in user_message.lower():
+            response = self._generate_mock_mockup()
+        elif "commercial proposal" in user_message.lower() or "proposal" in user_message.lower():
+            response = self._generate_mock_proposal()
+        elif "BOM" in user_message or "bill of materials" in user_message.lower():
+            response = self._generate_mock_bom()
+        elif "architecture" in user_message.lower() or "technical" in user_message.lower():
+            response = self._generate_mock_architecture()
+        else:
+            response = self._generate_generic_response(user_message)
         
-        # If we get here, all models failed
-        raise Exception("❌ All OpenRouter models failed. Please check your API key and account status.")
+        self.logger.info(f"🟢 MOCK API CALL SUCCESS | Response: {len(response)} chars")
+        return response
+    
+    def _generate_mock_prd(self) -> str:
+        """Generate mock PRD content"""
+        return """# Product Requirements Document (PRD)
+
+## Project Overview
+**Project Name:** Task Management Application
+**Version:** 1.0
+**Date:** November 2025
+
+## Executive Summary
+A modern, intuitive task management application designed to help users organize and track their daily tasks efficiently.
+
+## Product Vision
+Create a clean, Apple-inspired task management solution that focuses on simplicity and user experience.
+
+## Core Features
+
+### 1. User Authentication
+- Email and password-based registration
+- Secure login system
+- User profile management
+
+### 2. Task Management
+- Create tasks with title, description, due date
+- Priority levels: Low, Medium, High
+- Status tracking: To Do, In Progress, Done
+- Edit and delete tasks
+
+### 3. Dashboard
+- Overview of all tasks
+- Statistics by status
+- Upcoming tasks view
+- Quick task creation
+
+### 4. Filtering & Sorting
+- Filter by status and priority
+- Sort by due date or creation date
+
+## Technical Requirements
+- Frontend: React.js
+- Backend: Node.js/Express
+- Database: MongoDB
+- Modern, responsive design
+
+## Success Metrics
+- User engagement rate
+- Task completion rate
+- User satisfaction score
+"""
+    
+    def _generate_mock_mockup(self) -> str:
+        """Generate mock mockup HTML"""
+        return """<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager Mockup</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .dashboard { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: #007bff; color: white; padding: 20px; }
+        .task-list { display: grid; gap: 15px; margin-top: 20px; }
+        .task-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>Task Management Dashboard</h1>
+        </div>
+        <div class="task-list">
+            <div class="task-card">
+                <h3>Sample Task 1</h3>
+                <p>Complete project documentation</p>
+                <span>Priority: High</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>"""
+    
+    def _generate_mock_proposal(self) -> str:
+        """Generate mock commercial proposal"""
+        return """# Commercial Proposal
+
+## Project: Task Management Application
+
+### Investment Summary
+**Total Project Cost:** $45,000
+**Timeline:** 12 weeks
+**Team Size:** 4 developers
+
+### Cost Breakdown
+1. Development: $30,000
+2. Design: $8,000
+3. Testing: $5,000
+4. Deployment: $2,000
+
+### Deliverables
+- Fully functional web application
+- User documentation
+- Admin panel
+- 3 months post-launch support
+
+### ROI Projection
+- Expected users: 5,000 in Year 1
+- Revenue potential: $120,000/year
+- Break-even: 6 months
+"""
+    
+    def _generate_mock_bom(self) -> str:
+        """Generate mock BOM"""
+        return """# Bill of Materials
+
+## Technical Stack
+
+### Frontend
+- React.js 18.x
+- Tailwind CSS
+- Axios for API calls
+
+### Backend
+- Node.js 20.x
+- Express.js
+- JWT authentication
+
+### Database
+- MongoDB Atlas
+- Mongoose ODM
+
+### Hosting
+- Frontend: Vercel
+- Backend: AWS EC2
+- Database: MongoDB Atlas
+
+### Third-party Services
+- SendGrid (Email)
+- Stripe (Payments)
+"""
+    
+    def _generate_mock_architecture(self) -> str:
+        """Generate mock architecture"""
+        return """# System Architecture
+
+## Architecture Overview
+Three-tier architecture with React frontend, Node.js backend, and MongoDB database.
+
+## Components
+
+### Frontend Layer
+- React SPA
+- State management with Context API
+- Responsive design
+
+### Backend Layer
+- RESTful API
+- JWT authentication
+- Business logic
+
+### Data Layer
+- MongoDB for persistence
+- Redis for caching
+
+## Security
+- HTTPS encryption
+- JWT tokens
+- Input validation
+"""
+    
+    def _generate_generic_response(self, message: str) -> str:
+        """Generate generic mock response"""
+        return f"""Based on the meeting transcript analysis:
+
+Key points identified:
+1. User requirements clearly defined
+2. Technical approach outlined
+3. Timeline and deliverables established
+
+Recommendations:
+- Proceed with proposed architecture
+- Implement in phases
+- Regular testing and feedback
+
+This is a mock response for testing purposes."""
     
     def send_message(
         self,
@@ -205,6 +251,7 @@ class LLMClient:
         """
         Synchronous wrapper for send_message_async
         """
+        import asyncio
         return asyncio.run(
             self.send_message_async(
                 user_message=user_message,
@@ -214,63 +261,3 @@ class LLMClient:
                 max_tokens=max_tokens
             )
         )
-
-    async def test_connection(self) -> Dict[str, Any]:
-        """
-        Test the OpenRouter API connection and return status information
-        
-        Returns:
-            Dictionary with connection status and available models
-        """
-        try:
-            self.logger.info("🔍 Testing OpenRouter API connection...")
-            
-            # Test 1: Check if we can access models endpoint
-            headers = {
-                "Authorization": f"Bearer {self.api_key}",
-                "Content-Type": "application/json"
-            }
-            
-            async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    f"{self.base_url}/models",
-                    headers=headers,
-                    timeout=aiohttp.ClientTimeout(total=30)
-                ) as response:
-                    
-                    if response.status == 200:
-                        models_data = await response.json()
-                        total_models = len(models_data.get('data', []))
-                        
-                        # Test 2: Try a simple chat completion with a free model
-                        test_response = await self.send_message_async(
-                            user_message="Say 'Connection test successful' if you can read this.",
-                            system_message="You are a test assistant.",
-                            temperature=0.1,
-                            max_tokens=50
-                        )
-                        
-                        return {
-                            "status": "success",
-                            "api_key_valid": True,
-                            "models_accessible": True,
-                            "total_models": total_models,
-                            "chat_working": True,
-                            "test_response": test_response,
-                            "primary_model": self.model,
-                            "fallback_models": self.free_models
-                        }
-                    else:
-                        error_text = await response.text()
-                        return {
-                            "status": "error",
-                            "api_key_valid": False,
-                            "error": f"Models endpoint failed: {response.status} - {error_text}"
-                        }
-                        
-        except Exception as e:
-            return {
-                "status": "error",
-                "api_key_valid": False,
-                "error": str(e)
-            }
