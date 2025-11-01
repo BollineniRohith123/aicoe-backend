@@ -41,7 +41,7 @@ class LLMClient:
             "meta-llama/llama-3.2-3b-instruct:free"
         ]
         
-        self.logger.info(f"🚀 OpenRouter LLM Client initialized")
+        self.logger.info("🚀 OpenRouter LLM Client initialized")
         self.logger.info(f"   Model: {self.model}")
         self.logger.info(f"   API Key: {self.api_key[:15]}...{self.api_key[-10:]}")
     
