@@ -3,101 +3,171 @@
     "data_sets": [
       {
         "name": "User Information",
-        "description": "Sample user data for registration and login",
+        "description": "Information about the users of the E-Commerce Platform - ShopEasy",
         "use_case_id": "UC-001",
         "format": "json",
         "schema": {
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
-              "description": "Unique user ID"
+              "type": "string"
             },
-            "username": {
-              "type": "string",
-              "description": "User username"
+            "name": {
+              "type": "string"
             },
             "email": {
-              "type": "string",
-              "description": "User email"
+              "type": "string"
             },
             "password": {
-              "type": "string",
-              "description": "User password"
+              "type": "string"
             }
           },
           "required": [
             "id",
-            "username",
+            "name",
             "email",
             "password"
           ]
         },
         "sample_data": [
           {
-            "id": "user123",
-            "username": "johndoe",
+            "id": "user1",
+            "name": "John Doe",
             "email": "johndoe@example.com",
             "password": "password123"
           },
           {
-            "id": "user456",
-            "username": "janeDoe",
-            "email": "janeDoe@example.com",
-            "password": "password456"
+            "id": "user2",
+            "name": "Jane Doe",
+            "email": "janedoe@example.com",
+            "password": "password123"
+          },
+          {
+            "id": "user3",
+            "name": "Bob Smith",
+            "email": "bobsmith@example.com",
+            "password": "password123"
           }
         ]
       },
       {
-        "name": "Product Information",
-        "description": "Sample product data for search and catalog",
+        "name": "Products",
+        "description": "Information about the products available on the E-Commerce Platform - ShopEasy",
         "use_case_id": "UC-002",
         "format": "json",
         "schema": {
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
-              "description": "Unique product ID"
+              "type": "string"
             },
             "name": {
-              "type": "string",
-              "description": "Product name"
+              "type": "string"
             },
             "description": {
-              "type": "string",
-              "description": "Product description"
+              "type": "string"
             },
             "price": {
-              "type": "number",
-              "description": "Product price"
+              "type": "number"
+            },
+            "image": {
+              "type": "string"
             }
           },
           "required": [
             "id",
             "name",
             "description",
-            "price"
+            "price",
+            "image"
           ]
         },
         "sample_data": [
           {
-            "id": "prod1",
-            "name": "Apple iPhone",
-            "description": "Latest iPhone model with 128GB storage",
-            "price": 999.99
+            "id": "product1",
+            "name": "Product 1",
+            "description": "This is product 1",
+            "price": 10.99,
+            "image": "product1.jpg"
           },
           {
-            "id": "prod2",
-            "name": "Samsung TV",
-            "description": "Latest 4K TV model with 75\" screen",
-            "price": 1299.99
+            "id": "product2",
+            "name": "Product 2",
+            "description": "This is product 2",
+            "price": 5.99,
+            "image": "product2.jpg"
+          },
+          {
+            "id": "product3",
+            "name": "Product 3",
+            "description": "This is product 3",
+            "price": 7.99,
+            "image": "product3.jpg"
           }
         ]
       },
       {
-        "name": "Cart Items",
-        "description": "Sample cart items data for checkout",
+        "name": "Search Results",
+        "description": "Search results for the E-Commerce Platform - ShopEasy",
+        "use_case_id": "UC-001",
+        "format": "json",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "price": {
+                "type": "number"
+              },
+              "image": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "description",
+              "price",
+              "image"
+            ]
+          }
+        },
+        "sample_data": [
+          {
+            "id": "search1",
+            "name": "Product 1",
+            "description": "This is product 1",
+            "price": 10.99,
+            "image": "product1.jpg"
+          },
+          {
+            "id": "search2",
+            "name": "Product 2",
+            "description": "This is product 2",
+            "price": 5.99,
+            "image": "product2.jpg"
+          },
+          {
+            "id": "search3",
+            "name": "Product 3",
+            "description": "This is product 3",
+            "price": 7.99,
+            "image": "product3.jpg"
+          }
+        ]
+      },
+      {
+        "name": "Cart Contents",
+        "description": "Products in the cart for the E-Commerce Platform - ShopEasy",
         "use_case_id": "UC-003",
         "format": "json",
         "schema": {
@@ -106,88 +176,109 @@
             "type": "object",
             "properties": {
               "id": {
-                "type": "string",
-                "description": "Unique cart item ID"
+                "type": "string"
               },
-              "product_id": {
-                "type": "string",
-                "description": "Product ID of the cart item"
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "price": {
+                "type": "number"
               },
               "quantity": {
-                "type": "number",
-                "description": "Quantity of the cart item"
+                "type": "number"
               }
             },
             "required": [
               "id",
-              "product_id",
+              "name",
+              "description",
+              "price",
               "quantity"
             ]
           }
         },
         "sample_data": [
           {
-            "id": "cart_item1",
-            "product_id": "prod1",
+            "id": "cart1",
+            "name": "Product 1",
+            "description": "This is product 1",
+            "price": 10.99,
             "quantity": 2
           },
           {
-            "id": "cart_item2",
-            "product_id": "prod2",
+            "id": "cart2",
+            "name": "Product 2",
+            "description": "This is product 2",
+            "price": 5.99,
             "quantity": 1
+          },
+          {
+            "id": "cart3",
+            "name": "Product 3",
+            "description": "This is product 3",
+            "price": 7.99,
+            "quantity": 3
           }
         ]
       },
       {
         "name": "Orders",
-        "description": "Sample order data for order tracking",
+        "description": "Information about the orders placed on the E-Commerce Platform - ShopEasy",
         "use_case_id": "UC-005",
         "format": "json",
         "schema": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "Unique order ID"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "user_id": {
+                "type": "string"
+              },
+              "order_date": {
+                "type": "string"
+              },
+              "total": {
+                "type": "number"
+              }
             },
-            "user_id": {
-              "type": "string",
-              "description": "User ID of the order"
-            },
-            "order_date": {
-              "type": "string",
-              "description": "Order date"
-            },
-            "total": {
-              "type": "number",
-              "description": "Total order value"
-            }
-          },
-          "required": [
-            "id",
-            "user_id",
-            "order_date",
-            "total"
-          ]
+            "required": [
+              "id",
+              "user_id",
+              "order_date",
+              "total"
+            ]
+          }
         },
         "sample_data": [
           {
             "id": "order1",
-            "user_id": "user123",
+            "user_id": "user1",
             "order_date": "2025-11-01",
-            "total": 1999.98
+            "total": 29.97
           },
           {
             "id": "order2",
-            "user_id": "user456",
-            "order_date": "2025-11-02",
-            "total": 1299.99
+            "user_id": "user2",
+            "order_date": "2025-10-31",
+            "total": 19.97
+          },
+          {
+            "id": "order3",
+            "user_id": "user3",
+            "order_date": "2025-10-30",
+            "total": 23.97
           }
         ]
       }
     ],
-    "summary": "Generated sample data for E-Commerce Platform use cases"
+    "summary": "Synthetic data sets for the E-Commerce Platform - ShopEasy, including user information, products, search results, cart contents, and orders."
   },
   "project_name": "E-Commerce Platform - ShopEasy",
-  "num_datasets": 4
+  "num_datasets": 5
 }

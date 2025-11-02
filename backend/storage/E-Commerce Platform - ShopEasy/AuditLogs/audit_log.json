@@ -234,5 +234,15 @@
       "size": 94
     },
     "user": "system"
+  },
+  {
+    "timestamp": "2025-11-02T04:04:52.934179",
+    "action": "file_saved",
+    "details": {
+      "folder": "synthetic_data",
+      "filename": "demo_data.json",
+      "size": 7239
+    },
+    "user": "system"
   }
 ]
