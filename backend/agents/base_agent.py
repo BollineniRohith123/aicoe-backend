@@ -51,10 +51,11 @@ class BaseAgent(ABC):
     Base class for all agents in the AICOE platform
     Follows Google ADK principles for agent design
     """
-    
-    def __init__(self, config: AgentConfig, llm_client):
+
+    def __init__(self, config: AgentConfig, llm_client, workflow_context=None):
         self.config = config
         self.llm_client = llm_client
+        self.workflow_context = workflow_context  # NEW: Shared workflow context
         self.logger = logging.getLogger(f"agent.{config.name}")
         
     @abstractmethod
@@ -145,6 +146,34 @@ class BaseAgent(ABC):
     def log_execution(self, step: str, details: str):
         """Log execution steps"""
         self.logger.info(f"[{self.config.name}] {step}: {details}")
+
+    def _merge_workflow_context(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Merge workflow context into input data for agents to access
+
+        Args:
+            input_data: Original input data
+
+        Returns:
+            Input data enriched with workflow context
+        """
+        if self.workflow_context:
+            # Get full context for this agent
+            full_context = self.workflow_context.get_full_context(
+                current_agent=self.config.name
+            )
+
+            # Add workflow context to input
+            input_data["workflow_context"] = full_context
+
+            # Also add commonly used fields at top level for convenience
+            input_data["design_system"] = full_context.get("design_guidelines", "")
+            input_data["html_prompt_template"] = full_context.get("html_generation_prompt", "")
+            input_data["all_agent_outputs"] = full_context.get("all_agent_outputs", {})
+
+            self.logger.info(f"Merged workflow context with {len(full_context.get('all_agent_outputs', {}))} previous agent outputs")
+
+        return input_data
 
     def parse_json_response(self, response: str, fallback_key: str = "raw_response") -> Dict[str, Any]:
         """

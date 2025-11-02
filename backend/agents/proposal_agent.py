@@ -43,6 +43,9 @@ class ProposalAgent(BaseAgent):
             - proposal_html: Beautiful HTML document
         """
         try:
+            # NEW: Merge workflow context for agent collaboration
+            input_data = self._merge_workflow_context(input_data)
+
             self.log_execution("start", "Generating commercial proposal")
             self.validate_input(input_data, ["project_name"])
 
@@ -122,13 +125,16 @@ Input Data:
             self.log_execution("success", f"Generated proposal XML ({len(proposal_xml)} chars)")
 
             # STAGE 2: Transform XML to HTML using LLM
-            design_system = get_design_system_prompt()
-            
+            design_system = input_data.get("design_system", get_design_system_prompt())
+            html_prompt_template = input_data.get("html_prompt_template", "")
+
             html_system_message = f"""## ROLE AND GOAL
 You are an expert Business Proposal Designer. Your goal is to transform a commercial proposal XML into a professional, client-ready HTML document with AICOE branding.
 
 
 {design_system}
+
+{html_prompt_template}
 
 ## CONTEXT
 You will be given an XML string containing a `<commercialProposal>`.

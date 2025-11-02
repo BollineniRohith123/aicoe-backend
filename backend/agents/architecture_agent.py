@@ -42,6 +42,9 @@ class ArchitectureAgent(BaseAgent):
             - architecture_html: Interactive HTML with rendered Mermaid diagrams
         """
         try:
+            # NEW: Merge workflow context for agent collaboration
+            input_data = self._merge_workflow_context(input_data)
+
             self.log_execution("start", "Generating architecture diagram")
             self.validate_input(input_data, ["project_name"])
 
@@ -164,13 +167,16 @@ Input Data:
             self.log_execution("success", f"Generated architecture XML ({len(architecture_xml)} chars)")
 
             # STAGE 2: Transform XML to HTML with interactive Mermaid rendering
-            design_system = get_design_system_prompt()
-            
+            design_system = input_data.get("design_system", get_design_system_prompt())
+            html_prompt_template = input_data.get("html_prompt_template", "")
+
             html_system_message = f"""## ROLE AND GOAL
 You are an expert Technical Documentation Designer. Your goal is to transform a system architecture XML (containing Mermaid diagrams) into a professional, interactive HTML document with AICOE branding.
 
 
 {design_system}
+
+{html_prompt_template}
 
 ## CONTEXT
 You will be given an XML string containing a `<systemArchitecture>` with embedded Mermaid diagram code.

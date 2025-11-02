@@ -18,6 +18,7 @@ from .bom_agent import BOMAgent
 from .architecture_agent import ArchitectureAgent
 from .gallery_agent import CaseStudyGalleryAgent
 from .agent_communication import AgentCommunicationHub, Message
+from .workflow_context import WorkflowContext
 import logging
 import asyncio
 import os
@@ -123,6 +124,13 @@ class OrchestratorAgent:
         self.logger.info(f"Maximum workflow execution time: {max_workflow_time} seconds")
         self.logger.info(f"Active executions: {len(self.active_executions)}")
 
+        # NEW: Create WorkflowContext for agent collaboration
+        workflow_context = WorkflowContext(
+            project_name=project_name,
+            transcript=transcript
+        )
+        self.logger.info(f"✅ Created WorkflowContext for {project_name}")
+
         # Define workflow stages with dependencies
         stages = self._define_workflow_stages(workflow_type)
 
@@ -167,7 +175,10 @@ class OrchestratorAgent:
                         transcript,
                         results
                     )
-                    
+
+                    # NEW: Update agent's workflow context before execution
+                    stage.agent.workflow_context = workflow_context
+
                     # Execute the agent with timeout (max 10 minutes per agent)
                     self.logger.info(f"Executing stage: {stage.name}")
                     try:
@@ -185,11 +196,15 @@ class OrchestratorAgent:
                         )
 
                     stage.end_time = datetime.utcnow()
-                    
+
                     if result.success:
                         stage.status = "completed"
                         stage.result = result
                         results[stage.name] = result.data
+
+                        # NEW: Add agent output to workflow context
+                        workflow_context.add_agent_output(stage.name, result.data)
+                        self.logger.info(f"✅ Added {stage.name} output to workflow context")
 
                         # Save agent output to project folder via StorageAgent
                         if stage.name != "storage":
@@ -698,6 +713,14 @@ class OrchestratorAgent:
                     "html_filename": "proposal_v1.html",
                     "xslt_template": "proposal_template.xslt"
                 },
+                "commercial_proposal": {  # Stage name is commercial_proposal
+                    "folder": "commercial_proposals",  # Maps to CommercialProposals
+                    "filename": "proposal_v1.xml",
+                    "content": data.get("proposal_xml", str(data)),
+                    "transform_to_html": True,
+                    "html_filename": "proposal_v1.html",
+                    "xslt_template": "proposal_template.xslt"
+                },
                 "bom": {
                     "folder": "bom",  # Maps to BillOfMaterials
                     "filename": "bom_v1.xml",
@@ -707,6 +730,14 @@ class OrchestratorAgent:
                     "xslt_template": "bom_template.xslt"
                 },
                 "architecture": {
+                    "folder": "architecture",  # Maps to SystemArchitecture
+                    "filename": "architecture_v1.xml",
+                    "content": data.get("architecture_xml", str(data)),
+                    "transform_to_html": True,
+                    "html_filename": "architecture_v1.html",
+                    "xslt_template": "architecture_template.xslt"
+                },
+                "architecture_diagram": {  # Stage name is architecture_diagram
                     "folder": "architecture",  # Maps to SystemArchitecture
                     "filename": "architecture_v1.xml",
                     "content": data.get("architecture_xml", str(data)),
@@ -743,8 +774,22 @@ class OrchestratorAgent:
                 # Save HTML file if agent generated it (new LLM-driven architecture)
                 if mapping.get("transform_to_html", False):
                     # Agents now generate HTML directly, so we just need to save it
-                    html_key = f"{agent_name}_html"
-                    html_content = data.get(html_key)
+                    # Try multiple possible HTML key names to handle naming inconsistencies
+                    possible_html_keys = [
+                        f"{agent_name}_html",  # e.g., "commercial_proposal_html"
+                        "proposal_html",  # ProposalAgent returns this
+                        "architecture_html",  # ArchitectureAgent returns this
+                        "prd_html",  # PRDAgent returns this
+                        "bom_html",  # BOMAgent returns this
+                    ]
+
+                    html_content = None
+                    html_key_used = None
+                    for key in possible_html_keys:
+                        if key in data:
+                            html_content = data[key]
+                            html_key_used = key
+                            break
 
                     if html_content:
                         try:
@@ -758,13 +803,13 @@ class OrchestratorAgent:
                             }
                             html_result = await storage_agent.execute(html_save_input, {})
                             if html_result.success:
-                                self.logger.info(f"Saved {agent_name} HTML to {mapping['folder']}/{mapping['html_filename']}")
+                                self.logger.info(f"Saved {agent_name} HTML to {mapping['folder']}/{mapping['html_filename']} (from key: {html_key_used})")
                             else:
                                 self.logger.warning(f"Failed to save {agent_name} HTML: {html_result.error}")
                         except Exception as e:
                             self.logger.error(f"Failed to save {agent_name} HTML: {str(e)}")
                     else:
-                        self.logger.warning(f"Agent {agent_name} did not generate HTML content (expected key: {html_key})")
+                        self.logger.warning(f"Agent {agent_name} did not generate HTML content (tried keys: {', '.join(possible_html_keys)})")
 
             # Save all mockup pages (multi-page prototypes) to CaseStudies folder
             if agent_name == "mockup" and "mockup_pages" in data:

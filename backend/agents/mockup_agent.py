@@ -44,6 +44,9 @@ class MockupAgent(BaseAgent):
             - use_case_structure: Metadata about generated structure
         """
         try:
+            # NEW: Merge workflow context for agent collaboration
+            input_data = self._merge_workflow_context(input_data)
+
             self.log_execution("start", "Generating premium HTML mockups with separate API calls")
             self.validate_input(input_data, ["project_name"])
 
@@ -60,7 +63,12 @@ class MockupAgent(BaseAgent):
 
             # STEP 1: Generate index.html (dashboard)
             self.log_execution("progress", "Step 1: Generating index.html dashboard")
-            index_html = await self._generate_index_page(project_name, use_cases, structured_notes)
+            index_html = await self._generate_index_page(
+                project_name,
+                use_cases,
+                structured_notes,
+                input_data  # Pass full input with workflow context
+            )
             all_mockup_pages["index.html"] = index_html
             self.log_execution("success", "✓ Generated index.html")
 
@@ -118,21 +126,40 @@ class MockupAgent(BaseAgent):
         self,
         project_name: str,
         use_cases: List[Dict[str, Any]],
-        structured_notes: Dict[str, Any]
+        structured_notes: Dict[str, Any],
+        input_data: Dict[str, Any] = None
     ) -> str:
         """
         Generate the main index.html dashboard page
 
         This page showcases all use cases with beautiful cards
         """
-        design_system = get_design_system_prompt()
+        # NEW: Use workflow context design system if available
+        design_system = input_data.get("design_system", get_design_system_prompt()) if input_data else get_design_system_prompt()
+        html_prompt_template = input_data.get("html_prompt_template", "") if input_data else ""
+
+        # NEW: Get PRD HTML as style reference if available
+        prd_html_reference = ""
+        if input_data and "all_agent_outputs" in input_data:
+            prd_data = input_data["all_agent_outputs"].get("prd", {})
+            if prd_data:
+                prd_html_reference = "\n\n## STYLE REFERENCE\nMatch the visual style and design patterns from the PRD HTML that was already generated for this project. Use the same colors, typography, spacing, and component styles for consistency."
 
         system_message = f"""You are a world-class UI/UX designer specializing in Apple-inspired dashboards with AICOE branding.
 
 {design_system}
 
+{html_prompt_template}
+
+{prd_html_reference}
+
 ## YOUR TASK
 Create a stunning **index.html** dashboard page that showcases all use cases for this project.
+
+## CRITICAL CSS REQUIREMENT
+**IMPORTANT**: In your <style> tag, you MUST include the COMPLETE :root block from the design system above.
+Copy the ENTIRE :root section (all CSS variables) - do NOT split them into separate blocks.
+The :root block should include: colors, typography, spacing, shadows, radius, and transitions ALL IN ONE PLACE.
 
 ## DESIGN REQUIREMENTS
 1. **Hero Section**: Project name, tagline, beautiful gradient background
@@ -145,6 +172,7 @@ Create a stunning **index.html** dashboard page that showcases all use cases for
 3. **Navigation**: Smooth scroll, responsive design
 4. **Footer**: AICOE branding with gradient logo
 5. **Premium Quality**: Every pixel matters - use design system meticulously
+6. **Responsive Design**: Must work perfectly on mobile, tablet, and desktop
 
 ## NAVIGATION LINKS
 For each use case card, the "View Mockup" button should link to:

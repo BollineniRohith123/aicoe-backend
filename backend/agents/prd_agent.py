@@ -43,6 +43,9 @@ class PRDAgent(BaseAgent):
             - prd_html: Beautiful HTML document
         """
         try:
+            # NEW: Merge workflow context for agent collaboration
+            input_data = self._merge_workflow_context(input_data)
+
             self.log_execution("start", "Generating PRD document")
             self.validate_input(input_data, ["project_name"])
 
@@ -157,12 +160,15 @@ Input Data:
             self.log_execution("success", f"Generated PRD XML ({len(prd_xml)} characters)")
 
             # STAGE 2: Transform XML to HTML using LLM
-            design_system = get_design_system_prompt()
+            design_system = input_data.get("design_system", get_design_system_prompt())
+            html_prompt_template = input_data.get("html_prompt_template", "")
 
             html_system_message = f"""## ROLE AND GOAL
 You are an expert Technical Writer and Information Designer. Your goal is to transform a raw PRD in XML format into a professional, client-ready, and interactive HTML document.
 
 {design_system}
+
+{html_prompt_template}
 
 ## CONTEXT
 You will be given a single input: an XML string containing a `<productRequirementsDocument>`.
