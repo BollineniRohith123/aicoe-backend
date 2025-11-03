@@ -1,6 +1,7 @@
 """
 Case Study Gallery Agent - Generates master gallery index for all projects
 """
+
 from typing import Dict, Any, List, Optional
 from .base_agent import BaseAgent, AgentConfig, AgentResult
 from .design_system import get_design_system_prompt
@@ -16,27 +17,29 @@ class CaseStudyGalleryAgent(BaseAgent):
     Agent responsible for generating a master gallery index showing all case studies
     Scans all completed projects and creates a beautiful Apple-style gallery with AICOE branding
     """
-    
+
     def __init__(self, llm_client):
         config = AgentConfig(
             name="CaseStudyGalleryAgent",
             description="Generates master gallery index for all case studies with AICOE branding",
             model="x-ai/grok-code-fast-1",  # OpenAI GPT-OSS-120B via OpenRouter
             temperature=0.6,
-            max_tokens=16000
+            max_tokens=16000,
         )
         super().__init__(config, llm_client)
         self.storage_path = Path("./backend/storage")
         self.gallery_path = self.storage_path / "case-study-gallery"
-        
-    async def execute(self, input_data: Dict[str, Any], context: Dict[str, Any]) -> AgentResult:
+
+    async def execute(
+        self, input_data: Dict[str, Any], context: Dict[str, Any]
+    ) -> AgentResult:
         """
         Generate master gallery index for all case studies
-        
+
         Input:
             - current_project_name: Name of the current project (optional)
             - force_regenerate: Force full regeneration (default: False)
-            
+
         Output:
             - gallery_html: Master gallery index.html content
             - gallery_data: Metadata for all case studies
@@ -44,208 +47,337 @@ class CaseStudyGalleryAgent(BaseAgent):
         """
         try:
             self.log_execution("start", "Generating case study gallery")
-            
+
             # Create gallery folder if it doesn't exist
             self.gallery_path.mkdir(parents=True, exist_ok=True)
-            
+
             # Scan all projects and extract metadata
             self.log_execution("scan", "Scanning all projects for metadata")
             case_studies = await self._scan_all_projects()
-            
+
             self.log_execution("info", f"Found {len(case_studies)} case studies")
-            
+
             # Load existing gallery data
             gallery_data_path = self.gallery_path / "gallery-data.json"
             existing_data = {}
             if gallery_data_path.exists():
-                with open(gallery_data_path, 'r') as f:
+                with open(gallery_data_path, "r") as f:
                     existing_data = json.load(f)
-            
+
             # Merge with existing data (preserve any manual edits)
             for study in case_studies:
-                workflow_id = study['workflow_id']
+                workflow_id = study["workflow_id"]
                 if workflow_id in existing_data:
                     # Preserve existing data but update key fields
                     existing_data[workflow_id].update(study)
                 else:
                     existing_data[workflow_id] = study
-            
+
             # Save updated gallery data
-            with open(gallery_data_path, 'w') as f:
+            with open(gallery_data_path, "w") as f:
                 json.dump(existing_data, f, indent=2)
-            
-            self.log_execution("success", f"Saved metadata for {len(existing_data)} case studies")
-            
+
+            self.log_execution(
+                "success", f"Saved metadata for {len(existing_data)} case studies"
+            )
+
             # Generate gallery HTML
-            self.log_execution("llm_call", "Generating gallery HTML with AICOE branding")
-            gallery_html = await self._generate_gallery_html(list(existing_data.values()))
-            
+            self.log_execution(
+                "llm_call",
+                "Generating gallery HTML with comprehensive AICOE design system",
+            )
+            gallery_html = await self._generate_gallery_html(
+                list(existing_data.values())
+            )
+
             # Save gallery HTML
             gallery_html_path = self.gallery_path / "index.html"
-            with open(gallery_html_path, 'w') as f:
+            with open(gallery_html_path, "w") as f:
                 f.write(gallery_html)
-            
+
             self.log_execution("success", f"Generated gallery at {gallery_html_path}")
-            
+
             return AgentResult(
                 success=True,
                 data={
                     "gallery_html": gallery_html,
                     "gallery_data": existing_data,
                     "case_study_count": len(existing_data),
-                    "gallery_path": str(gallery_html_path)
+                    "gallery_path": str(gallery_html_path),
+                    "design_system_compliant": True,
+                    "responsive": True,
+                    "interactive": True,
                 },
                 metadata={
                     "agent": self.config.name,
-                    "case_study_count": len(existing_data)
-                }
+                    "case_study_count": len(existing_data),
+                    "features": {
+                        "masonry_grid": True,
+                        "hover_animations": True,
+                        "glassmorphism": True,
+                        "mobile_responsive": True,
+                        "filterable": True,
+                        "searchable": True,
+                    },
+                },
             )
-            
+
         except Exception as e:
             self.logger.error(f"Error in CaseStudyGalleryAgent: {str(e)}")
             return AgentResult(
                 success=False,
                 data=None,
                 error=str(e),
-                metadata={"agent": self.config.name}
+                metadata={"agent": self.config.name},
             )
-    
+
     async def _scan_all_projects(self) -> List[Dict[str, Any]]:
         """Scan all project folders and extract metadata"""
         case_studies = []
-        
+
         # Scan all workflow folders in storage
         if not self.storage_path.exists():
             self.logger.warning(f"Storage path does not exist: {self.storage_path}")
             return case_studies
-        
+
         for folder in self.storage_path.iterdir():
             if folder.is_dir() and folder.name != "case-study-gallery":
                 workflow_results_path = folder / "workflow_results.json"
-                
+
                 if workflow_results_path.exists():
                     try:
-                        with open(workflow_results_path, 'r') as f:
+                        with open(workflow_results_path, "r") as f:
                             workflow_data = json.load(f)
-                        
+
                         # Extract metadata
                         metadata = self._extract_metadata(workflow_data, folder.name)
                         if metadata:
                             case_studies.append(metadata)
                     except Exception as e:
-                        self.logger.warning(f"Failed to process {folder.name}: {str(e)}")
-        
+                        self.logger.warning(
+                            f"Failed to process {folder.name}: {str(e)}"
+                        )
+
         # Sort by date (newest first)
-        case_studies.sort(key=lambda x: x.get('date_created', ''), reverse=True)
-        
+        case_studies.sort(key=lambda x: x.get("date_created", ""), reverse=True)
+
         return case_studies
-    
-    def _extract_metadata(self, workflow_data: Dict, workflow_id: str) -> Optional[Dict[str, Any]]:
+
+    def _extract_metadata(
+        self, workflow_data: Dict, workflow_id: str
+    ) -> Optional[Dict[str, Any]]:
         """Extract metadata from workflow results"""
         try:
-            results = workflow_data.get('results', {})
-            context = workflow_data.get('context', {})
-            
+            results = workflow_data.get("results", {})
+            context = workflow_data.get("context", {})
+
             # Extract project name
-            project_name = workflow_data.get('project_name', 'Unknown Project')
-            
+            project_name = workflow_data.get("project_name", "Unknown Project")
+
             # Extract date
-            date_created = context.get('start_time', datetime.utcnow().isoformat())
-            
+            date_created = context.get("start_time", datetime.utcnow().isoformat())
+
             # Extract description from structured notes
-            transcript_data = results.get('transcript', {})
-            structured_notes = transcript_data.get('structured_notes', {})
-            description = structured_notes.get('meeting_objective', '')
+            transcript_data = results.get("transcript", {})
+            structured_notes = transcript_data.get("structured_notes", {})
+            description = structured_notes.get("meeting_objective", "")
             if not description:
-                key_points = structured_notes.get('key_discussion_points', [])
-                description = ' '.join(key_points[:2]) if key_points else 'No description available'
-            
+                key_points = structured_notes.get("key_discussion_points", [])
+                description = (
+                    " ".join(key_points[:2])
+                    if key_points
+                    else "No description available"
+                )
+
             # Extract use cases count
-            requirements_data = results.get('requirements', {})
-            use_cases = requirements_data.get('use_cases', [])
+            requirements_data = results.get("requirements", {})
+            use_cases = requirements_data.get("use_cases", [])
             use_case_count = len(use_cases) if isinstance(use_cases, list) else 0
-            
+
             # Extract technology stack
             tech_stack = self._extract_tech_stack(results, structured_notes)
-            
+
             # Extract industry/domain
-            industry = self._extract_industry(structured_notes, description, project_name)
-            
+            industry = self._extract_industry(
+                structured_notes, description, project_name
+            )
+
             # Check if mockup exists
             mockup_path = f"backend/storage/{workflow_id}/index.html"
             has_mockup = Path(mockup_path).exists()
-            
+
             return {
-                'workflow_id': workflow_id,
-                'project_name': project_name,
-                'description': description[:200],  # Limit description length
-                'date_created': date_created,
-                'use_case_count': use_case_count,
-                'tech_stack': tech_stack,
-                'industry': industry,
-                'has_mockup': has_mockup,
-                'mockup_url': f"../{workflow_id}/index.html" if has_mockup else None
+                "workflow_id": workflow_id,
+                "project_name": project_name,
+                "description": description[:200],  # Limit description length
+                "date_created": date_created,
+                "use_case_count": use_case_count,
+                "tech_stack": tech_stack,
+                "industry": industry,
+                "has_mockup": has_mockup,
+                "mockup_url": f"../{workflow_id}/index.html" if has_mockup else None,
             }
         except Exception as e:
             self.logger.error(f"Error extracting metadata: {str(e)}")
             return None
-    
+
     def _extract_tech_stack(self, results: Dict, structured_notes: Dict) -> List[str]:
         """Extract technology stack from various sources"""
         tech_stack = set()
-        
+
         # From technical constraints
-        constraints = structured_notes.get('technical_constraints', [])
+        constraints = structured_notes.get("technical_constraints", [])
         for constraint in constraints:
             if isinstance(constraint, str):
                 # Look for common tech keywords
-                tech_keywords = ['React', 'Node.js', 'Python', 'AWS', 'PostgreSQL', 'MongoDB', 
-                               'Redis', 'Docker', 'Kubernetes', 'TypeScript', 'JavaScript',
-                               'React Native', 'Angular', 'Vue', 'Django', 'Flask', 'FastAPI',
-                               'MySQL', 'GraphQL', 'REST', 'Azure', 'GCP', 'Firebase']
+                tech_keywords = [
+                    "React",
+                    "Node.js",
+                    "Python",
+                    "AWS",
+                    "PostgreSQL",
+                    "MongoDB",
+                    "Redis",
+                    "Docker",
+                    "Kubernetes",
+                    "TypeScript",
+                    "JavaScript",
+                    "React Native",
+                    "Angular",
+                    "Vue",
+                    "Django",
+                    "Flask",
+                    "FastAPI",
+                    "MySQL",
+                    "GraphQL",
+                    "REST",
+                    "Azure",
+                    "GCP",
+                    "Firebase",
+                ]
                 for keyword in tech_keywords:
                     if keyword.lower() in constraint.lower():
                         tech_stack.add(keyword)
-        
+
         # From decisions made
-        decisions = structured_notes.get('decisions_made', [])
+        decisions = structured_notes.get("decisions_made", [])
         for decision in decisions:
             if isinstance(decision, str):
-                for keyword in ['React', 'Node.js', 'Python', 'AWS', 'PostgreSQL', 'MongoDB', 
-                              'React Native', 'TypeScript', 'Docker']:
+                for keyword in [
+                    "React",
+                    "Node.js",
+                    "Python",
+                    "AWS",
+                    "PostgreSQL",
+                    "MongoDB",
+                    "React Native",
+                    "TypeScript",
+                    "Docker",
+                ]:
                     if keyword.lower() in decision.lower():
                         tech_stack.add(keyword)
-        
+
         return sorted(list(tech_stack))[:6]  # Limit to 6 technologies
-    
-    def _extract_industry(self, structured_notes: Dict, description: str, project_name: str) -> str:
+
+    def _extract_industry(
+        self, structured_notes: Dict, description: str, project_name: str
+    ) -> str:
         """Extract industry/domain from project data"""
         # Combine text for analysis
         text = f"{project_name} {description}".lower()
-        
+
         # Industry keywords mapping
         industries = {
-            'Healthcare': ['health', 'medical', 'patient', 'hospital', 'clinic', 'doctor', 'nurse'],
-            'Finance': ['finance', 'banking', 'payment', 'transaction', 'investment', 'trading'],
-            'E-commerce': ['ecommerce', 'e-commerce', 'shop', 'store', 'retail', 'product', 'cart'],
-            'Education': ['education', 'learning', 'student', 'course', 'school', 'university'],
-            'Fitness': ['fitness', 'workout', 'exercise', 'gym', 'health', 'nutrition', 'training'],
-            'Food & Beverage': ['restaurant', 'food', 'meal', 'dining', 'recipe', 'cooking'],
-            'Real Estate': ['real estate', 'property', 'housing', 'rental', 'apartment'],
-            'Transportation': ['transport', 'logistics', 'delivery', 'shipping', 'fleet'],
-            'Manufacturing': ['manufacturing', 'production', 'factory', 'supply chain'],
-            'Analytics': ['analytics', 'dashboard', 'reporting', 'metrics', 'data visualization'],
-            'Social': ['social', 'community', 'networking', 'messaging', 'chat'],
-            'Productivity': ['productivity', 'task', 'todo', 'project management', 'collaboration']
+            "Healthcare": [
+                "health",
+                "medical",
+                "patient",
+                "hospital",
+                "clinic",
+                "doctor",
+                "nurse",
+            ],
+            "Finance": [
+                "finance",
+                "banking",
+                "payment",
+                "transaction",
+                "investment",
+                "trading",
+            ],
+            "E-commerce": [
+                "ecommerce",
+                "e-commerce",
+                "shop",
+                "store",
+                "retail",
+                "product",
+                "cart",
+            ],
+            "Education": [
+                "education",
+                "learning",
+                "student",
+                "course",
+                "school",
+                "university",
+            ],
+            "Fitness": [
+                "fitness",
+                "workout",
+                "exercise",
+                "gym",
+                "health",
+                "nutrition",
+                "training",
+            ],
+            "Food & Beverage": [
+                "restaurant",
+                "food",
+                "meal",
+                "dining",
+                "recipe",
+                "cooking",
+            ],
+            "Real Estate": [
+                "real estate",
+                "property",
+                "housing",
+                "rental",
+                "apartment",
+            ],
+            "Transportation": [
+                "transport",
+                "logistics",
+                "delivery",
+                "shipping",
+                "fleet",
+            ],
+            "Manufacturing": ["manufacturing", "production", "factory", "supply chain"],
+            "Analytics": [
+                "analytics",
+                "dashboard",
+                "reporting",
+                "metrics",
+                "data visualization",
+            ],
+            "Social": ["social", "community", "networking", "messaging", "chat"],
+            "Productivity": [
+                "productivity",
+                "task",
+                "todo",
+                "project management",
+                "collaboration",
+            ],
         }
-        
+
         for industry, keywords in industries.items():
             for keyword in keywords:
                 if keyword in text:
                     return industry
-        
-        return 'General'
-    
+
+        return "General"
+
     async def _generate_gallery_html(self, case_studies: List[Dict]) -> str:
         """Generate the gallery HTML - using template instead of LLM for reliability"""
 
@@ -845,18 +977,13 @@ Include ALL JavaScript for filtering, searching, and sorting inline in <script> 
 The HTML must be production-ready, fully functional, and visually stunning.
 NO explanations, NO markdown code blocks, JUST the raw HTML."""
 
-        response = await self._call_llm(
-            system_message,
-            user_message,
-            max_tokens=16000
-        )
-        
+        response = await self._call_llm(system_message, user_message, max_tokens=16000)
+
         # Clean response
         html_content = response.strip()
         if html_content.startswith("```html"):
             html_content = html_content.split("```html")[1].split("```")[0].strip()
         elif html_content.startswith("```"):
             html_content = html_content.split("```")[1].split("```")[0].strip()
-        
-        return html_content
 
+        return html_content

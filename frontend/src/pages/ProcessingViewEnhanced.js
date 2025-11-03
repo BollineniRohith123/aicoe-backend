@@ -1,24 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useWorkflowWebSocket } from '../hooks/useWorkflowWebSocket';
-import AgentProgress from '../components/AgentProgress';
-import AgentCommunication from '../components/AgentCommunication';
-import ProjectFolderTree from '../components/ProjectFolderTree';
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useWorkflowWebSocket } from "../hooks/useWorkflowWebSocket";
+import AgentProgress from "../components/AgentProgress";
+import AgentCommunication from "../components/AgentCommunication";
+import ProjectFolderTree from "../components/ProjectFolderTree";
 import { Button } from "@/components/ui/button";
-import { Eye, Code, Download, Lock, Unlock, ChevronLeft, PlayCircle } from "lucide-react";
-import './ProcessingView.css';
-import './ProcessingViewEnhanced.css';
+import {
+  Eye,
+  Code,
+  Download,
+  Lock,
+  Unlock,
+  ChevronLeft,
+  PlayCircle,
+} from "lucide-react";
+import { API_BASE_URL } from "../const";
+import "./ProcessingView.css";
+import "./ProcessingViewEnhanced.css";
 
 const ProcessingViewEnhanced = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [projectName, setProjectName] = useState('');
+  const [projectName, setProjectName] = useState("");
   const [workflowId, setWorkflowId] = useState(null);
   const [isRestoring, setIsRestoring] = useState(true);
-  const [workflowStatus, setWorkflowStatus] = useState('idle');
+  const [workflowStatus, setWorkflowStatus] = useState("idle");
   const [showStartButton, setShowStartButton] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [viewMode, setViewMode] = useState('preview');
+  const [viewMode, setViewMode] = useState("preview");
   const hasStartedRef = useRef(false);
 
   const {
@@ -34,7 +43,7 @@ const ProcessingViewEnhanced = () => {
     elapsedTime,
     progressPercentage,
     estimatedTimeRemaining,
-    restoreState
+    restoreState,
   } = useWorkflowWebSocket();
 
   useEffect(() => {
@@ -42,7 +51,7 @@ const ProcessingViewEnhanced = () => {
       const { projectName: name, transcript } = location.state || {};
 
       if (!name || !transcript) {
-        navigate('/input');
+        navigate("/input");
         return;
       }
 
@@ -52,10 +61,15 @@ const ProcessingViewEnhanced = () => {
 
       if (storedWorkflowId) {
         try {
-          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/workflow/${storedWorkflowId}/status`);
+          const response = await fetch(
+            `${API_BASE_URL}/api/workflow/${storedWorkflowId}/status`,
+          );
           const workflowStatus = await response.json();
 
-          if (workflowStatus.status === 'running' || workflowStatus.status === 'completed') {
+          if (
+            workflowStatus.status === "running" ||
+            workflowStatus.status === "completed"
+          ) {
             restoreState(workflowStatus);
             connect(storedWorkflowId, name, transcript, true);
             setWorkflowId(storedWorkflowId);
@@ -65,13 +79,13 @@ const ProcessingViewEnhanced = () => {
             localStorage.removeItem(`workflow_${name}`);
           }
         } catch (error) {
-          console.error('Error restoring workflow:', error);
+          console.error("Error restoring workflow:", error);
           localStorage.removeItem(`workflow_${name}`);
         }
       }
 
       setShowStartButton(true);
-      setWorkflowStatus('idle');
+      setWorkflowStatus("idle");
       setIsRestoring(false);
     };
 
@@ -86,7 +100,7 @@ const ProcessingViewEnhanced = () => {
     const { projectName: name, transcript } = location.state || {};
 
     if (!name || !transcript) {
-      console.error('Missing project data');
+      console.error("Missing project data");
       return;
     }
 
@@ -95,34 +109,37 @@ const ProcessingViewEnhanced = () => {
     localStorage.setItem(`workflow_${name}`, wfId);
     setWorkflowId(wfId);
     setShowStartButton(false);
-    setWorkflowStatus('running');
+    setWorkflowStatus("running");
 
     connect(wfId, name, transcript, false);
   };
 
   useEffect(() => {
     if (isConnected && !isComplete) {
-      setWorkflowStatus('running');
+      setWorkflowStatus("running");
     } else if (isComplete) {
-      setWorkflowStatus('completed');
+      setWorkflowStatus("completed");
     } else if (error) {
-      setWorkflowStatus('failed');
+      setWorkflowStatus("failed");
     }
   }, [isConnected, isComplete, error]);
 
   // Build file structure from results
   const buildFileStructure = (data) => {
     if (!data || !data.results) return {};
-    
+
     const structure = {};
     const res = data.results;
 
     if (res.prd) {
-      structure['📄 PRD'] = {
-        content: typeof res.prd === 'string' ? res.prd : JSON.stringify(res.prd, null, 2),
-        type: 'html',
-        path: 'prd/PRD_v1.html',
-        name: 'PRD_v1.html'
+      structure["📄 PRD"] = {
+        content:
+          typeof res.prd === "string"
+            ? res.prd
+            : JSON.stringify(res.prd, null, 2),
+        type: "html",
+        path: "prd/PRD_v1.html",
+        name: "PRD_v1.html",
       };
     }
 
@@ -130,37 +147,46 @@ const ProcessingViewEnhanced = () => {
       Object.entries(res.mockup.mockup_pages).forEach(([filename, content]) => {
         structure[`🎨 ${filename}`] = {
           content,
-          type: 'html',
+          type: "html",
           path: `mockup/${filename}`,
-          name: filename
+          name: filename,
         };
       });
     }
 
     if (res.commercial_proposal) {
-      structure['💼 Proposal'] = {
-        content: typeof res.commercial_proposal === 'string' ? res.commercial_proposal : JSON.stringify(res.commercial_proposal, null, 2),
-        type: 'html',
-        path: 'proposal/proposal_v1.html',
-        name: 'proposal_v1.html'
+      structure["💼 Proposal"] = {
+        content:
+          typeof res.commercial_proposal === "string"
+            ? res.commercial_proposal
+            : JSON.stringify(res.commercial_proposal, null, 2),
+        type: "html",
+        path: "proposal/proposal_v1.html",
+        name: "proposal_v1.html",
       };
     }
 
     if (res.bom) {
-      structure['📦 BOM'] = {
-        content: typeof res.bom === 'string' ? res.bom : JSON.stringify(res.bom, null, 2),
-        type: 'html',
-        path: 'bom/bom_v1.html',
-        name: 'bom_v1.html'
+      structure["📦 BOM"] = {
+        content:
+          typeof res.bom === "string"
+            ? res.bom
+            : JSON.stringify(res.bom, null, 2),
+        type: "html",
+        path: "bom/bom_v1.html",
+        name: "bom_v1.html",
       };
     }
 
     if (res.architecture_diagram) {
-      structure['🏗️ Architecture'] = {
-        content: typeof res.architecture_diagram === 'string' ? res.architecture_diagram : JSON.stringify(res.architecture_diagram, null, 2),
-        type: 'html',
-        path: 'architecture/architecture_v1.html',
-        name: 'architecture_v1.html'
+      structure["🏗️ Architecture"] = {
+        content:
+          typeof res.architecture_diagram === "string"
+            ? res.architecture_diagram
+            : JSON.stringify(res.architecture_diagram, null, 2),
+        type: "html",
+        path: "architecture/architecture_v1.html",
+        name: "architecture_v1.html",
       };
     }
 
@@ -177,7 +203,8 @@ const ProcessingViewEnhanced = () => {
     }
   }, [isComplete, fileList.length]);
 
-  const isPlaygroundLocked = workflowStatus === 'running' || workflowStatus === 'idle';
+  const isPlaygroundLocked =
+    workflowStatus === "running" || workflowStatus === "idle";
 
   return (
     <div className="processing-view-enhanced">
@@ -188,7 +215,7 @@ const ProcessingViewEnhanced = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/')}
+              onClick={() => navigate("/")}
               className="gap-2"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -200,15 +227,15 @@ const ProcessingViewEnhanced = () => {
                 {projectName}
               </h1>
               <div className={`workflow-status-badge status-${workflowStatus}`}>
-                {workflowStatus === 'idle' && '⏸️ Ready'}
-                {workflowStatus === 'running' && '▶️ Processing'}
-                {workflowStatus === 'completed' && '✅ Complete'}
-                {workflowStatus === 'failed' && '❌ Failed'}
+                {workflowStatus === "idle" && "⏸️ Ready"}
+                {workflowStatus === "running" && "▶️ Processing"}
+                {workflowStatus === "completed" && "✅ Complete"}
+                {workflowStatus === "failed" && "❌ Failed"}
               </div>
             </div>
           </div>
-          
-          {(workflowStatus === 'running' || workflowStatus === 'completed') && (
+
+          {(workflowStatus === "running" || workflowStatus === "completed") && (
             <div className="header-stats">
               <div className="stat-badge">
                 <span className="stat-label">Progress</span>
@@ -236,12 +263,10 @@ const ProcessingViewEnhanced = () => {
             <div className="start-icon">🚀</div>
             <h2 className="start-title">Ready to Process</h2>
             <p className="start-description">
-              Click below to start the AI agent workflow for <strong>{projectName}</strong>
+              Click below to start the AI agent workflow for{" "}
+              <strong>{projectName}</strong>
             </p>
-            <button
-              className="start-button"
-              onClick={handleStartWorkflow}
-            >
+            <button className="start-button" onClick={handleStartWorkflow}>
               Start Processing
             </button>
           </div>
@@ -263,33 +288,41 @@ const ProcessingViewEnhanced = () => {
 
         {/* Right Side - Playground */}
         <div className="right-panel">
-          <div className={`playground-container ${isPlaygroundLocked ? 'locked' : 'unlocked'}`}>
+          <div
+            className={`playground-container ${isPlaygroundLocked ? "locked" : "unlocked"}`}
+          >
             {/* Playground Header */}
             <div className="playground-header">
               <div className="playground-title-section">
                 <h3 className="playground-title">
-                  {isPlaygroundLocked ? <Lock className="w-5 h-5" /> : <Unlock className="w-5 h-5" />}
+                  {isPlaygroundLocked ? (
+                    <Lock className="w-5 h-5" />
+                  ) : (
+                    <Unlock className="w-5 h-5" />
+                  )}
                   Results Playground
                 </h3>
                 <span className="playground-status">
-                  {isPlaygroundLocked ? 'Locked - Processing in progress' : 'Unlocked - Ready to explore'}
+                  {isPlaygroundLocked
+                    ? "Locked - Processing in progress"
+                    : "Unlocked - Ready to explore"}
                 </span>
               </div>
-              
+
               {!isPlaygroundLocked && selectedFile && (
                 <div className="playground-controls">
                   <Button
                     size="sm"
-                    variant={viewMode === 'preview' ? 'default' : 'outline'}
-                    onClick={() => setViewMode('preview')}
+                    variant={viewMode === "preview" ? "default" : "outline"}
+                    onClick={() => setViewMode("preview")}
                   >
                     <Eye className="w-4 h-4 mr-2" />
                     Preview
                   </Button>
                   <Button
                     size="sm"
-                    variant={viewMode === 'code' ? 'default' : 'outline'}
-                    onClick={() => setViewMode('code')}
+                    variant={viewMode === "code" ? "default" : "outline"}
+                    onClick={() => setViewMode("code")}
                   >
                     <Code className="w-4 h-4 mr-2" />
                     Code
@@ -305,17 +338,20 @@ const ProcessingViewEnhanced = () => {
                   <Lock className="locked-icon" />
                   <h4 className="locked-title">Playground Locked</h4>
                   <p className="locked-description">
-                    The playground will unlock automatically when the workflow completes.
-                    You can watch the agent progress in real-time on the left.
+                    The playground will unlock automatically when the workflow
+                    completes. You can watch the agent progress in real-time on
+                    the left.
                   </p>
                   <div className="locked-progress">
                     <div className="locked-progress-bar">
-                      <div 
-                        className="locked-progress-fill" 
+                      <div
+                        className="locked-progress-fill"
                         style={{ width: `${progressPercentage}%` }}
                       />
                     </div>
-                    <span className="locked-progress-text">{progressPercentage}% Complete</span>
+                    <span className="locked-progress-text">
+                      {progressPercentage}% Complete
+                    </span>
                   </div>
                 </div>
               ) : fileList.length === 0 ? (
@@ -333,7 +369,7 @@ const ProcessingViewEnhanced = () => {
                     {fileList.map(([name, file]) => (
                       <button
                         key={file.path}
-                        className={`file-tab ${selectedFile?.path === file.path ? 'active' : ''}`}
+                        className={`file-tab ${selectedFile?.path === file.path ? "active" : ""}`}
                         onClick={() => setSelectedFile(file)}
                       >
                         {name}
@@ -344,7 +380,8 @@ const ProcessingViewEnhanced = () => {
                   {/* File Preview */}
                   {selectedFile && (
                     <div className="file-preview">
-                      {viewMode === 'preview' && selectedFile.type === 'html' ? (
+                      {viewMode === "preview" &&
+                      selectedFile.type === "html" ? (
                         <iframe
                           srcDoc={selectedFile.content}
                           className="preview-iframe"
@@ -369,4 +406,3 @@ const ProcessingViewEnhanced = () => {
 };
 
 export default ProcessingViewEnhanced;
-

@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useWorkflowWebSocket } from '../hooks/useWorkflowWebSocket';
-import AgentProgress from '../components/AgentProgress';
-import AgentCommunication from '../components/AgentCommunication';
-import ProjectFolderTree from '../components/ProjectFolderTree';
-import './ProcessingView.css';
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useWorkflowWebSocket } from "../hooks/useWorkflowWebSocket";
+import AgentProgress from "../components/AgentProgress";
+import AgentCommunication from "../components/AgentCommunication";
+import { API_BASE_URL } from "../const";
+import "./ProcessingView.css";
 
 const ProcessingView = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [projectName, setProjectName] = useState('');
+  const [projectName, setProjectName] = useState("");
   const [workflowId, setWorkflowId] = useState(null);
   const [isRestoring, setIsRestoring] = useState(true);
-  const [workflowStatus, setWorkflowStatus] = useState('idle'); // idle, running, completed, failed
+  const [workflowStatus, setWorkflowStatus] = useState("idle"); // idle, running, completed, failed
   const [showStartButton, setShowStartButton] = useState(false);
   const hasStartedRef = useRef(false); // Track if workflow has been started
 
@@ -30,7 +30,7 @@ const ProcessingView = () => {
     elapsedTime,
     progressPercentage,
     estimatedTimeRemaining,
-    restoreState
+    restoreState,
   } = useWorkflowWebSocket();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const ProcessingView = () => {
       const { projectName: name, transcript } = location.state || {};
 
       if (!name || !transcript) {
-        navigate('/input');
+        navigate("/input");
         return;
       }
 
@@ -49,15 +49,20 @@ const ProcessingView = () => {
       const storedWorkflowId = localStorage.getItem(`workflow_${name}`);
 
       if (storedWorkflowId) {
-        console.log('🔄 Found existing workflow ID:', storedWorkflowId);
+        console.log("🔄 Found existing workflow ID:", storedWorkflowId);
 
         // Try to restore workflow state from backend
         try {
-          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/workflow/${storedWorkflowId}/status`);
+          const response = await fetch(
+            `${API_BASE_URL}/api/workflow/${storedWorkflowId}/status`,
+          );
           const workflowStatus = await response.json();
 
-          if (workflowStatus.status === 'running' || workflowStatus.status === 'completed') {
-            console.log('✅ Restoring workflow state:', workflowStatus);
+          if (
+            workflowStatus.status === "running" ||
+            workflowStatus.status === "completed"
+          ) {
+            console.log("✅ Restoring workflow state:", workflowStatus);
 
             // Restore state in WebSocket hook
             restoreState(workflowStatus);
@@ -68,19 +73,19 @@ const ProcessingView = () => {
             setIsRestoring(false);
             return;
           } else {
-            console.log('⚠️ Workflow not active, starting new workflow');
+            console.log("⚠️ Workflow not active, starting new workflow");
             localStorage.removeItem(`workflow_${name}`);
           }
         } catch (error) {
-          console.error('❌ Error restoring workflow:', error);
+          console.error("❌ Error restoring workflow:", error);
           localStorage.removeItem(`workflow_${name}`);
         }
       }
 
       // No existing workflow - show start button
-      console.log('ℹ️ No active workflow found. Waiting for user to start...');
+      console.log("ℹ️ No active workflow found. Waiting for user to start...");
       setShowStartButton(true);
-      setWorkflowStatus('idle');
+      setWorkflowStatus("idle");
       setIsRestoring(false);
     };
 
@@ -97,20 +102,20 @@ const ProcessingView = () => {
     const { projectName: name, transcript } = location.state || {};
 
     if (!name || !transcript) {
-      console.error('Missing project data');
+      console.error("Missing project data");
       return;
     }
 
     // Generate workflow ID
     const wfId = `workflow_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 
-    console.log('🚀 User started workflow with ID:', wfId);
+    console.log("🚀 User started workflow with ID:", wfId);
 
     // Store workflow ID in localStorage
     localStorage.setItem(`workflow_${name}`, wfId);
     setWorkflowId(wfId);
     setShowStartButton(false);
-    setWorkflowStatus('running');
+    setWorkflowStatus("running");
 
     // Connect to WebSocket and start workflow
     connect(wfId, name, transcript, false); // false = new workflow
@@ -119,11 +124,11 @@ const ProcessingView = () => {
   // Update workflow status based on connection state
   useEffect(() => {
     if (isConnected && !isComplete) {
-      setWorkflowStatus('running');
+      setWorkflowStatus("running");
     } else if (isComplete) {
-      setWorkflowStatus('completed');
+      setWorkflowStatus("completed");
     } else if (error) {
-      setWorkflowStatus('failed');
+      setWorkflowStatus("failed");
     }
   }, [isConnected, isComplete, error]);
 
@@ -131,7 +136,7 @@ const ProcessingView = () => {
   useEffect(() => {
     if (isComplete && results) {
       // Store results for the results page
-      sessionStorage.setItem('lastResult', JSON.stringify(results));
+      sessionStorage.setItem("lastResult", JSON.stringify(results));
 
       // Clear workflow ID from localStorage since it's complete
       if (projectName) {
@@ -140,7 +145,7 @@ const ProcessingView = () => {
 
       // Navigate after a short delay
       setTimeout(() => {
-        navigate('/results');
+        navigate("/results");
       }, 2000);
     }
   }, [isComplete, results, navigate, projectName]);
@@ -158,10 +163,10 @@ const ProcessingView = () => {
           {/* Workflow Status Indicator */}
           <div className="workflow-status-container">
             <div className={`workflow-status status-${workflowStatus}`}>
-              {workflowStatus === 'idle' && '⏸️ Ready to Start'}
-              {workflowStatus === 'running' && '▶️ Workflow Running'}
-              {workflowStatus === 'completed' && '✅ Workflow Complete'}
-              {workflowStatus === 'failed' && '❌ Workflow Failed'}
+              {workflowStatus === "idle" && "⏸️ Ready to Start"}
+              {workflowStatus === "running" && "▶️ Workflow Running"}
+              {workflowStatus === "completed" && "✅ Workflow Complete"}
+              {workflowStatus === "failed" && "❌ Workflow Failed"}
             </div>
           </div>
 
@@ -171,7 +176,7 @@ const ProcessingView = () => {
               <button
                 className="start-workflow-button"
                 onClick={handleStartWorkflow}
-                disabled={workflowStatus === 'running'}
+                disabled={workflowStatus === "running"}
               >
                 🚀 Start Processing
               </button>
@@ -182,36 +187,40 @@ const ProcessingView = () => {
           )}
 
           <p className="processing-subtitle">
-            {workflowStatus === 'idle' && 'Click "Start Processing" to begin'}
-            {workflowStatus === 'running' && 'AI agents are working on your project...'}
-            {workflowStatus === 'completed' && 'Processing complete!'}
-            {workflowStatus === 'failed' && 'An error occurred during processing'}
+            {workflowStatus === "idle" && 'Click "Start Processing" to begin'}
+            {workflowStatus === "running" &&
+              "AI agents are working on your project..."}
+            {workflowStatus === "completed" && "Processing complete!"}
+            {workflowStatus === "failed" &&
+              "An error occurred during processing"}
           </p>
 
           {/* Progress Stats (only shown when running or completed) */}
-          {(workflowStatus === 'running' || workflowStatus === 'completed') && (
+          {(workflowStatus === "running" || workflowStatus === "completed") && (
             <div className="progress-stats">
-            <div className="stat-item">
-              <span className="stat-label">Progress:</span>
-              <span className="stat-value">{progressPercentage}%</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-label">Elapsed:</span>
-              <span className="stat-value">{elapsedTime}</span>
-            </div>
-            {!isComplete && (
               <div className="stat-item">
-                <span className="stat-label">Est. Remaining:</span>
-                <span className="stat-value">{estimatedTimeRemaining}</span>
+                <span className="stat-label">Progress:</span>
+                <span className="stat-value">{progressPercentage}%</span>
               </div>
-            )}
-            <div className="stat-item">
-              <span className="stat-label">Connection:</span>
-              <span className={`stat-value ${isConnected ? 'connected' : 'disconnected'}`}>
-                {isConnected ? '🟢 Connected' : '🔴 Disconnected'}
-              </span>
+              <div className="stat-item">
+                <span className="stat-label">Elapsed:</span>
+                <span className="stat-value">{elapsedTime}</span>
+              </div>
+              {!isComplete && (
+                <div className="stat-item">
+                  <span className="stat-label">Est. Remaining:</span>
+                  <span className="stat-value">{estimatedTimeRemaining}</span>
+                </div>
+              )}
+              <div className="stat-item">
+                <span className="stat-label">Connection:</span>
+                <span
+                  className={`stat-value ${isConnected ? "connected" : "disconnected"}`}
+                >
+                  {isConnected ? "🟢 Connected" : "🔴 Disconnected"}
+                </span>
+              </div>
             </div>
-          </div>
           )}
         </div>
       </header>
@@ -248,4 +257,3 @@ const ProcessingView = () => {
 };
 
 export default ProcessingView;
-

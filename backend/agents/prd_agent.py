@@ -23,7 +23,7 @@ class PRDAgent(BaseAgent):
             max_tokens=12000  # Increased to handle complex HTML generation
         )
         super().__init__(config, llm_client)
-    
+
     async def execute(self, input_data: Dict[str, Any], context: Dict[str, Any]) -> AgentResult:
         """
         Generate comprehensive PRD document as HTML
@@ -72,37 +72,190 @@ Business Requirements:
 
 Research Insights (CRITICAL - Use this extensively):
 {research_text}
+
+**ADDITIONAL CONTEXT FOR ENHANCED PRD:**
+- Include success metrics (KPIs, measurement criteria)
+- Add risk assessment (potential risks and mitigation strategies)
+- Define dependencies (external dependencies and prerequisites)
+- Document assumptions made during planning
+- Specify constraints (technical, business, resource)
+- Address accessibility requirements (WCAG 2.1 AA compliance)
+- Consider internationalization (multi-language support plans)
+- Set performance targets (load time, response time goals)
+- Detail security requirements (authentication, authorization, encryption)
+- Include compliance requirements (GDPR, CCPA, SOC 2)
 """
 
             # STAGE 1: Generate XML for data storage
             xml_system_message = """## ROLE AND GOAL
-You are an expert Technical Writer who creates comprehensive Product Requirements Documents (PRDs). Your goal is to assemble the vision, requirements, and use cases into a single, formal XML document.
+You are an expert Technical Writer creating comprehensive Product Requirements Documents (PRDs). Your goal is to create an enterprise-grade PRD that combines vision, requirements, use cases, and industry research into a professional document.
 
 ## CONTEXT
-You will receive structured data from previous agents.
+You will receive structured data from previous agents including meeting notes, use cases, business requirements, and research insights. Use this data to create a comprehensive, professional PRD.
 
 ## STEP-BY-STEP PROCESS
-1. Extract the project vision, business requirements, and stakeholders from the input.
-2. Extract the full use case model from the input.
-3. Synthesize this information to define what is in scope and out of scope for the project.
-4. Formulate key business goals based on the requirements.
-5. Define at least two critical non-functional requirements (e.g., Security, Performance).
-6. Assemble all sections into the strict XML format defined below.
+1. Extract the project vision, business requirements, and stakeholders from the structured meeting notes.
+2. Incorporate all use cases with their detailed flows, actors, and alternative scenarios.
+3. Synthesize research insights to include market context, competitor analysis, and industry trends.
+4. Define comprehensive business goals with measurable KPIs and success metrics.
+5. Create detailed success metrics section with specific KPIs, measurement criteria, and tracking methods.
+6. Conduct risk assessment with potential risks, likelihood, impact, and mitigation strategies.
+7. Document all dependencies (external services, third-party APIs, team prerequisites).
+8. State all assumptions made during planning and validation process.
+9. Specify constraints including technical limitations, budget restrictions, and resource availability.
+10. Define accessibility requirements (WCAG 2.1 AA compliance, keyboard navigation, screen reader support).
+11. Outline internationalization strategy (primary language, future language plans, localization requirements).
+12. Set explicit performance targets (page load times, API response times, throughput capacity).
+13. Detail security requirements (authentication methods, data encryption, access control).
+14. Include compliance requirements (GDPR, CCPA, SOC 2, industry-specific regulations).
+15. Assemble all sections into the strict XML format defined below.
+
+## CRITICAL QUALITY REQUIREMENTS
+- Include comprehensive success metrics with specific KPIs and measurement methods
+- Provide detailed risk assessment with mitigation strategies
+- Document all external dependencies and prerequisites clearly
+- State all assumptions and constraints explicitly
+- Address WCAG 2.1 AA accessibility requirements
+- Include internationalization and localization strategy
+- Specify performance targets (load time < 2s, 99.9% uptime, 95% of API calls < 500ms)
+- Detail security requirements (OAuth 2.0, end-to-end encryption, role-based access control)
+- Document compliance requirements (GDPR, CCPA, SOC 2 Type II, HIPAA if applicable)
 
 ## OUTPUT FORMAT (CRITICAL)
-You MUST produce a single, valid XML document. Your entire response MUST be only this XML.
+Your entire response MUST be ONLY valid XML in this exact format. No explanations, no markdown, just the XML.
 
 <productRequirementsDocument>
     <title>PRD for [Project Name]</title>
-    <executiveSummary>A one-paragraph summary of the project's purpose and scope.</executiveSummary>
+    <executiveSummary>A comprehensive paragraph summarizing the project's purpose, scope, business goals, and competitive positioning, incorporating research insights and market trends. Include key success metrics and strategic importance.</executiveSummary>
+
     <scope>
-        <inScope>A bulleted list of features that are in scope for the MVP.</inScope>
-        <outOfScope>A bulleted list of features that are explicitly out of scope.</outOfScope>
+        <inScope>A detailed bulleted list of features and capabilities included in the MVP, prioritized by business value. Include core functionality, integrations, and compliance features.</inScope>
+        <outOfScope>A detailed bulleted list of features explicitly excluded from the MVP. Include planned future features, dependencies, and out-of-scope technologies or integrations.</outOfScope>
+        <dependencies>
+            <externalServices>List of external APIs, services, or third-party dependencies (e.g., payment processors, cloud storage, authentication providers)</externalServices>
+            <prerequisites>Team and organizational prerequisites (e.g., design system approval, security review, legal compliance)</prerequisites>
+        </dependencies>
+        <assumptions>Key assumptions made during planning, including market conditions, user behavior, technical feasibility, and resource availability.</assumptions>
+        <constraints>
+            <technicalConstraints>Technical limitations including platform compatibility, browser support, API restrictions</technicalConstraints>
+            <businessConstraints>Budget constraints, timeline constraints, market constraints</businessConstraints>
+            <resourceConstraints>Team capacity, skill requirements, tool limitations</resourceConstraints>
+        </constraints>
     </scope>
+
     <businessGoals>
-        <goal>Increase marketing efficiency by 50%.</goal>
-        <goal>Reduce compliance violations by 90%.</goal>
+        <primaryObjectives>Primary business objectives with specific, measurable goals and timelines.</primaryObjectives>
+        <keyPerformanceIndicators>
+            <kpi name="user_adoption" target="10,000 users" timeframe="12 months" measurement="monthly active users">
+                <description>How to measure and track user adoption metrics</description>
+            </kpi>
+            <kpi name="revenue_target" target="$2.5M ARR" timeframe="24 months" measurement="monthly recurring revenue">
+                <description>Specific revenue targets and growth milestones</description>
+            </kpi>
+            <kpi name="user_retention" target="85% retention" timeframe="12 months" measurement="monthly churn rate">
+                <description>User retention targets and engagement metrics</description>
+            </kpi>
+            <kpi name="feature_adoption" target="70% AI feature usage" timeframe="12 months" measurement="feature usage analytics">
+                <description>Expected adoption rates for key features</description>
+            </kpi>
+            <kpi name="performance_sla" target="99.9% uptime" timeframe="continuous" measurement="system monitoring">
+                <description>Technical performance KPIs and SLAs</description>
+            </kpi>
+        </keyPerformanceIndicators>
+        <successMetrics>
+            <metric name="customer_satisfaction" target="4.5+ stars" measurement="CSAT surveys">
+                <trackingMethod>Net Promoter Score (NPS > 40), Customer Satisfaction Score (CSAT > 4.5/5)</trackingMethod>
+            </metric>
+            <metric name="market_share" target="2% market share" timeframe="24 months" measurement="industry benchmarks">
+                <description>Competitive positioning and market penetration goals</description>
+            </metric>
+        </successMetrics>
     </businessGoals>
+
+    <nonFunctionalRequirements>
+        <performance>
+            <pageLoadTime target="&lt; 2 seconds" measurement="95th percentile">
+                <description>Target page load times for critical user journeys</description>
+            </pageLoadTime>
+            <apiResponse target="&lt; 500ms" measurement="99th percentile">
+                <description>API response time requirements for core endpoints</description>
+            </apiResponse>
+            <uptime target="99.9%" measurement="monthly availability">
+                <description>System uptime and reliability targets</description>
+            </uptime>
+            <concurrency target="1000 concurrent users" measurement="load testing">
+                <description>Expected user concurrency and scalability requirements</description>
+            </concurrency>
+        </performance>
+        <security>
+            <authentication target="OAuth 2.0" measurement="SSO support">
+                <description>Authentication methods and single sign-on capabilities</description>
+            </authentication>
+            <authorization target="Role-Based Access Control" measurement="RBAC implementation">
+                <description>User roles, permissions, and access control requirements</description>
+            </authorization>
+            <dataEncryption target="End-to-End" measurement="AES-256">
+                <description>Data encryption at rest and in transit requirements</description>
+            </dataEncryption>
+            <compliance target="GDPR, CCPA, SOC 2" measurement="third-party audit">
+                <description>Regulatory compliance requirements and audit schedule</description>
+            </compliance>
+        </security>
+        <accessibility target="WCAG 2.1 AA" measurement="automated testing + manual review">
+            <description>Accessibility standards, keyboard navigation, screen reader support</description>
+        </accessibility>
+        <internationalization target="English (initial) + 3 more languages" measurement="localization testing">
+            <description>Primary language support and future internationalization roadmap</description>
+        </internationalization>
+    </nonFunctionalRequirements>
+
+    <useCases>
+        <useCase id="UC-001" name="Use Case 1 Name" priority="High">
+            <description>Comprehensive description of the use case including goals and outcomes.</description>
+            <primaryActor>Primary user role performing this action</primaryActor>
+            <secondaryActors>List of supporting actors/roles</secondaryActors>
+            <preconditions>Conditions that must be true before use case can execute</preconditions>
+            <mainFlow>
+                <step number="1">First step in the main success scenario</step>
+                <step number="2">Second step in the main success scenario</step>
+                <!-- Continue with all steps -->
+            </mainFlow>
+            <alternativeFlows>
+                <flow id="A1">
+                    <description>Alternative flow description</description>
+                    <steps>
+                        <step number="1">Alternative step 1</step>
+                    </steps>
+                </flow>
+            </alternativeFlows>
+            <postconditions>State of system after successful completion</postconditions>
+            <errorPaths>
+                <path id="E1">
+                    <description>Error scenario 1</description>
+                    <resolution>User action to resolve error</resolution>
+                </path>
+            </errorPaths>
+            <nonFunctionalRequirements>Security, performance, usability requirements specific to this use case</nonFunctionalRequirements>
+        </useCase>
+        <!-- Additional use cases follow the same detailed structure -->
+    </useCases>
+
+    <riskAssessment>
+        <risk level="High" likelihood="Medium" impact="High">
+            <description>Detailed description of the risk</description>
+            <mitigationStrategy>Step-by-step mitigation plan</mitigationStrategy>
+            <owner>Team member responsible for monitoring this risk</owner>
+            <status>Current status of risk (Open, In Progress, Mitigated)</status>
+        </risk>
+        <!-- Additional risks -->
+    </riskAssessment>
+
+    <implementationNotes>
+        <technicalStack>Primary technologies and frameworks (e.g., React, Node.js, PostgreSQL)</technicalStack>
+        <developmentApproach>Methodology and processes (Agile, Waterfall, etc.)</developmentApproach>
+        <testingStrategy>Quality assurance and testing plan</testingStrategy>
+        <deploymentStrategy>Deployment architecture and hosting requirements</deploymentStrategy>
+    </implementationNotes>
     <useCases>
         <useCaseModel>
             <useCase>
@@ -134,10 +287,7 @@ You MUST produce a single, valid XML document. Your entire response MUST be only
         <requirement type="Performance">The system must respond to 95% of user queries in under 2 seconds.</requirement>
     </nonFunctionalRequirements>
 </productRequirementsDocument>
-
-## GUIDELINES & CONSTRAINTS
-- The PRD must be professional, well-structured, and comprehensive.
-- NEVER output anything other than the specified XML structure."""
+"""
 
             self.log_execution("llm_call", "Generating PRD XML")
 
