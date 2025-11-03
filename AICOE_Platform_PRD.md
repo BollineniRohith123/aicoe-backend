@@ -96,7 +96,7 @@ To become the industry-leading AI automation platform that empowers product team
 - OpenRouter API (LLM Gateway)
 - Multiple LLM Models:
   - Primary: x-ai/grok-code-fast-1
-  - Fallback: meta-llama/llama-3.2-3b-instruct:free
+  - Fallback: x-ai/grok-code-fast-1
 - Google Custom Search API (for research)
 - DuckDuckGo Search (fallback)
 
@@ -845,7 +845,7 @@ Response:
 
 **Fallback Strategy:**
 - Primary: x-ai/grok-code-fast-1
-- Fallback: meta-llama/llama-3.2-3b-instruct:free
+- Fallback: x-ai/grok-code-fast-1
 - Retry logic with exponential backoff
 
 ### 9.2 Search API Constraints

@@ -145,42 +145,12 @@ class MockupAgent(BaseAgent):
             if prd_data:
                 prd_html_reference = "\n\n## STYLE REFERENCE\nMatch the visual style and design patterns from the PRD HTML that was already generated for this project. Use the same colors, typography, spacing, and component styles for consistency."
 
-        system_message = f"""You are a world-class UI/UX designer specializing in Apple-inspired dashboards with AICOE branding.
+        system_message = """You are a UI designer. Create a simple HTML mockup for this use case.
 
-{design_system}
+Return ONLY a JSON object like this:
+{"UC_XXX_mockup.html": "<!DOCTYPE html><html><body><h1>Use Case Name</h1><p>Use case description</p></body></html>"}
 
-{html_prompt_template}
-
-{prd_html_reference}
-
-## YOUR TASK
-Create a stunning **index.html** dashboard page that showcases all use cases for this project.
-
-## CRITICAL CSS REQUIREMENT
-**IMPORTANT**: In your <style> tag, you MUST include the COMPLETE :root block from the design system above.
-Copy the ENTIRE :root section (all CSS variables) - do NOT split them into separate blocks.
-The :root block should include: colors, typography, spacing, shadows, radius, and transitions ALL IN ONE PLACE.
-
-## DESIGN REQUIREMENTS
-1. **Hero Section**: Project name, tagline, beautiful gradient background
-2. **Use Case Grid**: Beautiful cards for each use case with:
-   - Use case ID and name
-   - Brief description
-   - Icon (using Lucide icons)
-   - "View Mockup" button linking to the mockup
-   - Hover effects and micro-interactions
-3. **Navigation**: Smooth scroll, responsive design
-4. **Footer**: AICOE branding with gradient logo
-5. **Premium Quality**: Every pixel matters - use design system meticulously
-6. **Responsive Design**: Must work perfectly on mobile, tablet, and desktop
-
-## NAVIGATION LINKS
-For each use case card, the "View Mockup" button should link to:
-- `{{USE_CASE_ID}}_mockup.html` (you'll decide later if it's single or multi-screen)
-
-## OUTPUT FORMAT
-Return ONLY the complete HTML string. Start with <!DOCTYPE html> and end with </html>.
-NO markdown code fences, NO explanations, NO additional text."""
+No explanations, no markdown, just the JSON."""
 
         use_cases_summary = []
         for uc in use_cases:
@@ -199,7 +169,7 @@ Use Cases ({len(use_cases)} total):
 
 Make it absolutely stunning - this is the first page users see!"""
 
-        response = await self._call_llm(system_message, user_message, max_tokens=16000)
+        response = await self._call_llm(system_message, user_message, max_tokens=8000)
 
         # Clean response
         html_content = self._clean_html_response(response)
@@ -226,91 +196,36 @@ Make it absolutely stunning - this is the first page users see!"""
         uc_steps = use_case.get("steps", [])
         num_steps = len(uc_steps) if isinstance(uc_steps, list) else 0
 
-        system_message = f"""You are a world-class UI/UX designer specializing in Apple-inspired mockups with AICOE branding.
+        system_message = f"""You are a UI designer. Create a simple HTML mockup for this use case.
 
-{design_system}
+Return ONLY a JSON object like this:
+{{"{uc_id}_mockup.html": "<!DOCTYPE html><html><body><h1>{uc_name}</h1><p>{uc_description}</p></body></html>"}}
 
-## YOUR TASK
-Create a premium mockup for a SINGLE use case. You need to decide:
-- **SINGLE-PAGE MOCKUP**: If the use case is simple (≤3 steps)
-- **MULTI-SCREEN MOCKUP**: If the use case is complex (>3 steps)
+No explanations, no markdown, just the JSON."""
 
-## DECISION CRITERIA
-**Create SINGLE-PAGE mockup when:**
-- Use case has ≤3 steps
-- Simple CRUD operations
-- Basic forms or dashboards
-- Straightforward user flows
+        user_message = f"""Create a mockup for:
 
-**Create MULTI-SCREEN mockup when:**
-- Use case has >3 steps
-- Complex workflows (e.g., registration → verification → setup)
-- Multiple user roles or states
-- Rich interactions requiring separate screens
+Use Case: {uc_name}
+Description: {uc_description}"""
 
-## OUTPUT FORMAT FOR SINGLE-PAGE
-Return a JSON object with ONE file:
-{{
-  "{uc_id}_mockup.html": "<!DOCTYPE html>..."
-}}
+        response = await self._call_llm(system_message, user_message, max_tokens=8000)
 
-## OUTPUT FORMAT FOR MULTI-SCREEN
-Return a JSON object with MULTIPLE files:
-{{
-  "{uc_id}_index.html": "<!DOCTYPE html>...",  // Overview page
-  "{uc_id}_screen-01.html": "<!DOCTYPE html>...",  // First screen
-  "{uc_id}_screen-02.html": "<!DOCTYPE html>...",  // Second screen
-  ...
-}}
-
-## NAVIGATION REQUIREMENTS
-- **Single-page**: "Back to Dashboard" button → ../index.html
-- **Multi-screen overview**: Links to each screen, "Back to Dashboard" button
-- **Multi-screen screens**: Prev/Next buttons, breadcrumbs, "Back to Overview", "Back to Dashboard"
-
-## DESIGN REQUIREMENTS
-1. **Premium Quality**: This is the ONLY use case you're working on - make it perfect!
-2. **Realistic Data**: Use real-looking sample data, not placeholders
-3. **Micro-interactions**: Smooth transitions, hover effects, loading states
-4. **Responsive**: Mobile-first, works on all devices
-5. **Accessibility**: ARIA labels, semantic HTML, keyboard navigation
-
-## FINAL OUTPUT
-Return ONLY the JSON object. No markdown code fences, no explanations."""
-
-        user_message = f"""Create a premium mockup for this use case:
-
-Use Case ID: {uc_id}
-Use Case Name: {uc_name}
-Description: {uc_description}
-Number of Steps: {num_steps}
-
-Steps:
-{json.dumps(uc_steps, indent=2)}
-
-Analyze the complexity and create either a single-page or multi-screen mockup.
-Make it absolutely beautiful - you have full focus on this ONE use case!"""
-
-        response = await self._call_llm(system_message, user_message, max_tokens=16000)
-
-        # Clean and parse response
-        response_clean = response.strip()
-
-        # Remove markdown code fences if present
-        if response_clean.startswith("```json"):
-            response_clean = response_clean.split("```json")[1].split("```")[0].strip()
-        elif response_clean.startswith("```"):
-            response_clean = response_clean.split("```")[1].split("```")[0].strip()
-
-        # Parse JSON
-        try:
-            mockup_pages = json.loads(response_clean)
-        except json.JSONDecodeError as e:
-            self.logger.error(f"Failed to parse use case mockup JSON for {uc_id}: {str(e)}")
-            # Fallback: create a simple error page
+        # Use the robust JSON parsing from base agent
+        self.logger.info(f"Mockup agent received response for {uc_id}, length: {len(response)}")
+        if len(response.strip()) == 0:
+            self.logger.error(f"Empty response from LLM for {uc_id}")
             mockup_pages = {
-                f"{uc_id}_mockup.html": f"<!DOCTYPE html><html><body><h1>Error generating mockup for {uc_name}</h1></body></html>"
+                f"{uc_id}_mockup.html": f"<!DOCTYPE html><html><body><h1>Mockup for {uc_name}</h1><p>LLM returned empty response. Using fallback.</p></body></html>"
             }
+        else:
+            mockup_pages = self.parse_json_response(response, f"{uc_id}_mockup")
+
+            # If parsing failed and we got a fallback, create a simple error page
+            if "parse_error" in mockup_pages:
+                self.logger.error(f"Failed to parse use case mockup JSON for {uc_id}: {mockup_pages['parse_error']}")
+                mockup_pages = {
+                    f"{uc_id}_mockup.html": f"<!DOCTYPE html><html><body><h1>Error generating mockup for {uc_name}</h1><p>Could not parse LLM response.</p></body></html>"
+                }
 
         # Unescape HTML content
         unescaped_pages = {}

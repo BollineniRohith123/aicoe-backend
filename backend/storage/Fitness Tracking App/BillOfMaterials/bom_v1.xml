@@ -1,0 +1,15 @@
+<billOfMaterials>
+    <summary>An estimated monthly cost breakdown for deploying and running the proposed Fitness Tracking App, assuming a small-to-medium scale MVP with cloud-based backend for authentication, data tracking, AI recommendations, and integrations.</summary>
+    <items>
+        <category name="Cloud Infrastructure">
+            <item name="Backend API Servers (2 instances for auth, tracking, and recommendations)" provider="AWS Lambda/EC2" costPerMonth="80.00" />
+            <item name="Managed Database (for user profiles, activities, and social data)" provider="MongoDB Atlas" costPerMonth="75.00" />
+            <item name="Data Storage and Backup (for encrypted health data and logs)" provider="AWS S3" costPerMonth="20.00" />
+        </category>
+        <category name="Third-Party Services">
+            <item name="AI/ML API Usage (for personalized recommendations and insights)" provider="OpenAI/Anthropic" costPerMonth="150.00" />
+            <item name="Third-Party Integrations (API calls for wearables like Google Fit/HealthKit)" provider="Google/Apple APIs" costPerMonth="10.00" />
+        </category>
+    </items>
+    <totalCostPerMonth>335.00</totalCostPerMonth>
+</billOfMaterials>

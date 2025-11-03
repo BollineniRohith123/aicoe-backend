@@ -1,0 +1,86 @@
+<systemArchitecture>
+    <description>This architecture for the Fitness Tracking App adopts a microservices-based design leveraging open-source technologies to ensure scalability, security, and compliance with GDPR, CCPA, and HIPAA. It incorporates AI-driven personalization, wearable integrations via APIs like Google Fit and HealthKit, gamification for social engagement, and holistic wellness features including mental health and nutrition tracking. Key patterns include API Gateway for IoT ecosystems, OAuth 2.0 for secure authentication, data encryption (AES-256), and event-driven messaging for real-time processing. The design prioritizes user-centric UX with real-time dashboards, predictive analytics, and ethical AI use, differentiating from competitors like Fitbit, MyFitnessPal, and Strava by offering a comprehensive, privacy-focused platform.</description>
+    <diagram type="mermaid-flowchart">
+        <![CDATA[
+            graph TD
+                %% Frontend Layer
+                A[React Native Mobile App] -->|HTTPS/REST| B[API Gateway - Kong]
+                A2[React Web App] -->|HTTPS/REST| B
+
+                %% API Gateway & Security
+                B --> C[Auth Service - OAuth 2.0 with MFA]
+                C --> D[Identity Provider - Keycloak]
+                B --> E[Rate Limiter & Encryption Layer - AES-256]
+
+                %% Backend Services
+                B --> F[User Service - Profile Management]
+                B --> G[Activity Tracking Service - Real-Time Sync]
+                B --> H[Recommendation Engine - AI/ML Service]
+                B --> I[Nutrition Service - Meal Logging]
+                B --> J[Social & Gamification Service - Leaderboards & Challenges]
+                B --> K[Mental Health Service - Mood Tracking]
+
+                %% Data Layer
+                F --> L[(PostgreSQL - User Profiles & Compliance Logs)]
+                G --> M[(MongoDB - Activity Data & Wearable Sync)]
+                H --> N[(Redis Cache - Personalized Insights)]
+                I --> O[(PostgreSQL - Nutrition Data)]
+                J --> P[(MongoDB - Social Interactions)]
+                K --> Q[(PostgreSQL - Mental Health Entries)]
+
+                %% Message Queue & Async Processing
+                G --> R[Message Queue - Kafka]
+                R --> S[Background Workers - Data Aggregation & Notifications]
+                H --> R
+                I --> R
+                K --> R
+
+                %% External Integrations
+                G --> T[Third-Party APIs - Google Fit, HealthKit, Fitbit]
+                H --> U[AI/ML Engine - TensorFlow/OpenAI API]
+                J --> V[Social Platforms - OAuth Secured Sharing]
+                B --> W[Cloud Storage - MinIO/S3 for Media & Logs]
+                E --> X[Audit & Compliance Service - GDPR/CCPA Logs]
+
+                %% Monitoring & Infrastructure
+                Y[Monitoring - Prometheus/Grafana] --> B
+                Y --> F
+                Y --> G
+                Y --> H
+                Y --> I
+                Y --> J
+                Y --> K
+                Z[CDN - Cloudflare] --> A
+                Z --> A2
+        ]]>
+    </diagram>
+    <componentBreakdown>
+        <component name="React Native Mobile App">Cross-platform mobile application for iOS and Android, built with React Native, providing real-time activity tracking, wearable integration, gamified dashboards, and offline support for UC-002, with intuitive UX for holistic wellness features like mental health prompts.</component>
+        <component name="React Web App">Responsive web application using React and TypeScript, offering desktop access to tracking, recommendations, and social features, with real-time visualizations and accessibility compliance for UC-003.</component>
+        <component name="API Gateway - Kong">Open-source API gateway (Kong) managing routing, load balancing, rate limiting, and security for all incoming requests, integrating with wearables via HealthKit/Google Fit APIs for seamless IoT data syncing in UC-002.</component>
+        <component name="Auth Service - OAuth 2.0 with MFA">Microservice handling user registration, authentication, and MFA using OAuth 2.0/OpenID Connect with Keycloak, ensuring secure sessions, third-party logins, and compliance with GDPR/CCPA for UC-001.</component>
+        <component name="Identity Provider - Keycloak">Open-source identity and access management tool integrated with Auth Service for user federation, token management, and audit logging to support secure multi-factor authentication.</component>
+        <component name="Rate Limiter & Encryption Layer - AES-256">Security layer enforcing API rate limits and encrypting data in transit/rest using AES-256, with consent management for data processing to align with privacy regulations and ethical AI use.</component>
+        <component name="User Service - Profile Management">Microservice for user profiles, preferences, and consent handling, storing encrypted data in PostgreSQL, supporting UC-001 and enabling personalized features across the app.</component>
+        <component name="Activity Tracking Service - Real-Time Sync">Core service for syncing wearable data (steps, heart rate, workouts) via APIs, providing real-time feedback and battery-optimized processing for UC-002, with offline storage capabilities.</component>
+        <component name="Recommendation Engine - AI/ML Service">AI-driven microservice using TensorFlow or OpenAI APIs for personalized workout plans, predictive health insights, and adaptive recommendations based on user data patterns, addressing UC-003 with ethical compliance.</component>
+        <component name="Nutrition Service - Meal Logging">Service for calorie counting, meal logging, and diet integration, storing data in PostgreSQL and syncing with activity metrics for comprehensive wellness tracking.</component>
+        <component name="Social & Gamification Service - Leaderboards & Challenges">Microservice managing social sharing, leaderboards, badges, and challenges using secure OAuth, fostering community engagement and motivation as per gamification trends.</component>
+        <component name="Mental Health Service - Mood Tracking">Service for logging mood, stress, and mental health prompts, integrating with AI for holistic insights and ensuring HIPAA considerations for sensitive data.</component>
+        <component name="PostgreSQL - User Profiles & Compliance Logs">Relational database for structured user data, compliance logs, and audit trails, supporting ACID transactions and GDPR deletion/portability rights.</component>
+        <component name="MongoDB - Activity Data & Wearable Sync">NoSQL database for flexible storage of activity logs, wearable sync data, and social interactions, enabling scalable document-based queries for real-time analytics.</component>
+        <component name="Redis Cache - Personalized Insights">In-memory cache for fast retrieval of user sessions, AI-generated insights, and real-time dashboard data, optimizing performance for UC-002 and UC-003.</component>
+        <component name="PostgreSQL - Nutrition Data">Relational database dedicated to nutrition logs, ensuring data integrity for meal plans and calorie tracking integrations.</component>
+        <component name="MongoDB - Social Interactions">NoSQL database for storing social posts, challenges, and user interactions, supporting dynamic gamification features.</component>
+        <component name="PostgreSQL - Mental Health Entries">Relational database for secure, structured storage of mental health data with encryption, complying with privacy regulations.</component>
+        <component name="Message Queue - Kafka">Event-driven message queue using Apache Kafka for asynchronous processing of data aggregation, notifications, and AI computations across services.</component>
+        <component name="Background Workers - Data Aggregation & Notifications">Worker processes handling async tasks like data syncing, push notifications, and predictive analytics, ensuring scalability for real-time features.</component>
+        <component name="Third-Party APIs - Google Fit, HealthKit, Fitbit">External integrations for wearable data syncing, using open-source APIs to enable IoT ecosystems and real-time feedback in UC-002.</component>
+        <component name="AI/ML Engine - TensorFlow/OpenAI API">External or hosted AI service for machine learning models, providing personalized recommendations and predictive insights with transparency for ethical compliance.</component>
+        <component name="Social Platforms - OAuth Secured Sharing">Integrations with platforms like Facebook/Twitter for sharing achievements, secured via OAuth to maintain privacy and enable gamification.</component>
+        <component name="Cloud Storage - MinIO/S3 for Media & Logs">Object storage for user-uploaded media (e.g., meal photos) and logs, using MinIO or S3-compatible open-source solutions for scalability and compliance.</component>
+        <component name="Audit & Compliance Service - GDPR/CCPA Logs">Service for logging user consents, data access, and deletions, supporting regulatory audits and ethical AI transparency.</component>
+        <component name="Monitoring - Prometheus/Grafana">Open-source monitoring stack for real-time metrics, alerting, and dashboards across all services, ensuring system health and performance optimization.</component>
+        <component name="CDN - Cloudflare">Content delivery network for distributing static assets, reducing latency for web and mobile apps, and enhancing UX for global users.</component>
+    </componentBreakdown>
+</systemArchitecture>

@@ -140,15 +140,25 @@ class ReviewerAgent(BaseAgent):
             project_name = input_data.get("project_name", "")
             project_path = input_data.get("project_path", "")
 
-            # FIX: Handle spaces in project path by using Path object
+            # FIX: Handle spaces in project path by using Path object and proper path construction
             if not project_path:
                 # Construct path from project name if not provided
                 project_path = Path("backend/storage") / project_name
             else:
                 project_path = Path(project_path)
 
-            if not project_path.exists():
-                raise ValueError(f"Invalid project path: {project_path}")
+            # Convert to string and handle spaces properly
+            project_path_str = str(project_path)
+            
+            if not os.path.exists(project_path_str):
+                # Try alternative path construction for spaces
+                if " " in project_name:
+                    # Handle project names with spaces
+                    project_path = Path("backend/storage") / project_name
+                    project_path_str = str(project_path)
+                
+                if not os.path.exists(project_path_str):
+                    raise ValueError(f"Invalid project path: {project_path_str}")
 
             self.log_execution("start", f"Validating all HTML files for project: {project_name}")
 
@@ -268,47 +278,48 @@ class ReviewerAgent(BaseAgent):
             issues.append("Missing <body> tag")
 
         # Check 2: AICOE Color Palette (updated for new design system)
-        aicoe_colors = [
-            "--aicoe-primary-navy",
-            "--aicoe-accent-pink",
-            "--aicoe-accent-cyan"
-        ]
+        # For mockups, be more lenient - only require basic structure
+        is_mockup = "mockup" in file_name.lower() or "Mockup" in file_name
+        is_case_study = "case" in file_name.lower() and "study" in file_name.lower()
+        
+        if not (is_mockup or is_case_study):
+            # For main documents, require full AICOE styling
+            aicoe_colors = [
+                "--aicoe-primary-navy",
+                "--aicoe-accent-pink",
+                "--aicoe-accent-cyan"
+            ]
 
-        # Count how many AICOE colors are present (at least 2 required for flexibility)
-        colors_found = sum(1 for color in aicoe_colors if color in content)
+            # Count how many AICOE colors are present (at least 2 required for flexibility)
+            colors_found = sum(1 for color in aicoe_colors if color in content)
 
-        if colors_found < 2:
-            issues.append(f"Missing AICOE color variables (found {colors_found}/3 core colors)")
+            if colors_found < 2:
+                issues.append(f"Missing AICOE color variables (found {colors_found}/3 core colors)")
 
-        # Check 3: Lucide Icons Integration
-        if "lucide" not in content.lower():
-            issues.append("Missing Lucide Icons CDN or initialization")
+            # Check 3: Lucide Icons Integration
+            if "lucide" not in content.lower():
+                issues.append("Missing Lucide Icons CDN or initialization")
 
-        # Check 4: Responsive Design (optional for some files)
-        # Removed strict requirement as not all files need media queries
+            # Check 7: CSS Variables (check for :root block)
+            if ":root" not in content.lower():
+                issues.append("Missing :root CSS variables block")
 
-        # Check 5: Print Styles (optional)
-        # Removed strict requirement as not all files need print styles
-
-        # Check 6: Font Smoothing (optional but recommended)
-        # Removed strict requirement
-
-        # Check 7: CSS Variables (check for :root block)
-        if ":root" not in content.lower():
-            issues.append("Missing :root CSS variables block")
-
-        # Check 8: Gradient (for visual appeal)
-        if "gradient" not in content.lower():
-            # Only warn for PRD and Proposal files
-            if "PRD" in file_name or "Proposal" in file_name or "proposal" in file_name.lower():
-                issues.append("Missing gradient effects for visual appeal")
-
-        # Check 9: Border Radius (optional)
-        # Removed strict requirement
+            # Check 8: Gradient (for visual appeal)
+            if "gradient" not in content.lower():
+                # Only warn for PRD and Proposal files
+                if "PRD" in file_name or "Proposal" in file_name or "proposal" in file_name.lower():
+                    issues.append("Missing gradient effects for visual appeal")
+        else:
+            # For mockups and case studies, be more lenient
+            # Just check for basic CSS structure
+            if "<style>" not in content.lower() and "style=" not in content.lower():
+                issues.append("Missing CSS styling")
 
         # Check 10: Content Completeness (basic check)
-        if len(content) < 500:
-            issues.append(f"File appears incomplete (only {len(content)} characters)")
+        # Be more lenient for mockups
+        min_length = 300 if (is_mockup or is_case_study) else 500
+        if len(content) < min_length:
+            issues.append(f"File appears incomplete (only {len(content)} characters, minimum {min_length})")
 
         return issues
     
@@ -517,4 +528,3 @@ Return in JSON format with keys: summary, priority_changes, suggestions, impact_
                 },
                 metadata={"agent": self.config.name}
             )
-

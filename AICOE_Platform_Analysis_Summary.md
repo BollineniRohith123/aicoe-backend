@@ -266,7 +266,7 @@ The platform uses a **Google ADK-inspired architecture** with 13 specialized age
 ### AI/ML
 - **LLM Gateway:** OpenRouter API
 - **Primary Model:** x-ai/grok-code-fast-1
-- **Fallback Model:** meta-llama/llama-3.2-3b-instruct:free
+- **Fallback Model:** x-ai/grok-code-fast-1
 - **Search:** Google Custom Search API + DuckDuckGo
 
 ### Data Formats
