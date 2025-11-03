@@ -1,15 +1,20 @@
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException, BackgroundTasks, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, List, Optional, Any
 import uvicorn
 import os
 import json
+import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+
+# Global storage for workflow connections and state
+active_workflows = {}  # workflow_id -> {"ws": websocket, "data": workflow_data}
+workflow_states = {}   # workflow_id -> {"status": "running/completed/failed", "results": {}, "progress": []}
 
 # Import agents
 from agents.orchestrator import OrchestratorAgent
