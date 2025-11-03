@@ -349,17 +349,17 @@ async def execute_workflow(workflow_id: str, project_name: str, transcript: str)
 @app.get("/api/workflow/{workflow_id}/status")
 async def get_workflow_status(workflow_id: str):
     """Get the current status of a workflow"""
-    if workflow_id in workflow_states:
-        state = workflow_states[workflow_id]
-        return {
-            "workflow_id": workflow_id,
-            "status": state["status"],
-            "current_agent": state.get("current_agent"),
-            "agent_statuses": state.get("agent_statuses", {}),
-            "results": state.get("results") if state["status"] == "completed" else None
-        }
-    else:
+    if workflow_id not in workflow_states:
         raise HTTPException(status_code=404, detail=f"Workflow {workflow_id} not found")
+    
+    state = workflow_states[workflow_id]
+    return {
+        "workflow_id": workflow_id,
+        "status": state["status"],
+        "current_agent": state.get("current_agent"),
+        "agent_statuses": state.get("agent_statuses", {}),
+        "results": state.get("results") if state["status"] == "completed" else None
+    }
 
 # Error handlers
 @app.exception_handler(HTTPException)
