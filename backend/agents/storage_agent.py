@@ -394,6 +394,25 @@ class StorageAgent(BaseAgent):
             metadata={"agent": self.config.name, "action": "get_structure"}
         )
     
+    async def list_projects(self) -> List[Dict[str, Any]]:
+        """
+        List all projects with their basic information
+
+        Returns:
+            List of project dictionaries with metadata
+        """
+        projects = []
+        for project_name, project_structure in self.projects.items():
+            project_info = {
+                "name": project_name,
+                "path": str(project_structure.project_root),
+                "created": datetime.fromtimestamp(project_structure.project_root.stat().st_ctime).isoformat() if project_structure.project_root.exists() else None,
+                "folders": list(project_structure.folders.keys())
+            }
+            projects.append(project_info)
+
+        return projects
+
     async def _log_audit(self, project_name: str, action: str, details: Dict):
         """Log an action to the audit log"""
         if project_name not in self.projects:

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './AgentProgress.css';
 
 const AGENTS = [
@@ -77,6 +77,8 @@ const AGENTS = [
 ];
 
 const AgentProgress = ({ currentAgent, agentStatuses = {} }) => {
+  const [completedAgents, setCompletedAgents] = useState(new Set());
+
   const getAgentStatus = (agentId) => {
     const status = agentStatuses[agentId];
     if (!status) {
@@ -103,20 +105,53 @@ const AgentProgress = ({ currentAgent, agentStatuses = {} }) => {
     return status.message || status.status;
   };
 
+  // Track newly completed agents for celebration effects
+  useEffect(() => {
+    Object.keys(agentStatuses).forEach(agentId => {
+      if (agentStatuses[agentId].status === 'completed' && !completedAgents.has(agentId)) {
+        setCompletedAgents(prev => new Set([...prev, agentId]));
+        // Trigger celebration effect
+        setTimeout(() => {
+          const element = document.getElementById(`agent-${agentId}`);
+          if (element) {
+            element.classList.add('celebrate');
+            setTimeout(() => element.classList.remove('celebrate'), 1000);
+          }
+        }, 100);
+      }
+    });
+  }, [agentStatuses, completedAgents]);
+
+  // Calculate overall progress
+  const completedCount = Object.values(agentStatuses).filter(s => s.status === 'completed').length;
+  const totalAgents = AGENTS.length;
+  const overallProgress = Math.round((completedCount / totalAgents) * 100);
+
   return (
     <div className="agent-progress-container">
-      <h2 className="agent-progress-title">
-        <span className="title-icon">🤖</span>
-        Multi-Agent Workflow Progress
-      </h2>
-      
+      <div className="agent-progress-header">
+        <h2 className="agent-progress-title">
+          <span className="title-icon">🤖</span>
+          Multi-Agent Workflow Progress
+        </h2>
+        <div className="overall-progress-badge">
+          <span className="progress-count">{completedCount}/{totalAgents}</span>
+          <span className="progress-percentage">{overallProgress}%</span>
+        </div>
+      </div>
+
       <div className="agent-timeline">
         {AGENTS.map((agent, index) => {
           const status = getAgentStatus(agent.id);
           const message = getAgentMessage(agent.id);
-          
+
           return (
-            <div key={agent.id} className={`agent-card agent-${status}`} style={{animationDelay: `${index * 0.1}s`}}>
+            <div
+              key={agent.id}
+              id={`agent-${agent.id}`}
+              className={`agent-card agent-${status}`}
+              style={{animationDelay: `${index * 0.08}s`}}
+            >
               <div className="agent-card-header">
                 <div className="agent-icon-wrapper">
                   <span className="agent-icon">{agent.icon}</span>
@@ -127,6 +162,9 @@ const AgentProgress = ({ currentAgent, agentStatuses = {} }) => {
                     <span className="status-badge status-processing">
                       <span className="spinner"></span>
                     </span>
+                  )}
+                  {status === 'failed' && (
+                    <span className="status-badge status-failed">✕</span>
                   )}
                 </div>
                 

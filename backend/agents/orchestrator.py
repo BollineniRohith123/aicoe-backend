@@ -883,3 +883,92 @@ class OrchestratorAgent:
 
         except Exception as e:
             self.logger.error(f"Error saving {agent_name} output: {str(e)}")
+
+    async def create_project(
+        self,
+        name: str,
+        description: str,
+        requirements: Optional[str] = None,
+        industry: Optional[str] = None,
+        budget: Optional[float] = None,
+        timeline: Optional[str] = None
+    ) -> str:
+        """
+        Create a new project and set up its structure
+
+        Args:
+            name: Project name
+            description: Project description
+            requirements: Project requirements
+            industry: Industry sector
+            budget: Project budget
+            timeline: Project timeline
+
+        Returns:
+            Project ID
+        """
+        import uuid
+
+        # Generate unique project ID
+        project_id = str(uuid.uuid4())
+
+        # Store project metadata
+        project_metadata = {
+            "id": project_id,
+            "name": name,
+            "description": description,
+            "requirements": requirements,
+            "industry": industry,
+            "budget": budget,
+            "timeline": timeline,
+            "created_at": datetime.utcnow().isoformat(),
+            "status": "created"
+        }
+
+        # Create project structure using storage agent
+        storage_agent = self.agents["storage"]
+        create_input = {
+            "action": "create_project",
+            "project_name": name
+        }
+
+        result = await storage_agent.execute(create_input, {})
+
+        if not result.success:
+            raise Exception(f"Failed to create project structure: {result.error}")
+
+        self.logger.info(f"Created project '{name}' with ID: {project_id}")
+
+        return project_id
+
+    async def get_project_status(self, project_id: str) -> Dict[str, Any]:
+        """
+        Get the status of a project
+
+        Args:
+            project_id: Project ID
+
+        Returns:
+            Project status information
+        """
+        # For now, return a basic status since we don't have persistent storage
+        # In a real implementation, this would query the database
+        return {
+            "project_id": project_id,
+            "status": "created",
+            "progress": 0.0,
+            "current_agent": None,
+            "agents_status": [],
+            "created_at": datetime.utcnow().isoformat(),
+            "updated_at": datetime.utcnow().isoformat()
+        }
+
+    async def process_project(self, project_id: str):
+        """
+        Process a project (placeholder for future implementation)
+
+        Args:
+            project_id: Project ID to process
+        """
+        self.logger.info(f"Processing project {project_id}")
+        # Placeholder - in a real implementation, this would start the workflow

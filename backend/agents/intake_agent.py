@@ -130,3 +130,47 @@ Return ONLY valid XML without any markdown formatting or explanations. The XML s
                 error=str(e),
                 metadata={"agent": self.config.name}
             )
+
+    async def process_transcript(self, transcript: str, project_id: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Process a transcript and return structured information
+
+        Args:
+            transcript: Raw transcript text
+            project_id: Optional project ID
+
+        Returns:
+            Dictionary with processing results
+        """
+        try:
+            # Prepare input for the execute method
+            input_data = {
+                "transcript": transcript,
+                "project_name": f"Project_{project_id}" if project_id else "Unknown_Project"
+            }
+
+            # Call the execute method
+            result = await self.execute(input_data, {})
+
+            if result.success:
+                return {
+                    "success": True,
+                    "structured_notes": result.data,
+                    "project_id": project_id,
+                    "message": "Transcript processed successfully"
+                }
+            else:
+                return {
+                    "success": False,
+                    "error": result.error,
+                    "project_id": project_id,
+                    "message": "Failed to process transcript"
+                }
+
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "project_id": project_id,
+                "message": "Error processing transcript"
+            }

@@ -205,7 +205,7 @@ class AgentCommunicationHub:
     def get_communication_summary(self) -> Dict[str, Any]:
         """
         Get a summary of all agent communications
-        
+
         Returns:
             Summary dict with statistics and recent messages
         """
@@ -223,6 +223,36 @@ class AgentCommunicationHub:
                 for msg in self.message_history[-10:]
             ]
         }
+
+    def get_all_agents_status(self) -> List[Dict[str, Any]]:
+        """
+        Get status information for all registered agents
+
+        Returns:
+            List of agent status dictionaries
+        """
+        agents_status = []
+        for agent_name, agent_instance in self.agent_registry.items():
+            # Get basic status - in a real implementation, agents would have their own status tracking
+            status_info = {
+                "agent_name": agent_name,
+                "status": "active",  # Default status
+                "progress": 0.0,     # Default progress
+                "message": f"Agent {agent_name} is registered and active"
+            }
+
+            # Try to get more detailed status if the agent has status methods
+            if hasattr(agent_instance, 'get_status'):
+                try:
+                    agent_status = agent_instance.get_status()
+                    status_info.update(agent_status)
+                except Exception as e:
+                    status_info["message"] = f"Error getting status: {str(e)}"
+                    status_info["status"] = "error"
+
+            agents_status.append(status_info)
+
+        return agents_status
 
 
 class CommunicatingAgent:

@@ -5,6 +5,7 @@ import Home from "@/pages/Home";
 import TranscriptInputEnhanced from "@/pages/TranscriptInputEnhanced";
 import TranscriptInput from "@/pages/TranscriptInput";
 import ProcessingView from "@/pages/ProcessingView";
+import ProcessingViewEnhanced from "@/pages/ProcessingViewEnhanced";
 import Results from "@/pages/Results";
 import ResultsNew from "@/pages/ResultsNew";
 
@@ -29,7 +30,8 @@ function App() {
           <Route path="/home-old" element={<Home />} />
           <Route path="/input" element={<TranscriptInputEnhanced />} />
           <Route path="/input-old" element={<TranscriptInput />} />
-          <Route path="/processing" element={<ProcessingView />} />
+          <Route path="/processing" element={<ProcessingViewEnhanced />} />
+          <Route path="/processing-old" element={<ProcessingView />} />
           <Route path="/results" element={<ResultsNew />} />
           <Route path="/results-old" element={<Results />} />
         </Routes>
