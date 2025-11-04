@@ -85,6 +85,78 @@ class OrchestratorAgent:
         for agent_name, agent in self.agents.items():
             self.comm_hub.register_agent(agent_name, agent)
 
+    def _convert_to_xml(self, data: Any, root_name: str = "data") -> str:
+        """
+        Convert Python data structure to XML format
+
+        Args:
+            data: Python data structure (dict, list, or primitive)
+            root_name: Name of the root XML element
+
+        Returns:
+            XML string representation of the data
+        """
+        import xml.etree.ElementTree as ET
+
+        def dict_to_xml(data_dict, parent):
+            """Convert dictionary to XML elements"""
+            for key, value in data_dict.items():
+                # Sanitize key name for XML
+                safe_key = "".join(
+                    c if c.isalnum() or c in "_-" else "_" for c in str(key)
+                )
+                if isinstance(value, dict):
+                    child = ET.SubElement(parent, safe_key)
+                    dict_to_xml(value, child)
+                elif isinstance(value, list):
+                    list_element = ET.SubElement(parent, safe_key)
+                    for i, item in enumerate(value):
+                        if isinstance(item, dict):
+                            item_element = ET.SubElement(list_element, f"item_{i}")
+                            dict_to_xml(item, item_element)
+                        else:
+                            item_element = ET.SubElement(list_element, f"item_{i}")
+                            item_element.text = str(item)
+                else:
+                    element = ET.SubElement(parent, safe_key)
+                    element.text = str(value) if value is not None else ""
+
+        def list_to_xml(data_list, parent):
+            """Convert list to XML elements"""
+            for i, item in enumerate(data_list):
+                if isinstance(item, dict):
+                    item_element = ET.SubElement(parent, f"item_{i}")
+                    dict_to_xml(item, item_element)
+                elif isinstance(item, list):
+                    item_element = ET.SubElement(parent, f"item_{i}")
+                    list_to_xml(item, item_element)
+                else:
+                    item_element = ET.SubElement(parent, f"item_{i}")
+                    item_element.text = str(item)
+
+        # Create root element
+        root = ET.Element(root_name)
+
+        # Convert data based on type
+        if isinstance(data, dict):
+            dict_to_xml(data, root)
+        elif isinstance(data, list):
+            list_to_xml(data, root)
+        else:
+            root.text = str(data)
+
+        # Convert to string with proper formatting
+        try:
+            # Try to pretty print
+            import xml.dom.minidom
+
+            rough_string = ET.tostring(root, encoding="unicode")
+            reparsed = xml.dom.minidom.parseString(rough_string)
+            return reparsed.toprettyxml(indent="  ").strip()
+        except:
+            # Fallback to basic formatting
+            return ET.tostring(root, encoding="unicode")
+
     async def execute_workflow(
         self,
         project_name: str,
@@ -813,23 +885,34 @@ class OrchestratorAgent:
             file_mappings = {
                 "transcript": {
                     "folder": "notes",  # Maps to MeetingNotes
-                    "filename": "structured_notes.json",
-                    "content": data,
+                    "filename": "structured_notes.xml",
+                    "content": data.get(
+                        "notes_xml", self._convert_to_xml(data, "meeting_notes")
+                    ),
                 },
                 "researcher": {
                     "folder": "research",  # Maps to ResearchFindings
-                    "filename": "research_insights.json",
-                    "content": data.get("research_insights", data),
+                    "filename": "research_insights.xml",
+                    "content": data.get(
+                        "research_xml",
+                        self._convert_to_xml(
+                            data.get("research_insights", data), "research_findings"
+                        ),
+                    ),
                 },
                 "requirements": {
                     "folder": "use_cases",  # Maps to UseCases
-                    "filename": "use_cases.json",
-                    "content": data,
+                    "filename": "use_cases.xml",
+                    "content": data.get(
+                        "use_cases_xml", self._convert_to_xml(data, "use_cases")
+                    ),
                 },
                 "knowledge_base": {
                     "folder": "architecture",  # Maps to SystemArchitecture
-                    "filename": "knowledge_enrichment.json",
-                    "content": data,
+                    "filename": "knowledge_enrichment.xml",
+                    "content": data.get(
+                        "knowledge_xml", self._convert_to_xml(data, "knowledge_base")
+                    ),
                 },
                 "prd": {
                     "folder": "prd",  # Maps to PRDDocuments
@@ -846,8 +929,10 @@ class OrchestratorAgent:
                 },
                 "synthetic_data": {
                     "folder": "synthetic_data",  # Maps to SyntheticData
-                    "filename": "demo_data.json",
-                    "content": data,
+                    "filename": "demo_data.xml",
+                    "content": data.get(
+                        "data_xml", self._convert_to_xml(data, "synthetic_data")
+                    ),
                 },
                 "proposal": {
                     "folder": "commercial_proposals",  # Maps to CommercialProposals

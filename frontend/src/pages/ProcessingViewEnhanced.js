@@ -13,6 +13,9 @@ import {
   Unlock,
   ChevronLeft,
   PlayCircle,
+  Wifi,
+  WifiOff,
+  RotateCcw,
 } from "lucide-react";
 import { API_BASE_URL } from "../const";
 import "./ProcessingView.css";
@@ -34,6 +37,7 @@ const ProcessingViewEnhanced = () => {
     connect,
     disconnect,
     isConnected,
+    isReconnecting,
     currentAgent,
     agentStatuses,
     messages,
@@ -251,6 +255,12 @@ const ProcessingViewEnhanced = () => {
                   <span className="stat-value">{estimatedTimeRemaining}</span>
                 </div>
               )}
+              {isReconnecting && (
+                <div className="stat-badge reconnecting-badge">
+                  <Wifi className="w-4 h-4" />
+                  <span className="stat-label">Reconnecting</span>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -269,6 +279,58 @@ const ProcessingViewEnhanced = () => {
             <button className="start-button" onClick={handleStartWorkflow}>
               Start Processing
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Connection Status Overlay */}
+      {isReconnecting && !showStartButton && (
+        <div className="connection-overlay">
+          <div className="connection-card">
+            <div className="connection-icon">
+              <WifiOff className="w-16 h-16 text-yellow-500" />
+            </div>
+            <h2 className="connection-title">Reconnecting...</h2>
+            <p className="connection-description">
+              Attempting to restore connection to the workflow for{" "}
+              <strong>{projectName}</strong>
+            </p>
+            <div className="connection-spinner"></div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Overlay */}
+      {error && !isReconnecting && (
+        <div className="error-overlay">
+          <div className="error-card">
+            <div className="error-icon">❌</div>
+            <h2 className="error-title">Connection Error</h2>
+            <p className="error-description">{error}</p>
+            <div className="error-actions">
+              <button
+                className="error-button retry-button"
+                onClick={() => {
+                  if (workflowId && location.state) {
+                    connect(
+                      workflowId,
+                      location.state.projectName,
+                      location.state.transcript,
+                      true,
+                    );
+                  }
+                }}
+              >
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Retry Connection
+              </button>
+              <button
+                className="error-button secondary-button"
+                onClick={() => navigate("/")}
+              >
+                Return Home
+              </button>
+            </div>
           </div>
         </div>
       )}

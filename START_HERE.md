@@ -285,7 +285,8 @@ npm start
 cat backend/.env
 
 # Should contain:
-OPENROUTER_API_KEY=your_actual_api_key_here
+SYNTHETIC_API_KEY=your_actual_api_key_here
+# OPENROUTER_API_KEY=your_actual_api_key_here  # Optional fallback
 ```
 
 ---

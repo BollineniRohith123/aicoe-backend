@@ -1,5 +1,10 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { API_BASE_URL } from '../const';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { API_BASE_URL } from "../const";
+
+/**
+ * Custom hook for WebSocket-based workflow progress tracking
+ * Provides real-time updates from backend as agents execute
+ */
 
 /**
  * Custom hook for WebSocket-based workflow progress tracking
@@ -15,7 +20,8 @@ export const useWorkflowWebSocket = () => {
   const [results, setResults] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
-  
+  const [isReconnecting, setIsReconnecting] = useState(false);
+
   const wsRef = useRef(null);
   const reconnectTimeoutRef = useRef(null);
   const elapsedTimerRef = useRef(null);
@@ -26,18 +32,34 @@ export const useWorkflowWebSocket = () => {
 
   // Agent name mapping (backend names to frontend display names)
   const agentNameMap = {
-    'storage': 'storage',
-    'transcript': 'transcript',
-    'researcher': 'researcher',
-    'requirements': 'requirements',
-    'knowledge_base': 'knowledge_base',
-    'prd': 'prd',
-    'mockup': 'mockup',
-    'synthetic_data': 'synthetic_data',
-    'commercial_proposal': 'commercial_proposal',
-    'bom': 'bom',
-    'architecture_diagram': 'architecture_diagram',
-    'reviewer': 'reviewer'
+    storage: "storage",
+    transcript: "transcript",
+    researcher: "researcher",
+    requirements: "requirements",
+    knowledge_base: "knowledge_base",
+    prd: "prd",
+    mockup: "mockup",
+    synthetic_data: "synthetic_data",
+    commercial_proposal: "commercial_proposal",
+    bom: "bom",
+    architecture_diagram: "architecture_diagram",
+    reviewer: "reviewer",
+  };
+
+  // Agent display names for communication log
+  const agentDisplayNames = {
+    storage: "StorageAgent",
+    transcript: "TranscriptAgent",
+    researcher: "ResearcherAgent",
+    requirements: "RequirementsAgent",
+    knowledge_base: "KnowledgeBaseAgent",
+    prd: "PRDAgent",
+    mockup: "MockupAgent",
+    synthetic_data: "SyntheticDataAgent",
+    commercial_proposal: "CommercialProposalAgent",
+    bom: "BOMAgent",
+    architecture_diagram: "ArchitectureDiagramAgent",
+    reviewer: "ReviewerAgent",
   };
 
   // Start elapsed time counter
@@ -51,7 +73,7 @@ export const useWorkflowWebSocket = () => {
         clearInterval(elapsedTimerRef.current);
       }
     }
-    
+
     return () => {
       if (elapsedTimerRef.current) {
         clearInterval(elapsedTimerRef.current);
@@ -59,9 +81,17 @@ export const useWorkflowWebSocket = () => {
     };
   }, [startTime, isComplete]);
 
+  // Enhanced error handling with retry mechanism
+  const handleConnectionError = useCallback((error) => {
+    console.error("WebSocket connection error:", error);
+    setError("Connection error occurred - attempting to reconnect...");
+    setIsConnected(false);
+    setIsReconnecting(true);
+  }, []);
+
   // Function to restore state from backend
   const restoreState = useCallback((workflowStatus) => {
-    console.log('🔄 Restoring workflow state:', workflowStatus);
+    console.log("🔄 Restoring workflow state:", workflowStatus);
 
     // Restore agent statuses
     if (workflowStatus.agent_statuses) {
@@ -74,258 +104,308 @@ export const useWorkflowWebSocket = () => {
     }
 
     // Restore results if workflow is completed
-    if (workflowStatus.status === 'completed' && workflowStatus.results) {
+    if (workflowStatus.status === "completed" && workflowStatus.results) {
       setResults(workflowStatus.results);
       setIsComplete(true);
     }
 
     // Mark workflow as started
     workflowStartedRef.current = true;
+
+    // Add restoration message to communication log
+    setMessages((prev) => [
+      ...prev,
+      {
+        from: "System",
+        message: "Workflow state restored successfully",
+        timestamp: new Date().toISOString(),
+        type: "success",
+      },
+    ]);
   }, []);
 
-  const connect = useCallback((workflowId, projectName, transcript, isReconnecting = false) => {
-    console.log('🔧 NEW CODE LOADED - VERSION 4.0 - STATE PERSISTENCE 🔧');
+  const connect = useCallback(
+    (workflowId, projectName, transcript, isReconnecting = false) => {
+      console.log("🔧 NEW CODE LOADED - VERSION 4.0 - STATE PERSISTENCE 🔧");
 
-    console.log('🔍 Connection parameters:', {
-      workflowId,
-      isReconnecting,
-      workflowStarted: workflowStartedRef.current
-    });
-
-    // Store workflow data for potential reconnection
-    workflowDataRef.current = { workflowId, projectName, transcript };
-
-    // Close existing connection
-    if (wsRef.current) {
-      wsRef.current.close();
-    }
-
-    // Clear any pending reconnect
-    if (reconnectTimeoutRef.current) {
-      clearTimeout(reconnectTimeoutRef.current);
-      reconnectTimeoutRef.current = null;
-    }
-
-    if (!isReconnecting) {
-      // This is a new workflow - reset everything
-      reconnectAttemptsRef.current = 0;
-      workflowStartedRef.current = false; // Reset workflow started flag
-      setAgentStatuses({});
-      setMessages([]);
-      setError(null);
-      setIsConnected(false);
-      setIsComplete(false);
-      setResults(null);
-      setStartTime(Date.now());
-      setElapsedTime(0);
-    }
-
-    // Create WebSocket URL (convert http to ws, https to wss)
-    let wsUrl;
-    if (API_BASE_URL.startsWith('https://')) {
-      wsUrl = API_BASE_URL.replace('https://', 'wss://') + `/api/ws/${workflowId}`;
-    } else if (API_BASE_URL.startsWith('http://')) {
-      wsUrl = API_BASE_URL.replace('http://', 'ws://') + `/api/ws/${workflowId}`;
-    } else {
-      wsUrl = 'ws://' + API_BASE_URL + `/api/ws/${workflowId}`;
-    }
-
-    console.log('Connecting to WebSocket:', wsUrl);
-    console.log('API_BASE_URL:', API_BASE_URL);
-
-    const ws = new WebSocket(wsUrl);
-    wsRef.current = ws;
-
-    ws.onopen = () => {
-      console.log('WebSocket connected');
-      setIsConnected(true);
-
-      // Determine if this is a reconnection or initial connection
-      // Use the isReconnecting parameter OR check if workflow was already started
-      const isReconnect = isReconnecting ||
-                          (reconnectAttemptsRef.current > 0 &&
-                           workflowDataRef.current &&
-                           workflowDataRef.current.workflowId === workflowId &&
-                           workflowStartedRef.current);
-
-      console.log('🔍 ws.onopen reconnection check:', {
-        isReconnectingParam: isReconnecting,
-        reconnectAttempts: reconnectAttemptsRef.current,
-        workflowDataRefId: workflowDataRef.current?.workflowId,
-        currentWorkflowId: workflowId,
+      console.log("🔍 Connection parameters:", {
+        workflowId,
+        isReconnecting,
         workflowStarted: workflowStartedRef.current,
-        isReconnect
       });
 
-      if (isReconnect) {
-        // This is a reconnection - send reconnect message instead of start
-        console.log('Reconnection successful! Sending reconnect message...');
+      // Store workflow data for potential reconnection
+      workflowDataRef.current = { workflowId, projectName, transcript };
+
+      // Close existing connection
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+
+      // Clear any pending reconnect
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+        reconnectTimeoutRef.current = null;
+      }
+
+      if (!isReconnecting) {
+        // This is a new workflow - reset everything
+        reconnectAttemptsRef.current = 0;
+        workflowStartedRef.current = false; // Reset workflow started flag
+        setAgentStatuses({});
+        setMessages([]);
         setError(null);
-        setMessages(prev => [...prev, {
-          from: 'System',
-          message: 'Connection restored successfully',
-          timestamp: new Date().toISOString(),
-          type: 'success'
-        }]);
-
-        const reconnectMessage = {
-          action: 'reconnect',
-          workflow_id: workflowId
-        };
-
-        console.log('Sending reconnect message:', reconnectMessage);
-        ws.send(JSON.stringify(reconnectMessage));
-
-        // Mark workflow as started
-        workflowStartedRef.current = true;
-
-        // Don't reset reconnect attempts here - only reset when workflow completes
-        // This ensures we continue sending "reconnect" on subsequent disconnections
-      } else {
-        // This is the initial connection - send start message
-        const startMessage = {
-          action: 'start',
-          project_name: projectName,
-          transcript: transcript
-        };
-
-        console.log('Sending start message:', startMessage);
-        ws.send(JSON.stringify(startMessage));
-
-        // Mark workflow as started (so future reconnections will send "reconnect")
-        workflowStartedRef.current = true;
-
-        // Add initial message (only on first connection)
-        setMessages(prev => [...prev, {
-          from: 'Orchestrator',
-          message: `Starting workflow for project: ${projectName}`,
-          timestamp: new Date().toISOString(),
-          type: 'info'
-        }]);
+        setIsConnected(false);
+        setIsComplete(false);
+        setResults(null);
+        setStartTime(Date.now());
+        setElapsedTime(0);
+        setIsReconnecting(false);
       }
-    };
 
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        console.log('WebSocket message:', data);
+      // Create WebSocket URL (convert http to ws, https to wss)
+      let wsUrl;
+      if (API_BASE_URL.startsWith("https://")) {
+        wsUrl =
+          API_BASE_URL.replace("https://", "wss://") + `/api/ws/${workflowId}`;
+      } else if (API_BASE_URL.startsWith("http://")) {
+        wsUrl =
+          API_BASE_URL.replace("http://", "ws://") + `/api/ws/${workflowId}`;
+      } else {
+        wsUrl = "ws://" + API_BASE_URL + `/api/ws/${workflowId}`;
+      }
 
-        if (data.type === 'progress') {
-          handleProgressUpdate(data);
-        } else if (data.type === 'complete') {
-          handleComplete(data);
-        } else if (data.type === 'error') {
-          handleError(data);
-        } else if (data.type === 'reconnect_ack') {
-          // Handle reconnection acknowledgment
-          console.log('Reconnection acknowledged:', data);
-          setMessages(prev => [...prev, {
-            from: 'System',
-            message: data.message || 'Reconnected to workflow',
-            timestamp: new Date().toISOString(),
-            type: 'info'
-          }]);
+      console.log("Connecting to WebSocket:", wsUrl);
+      console.log("API_BASE_URL:", API_BASE_URL);
+
+      const ws = new WebSocket(wsUrl);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log("WebSocket connected");
+        setIsConnected(true);
+        setIsReconnecting(false);
+
+        // Determine if this is a reconnection or initial connection
+        // Use the isReconnecting parameter OR check if workflow was already started
+        const isReconnect =
+          isReconnecting ||
+          (reconnectAttemptsRef.current > 0 &&
+            workflowDataRef.current &&
+            workflowDataRef.current.workflowId === workflowId &&
+            workflowStartedRef.current);
+
+        console.log("🔍 ws.onopen reconnection check:", {
+          isReconnectingParam: isReconnecting,
+          reconnectAttempts: reconnectAttemptsRef.current,
+          workflowDataRefId: workflowDataRef.current?.workflowId,
+          currentWorkflowId: workflowId,
+          workflowStarted: workflowStartedRef.current,
+          isReconnect,
+        });
+
+        if (isReconnect) {
+          // This is a reconnection - send reconnect message instead of start
+          console.log("Reconnection successful! Sending reconnect message...");
+          setError(null);
+          setMessages((prev) => [
+            ...prev,
+            {
+              from: "System",
+              message: "Connection restored successfully",
+              timestamp: new Date().toISOString(),
+              type: "success",
+            },
+          ]);
+
+          const reconnectMessage = {
+            action: "reconnect",
+            workflow_id: workflowId,
+          };
+
+          console.log("Sending reconnect message:", reconnectMessage);
+          ws.send(JSON.stringify(reconnectMessage));
+
+          // Mark workflow as started
+          workflowStartedRef.current = true;
+
+          // Don't reset reconnect attempts here - only reset when workflow completes
+          // This ensures we continue sending "reconnect" on subsequent disconnections
+        } else {
+          // This is the initial connection - send start message
+          const startMessage = {
+            action: "start",
+            project_name: projectName,
+            transcript: transcript,
+          };
+
+          console.log("Sending start message:", startMessage);
+          ws.send(JSON.stringify(startMessage));
+
+          // Mark workflow as started (so future reconnections will send "reconnect")
+          workflowStartedRef.current = true;
+
+          // Add initial message (only on first connection)
+          setMessages((prev) => [
+            ...prev,
+            {
+              from: "Orchestrator",
+              message: `Starting workflow for project: ${projectName}`,
+              timestamp: new Date().toISOString(),
+              type: "info",
+            },
+          ]);
         }
-      } catch (err) {
-        console.error('Error parsing WebSocket message:', err);
-      }
-    };
+      };
 
-    ws.onerror = (event) => {
-      console.error('WebSocket error:', event);
-      setError('Connection error occurred - attempting to reconnect...');
-      setIsConnected(false);
-    };
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log("WebSocket message:", data);
 
-    ws.onclose = (event) => {
-      console.log('WebSocket closed:', event.code, event.reason);
-      setIsConnected(false);
+          if (data.type === "progress") {
+            handleProgressUpdate(data);
+          } else if (data.type === "complete") {
+            handleComplete(data);
+          } else if (data.type === "error") {
+            handleError(data);
+          } else if (data.type === "reconnect_ack") {
+            // Handle reconnection acknowledgment
+            console.log("Reconnection acknowledged:", data);
+            setMessages((prev) => [
+              ...prev,
+              {
+                from: "System",
+                message: data.message || "Reconnected to workflow",
+                timestamp: new Date().toISOString(),
+                type: "info",
+              },
+            ]);
+          }
+        } catch (err) {
+          console.error("Error parsing WebSocket message:", err);
+          setMessages((prev) => [
+            ...prev,
+            {
+              from: "System",
+              message: "Error parsing message from server",
+              timestamp: new Date().toISOString(),
+              type: "error",
+            },
+          ]);
+        }
+      };
 
-      // CRITICAL FIX: Do NOT reconnect if workflow has completed or failed
-      // This prevents duplicate workflows from starting
-      const shouldReconnect = !isComplete &&
-                              workflowStartedRef.current &&
-                              reconnectAttemptsRef.current < maxReconnectAttempts &&
-                              workflowDataRef.current;
+      ws.onerror = (event) => {
+        console.error("WebSocket error:", event);
+        handleConnectionError(event);
+      };
 
-      console.log('🔍 WebSocket close - reconnection check:', {
-        isComplete,
-        workflowStarted: workflowStartedRef.current,
-        reconnectAttempts: reconnectAttemptsRef.current,
-        maxAttempts: maxReconnectAttempts,
-        hasWorkflowData: !!workflowDataRef.current,
-        shouldReconnect
-      });
+      ws.onclose = (event) => {
+        console.log("WebSocket closed:", event.code, event.reason);
+        setIsConnected(false);
 
-      // Attempt to reconnect ONLY if workflow is still running
-      if (shouldReconnect) {
-        reconnectAttemptsRef.current += 1;
-        const delay = Math.min(1000 * Math.pow(2, reconnectAttemptsRef.current - 1), 10000); // Exponential backoff, max 10s
+        // CRITICAL FIX: Do NOT reconnect if workflow has completed or failed
+        // This prevents duplicate workflows from starting
+        const shouldReconnect =
+          !isComplete &&
+          workflowStartedRef.current &&
+          reconnectAttemptsRef.current < maxReconnectAttempts &&
+          workflowDataRef.current;
 
-        console.log(`Attempting to reconnect (${reconnectAttemptsRef.current}/${maxReconnectAttempts}) in ${delay}ms...`);
-        setError(`Connection lost. Reconnecting in ${Math.round(delay/1000)}s... (Attempt ${reconnectAttemptsRef.current}/${maxReconnectAttempts})`);
+        console.log("🔍 WebSocket close - reconnection check:", {
+          isComplete,
+          workflowStarted: workflowStartedRef.current,
+          reconnectAttempts: reconnectAttemptsRef.current,
+          maxAttempts: maxReconnectAttempts,
+          hasWorkflowData: !!workflowDataRef.current,
+          shouldReconnect,
+        });
 
-        reconnectTimeoutRef.current = setTimeout(() => {
-          const { workflowId, projectName, transcript } = workflowDataRef.current;
-          connect(workflowId, projectName, transcript, true); // CRITICAL: Pass true for reconnection
-        }, delay);
-      } else if (reconnectAttemptsRef.current >= maxReconnectAttempts) {
-        setError('Connection lost. Maximum reconnection attempts reached. Workflow may still be running in the background.');
-      } else if (isComplete) {
-        console.log('✅ Workflow complete - NOT reconnecting');
-      } else {
-        console.log('ℹ️ Workflow not started or no data - NOT reconnecting');
-      }
-    };
-  }, []);
+        // Attempt to reconnect ONLY if workflow is still running
+        if (shouldReconnect) {
+          reconnectAttemptsRef.current += 1;
+          const delay = Math.min(
+            1000 * Math.pow(2, reconnectAttemptsRef.current - 1),
+            10000,
+          ); // Exponential backoff, max 10s
+
+          console.log(
+            `Attempting to reconnect (${reconnectAttemptsRef.current}/${maxReconnectAttempts}) in ${delay}ms...`,
+          );
+          setError(
+            `Connection lost. Reconnecting in ${Math.round(delay / 1000)}s... (Attempt ${reconnectAttemptsRef.current}/${maxReconnectAttempts})`,
+          );
+          setIsReconnecting(true);
+
+          reconnectTimeoutRef.current = setTimeout(() => {
+            const { workflowId, projectName, transcript } =
+              workflowDataRef.current;
+            connect(workflowId, projectName, transcript, true); // CRITICAL: Pass true for reconnection
+          }, delay);
+        } else if (reconnectAttemptsRef.current >= maxReconnectAttempts) {
+          setError(
+            "Connection lost. Maximum reconnection attempts reached. Workflow may still be running in the background.",
+          );
+          setIsReconnecting(false);
+        } else if (isComplete) {
+          console.log("✅ Workflow complete - NOT reconnecting");
+          setIsReconnecting(false);
+        } else {
+          console.log("ℹ️ Workflow not started or no data - NOT reconnecting");
+          setIsReconnecting(false);
+        }
+      };
+    },
+    [handleConnectionError],
+  );
 
   const handleProgressUpdate = (data) => {
     const { stage, status, message, timestamp } = data;
-    
+
     // Map backend stage name to frontend agent name
     const agentName = agentNameMap[stage] || stage;
-    
+
     // Update current agent
-    if (status === 'running') {
+    if (status === "running") {
       setCurrentAgent(agentName);
     }
-    
-    // Update agent status
-    setAgentStatuses(prev => ({
+
+    // Update agent status with enhanced animation triggers
+    setAgentStatuses((prev) => ({
       ...prev,
       [agentName]: {
         status: status, // 'running', 'completed', 'failed'
         message: message,
-        timestamp: timestamp
-      }
+        timestamp: timestamp,
+      },
     }));
-    
-    // Add message to communication log
-    const agentDisplayNames = {
-      'storage': 'StorageAgent',
-      'transcript': 'TranscriptAgent',
-      'researcher': 'ResearcherAgent',
-      'requirements': 'RequirementsAgent',
-      'knowledge_base': 'KnowledgeBaseAgent',
-      'prd': 'PRDAgent',
-      'mockup': 'MockupAgent',
-      'synthetic_data': 'SyntheticDataAgent',
-      'commercial_proposal': 'CommercialProposalAgent',
-      'bom': 'BOMAgent',
-      'architecture_diagram': 'ArchitectureDiagramAgent',
-      'reviewer': 'ReviewerAgent'
-    };
-    
-    setMessages(prev => [...prev, {
-      from: agentDisplayNames[agentName] || agentName,
-      message: message,
-      timestamp: timestamp,
-      type: status === 'failed' ? 'error' : status === 'completed' ? 'success' : 'info'
-    }]);
+
+    // Add message to communication log with enhanced formatting
+    setMessages((prev) => {
+      const newMessage = {
+        from: agentDisplayNames[agentName] || agentName,
+        message: message,
+        timestamp: timestamp,
+        type:
+          status === "failed"
+            ? "error"
+            : status === "completed"
+              ? "success"
+              : "info",
+      };
+
+      // Add a small delay to create a smooth animation effect
+      setTimeout(() => {
+        // This will trigger CSS animations in the component
+      }, 10);
+
+      return [...prev, newMessage];
+    });
   };
 
   const handleComplete = (data) => {
-    console.log('Workflow complete:', data);
+    console.log("Workflow complete:", data);
     setIsComplete(true);
     // Store the entire data object, not just data.results
     // This includes project_name, workflow_id, status, and results
@@ -335,30 +415,66 @@ export const useWorkflowWebSocket = () => {
     // Reset reconnect attempts and workflow started flag when workflow completes
     reconnectAttemptsRef.current = 0;
     workflowStartedRef.current = false;
+    setIsReconnecting(false);
 
-    setMessages(prev => [...prev, {
-      from: 'Orchestrator',
-      message: 'All agents completed successfully!',
-      timestamp: new Date().toISOString(),
-      type: 'success'
-    }]);
+    setMessages((prev) => [
+      ...prev,
+      {
+        from: "Orchestrator",
+        message: "All agents completed successfully!",
+        timestamp: new Date().toISOString(),
+        type: "success",
+      },
+    ]);
+
+    // Add celebration message
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: "System",
+          message:
+            "🎉 Workflow completed! Results are now available in the playground.",
+          timestamp: new Date().toISOString(),
+          type: "success",
+        },
+      ]);
+    }, 500);
   };
 
   const handleError = (data) => {
-    console.error('Workflow error:', data);
+    console.error("Workflow error:", data);
     setError(data.message);
     setIsComplete(true);
+    setIsReconnecting(false);
 
     // Reset reconnect attempts and workflow started flag when workflow fails
     reconnectAttemptsRef.current = 0;
     workflowStartedRef.current = false;
 
-    setMessages(prev => [...prev, {
-      from: 'System',
-      message: `Error: ${data.message}`,
-      timestamp: new Date().toISOString(),
-      type: 'error'
-    }]);
+    setMessages((prev) => [
+      ...prev,
+      {
+        from: "System",
+        message: `Error: ${data.message}`,
+        timestamp: new Date().toISOString(),
+        type: "error",
+      },
+    ]);
+
+    // Add recovery suggestion
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: "System",
+          message:
+            "💡 Tip: You can restart the workflow or check the logs for more details.",
+          timestamp: new Date().toISOString(),
+          type: "info",
+        },
+      ]);
+    }, 1000);
   };
 
   const disconnect = useCallback(() => {
@@ -366,16 +482,22 @@ export const useWorkflowWebSocket = () => {
       wsRef.current.close();
       wsRef.current = null;
     }
-    
+
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current);
     }
-    
+
     if (elapsedTimerRef.current) {
       clearInterval(elapsedTimerRef.current);
     }
-    
+
     setIsConnected(false);
+    setIsReconnecting(false);
+    setIsComplete(false);
+
+    // Reset workflow state
+    reconnectAttemptsRef.current = 0;
+    workflowStartedRef.current = false;
   }, []);
 
   // Cleanup on unmount
@@ -389,14 +511,14 @@ export const useWorkflowWebSocket = () => {
   const formatElapsedTime = () => {
     const minutes = Math.floor(elapsedTime / 60);
     const seconds = elapsedTime % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
   // Calculate progress percentage (0-100)
   const getProgressPercentage = () => {
     const totalAgents = 12; // Updated to 12 agents
     const completedAgents = Object.values(agentStatuses).filter(
-      status => status.status === 'completed'
+      (status) => status.status === "completed",
     ).length;
     return Math.round((completedAgents / totalAgents) * 100);
   };
@@ -404,11 +526,11 @@ export const useWorkflowWebSocket = () => {
   // Estimate time remaining based on average agent completion time
   const getEstimatedTimeRemaining = () => {
     const completedAgents = Object.values(agentStatuses).filter(
-      status => status.status === 'completed'
+      (status) => status.status === "completed",
     ).length;
 
     if (completedAgents === 0 || elapsedTime === 0) {
-      return 'Calculating...';
+      return "Calculating...";
     }
 
     const avgTimePerAgent = elapsedTime / completedAgents;
@@ -430,6 +552,7 @@ export const useWorkflowWebSocket = () => {
     disconnect,
     restoreState,
     isConnected,
+    isReconnecting,
     currentAgent,
     agentStatuses,
     messages,
@@ -438,7 +561,6 @@ export const useWorkflowWebSocket = () => {
     results,
     elapsedTime: formatElapsedTime(),
     progressPercentage: getProgressPercentage(),
-    estimatedTimeRemaining: getEstimatedTimeRemaining()
+    estimatedTimeRemaining: getEstimatedTimeRemaining(),
   };
 };
-
