@@ -88,8 +88,12 @@ class ClaudeMockupGenerator:
 
 
 def main():
-    # Initialize the generator with your API key
-    api_key = "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"
+    # Initialize the generator with your API key from environment variable
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        print("Error: ANTHROPIC_API_KEY environment variable not set")
+        return
+
     generator = ClaudeMockupGenerator(api_key)
 
     # Example usage
