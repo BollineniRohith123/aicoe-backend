@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRD for Ecommerce Platform</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            /* Primary Colors */
+            --aicoe-primary-navy: #1a1a2e;
+            --aicoe-midnight-blue: #2a2a3e;
+            --aicoe-deep-purple: #3a2a4e;
+
+            /* Accent Colors */
+            --aicoe-accent-pink: #ff69b4;
+            --aicoe-accent-cyan: #00ffcc;
+            --aicoe-accent-turquoise: #00e5b3;
+
+            /* Text Colors */
+            --aicoe-text-primary: #1a1a1a;
+            --aicoe-text-secondary: #6e6e73;
+
+            /* Background Colors */
+            --aicoe-bg-white: #ffffff;
+            --aicoe-bg-gray: #f5f5f7;
+            --aicoe-bg-dark: #1d1d1f;
+
+            /* Semantic Colors */
+            --aicoe-success: #34c759;
+            --aicoe-warning: #ff9500;
+            --aicoe-error: #ff3b30;
+            --aicoe-info: #007aff;
+
+            /* Gradients */
+            --aicoe-gradient-primary: linear-gradient(135deg, var(--aicoe-accent-pink), var(--aicoe-accent-cyan));
+            --aicoe-gradient-secondary: linear-gradient(135deg, var(--aicoe-primary-navy), var(--aicoe-deep-purple));
+
+            /* Font Family */
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+
+            /* Type Scale (Fluid Typography) */
+            --font-hero: clamp(2.5rem, 5vw, 4rem);
+            --font-h1: clamp(2rem, 4vw, 3rem);
+            --font-h2: clamp(1.5rem, 3vw, 2.25rem);
+            --font-h3: clamp(1.25rem, 2.5vw, 1.75rem);
+            --font-h4: 1.125rem;
+            --font-body: 1rem;
+            --font-small: 0.875rem;
+            --font-tiny: 0.75rem;
+
+            /* Font Weights */
+            --font-light: 300;
+            --font-regular: 400;
+            --font-medium: 500;
+            --font-semibold: 600;
+            --font-bold: 700;
+
+            /* Line Heights */
+            --line-tight: 1.2;
+            --line-normal: 1.5;
+            --line-relaxed: 1.75;
+
+            /* Spacing System (8px Grid) */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 2.5rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --space-4xl: 5rem;
+
+            /* Shadow System (Elevation) */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-full: 9999px;
+
+            /* Transitions & Animations */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: var(--aicoe-bg-gray);
+            color: var(--aicoe-text-primary);
+            line-height: var(--line-normal);
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        /* Header */
+        header {
+            background: var(--aicoe-bg-white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            padding: var(--space-lg) 0;
+        }
+
+        .header-title {
+            font-size: var(--font-h2);
+            font-weight: var(--font-bold);
+            background: var(--aicoe-gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--aicoe-bg-white);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-xl);
+            margin: var(--space-xl) 0;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 120px;
+        }
+
+        .toc-title {
+            font-size: var(--font-h3);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin-bottom: var(--space-sm);
+        }
+
+        .toc-link {
+            color: var(--aicoe-text-secondary);
+            text-decoration: none;
+            font-size: var(--font-body);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+            display: block;
+        }
+
+        .toc-link:hover {
+            background: var(--aicoe-bg-gray);
+            color: var(--aicoe-primary-navy);
+            transform: translateX(4px);
+        }
+
+        .toc-link.active {
+            background: var(--aicoe-gradient-primary);
+            color: white;
+        }
+
+        .toc-sublist {
+            list-style: none;
+            margin-left: var(--space-lg);
+            margin-top: var(--space-xs);
+        }
+
+        /* Main Content */
+        main {
+            padding: var(--space-2xl) 0;
+        }
+
+        /* Section Styles */
+        section {
+            background: var(--aicoe-bg-white);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow-md);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: var(--font-h2);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-lg);
+            color: var(--aicoe-primary-navy);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .subsection-title {
+            font-size: var(--font-h3);
+            font-weight: var(--font-semibold);
+            margin: var(--space-xl) 0 var(--space-md);
+            color: var(--aicoe-midnight-blue);
+        }
+
+        /* Card Components */
+        .card {
+            background: var(--aicoe-bg-white);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-xl);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            margin-bottom: var(--space-lg);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .card-glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-lg);
+            font-weight: var(--font-medium);
+            font-size: var(--font-body);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--aicoe-gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--aicoe-bg-white);
+            color: var(--aicoe-primary-navy);
+            border: 2px solid var(--aicoe-primary-navy);
+        }
+
+        .btn-secondary:hover {
+            background: var(--aicoe-primary-navy);
+            color: white;
+        }
+
+        /* List Styles */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: var(--space-lg);
+            margin-bottom: var(--space-sm);
+        }
+
+        ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--aicoe-accent-cyan);
+            font-weight: bold;
+        }
+
+        /* Grid System */
+        .grid {
+            display: grid;
+            gap: var(--space-lg);
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        /* Badge Styles */
+        .badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-full);
+            font-size: var(--font-small);
+            font-weight: var(--font-medium);
+        }
+
+        .badge-high {
+            background: var(--aicoe-error);
+            color: white;
+        }
+
+        .badge-medium {
+            background: var(--aicoe-warning);
+            color: white;
+        }
+
+        .badge-low {
+            background: var(--aicoe-success);
+            color: white;
+        }
+
+        /* KPI Card */
+        .kpi-card {
+            background: linear-gradient(135deg, var(--aicoe-bg-white), var(--aicoe-bg-gray));
+            border-left: 4px solid var(--aicoe-accent-cyan);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-md);
+        }
+
+        .kpi-name {
+            font-weight: var(--font-semibold);
+            color: var(--aicoe-primary-navy);
+            margin-bottom: var(--space-xs);
+        }
+
+        .kpi-target {
+            font-size: var(--font-h3);
+            font-weight: var(--font-bold);
+            color: var(--aicoe-accent-pink);
+        }
+
+        /* Use Case Flow */
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: var(--space-md);
+            padding: var(--space-md);
+            background: var(--aicoe-bg-gray);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-base);
+        }
+
+        .flow-step:hover {
+            background: var(--aicoe-bg-white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .step-number {
+            background: var(--aicoe-gradient-primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-bold);
+            margin-right: var(--space-md);
+            flex-shrink: 0;
+        }
+
+        /* Risk Assessment */
+        .risk-card {
+            border-left: 4px solid;
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            border-radius: var(--radius-lg);
+            background: var(--aicoe-bg-gray);
+        }
+
+        .risk-high {
+            border-left-color: var(--aicoe-error);
+        }
+
+        .risk-medium {
+            border-left-color: var(--aicoe-warning);
+        }
+
+        .risk-low {
+            border-left-color: var(--aicoe-success);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--aicoe-primary-navy);
+            color: white;
+            padding: var(--space-3xl) 0 var(--space-xl);
+            margin-top: var(--space-4xl);
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: var(--font-h3);
+            font-weight: var(--font-bold);
+            background: var(--aicoe-gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-md);
+        }
+
+        /* Responsive Design */
+        @media (min-width: 640px) {
+            .toc {
+                position: static;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .content-wrapper {
+                display: grid;
+                grid-template-columns: 300px 1fr;
+                gap: var(--space-xl);
+            }
+
+            .toc {
+                position: sticky;
+                top: 120px;
+                height: fit-content;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .toc {
+                display: none;
+            }
+
+            section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1 class="header-title">
+                    <i data-lucide="shopping-cart" style="display: inline-block; vertical-align: middle;"></i>
+                    PRD for Ecommerce Platform
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="content-wrapper">
+                <!-- Table of Contents -->
+                <nav class="toc">
+                    <h2 class="toc-title">
+                        <i data-lucide="list"></i>
+                        Table of Contents
+                    </h2>
+                    <ul class="toc-list">
+                        <li class="toc-item">
+                            <a href="#executive-summary" class="toc-link">Executive Summary</a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#scope" class="toc-link">Scope</a>
+                            <ul class="toc-sublist">
+                                <li><a href="#in-scope" class="toc-link">In Scope</a></li>
+                                <li><a href="#out-of-scope" class="toc-link">Out of Scope</a></li>
+                                <li><a href="#dependencies" class="toc-link">Dependencies</a></li>
+                                <li><a href="#assumptions" class="toc-link">Assumptions</a></li>
+                                <li><a href="#constraints" class="toc-link">Constraints</a></li>
+                            </ul>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#business-goals" class="toc-link">Business Goals</a>
+                            <ul class="toc-sublist">
+                                <li><a href="#primary-objectives" class="toc-link">Primary Objectives</a></li>
+                                <li><a href="#key-performance-indicators" class="toc-link">Key Performance Indicators</a></li>
+                                <li><a href="#success-metrics" class="toc-link">Success Metrics</a></li>
+                            </ul>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#non-functional-requirements" class="toc-link">Non-Functional Requirements</a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#use-cases" class="toc-link">Use Cases</a>
+                            <ul class="toc-sublist">
+                                <li><a href="#uc-001" class="toc-link">UC-001: Discover and Search Products</a></li>
+                                <li><a href="#uc-002" class="toc-link">UC-002: View Product Details</a></li>
+                                <li><a href="#uc-003" class="toc-link">UC-003: Frictionless Checkout</a></li>
+                                <li><a href="#uc-004" class="toc-link">UC-004: Manage User Account</a></li>
+                                <li><a href="#uc-005" class="toc-link">UC-005: Self-Service Returns</a></li>
+                            </ul>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#risk-assessment" class="toc-link">Risk Assessment</a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#implementation-notes" class="toc-link">Implementation Notes</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Executive Summary -->
+                    <section id="executive-summary">
+                        <h2 class="section-title">
+                            <i data-lucide="file-text"></i>
+                            Executive Summary
+                        </h2>
+                        <p>The Ecommerce Platform project aims to develop a modern, scalable, and competitive e-commerce solution targeting small to mid-market businesses. Built on a composable architecture with AI-powered personalization, mobile-first PWA capabilities, and omnichannel fulfillment options like BOPIS, this platform will compete with market leaders like Shopify and BigCommerce. The platform will achieve a 3% conversion rate within the first year, increase Average Order Value by 10% through AI recommendations, and capture 5% of the target SMB market within two years. Key success metrics include maintaining 99.9% uptime, sub-2-second page load times, and WCAG 2.1 AA compliance while ensuring full GDPR, CCPA, and PCI DSS regulatory compliance.</p>
+                    </section>
+
+                    <!-- Scope -->
+                    <section id="scope">
+                        <h2 class="section-title">
+                            <i data-lucide="target"></i>
+                            Scope
+                        </h2>
+
+                        <div id="in-scope" class="card">
+                            <h3 class="subsection-title">In Scope</h3>
+                            <ul>
+                                <li>AI-powered product discovery and personalized recommendations</li>
+                                <li>Mobile-first Progressive Web App (PWA) architecture</li>
+                                <li>Advanced search with autocomplete and filtering capabilities</li>
+                                <li>Comprehensive product details pages with rich media and 360-degree views</li>
+                                <li>One-page frictionless checkout with guest checkout support</li>
+                                <li>Multiple payment methods (Credit Card, PayPal, Apple Pay, BNPL)</li>
+                                <li>Omnichannel fulfillment with BOPIS (Buy Online, Pick-up In Store)</li>
+                                <li>User account management with order history and tracking</li>
+                                <li>Self-service return initiation system with RMA generation</li>
+                                <li>GDPR/CCPA compliant data privacy controls</li>
+                                <li>SEO-optimized product and category pages with schema.org markup</li>
+                                <li>Real-time inventory management and availability display</li>
+                            </ul>
+                        </div>
+
+                        <div id="out-of-scope" class="card">
+                            <h3 class="subsection-title">Out of Scope</h3>
+                            <ul>
+                                <li>Social commerce and live shopping features (planned for v2.0)</li>
+                                <li>Advanced B2B features like bulk ordering and custom pricing</li>
+                                <li>Multi-vendor marketplace capabilities</li>
+                                <li>Native mobile applications (iOS/Android)</li>
+                                <li>Advanced analytics and business intelligence dashboard</li>
+                                <li>Subscription and recurring payment models</li>
+                                <li>Cryptocurrency payment options</li>
+                                <li>Voice commerce integration</li>
+                                <li>Augmented reality product visualization</li>
+                            </ul>
+                        </div>
+
+                        <div id="dependencies" class="card">
+                            <h3 class="subsection-title">Dependencies</h3>
+                            <h4 style="margin-top: var(--space-md); margin-bottom: var(--space-sm); color: var(--aicoe-midnight-blue);">External Services</h4>
+                            <ul>
+                                <li>Payment Service Provider (Stripe/PayPal) for PCI DSS compliant processing</li>
+                                <li>Third-party logistics (3PL) API integration for shipping and fulfillment</li>
+                                <li>CDN provider (Cloudflare/AWS CloudFront) for global content delivery</li>
+                                <li>Email service provider (SendGrid/SES) for transactional emails</li>
+                                <li>AI/ML service (AWS Personalize/Google Recommendations AI) for recommendations</li>
+                                <li>Search service (Algolia/Elasticsearch) for advanced search capabilities</li>
+                            </ul>
+                            <h4 style="margin-top: var(--space-lg); margin-bottom: var(--space-sm); color: var(--aicoe-midnight-blue);">Prerequisites</h4>
+                            <ul>
+                                <li>Design system approval and component library</li>
+                                <li>Security audit and penetration testing plan</li>
+                                <li>Legal review for GDPR/CCPA compliance</li>
+                                <li>PCI DSS compliance assessment</li>
+                                <li>Product data migration strategy and tools</li>
+                                <li>Third-party service contracts and SLAs</li>
+                            </ul>
+                        </div>
+
+                        <div id="assumptions" class="card">
+                            <h3 class="subsection-title">Assumptions</h3>
+                            <ul>
+                                <li>Target customers are comfortable with online shopping and digital payments</li>
+                                <li>Initial product data will be provided in structured format</li>
+                                <li>Merchants will handle shipping or use integrated 3PL providers</li>
+                                <li>AI personalization engine will have sufficient data for accurate recommendations</li>
+                                <li>Mobile devices will account for >60% of traffic</li>
+                                <li>Users expect Amazon-like checkout experience</li>
+                                <li>SEO optimization will drive significant organic traffic</li>
+                            </ul>
+                        </div>
+
+                        <div id="constraints" class="card">
+                            <h3 class="subsection-title">Constraints</h3>
+                            <h4 style="margin-top: var(--space-md); margin-bottom: var(--space-sm); color: var(--aicoe-midnight-blue);">Technical Constraints</h4>
+                            <ul>
+                                <li>Must use headless/composable architecture</li>
+                                <li>RESTful APIs required for third-party integrations</li>
+                                <li>No storage of sensitive payment card data on-platform</li>
+                                <li>Must support all major browsers (Chrome, Safari, Firefox, Edge)</li>
+                                <li>Mobile-first responsive design required</li>
+                            </ul>
+                            <h4 style="margin-top: var(--space-lg); margin-bottom: var(--space-sm); color: var(--aicoe-midnight-blue);">Business Constraints</h4>
+                            <ul>
+                                <li>Fixed initial launch budget requiring MVP prioritization</li>
+                                <li>Must achieve profitability within 24 months</li>
+                                <li>Competitive pricing pressure from established platforms</li>
+                                <li>Need to balance feature richness with ease of use</li>
+                            </ul>
+                            <h4 style="margin-top: var(--space-lg); margin-bottom: var(--space-sm); color: var(--aicoe-midnight-blue);">Resource Constraints</h4>
+                            <ul>
+                                <li>Limited development team size for initial launch</li>
+                                <li>Need for specialized skills in AI/ML and security</li>
+                                <li>Dependency on third-party service availability and pricing</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Business Goals -->
+                    <section id="business-goals">
+                        <h2 class="section-title">
+                            <i data-lucide="trending-up"></i>
+                            Business Goals
+                        </h2>
+
+                        <div id="primary-objectives" class="card">
+                            <h3 class="subsection-title">Primary Objectives</h3>
+                            <ul>
+                                <li>Achieve 3% conversion rate within 12 months through optimized user journey</li>
+                                <li>Increase Average Order Value by 10% through AI-driven recommendations</li>
+                                <li>Capture 5% of SMB to mid-market segment within 24 months</li>
+                                <li>Support 100% year-over-year transaction volume growth for 3 years</li>
+                                <li>Maintain cart abandonment rate below 60% with frictionless checkout</li>
+                            </ul>
+                        </div>
+
+                        <div id="key-performance-indicators" class="card">
+                            <h3 class="subsection-title">Key Performance Indicators</h3>
+                            <div class="kpi-card">
+                                <div class="kpi-name">Conversion Rate</div>
+                                <div class="kpi-target">3% within 12 months</div>
+                                <p style="margin-top: var(--space-xs); color: var(--aicoe-text-secondary);">Track conversion rate through analytics platform, segment by traffic source and device type</p>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-name">AOV Growth</div>
+                                <div class="kpi-target">10% increase in 12 months</div>
+                                <p style="margin-top: var(--space-xs); color: var(--aicoe-text-secondary);">Measure AOV before and after recommendation engine implementation</p>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-name">Market Share</div>
+                                <div class="kpi-target">5% within 24 months</div>
+                                <p style="margin-top: var(--space-xs); color: var(--aicoe-text-secondary);">Track new merchant sign-ups against total addressable market</p>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-name">Cart Abandonment</div>
+                                <div class="kpi-target">&lt;60% within 6 months</div>
+                                <p style="margin-top: var(--space-xs); color: var(--aicoe-text-secondary);">Monitor abandonment at each checkout step, implement exit-intent surveys</p>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-name">Platform Uptime</div>
+                                <div class="kpi-target">99.9% continuous</div>
+                                <p style="margin-top: var(--space-xs); color: var(--aicoe-text-secondary);">24/7 monitoring with automated alerts for downtime incidents</p>
+                            </div>
+                        </div>
+
+                        <div id="success-metrics" class="card">
+                            <h3 class="subsection-title">Success Metrics</h3>
+                            <div class="kpi-card">
+                                <div class="kpi-name">Customer Satisfaction</div>
+                                <div class="kpi-target">4.5+ stars</div>
+                                <p style="margin-top: var(--space-xs); color: var(--aicoe-text-secondary);">Net Promoter Score (NPS > 40), Customer Satisfaction Score (CSAT > 4.5/5), quarterly surveys</p>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-name">Performance Metrics</div>
+                                <div class="kpi-target">Page load &lt; 2s</div>
+                                <p style="margin-top: var(--space-xs); color: var(--aicoe-text-secondary);">95th percentile page load time under 2 seconds, Core Web Vitals in green zone</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Non-Functional Requirements -->
+                    <section id="non-functional-requirements">
+                        <h2 class="section-title">
+                            <i data-lucide="settings"></i>
+                            Non-Functional Requirements
+                        </h2>
+
+                        <div class="card">
+                            <h3 class="subsection-title">Performance</h3>
+                            <ul>
+                                <li><strong>Page Load Time:</strong> &lt; 2 seconds (95th percentile) - Target page load times for all critical user journeys, especially PDP and checkout</li>
+                                <li><strong>API Response:</strong> &lt; 500ms (99th percentile) - API response time requirements for product search, checkout, and user authentication</li>
+                                <li><strong>Uptime:</strong> 99.9% (monthly availability) - System uptime and reliability targets with automated failover capabilities</li>
+                                <li><strong>Concurrency:</strong> 1000 concurrent users (load testing) - Support for 1000+ concurrent users with auto-scaling infrastructure</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="subsection-title">Security</h3>
+                            <ul>
+                                <li><strong>Authentication:</strong> OAuth 2.0 with SSO support - Multi-factor authentication, social login options, secure session management</li>
+                                <li><strong>Authorization:</strong> Role-Based Access Control - Admin, merchant, customer roles with granular permission controls</li>
+                                <li><strong>Data Encryption:</strong> End-to-End AES-256 - TLS 1.3 for all traffic, AES-256 encryption for data at rest, PII protection</li>
+                                <li><strong>Compliance:</strong> GDPR, CCPA, SOC 2 - Annual SOC 2 Type II audit, GDPR data protection officer, CCPA compliance tools</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="subsection-title">Accessibility</h3>
+                            <p>WCAG 2.1 AA compliance with automated testing + manual review - Keyboard navigation, screen reader support, color contrast compliance, focus management</p>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="subsection-title">Internationalization</h3>
+                            <p>English (initial) + 5 more languages with localization testing - Support for multiple currencies, date formats, and right-to-left languages in v2.0</p>
+                        </div>
+                    </section>
+
+                    <!-- Use Cases -->
+                    <section id="use-cases">
+                        <h2 class="section-title">
+                            <i data-lucide="users"></i>
+                            Use Cases
+                        </h2>
+
+                        <div id="uc-001" class="card">
+                            <h3 class="subsection-title">UC-001: Discover and Search Products with AI-Powered Personalization</h3>
+                            <span class="badge badge-high">High Priority</span>
+                            <p style="margin-top: var(--space-md);"><strong>Description:</strong> A user discovers products through browsing categories, using search with autocomplete, and receiving AI-driven personalized recommendations on homepage and category pages. Leverages mobile-first design and PWA capabilities for fast, app-like experience.</p>
+                            <p><strong>Primary Actor:</strong> Guest User, Registered Customer</p>
+                            <p><strong>Secondary Actors:</strong> AI Recommendation Engine, Search Service</p>
+                            <p><strong>Preconditions:</strong> The e-commerce platform is online and accessible. Product catalog is populated and up-to-date. AI personalization engine is active.</p>
+                            
+                            <h4 style="margin-top: var(--space-lg); margin-bottom: var(--space-md); color: var(--aicoe-midnight-blue);">Main Flow</h4>
+                            <div class="flow-step">
+                                <div class="step-number">1</div>
+                                <div>The user accesses the platform's homepage via web browser or mobile device</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">2</div>
+                                <div>The system displays personalized product selection based on browsing history and demographics</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">3</div>
+                                <div>The user uses search bar with real-time autocomplete suggestions</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">4</div>
+                                <div>Alternatively, user navigates through product categories and sub-categories</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">5</div>
+                                <div>User applies filters (price, brand, size, color, rating) on category/search results</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">6</div>
+                                <div>System dynamically updates product grid with SEO-friendly URLs</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">7</div>
+                                <div>User views product list with image, name, price, and rating</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">8</div>
+                                <div>User clicks on product to view detailed page</div>
+                            </div>
+
+                            <h4 style="margin-top: var(--space-lg); margin-bottom: var(--space-md); color: var(--aicoe-midnight-blue);">Alternative Flows</h4>
+                            <div class="card" style="background: var(--aicoe-bg-gray);">
+                                <strong>A1: No Search Results</strong>
+                                <ol style="margin-left: var(--space-lg); margin-top: var(--space-sm);">
+                                    <li>System displays 'No results found' message</li>
+                                    <li>System offers alternative suggestions and popular categories</li>
+                                </ol>
+                            </div>
+                            <div class="card" style="background: var(--aicoe-bg-gray);">
+                                <strong>A2: Overly Specific Filters</strong>
+                                <ol style="margin-left: var(--space-lg); margin-top: var(--space-sm);">
+                                    <li>System informs user of zero results</li>
+                                    <li>System suggests removing filters to broaden search</li>
+                                </ol>
+                            </div>
+
+                            <p><strong>Postconditions:</strong> User successfully navigates to product details page or refines discovery criteria</p>
+                            <p><strong>Non-Functional Requirements:</strong> Page load time &lt; 2s, WCAG 2.1 AA compliance, SEO optimization with schema.org markup</p>
+                        </div>
+
+                        <div id="uc-002" class="card">
+                            <h3 class="subsection-title">UC-002: View Product Details and Evaluate Purchase Options</h3>
+                            <span class="badge badge-high">High Priority</span>
+                            <p style="margin-top: var(--space-md);"><strong>Description:</strong> User views comprehensive product details page with high-quality media, social proof, real-time inventory, and omnichannel fulfillment options like BOPIS to evaluate purchase decision.</p>
+                            <p><strong>Primary Actor:</strong> Guest User, Registered Customer</p>
+                            <p><strong>Secondary Actors:</strong> Inventory Management System, Store Locator Service</p>
+                            <p><strong>Preconditions:</strong> The user has navigated to a Product Details Page (PDP).</p>
+                            
+                            <h4 style="margin-top: var(--space-lg); margin-bottom: var(--space-md); color: var(--aicoe-midnight-blue);">Main Flow</h4>
+                            <div class="flow-step">
+                                <div class="step-number">1</div>
+                                <div>System displays optimized product page for fast loading on all devices</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">2</div>
+                                <div>High-resolution images and 360-degree view or video are featured</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">3</div>
+                                <div>System displays product information: name, price, SKU, description, reviews</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">4</div>
+                                <div>Real-time inventory status is shown (In Stock, Only 3 left, Out of Stock)</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">5</div>
+                                <div>BOPIS options displayed with nearby store availability and pickup time</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">6</div>
+                                <div>User selects variants (size, color) with dynamic price and image updates</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">7</div>
+                                <div>AI-powered cross-selling section displays related products</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">8</div>
+                                <div>User clicks 'Add to Cart' button for desired variant</div>
+                            </div>
+
+                            <p><strong>Postconditions:</strong> Product added to cart or user has all information for purchase decision</p>
+                            <p><strong>Non-Functional Requirements:</strong> Image optimization and lazy loading, real-time inventory sync, mobile-responsive design</p>
+                        </div>
+
+                        <div id="uc-003" class="card">
+                            <h3 class="subsection-title">UC-003: Perform a Frictionless, One-Page Checkout</h3>
+                            <span class="badge badge-high">High Priority</span>
+                            <p style="margin-top: var(--space-md);"><strong>Description:</strong> User proceeds through streamlined, secure checkout process designed to minimize cart abandonment. Supports guest checkout, multiple payment methods, transparent shipping costs, and one-click purchase for returning customers.</p>
+                            <p><strong>Primary Actor:</strong> Guest User, Registered Customer</p>
+                            <p><strong>Secondary Actors:</strong> Payment Gateway, Shipping Calculator, Tax Service</p>
+                            <p><strong>Preconditions:</strong> User has at least one item in shopping cart and clicked 'Checkout' button.</p>
+                            
+                            <h4 style="margin-top: var(--space-lg); margin-bottom: var(--space-md); color: var(--aicoe-midnight-blue);">Main Flow</h4>
+                            <div class="flow-step">
+                                <div class="step-number">1</div>
+                                <div>System presents single-page checkout view to avoid page reloads</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">2</div>
+                                <div>User chooses 'Checkout as Guest' or 'Sign In'</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">3</div>
+                                <div>User enters or confirms shipping information (pre-populated for registered users)</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">4</div>
+                                <div>System displays shipping methods with transparent costs and delivery timelines</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">5</div>
+                                <div>User selects preferred shipping method</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">6</div>
+                                <div>System presents payment options (Credit Card, PayPal, Apple Pay, BNPL)</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">7</div>
+                                <div>Registered users see 'One-Click Buy' option with pre-filled details</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">8</div>
+                                <div>User enters new payment info or selects saved method (HTTPS/TLS secured)</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">9</div>
+                                <div>Final order summary displayed for confirmation</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">10</div>
+                                <div>User clicks 'Place Order', system processes payment via PCI DSS compliant gateway</div>
+                            </div>
+
+                            <p><strong>Postconditions:</strong> Order successfully created, payment authorized, user redirected to confirmation page</p>
+                            <p><strong>Non-Functional Requirements:</strong> PCI DSS compliance, HTTPS/TLS encryption, form validation, auto-save progress</p>
+                        </div>
+
+                        <div id="uc-004" class="card">
+                            <h3 class="subsection-title">UC-004: Manage User Account and Order History</h3>
+                            <span class="badge badge-medium">Medium Priority</span>
+                            <p style="margin-top: var(--space-md);"><strong>Description:</strong> Registered customer logs into account to manage personal information, view order history, track shipments, and manage privacy settings including GDPR/CCPA data portability and deletion requests.</p>
+                            <p><strong>Primary Actor:</strong> Registered Customer</p>
+                            <p><strong>Secondary Actors:</strong> Order Management System, Email Service</p>
+                            <p><strong>Preconditions:</strong> User has registered account and is logged into platform.</p>
+                            
+                            <h4 style="margin-top: var(--space-lg); margin-bottom: var(--space-md); color: var(--aicoe-midnight-blue);">Main Flow</h4>
+                            <div class="flow-step">
+                                <div class="step-number">1</div>
+                                <div>User navigates to 'My Account' dashboard</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">2</div>
+                                <div>User views recent orders summary and clicks 'Order History'</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">3</div>
+                                <div>User selects past order to view details, items, purchase date, status</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">4</div>
+                                <div>For shipped orders, user views real-time tracking information</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">5</div>
+                                <div>User navigates to 'Profile Settings' to update name, email, password</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">6</div>
+                                <div>User navigates to 'Address Book' to add, edit, delete addresses</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">7</div>
+                                <div>User navigates to 'Privacy & Data' section</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">8</div>
+                                <div>User clicks 'Request My Data' for GDPR/CCPA data download</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">9</div>
+                                <div>User clicks 'Delete My Account' triggering confirmation flow</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">10</div>
+                                <div>All pages comply with WCAG 2.1 accessibility standards</div>
+                            </div>
+
+                            <p><strong>Postconditions:</strong> User account information updated or data request logged for processing</p>
+                            <p><strong>Non-Functional Requirements:</strong> GDPR/CCPA compliance, data encryption, secure authentication, audit logging</p>
+                        </div>
+
+                        <div id="uc-005" class="card">
+                            <h3 class="subsection-title">UC-005: Initiate a Self-Service Product Return</h3>
+                            <span class="badge badge-medium">Medium Priority</span>
+                            <p style="margin-top: var(--space-md);"><strong>Description:</strong> Registered customer easily initiates return for purchased item through account portal. Process is self-service with clear instructions, printable return label, and adherence to consumer protection laws.</p>
+                            <p><strong>Primary Actor:</strong> Registered Customer</p>
+                            <p><strong>Secondary Actors:</strong> Return Management System, Shipping Label Service</p>
+                            <p><strong>Preconditions:</strong> User has registered account and completed order within return eligibility window.</p>
+                            
+                            <h4 style="margin-top: var(--space-lg); margin-bottom: var(--space-md); color: var(--aicoe-midnight-blue);">Main Flow</h4>
+                            <div class="flow-step">
+                                <div class="step-number">1</div>
+                                <div>User navigates to 'My Account' > 'Order History'</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">2</div>
+                                <div>User selects order containing items to return</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">3</div>
+                                <div>System displays order details and 'Return Items' button for eligible orders</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">4</div>
+                                <div>User clicks 'Return Items' and system displays return policy</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">5</div>
+                                <div>User selects specific items from order to return</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">6</div>
+                                <div>User selects return reason from predefined dropdown list</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">7</div>
+                                <div>System confirms return eligibility and provides instructions</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">8</div>
+                                <div>User submits return request</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">9</div>
+                                <div>System generates RMA number and printable PDF return shipping label</div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-number">10</div>
+                                <div>Order status updated to 'Return Requested' in user's account</div>
+                            </div>
+
+                            <p><strong>Postconditions:</strong> Return request created, user has RMA and label to ship item back</p>
+                            <p><strong>Non-Functional Requirements:</strong> PDF generation, email notifications, return policy compliance, audit trail</p>
+                        </div>
+                    </section>
+
+                    <!-- Risk Assessment -->
+                    <section id="risk-assessment">
+                        <h2 class="section-title">
+                            <i data-lucide="alert-triangle"></i>
+                            Risk Assessment
+                        </h2>
+
+                        <div class="risk-card risk-high">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-sm);">
+                                <h4 style="color: var(--aicoe-error); margin: 0;">High Risk</h4>
+                                <span class="badge badge-high">High Impact</span>
+                            </div>
+                            <p><strong>Description:</strong> Poor user experience in checkout process leads to high cart abandonment</p>
+                            <p><strong>Mitigation Strategy:</strong> Implement streamlined one-page checkout with guest checkout and multiple payment options. Conduct continuous A/B testing to optimize flow. Monitor funnel analytics weekly.</p>
+                            <p><strong>Owner:</strong> UX Lead</p>
+                            <p><strong>Status:</strong> Open</p>
+                        </div>
+
+                        <div class="risk-card risk-high">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-sm);">
+                                <h4 style="color: var(--aicoe-error); margin: 0;">High Risk</h4>
+                                <span class="badge badge-high">High Impact</span>
+                            </div>
+                            <p><strong>Description:</strong> Security breach compromising customer data or payment information</p>
+                            <p><strong>Mitigation Strategy:</strong> Strict adherence to PCI DSS, use HTTPS/TLS for all data, quarterly security audits, annual penetration testing. Avoid storing sensitive card data on-platform.</p>
+                            <p><strong>Owner:</strong> Security Engineer</p>
+                            <p><strong>Status:</strong> In Progress</p>
+                        </div>
+
+                        <div class="risk-card risk-medium">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-sm);">
+                                <h4 style="color: var(--aicoe-warning); margin: 0;">Medium Risk</h4>
+                                <span class="badge badge-medium">Medium Impact</span>
+                            </div>
+                            <p><strong>Description:</strong> Platform performance does not meet user expectations, leading to lost sales</p>
+                            <p><strong>Mitigation Strategy:</strong> Adopt mobile-first PWA architecture, implement CDN, enforce strict performance budgets. Continuous monitoring with real-time alerts.</p>
+                            <p><strong>Owner:</strong> Performance Engineer</p>
+                            <p><strong>Status:</strong> Open</p>
+                        </div>
+
+                        <div class="risk-card risk-medium">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-sm);">
+                                <h4 style="color: var(--aicoe-warning); margin: 0;">Medium Risk</h4>
+                                <span class="badge badge-medium">Medium Impact</span>
+                            </div>
+                            <p><strong>Description:</strong> Failure to comply with evolving data privacy regulations (GDPR, CCPA)</p>
+                            <p><strong>Mitigation Strategy:</strong> Engage legal counsel for policy review. Build privacy-by-design principles. Implement easy-to-use data portability and deletion tools.</p>
+                            <p><strong>Owner:</strong> Compliance Officer</p>
+                            <p><strong>Status:</strong> In Progress</p>
+                        </div>
+
+                        <div class="risk-card risk-low">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-sm);">
+                                <h4 style="color: var(--aicoe-success); margin: 0;">Low Risk</h4>
+                                <span class="badge badge-low">Low Impact</span>
+                            </div>
+                            <p><strong>Description:</strong> AI personalization engine ineffective, providing irrelevant recommendations</p>
+                            <p><strong>Mitigation Strategy:</strong> Start with proven collaborative filtering models. Continuously train with user behavior data. Allow manual curation and rules-based recommendations as fallback.</p>
+                            <p><strong>Owner:</strong> ML Engineer</p>
+                            <p><strong>Status:</strong> Open</p>
+                        </div>
+                    </section>
+
+                    <!-- Implementation Notes -->
+                    <section id="implementation-notes">
+                        <h2 class="section-title">
+                            <i data-lucide="code"></i>
+                            Implementation Notes
+                        </h2>
+
+                        <div class="card">
+                            <h3 class="subsection-title">Technical Stack</h3>
+                            <p>React (Next.js) for frontend, Node.js (Express) for backend APIs, PostgreSQL for

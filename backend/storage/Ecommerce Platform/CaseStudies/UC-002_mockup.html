@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Error - Unnamed Use Case - UC-002</title>
+    <style>
+        :root {
+            --aicoe-primary-navy: #1a1a2e;
+            --aicoe-accent-pink: #ff69b4;
+            --aicoe-accent-cyan: #00ffcc;
+            --aicoe-error: #ff3b30;
+            --aicoe-bg-white: #ffffff;
+            --aicoe-text-primary: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--aicoe-primary-navy), #2a2a3e);
+            color: var(--aicoe-bg-white);
+            min-height: 100vh;
+        }
+        .nav-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .nav-link {
+            color: var(--aicoe-accent-cyan);
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .nav-link.current {
+            background: var(--aicoe-accent-pink);
+            color: white;
+        }
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--aicoe-text-primary);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .error {
+            color: var(--aicoe-error);
+            padding: 15px;
+            background: rgba(255, 59, 48, 0.1);
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: var(--aicoe-accent-pink);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background: #ff5aa7;
+        }
+    </style>
+</head>
+<body>
+    <div class='nav-header'>
+        <a href='../index.html' class='nav-link'>🏠 Home</a>
+        <a href="UC-001_mockup.html" class="nav-link">UC-001</a> | <span class="nav-link current">UC-002</span> | <a href="UC-003_mockup.html" class="nav-link">UC-003</a> | <a href="UC-004_mockup.html" class="nav-link">UC-004</a> | <a href="UC-005_mockup.html" class="nav-link">UC-005</a>
+    </div>
+    <div class='content'>
+        <h1>Error Generating Mockup</h1>
+        <h2>Unnamed Use Case (UC-002)</h2>
+        <div class='error'>
+            <strong>Error:</strong> Could not generate mockup for this use case.<br>
+            Technical details: JSON Parse Error: unknown extension ?R at position 12
+        </div>
+        <p>You can still navigate to other case studies using the navigation above or return to the <a href='../index.html'>Case Studies Home</a>.</p>
+        <a href='../index.html' class='btn'>Back to Case Studies</a>
+    </div>
+    <div class='nav-header'>
+        <a href='../index.html' class='nav-link'>🏠 Home</a>
+        <a href="UC-001_mockup.html" class="nav-link">UC-001</a> | <span class="nav-link current">UC-002</span> | <a href="UC-003_mockup.html" class="nav-link">UC-003</a> | <a href="UC-004_mockup.html" class="nav-link">UC-004</a> | <a href="UC-005_mockup.html" class="nav-link">UC-005</a>
+    </div>
+</body>
+</html>

@@ -54,5 +54,125 @@
       "size": 35500
     },
     "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:31:08.738750",
+    "action": "file_saved",
+    "details": {
+      "folder": "functional_requirements",
+      "filename": "FR_v1.xml",
+      "size": 30178
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:31:08.740541",
+    "action": "file_saved",
+    "details": {
+      "folder": "functional_requirements",
+      "filename": "FR_v1.html",
+      "size": 36174
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:31:22.013316",
+    "action": "file_saved",
+    "details": {
+      "folder": "architecture",
+      "filename": "knowledge_enrichment.xml",
+      "size": 5410
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:34:52.958808",
+    "action": "file_saved",
+    "details": {
+      "folder": "prd",
+      "filename": "PRD_v1.xml",
+      "size": 27844
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:34:52.960184",
+    "action": "file_saved",
+    "details": {
+      "folder": "prd",
+      "filename": "PRD_v1.html",
+      "size": 59845
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:47:02.442931",
+    "action": "file_saved",
+    "details": {
+      "folder": "mockups",
+      "filename": "index.html",
+      "size": 103157
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:47:02.444521",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "index.html",
+      "size": 15043
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:47:02.445573",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-001_mockup.html",
+      "size": 18511
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:47:02.446915",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-002_mockup.html",
+      "size": 3558
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:47:02.447934",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-003_mockup.html",
+      "size": 20859
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:47:02.448612",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-004_mockup.html",
+      "size": 22641
+    },
+    "user": "system"
+  },
+  {
+    "timestamp": "2025-11-05T14:47:02.449490",
+    "action": "file_saved",
+    "details": {
+      "folder": "case_studies",
+      "filename": "UC-005_mockup.html",
+      "size": 21193
+    },
+    "user": "system"
   }
 ]
