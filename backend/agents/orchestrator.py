@@ -8,6 +8,8 @@ from .base_agent import BaseAgent, AgentConfig, AgentResult
 from .intake_agent import IntakeAgent
 from .researcher_agent import ResearcherAgent
 from .blueprint_agent import BlueprintAgent
+from .brd_agent import BRDAgent
+from .fr_agent import FRAgent
 from .prd_agent import PRDAgent
 from .mockup_agent import MockupAgent
 from .data_agent import DataAgent
@@ -64,11 +66,13 @@ class OrchestratorAgent:
         # Initialize communication hub for inter-agent communication
         self.comm_hub = AgentCommunicationHub()
 
-        # Initialize all 13 agents (including 4 new specialized agents)
+        # Initialize all 15 agents (including BRD and FR agents)
         self.agents = {
             "intake": IntakeAgent(llm_client),
             "researcher": ResearcherAgent(llm_client),
             "blueprint": BlueprintAgent(llm_client),
+            "brd": BRDAgent(llm_client),
+            "fr": FRAgent(llm_client),
             "prd": PRDAgent(llm_client),
             "mockup": MockupAgent(llm_client),
             "data": DataAgent(llm_client),
@@ -417,48 +421,60 @@ class OrchestratorAgent:
                 WorkflowStage("transcript", self.agents["intake"], ["storage"]),
                 # Stage 3: Perform web research (AFTER transcript, BEFORE requirements)
                 WorkflowStage("researcher", self.agents["researcher"], ["transcript"]),
-                # Stage 4: Generate requirements (enriched with research insights)
+                # Stage 4: Generate use cases (enriched with research insights)
                 WorkflowStage(
                     "requirements",
                     self.agents["blueprint"],
                     ["transcript", "researcher"],
                 ),
-                # Stage 5: Enrich with knowledge base
+                # Stage 5: Generate Business Requirements Document (BRD)
+                WorkflowStage(
+                    "brd",
+                    self.agents["brd"],
+                    ["requirements", "researcher"],
+                ),
+                # Stage 6: Generate Functional Requirements Document (FR)
+                WorkflowStage(
+                    "fr",
+                    self.agents["fr"],
+                    ["brd", "requirements", "researcher"],
+                ),
+                # Stage 7: Enrich with knowledge base
                 WorkflowStage(
                     "knowledge_base",
                     self.agents["knowledge_base"],
-                    ["requirements", "researcher"],
+                    ["fr", "brd", "requirements", "researcher"],
                 ),
-                # Stage 6: Create PRD (with research insights)
+                # Stage 8: Create PRD (with BR, FR, and research insights)
                 WorkflowStage(
                     "prd",
                     self.agents["prd"],
-                    ["transcript", "requirements", "knowledge_base", "researcher"],
+                    ["transcript", "fr", "brd", "requirements", "knowledge_base", "researcher"],
                 ),
-                # Stage 7 & 8: Generate mockups and synthetic data (can run in parallel)
+                # Stage 9 & 10: Generate mockups and synthetic data (can run in parallel)
                 WorkflowStage(
-                    "mockup", self.agents["mockup"], ["requirements", "knowledge_base"]
+                    "mockup", self.agents["mockup"], ["fr", "brd", "requirements", "knowledge_base"]
                 ),
-                WorkflowStage("synthetic_data", self.agents["data"], ["requirements"]),
-                # Stage 9: Generate commercial proposal (depends on PRD)
+                WorkflowStage("synthetic_data", self.agents["data"], ["fr", "brd", "requirements"]),
+                # Stage 11: Generate commercial proposal (depends on PRD)
                 WorkflowStage(
                     "commercial_proposal",
                     self.agents["proposal"],
-                    ["prd", "requirements", "researcher"],
+                    ["prd", "fr", "brd", "requirements", "researcher"],
                 ),
-                # Stage 10: Generate Bill of Materials (depends on requirements and knowledge base)
+                # Stage 12: Generate Bill of Materials (depends on FR and knowledge base)
                 WorkflowStage(
                     "bom",
                     self.agents["bom"],
-                    ["requirements", "knowledge_base", "researcher"],
+                    ["fr", "brd", "requirements", "knowledge_base", "researcher"],
                 ),
-                # Stage 11: Generate architecture diagrams (depends on knowledge base)
+                # Stage 13: Generate architecture diagrams (depends on knowledge base)
                 WorkflowStage(
                     "architecture_diagram",
                     self.agents["architecture"],
-                    ["knowledge_base", "requirements", "researcher"],
+                    ["knowledge_base", "fr", "brd", "requirements", "researcher"],
                 ),
-                # Stage 12: Create review cycle (depends on all deliverables)
+                # Stage 14: Create review cycle (depends on all deliverables)
                 WorkflowStage(
                     "reviewer",
                     self.agents["reviewer"],
@@ -469,9 +485,11 @@ class OrchestratorAgent:
                         "commercial_proposal",
                         "bom",
                         "architecture_diagram",
+                        "fr",
+                        "brd",
                     ],
                 ),
-                # Stage 13: Generate/update case study gallery (FINAL STAGE - runs after everything)
+                # Stage 15: Generate/update case study gallery (FINAL STAGE - runs after everything)
                 WorkflowStage(
                     "gallery", self.agents["gallery"], ["reviewer", "mockup"]
                 ),
@@ -552,6 +570,70 @@ class OrchestratorAgent:
                         "research_categories": list(research_insights.keys())
                         if isinstance(research_insights, dict)
                         else []
+                    },
+                )
+            )
+
+        elif stage_name == "brd":
+            # Generate Business Requirements Document
+            base_input["structured_notes"] = previous_results.get("transcript", {}).get(
+                "structured_notes", {}
+            )
+            base_input["use_cases"] = previous_results.get("requirements", {}).get(
+                "use_cases", []
+            )
+            research_insights = previous_results.get("researcher", {}).get(
+                "research_insights", {}
+            )
+            base_input["research_insights"] = research_insights
+
+            # Include design system context and BRD rules
+            base_input["design_system_context"] = self._load_design_system_context()
+            base_input["brd_writing_rules"] = self._load_brd_writing_rules()
+
+            self.comm_hub.send_message(
+                Message(
+                    from_agent="orchestrator",
+                    to_agent="brd",
+                    message_type="request",
+                    content="Generate comprehensive Business Requirements Document following provided rules and design system",
+                    metadata={
+                        "has_research_insights": bool(research_insights),
+                        "use_case_count": len(base_input["use_cases"]),
+                    },
+                )
+            )
+
+        elif stage_name == "fr":
+            # Generate Functional Requirements Document
+            base_input["structured_notes"] = previous_results.get("transcript", {}).get(
+                "structured_notes", {}
+            )
+            base_input["use_cases"] = previous_results.get("requirements", {}).get(
+                "use_cases", []
+            )
+            base_input["business_requirements"] = previous_results.get("brd", {}).get(
+                "business_requirements", {}
+            )
+            research_insights = previous_results.get("researcher", {}).get(
+                "research_insights", {}
+            )
+            base_input["research_insights"] = research_insights
+
+            # Include design system context and FR rules
+            base_input["design_system_context"] = self._load_design_system_context()
+            base_input["fr_writing_rules"] = self._load_fr_writing_rules()
+
+            self.comm_hub.send_message(
+                Message(
+                    from_agent="orchestrator",
+                    to_agent="fr",
+                    message_type="request",
+                    content="Generate comprehensive Functional Requirements Document following provided rules and design system",
+                    metadata={
+                        "has_research_insights": bool(research_insights),
+                        "has_business_requirements": bool(base_input["business_requirements"]),
+                        "use_case_count": len(base_input["use_cases"]),
                     },
                 )
             )
@@ -842,6 +924,53 @@ class OrchestratorAgent:
 
         return base_input
 
+    def _load_design_system_context(self) -> Dict[str, Any]:
+        """Load design system context for agents"""
+        try:
+            # Load design system files - paths relative to backend directory
+            design_system_path = "../../Design System"
+            context = {}
+            
+            # Load CSS if exists
+            css_path = os.path.join(design_system_path, "06-reference-aicoe-design-system.css")
+            if os.path.exists(css_path):
+                with open(css_path, 'r') as f:
+                    context['css_styles'] = f.read()
+            
+            # Load logo if exists
+            logo_path = os.path.join(design_system_path, "08-asset-aicoe-logo.png")
+            if os.path.exists(logo_path):
+                context['logo_path'] = logo_path
+            
+            return context
+        except Exception as e:
+            self.logger.warning(f"Could not load design system context: {str(e)}")
+            return {}
+
+    def _load_brd_writing_rules(self) -> Dict[str, Any]:
+        """Load BRD writing rules for agents"""
+        try:
+            rules_path = "../../Rules to write the documents/05-guide-business-requirements.md"
+            if os.path.exists(rules_path):
+                with open(rules_path, 'r') as f:
+                    return {"rules_content": f.read()}
+            return {}
+        except Exception as e:
+            self.logger.warning(f"Could not load BRD writing rules: {str(e)}")
+            return {}
+
+    def _load_fr_writing_rules(self) -> Dict[str, Any]:
+        """Load FR writing rules for agents"""
+        try:
+            rules_path = "../../Rules to write the documents/06-guide-functional-requirements.md"
+            if os.path.exists(rules_path):
+                with open(rules_path, 'r') as f:
+                    return {"rules_content": f.read()}
+            return {}
+        except Exception as e:
+            self.logger.warning(f"Could not load FR writing rules: {str(e)}")
+            return {}
+
     async def _report_progress(
         self, callback: Optional[callable], stage: str, status: str, message: str
     ):
@@ -906,6 +1035,22 @@ class OrchestratorAgent:
                     "content": data.get(
                         "use_cases_xml", self._convert_to_xml(data, "use_cases")
                     ),
+                },
+                "brd": {
+                    "folder": "business_requirements",  # Maps to BusinessRequirements
+                    "filename": "BRD_v1.xml",
+                    "content": data.get("brd_xml", str(data)),
+                    "transform_to_html": True,
+                    "html_filename": "BRD_v1.html",
+                    "xslt_template": "brd_template.xslt",
+                },
+                "fr": {
+                    "folder": "functional_requirements",  # Maps to FunctionalRequirements
+                    "filename": "FR_v1.xml",
+                    "content": data.get("fr_xml", str(data)),
+                    "transform_to_html": True,
+                    "html_filename": "FR_v1.html",
+                    "xslt_template": "fr_template.xslt",
                 },
                 "knowledge_base": {
                     "folder": "architecture",  # Maps to SystemArchitecture

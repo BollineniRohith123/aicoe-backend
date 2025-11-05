@@ -321,10 +321,11 @@ Add breadcrumbs showing the current location."""
 
         response = await self._call_llm(system_message, user_message, max_tokens=8000)
 
-        # Use the robust JSON parsing from base agent with better error handling
+        # Enhanced error handling for Mockup Agent
         self.logger.info(
             f"Mockup agent received response for {uc_id}, length: {len(response)}"
         )
+        
         if len(response.strip()) == 0:
             self.logger.error(f"Empty response from LLM for {uc_id}")
             mockup_pages = {
@@ -333,31 +334,44 @@ Add breadcrumbs showing the current location."""
                 )
             }
         else:
-            mockup_pages = self.parse_json_response(response, f"{uc_id}_mockup")
-
-            # If parsing failed and we got a fallback, create a proper error page with navigation
-            if "parse_error" in mockup_pages:
+            # Try to parse JSON response with enhanced error handling
+            try:
+                mockup_pages = self.parse_json_response(response, f"{uc_id}_mockup")
+                
+                # If parsing failed, create error page
+                if "parse_error" in mockup_pages:
+                    self.logger.error(
+                        f"Failed to parse use case mockup JSON for {uc_id}: {mockup_pages['parse_error']}"
+                    )
+                    mockup_pages = {
+                        f"{uc_id}_mockup.html": self._create_error_mockup(
+                            uc_id, uc_name, all_use_case_ids, mockup_pages["parse_error"]
+                        )
+                    }
+                else:
+                    # Verify that we have valid HTML content
+                    for page_name, html_content in mockup_pages.items():
+                        if (
+                            not isinstance(html_content, str)
+                            or len(html_content.strip()) == 0
+                        ):
+                            self.logger.warning(
+                                f"Invalid HTML content for {page_name}, using fallback"
+                            )
+                            mockup_pages[page_name] = self._create_fallback_mockup(
+                                uc_id, uc_name, all_use_case_ids
+                            )
+                            
+            except Exception as parse_error:
                 self.logger.error(
-                    f"Failed to parse use case mockup JSON for {uc_id}: {mockup_pages['parse_error']}"
+                    f"Exception parsing JSON for {uc_id}: {str(parse_error)}"
                 )
+                # Create error page with the parsing error details
                 mockup_pages = {
                     f"{uc_id}_mockup.html": self._create_error_mockup(
-                        uc_id, uc_name, all_use_case_ids, mockup_pages["parse_error"]
+                        uc_id, uc_name, all_use_case_ids, f"JSON Parse Error: {str(parse_error)}"
                     )
                 }
-            else:
-                # Verify that we have valid HTML content
-                for page_name, html_content in mockup_pages.items():
-                    if (
-                        not isinstance(html_content, str)
-                        or len(html_content.strip()) == 0
-                    ):
-                        self.logger.warning(
-                            f"Invalid HTML content for {page_name}, using fallback"
-                        )
-                        mockup_pages[page_name] = self._create_fallback_mockup(
-                            uc_id, uc_name, all_use_case_ids
-                        )
 
         # Unescape HTML content
         unescaped_pages = {}

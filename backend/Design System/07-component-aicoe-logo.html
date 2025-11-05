@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICOE Logo Component - Usage Guide</title>
+    <link rel="stylesheet" href="06-reference-aicoe-design-system.css">
+    <style>
+        body {
+            padding: 40px;
+        }
+        .demo-section {
+            margin-bottom: 60px;
+        }
+        .demo-row {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .demo-item {
+            text-align: center;
+        }
+        .code-block {
+            background: var(--gray-100);
+            border: 1px solid var(--border-light);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-top: var(--space-sm);
+        }
+        .demo-bg-dark {
+            background: var(--gray-900);
+            padding: var(--space-lg);
+            display: inline-block;
+        }
+        .demo-bg-light {
+            background: var(--gray-100);
+            padding: var(--space-lg);
+            display: inline-block;
+        }
+        .demo-bg-white {
+            background: var(--white);
+            padding: var(--space-lg);
+            display: inline-block;
+            border: 1px solid var(--border-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md);">
+            <div class="aicoe-logo aicoe-logo-lg">
+                <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+            </div>
+            <h1 style="margin: 0;">AICOE Logo Component</h1>
+        </div>
+        <p class="text-secondary">Complete usage guide for the AICOE logo in your applications.</p>
+
+        <div class="divider"></div>
+
+        <!-- Basic Usage -->
+        <div class="demo-section">
+            <h2>Basic Usage</h2>
+            <p class="text-secondary">The default logo size is 40×40 pixels, perfect for navigation bars and headers.</p>
+
+            <div class="demo-row">
+                <div class="demo-item">
+                    <div class="aicoe-logo">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">Default (40×40)</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+&lt;div class="aicoe-logo"&gt;
+    &lt;img src="08-asset-aicoe-logo.png" alt="AICOE Logo"&gt;
+&lt;/div&gt;
+            </div>
+        </div>
+
+        <!-- All Sizes -->
+        <div class="demo-section">
+            <h2>Available Sizes</h2>
+            <p class="text-secondary">Six sizes available for different use cases.</p>
+
+            <div class="demo-row">
+                <!-- Small -->
+                <div class="demo-item">
+                    <div class="aicoe-logo aicoe-logo-sm">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">Small (32×32)</p>
+                    <div class="code-block" style="font-size: 12px; margin-top: var(--space-xs);">
+aicoe-logo-sm
+                    </div>
+                </div>
+
+                <!-- Default -->
+                <div class="demo-item">
+                    <div class="aicoe-logo">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">Default (40×40)</p>
+                    <div class="code-block" style="font-size: 12px; margin-top: var(--space-xs);">
+aicoe-logo
+                    </div>
+                </div>
+
+                <!-- Large -->
+                <div class="demo-item">
+                    <div class="aicoe-logo aicoe-logo-lg">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">Large (64×64)</p>
+                    <div class="code-block" style="font-size: 12px; margin-top: var(--space-xs);">
+aicoe-logo-lg
+                    </div>
+                </div>
+
+                <!-- Extra Large -->
+                <div class="demo-item">
+                    <div class="aicoe-logo aicoe-logo-xl">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">Extra Large (96×96)</p>
+                    <div class="code-block" style="font-size: 12px; margin-top: var(--space-xs);">
+aicoe-logo-xl
+                    </div>
+                </div>
+
+                <!-- 2XL -->
+                <div class="demo-item">
+                    <div class="aicoe-logo aicoe-logo-2xl">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">2XL (128×128)</p>
+                    <div class="code-block" style="font-size: 12px; margin-top: var(--space-xs);">
+aicoe-logo-2xl
+                    </div>
+                </div>
+
+                <!-- 3XL -->
+                <div class="demo-item">
+                    <div class="aicoe-logo aicoe-logo-3xl">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">3XL (192×192)</p>
+                    <div class="code-block" style="font-size: 12px; margin-top: var(--space-xs);">
+aicoe-logo-3xl
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Background Examples -->
+        <div class="demo-section">
+            <h2>Background Variations</h2>
+            <p class="text-secondary">The logo works beautifully on light and dark backgrounds.</p>
+
+            <div class="demo-row">
+                <div class="demo-item">
+                    <div class="demo-bg-white">
+                        <div class="aicoe-logo aicoe-logo-lg">
+                            <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                        </div>
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">White Background</p>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-bg-light">
+                        <div class="aicoe-logo aicoe-logo-lg">
+                            <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                        </div>
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">Light Gray Background</p>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-bg-dark">
+                        <div class="aicoe-logo aicoe-logo-lg">
+                            <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                        </div>
+                    </div>
+                    <p class="text-caption text-secondary" style="margin-top: var(--space-sm);">Dark Background</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- In Navigation -->
+        <div class="demo-section">
+            <h2>In Navigation (Example)</h2>
+            <p class="text-secondary">Common usage in a navigation bar with branding.</p>
+
+            <div style="border: 1px solid var(--border-light); padding: var(--space-md); background: var(--bg-primary);">
+                <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                    <div class="aicoe-logo">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <span style="font-weight: var(--font-weight-semibold); font-size: var(--font-h4);">AICOE Platform</span>
+                </div>
+            </div>
+
+            <div class="code-block">
+&lt;a href="/" class="nav-brand"&gt;
+    &lt;div class="aicoe-logo"&gt;
+        &lt;img src="08-asset-aicoe-logo.png" alt="AICOE Logo"&gt;
+    &lt;/div&gt;
+    AICOE Platform
+&lt;/a&gt;
+            </div>
+        </div>
+
+        <!-- Inline with Text -->
+        <div class="demo-section">
+            <h2>Inline with Text</h2>
+            <p class="text-secondary">Use different sizes inline with text content.</p>
+
+            <div class="card-minimal">
+                <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                    <div class="aicoe-logo aicoe-logo-sm">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <span style="font-size: var(--font-small);">Powered by AICOE</span>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                    <div class="aicoe-logo">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <span style="font-size: var(--font-body);">AICOE - AI Center of Excellence</span>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                    <div class="aicoe-logo aicoe-logo-lg">
+                        <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                    </div>
+                    <div>
+                        <h3 style="margin: 0 0 var(--space-xs) 0;">AICOE Design System</h3>
+                        <p class="text-secondary" style="margin: 0; font-size: var(--font-small);">Minimal. Modern. Enterprise-ready.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Specifications -->
+        <div class="demo-section">
+            <h2>Technical Specifications</h2>
+
+            <div class="grid grid-cols-2">
+                <div class="card-minimal">
+                    <h3 class="mb-md">Design Elements</h3>
+                    <table class="table">
+                        <tr>
+                            <td><strong>Lettermark</strong></td>
+                            <td>Bold "ai" in black</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Border</strong></td>
+                            <td>Bold black frame</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Background</strong></td>
+                            <td>White (#FFFFFF)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Red Dot</strong></td>
+                            <td>#FF0000, circular, top-right</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Format</strong></td>
+                            <td>PNG with transparency</td>
+                        </tr>
+                        <tr>
+                            <td><strong>File</strong></td>
+                            <td>08-asset-aicoe-logo.png</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card-minimal">
+                    <h3 class="mb-md">Size Reference</h3>
+                    <table class="table">
+                        <tr>
+                            <td><strong>Small</strong></td>
+                            <td>32×32px</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Default</strong></td>
+                            <td>40×40px (recommended for nav)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Large</strong></td>
+                            <td>64×64px</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extra Large</strong></td>
+                            <td>96×96px</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2XL</strong></td>
+                            <td>128×128px</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3XL</strong></td>
+                            <td>192×192px (hero sections)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Usage Guidelines -->
+        <div class="demo-section">
+            <h2>Usage Guidelines</h2>
+
+            <div class="grid grid-cols-2">
+                <div class="alert alert-success">
+                    <strong>Do:</strong>
+                    <ul style="margin: var(--space-sm) 0 0 var(--space-md); line-height: var(--line-height-loose);">
+                        <li>Use on light or dark backgrounds</li>
+                        <li>Maintain minimum clear space around logo</li>
+                        <li>Use provided size classes (.aicoe-logo-sm, .aicoe-logo-lg, etc.)</li>
+                        <li>Include alt text for accessibility</li>
+                        <li>Maintain aspect ratio (always square)</li>
+                        <li>Use the PNG file provided</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-error">
+                    <strong>Don't:</strong>
+                    <ul style="margin: var(--space-sm) 0 0 var(--space-md); line-height: var(--line-height-loose);">
+                        <li>Modify the PNG file or colors</li>
+                        <li>Stretch or distort the logo</li>
+                        <li>Use on busy or low-contrast backgrounds</li>
+                        <li>Add effects, shadows, or filters</li>
+                        <li>Recreate the logo from scratch</li>
+                        <li>Use sizes smaller than 32px</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <div class="demo-section">
+            <h2>Quick Reference</h2>
+            <div class="card-minimal">
+                <h3 class="mb-md">HTML Markup Examples</h3>
+
+                <h4 style="font-size: var(--font-body); margin-top: var(--space-lg);">Navigation Logo (40px)</h4>
+                <div class="code-block">
+&lt;div class="aicoe-logo"&gt;
+    &lt;img src="08-asset-aicoe-logo.png" alt="AICOE Logo"&gt;
+&lt;/div&gt;
+                </div>
+
+                <h4 style="font-size: var(--font-body); margin-top: var(--space-lg);">Small Icon (32px)</h4>
+                <div class="code-block">
+&lt;div class="aicoe-logo aicoe-logo-sm"&gt;
+    &lt;img src="08-asset-aicoe-logo.png" alt="AICOE Logo"&gt;
+&lt;/div&gt;
+                </div>
+
+                <h4 style="font-size: var(--font-body); margin-top: var(--space-lg);">Hero Logo (192px)</h4>
+                <div class="code-block">
+&lt;div class="aicoe-logo aicoe-logo-3xl"&gt;
+    &lt;img src="08-asset-aicoe-logo.png" alt="AICOE Logo"&gt;
+&lt;/div&gt;
+                </div>
+
+                <h4 style="font-size: var(--font-body); margin-top: var(--space-lg);">With Brand Name</h4>
+                <div class="code-block">
+&lt;div style="display: flex; align-items: center; gap: 12px;"&gt;
+    &lt;div class="aicoe-logo"&gt;
+        &lt;img src="08-asset-aicoe-logo.png" alt="AICOE Logo"&gt;
+    &lt;/div&gt;
+    &lt;span&gt;AICOE Platform&lt;/span&gt;
+&lt;/div&gt;
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="divider"></div>
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                <div class="aicoe-logo aicoe-logo-sm">
+                    <img src="08-asset-aicoe-logo.png" alt="AICOE Logo">
+                </div>
+                <p class="text-secondary" style="margin: 0;">
+                    © 2025 AICOE | Website: aicoe.io
+                </p>
+            </div>
+            <p class="text-secondary" style="margin: 0;">
+                For internal use only
+            </p>
+        </div>
+    </div>
+</body>
+</html>

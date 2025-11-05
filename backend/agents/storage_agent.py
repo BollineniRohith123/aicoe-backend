@@ -29,6 +29,8 @@ class ProjectStructure:
             "case_studies": self.project_root / "CaseStudies",
 
             # Document folders
+            "business_requirements": self.project_root / "BusinessRequirements",
+            "functional_requirements": self.project_root / "FunctionalRequirements",
             "prd": self.project_root / "PRDDocuments",
             "architecture": self.project_root / "SystemArchitecture",
             "commercial_proposals": self.project_root / "CommercialProposals",
